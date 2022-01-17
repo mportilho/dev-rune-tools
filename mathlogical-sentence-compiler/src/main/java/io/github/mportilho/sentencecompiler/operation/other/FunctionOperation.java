@@ -24,7 +24,6 @@ package io.github.mportilho.sentencecompiler.operation.other;
 
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.MathSentenceUtils;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -63,8 +62,10 @@ public class FunctionOperation extends AbstractOperation {
             throw new IllegalStateException(String.format("Function '%s' not found", functionName));
         }
 
-        return MathSentenceUtils.tryConventingKnownTypes(function.apply(args), context.mathContext());
+//        return MathSentenceUtils.tryConventingKnownTypes(function.apply(args), context.mathContext());
+        return null;
     }
+
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {

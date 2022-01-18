@@ -1,10 +1,8 @@
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler.syntaxtree.parser;
 
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.StartContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
-import io.github.mportilho.sentencecompiler.syntaxtree.parser.ParsingErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -18,8 +16,8 @@ public class SyntaxTreeParser {
         return operationSyntaxTreeGenerator.createOperationSyntaxTree(startContext);
     }
 
-    public static void validate(CharStream expression) {
-        createOperationParser(expression, PredictionMode.LL_EXACT_AMBIG_DETECTION).start();
+    public static void validate(String expression) {
+        createOperationParser(CharStreams.fromString(expression), PredictionMode.LL_EXACT_AMBIG_DETECTION).start();
     }
 
     private static MathematicalSentenceParserGrammarParser createOperationParser(

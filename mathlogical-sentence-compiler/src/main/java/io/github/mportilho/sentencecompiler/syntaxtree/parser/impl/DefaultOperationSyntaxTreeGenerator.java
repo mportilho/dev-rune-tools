@@ -20,7 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.parser;
+package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarBaseVisitor;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
@@ -43,7 +43,8 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.*;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxTreeData;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
@@ -628,7 +629,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitLogicalVariable(LogicalVariableContext ctx) {
-        return createNewVariable(ctx, Boolean.class).expectedType(Boolean.class);
+        return createNewVariable(ctx).expectedType(Boolean.class);
     }
 
     @Override
@@ -688,10 +689,10 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     @Override
     public AbstractOperation visitNumericVariable(NumericVariableContext ctx) {
         if (nonNull(ctx.IDENTIFIER())) {
-            return createNewVariable(ctx, BigDecimal.class);
+            return createNewVariable(ctx).expectedType(BigDecimal.class);
         } else if (nonNull(ctx.NEGATIVE_IDENTIFIER())) {
             return new PreciseNegativeOperation(createNewVariable(ctx,
-                    name -> new VariableValueOperation(name, BigDecimal.class),
+                    name -> new VariableValueOperation(name).expectedType(BigDecimal.class),
                     () -> ctx.getText().substring(1)));
         }
         throw new IllegalStateException("Invalid numeric operation: " + ctx.getText());
@@ -723,7 +724,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitStringVariable(StringVariableContext ctx) {
-        return createNewVariable(ctx, String.class);
+        return createNewVariable(ctx).expectedType(String.class);
     }
 
     @Override
@@ -752,7 +753,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateVariable(DateVariableContext ctx) {
-        return createNewVariable(ctx, LocalDate.class).expectedType(LocalDate.class);
+        return createNewVariable(ctx).expectedType(LocalDate.class);
     }
 
     @Override
@@ -786,7 +787,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitTimeVariable(TimeVariableContext ctx) {
-        return createNewVariable(ctx, LocalTime.class);
+        return createNewVariable(ctx).expectedType(LocalTime.class);
     }
 
     @Override
@@ -820,7 +821,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateTimeVariable(DateTimeVariableContext ctx) {
-        return createNewVariable(ctx, LocalDateTime.class);
+        return createNewVariable(ctx).expectedType(LocalDateTime.class);
     }
 
     @Override
@@ -828,8 +829,8 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         return ctx.function().accept(this).expectedType(LocalDateTime.class);
     }
 
-    private AbstractOperation createNewVariable(ParserRuleContext context, Class<?> variableType) {
-        return createNewVariable(context, name -> new VariableValueOperation(name, variableType), null);
+    private AbstractOperation createNewVariable(ParserRuleContext context) {
+        return createNewVariable(context, VariableValueOperation::new, null);
     }
 
     private AbstractOperation createNewVariable(

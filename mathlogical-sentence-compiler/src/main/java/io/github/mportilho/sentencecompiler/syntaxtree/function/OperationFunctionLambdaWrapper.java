@@ -1,6 +1,6 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-public class LambdaFunctionInterfacesWrapper {
+public class OperationFunctionLambdaWrapper {
 
     public interface Function1 {
         Object apply(Object p1);

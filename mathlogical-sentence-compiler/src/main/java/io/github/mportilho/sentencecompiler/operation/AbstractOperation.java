@@ -22,9 +22,9 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation;
 
+import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.SentenceComputingException;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public abstract class AbstractOperation {
 
     private Object cache;
     private boolean caching;
-    private boolean cachingForever;
+    private boolean alwaysCache;
 
     private Class<?> expectedType;
     private List<AbstractOperation> parents;
@@ -62,9 +62,10 @@ public abstract class AbstractOperation {
 
     protected abstract void composeTextualRepresentation(StringBuilder builder);
 
-    public AbstractOperation expectedType(Class<?> expectedType) {
+    @SuppressWarnings({"unchecked"})
+    public <T extends AbstractOperation> T expectedType(Class<?> expectedType) {
         this.expectedType = Objects.requireNonNull(expectedType);
-        return this;
+        return (T) this;
     }
 
     /**
@@ -97,7 +98,6 @@ public abstract class AbstractOperation {
             copy = createClone(cloningContext).copyAtributes(this);
             cloningContext.getClonedOperationMap().put(this, copy);
         }
-        copy.expectedType = this.expectedType;
         return copy;
     }
 
@@ -121,7 +121,7 @@ public abstract class AbstractOperation {
                     String.format("Arithmetic error for expression '%s': %s", this, e.getMessage()));
             newException.setStackTrace(e.getStackTrace());
             throw newException;
-        } catch (SentenceComputingException e) {
+        } catch (SyntaxExecutionException e) {
             throw new IllegalStateException(e.getMessage(), e.getCause());
         } catch (IllegalArgumentException | IllegalStateException e) {
             throw e;
@@ -140,10 +140,10 @@ public abstract class AbstractOperation {
 
     private Object readValue(OperationContext context) {
         Object result;
-        if (caching || cachingForever) {
+        if (isCaching()) {
             if (cache == null) {
                 result = resolve(context); // resolve method can disable cache
-                cache = caching || cachingForever ? result : null;
+                cache = isCaching() ? result : null;
             } else {
                 result = cache;
             }
@@ -153,11 +153,24 @@ public abstract class AbstractOperation {
         return result;
     }
 
+    public boolean shouldResetOperation(OperationContext context) {
+        return false;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    protected boolean compareValues(Object value1, Object value2) {
+        if (value1 instanceof Comparable c1 && value2 instanceof Comparable c2) {
+            return c1.compareTo(c2) == 0;
+        }
+        return Objects.equals(value1, value2);
+    }
+
     private AbstractOperation copyAtributes(AbstractOperation sourceOperation) {
         this.cache = sourceOperation.cache;
         this.caching = sourceOperation.caching;
-        this.cachingForever = sourceOperation.cachingForever;
+        this.alwaysCache = sourceOperation.alwaysCache;
         this.applyingParenthesis = sourceOperation.applyingParenthesis;
+        this.expectedType = sourceOperation.expectedType;
         return this;
     }
 
@@ -193,18 +206,18 @@ public abstract class AbstractOperation {
     }
 
     protected boolean isCaching() {
-        return caching || cachingForever;
+        return caching || alwaysCache;
     }
 
     protected void cachingForever() {
-        this.cachingForever = true;
+        this.alwaysCache = true;
     }
 
-    protected boolean isCachingForever() {
-        return cachingForever;
+    protected boolean isAlwaysCache() {
+        return alwaysCache;
     }
 
-    protected void clearCache() {
+    public void clearCache() {
         clearCache(null);
     }
 

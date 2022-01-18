@@ -22,21 +22,27 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler;
 
+import io.github.mportilho.commons.converters.DefaultFormattedConversionService;
+import io.github.mportilho.commons.converters.FormattedConversionService;
+
 import java.math.MathContext;
 
 public class MathSentenceOptions {
 
     private final MathContext mathContext;
     private final Integer scale;
-
+    private final FormattedConversionService formattedConversionService;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null);
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService());
     }
 
-    public MathSentenceOptions(MathContext mathContext, Integer scale) {
+    public MathSentenceOptions(
+            MathContext mathContext, Integer scale,
+            FormattedConversionService formattedConversionService) {
         this.mathContext = mathContext;
         this.scale = scale;
+        this.formattedConversionService = formattedConversionService;
     }
 
     public MathContext getMathContext() {
@@ -47,4 +53,7 @@ public class MathSentenceOptions {
         return scale;
     }
 
+    public FormattedConversionService getFormattedConversionService() {
+        return formattedConversionService;
+    }
 }

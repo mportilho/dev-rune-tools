@@ -20,29 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-public class SentenceComputingException extends RuntimeException {
+import io.github.mportilho.commons.converters.FormattedConversionService;
 
-    public SentenceComputingException() {
-        super();
-    }
+import java.math.MathContext;
 
-    public SentenceComputingException(
-            String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public SentenceComputingException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SentenceComputingException(String message) {
-        super(message);
-    }
-
-    public SentenceComputingException(Throwable cause) {
-        super(cause);
-    }
+public record OperationFunctionContext(MathContext mathContext, Integer scale,
+                                       FormattedConversionService conversionService) {
 
 }

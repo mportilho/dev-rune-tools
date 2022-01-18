@@ -20,11 +20,29 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.function;
+package io.github.mportilho.sentencecompiler.exceptions;
 
-@FunctionalInterface
-public interface DynamicFunction {
+public class SyntaxExecutionException extends RuntimeException {
 
-    Object call(DynamicFunctionContext context, Object[] parameters);
+    public SyntaxExecutionException() {
+        super();
+    }
+
+    public SyntaxExecutionException(
+            String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    public SyntaxExecutionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public SyntaxExecutionException(String message) {
+        super(message);
+    }
+
+    public SyntaxExecutionException(Throwable cause) {
+        super(cause);
+    }
 
 }

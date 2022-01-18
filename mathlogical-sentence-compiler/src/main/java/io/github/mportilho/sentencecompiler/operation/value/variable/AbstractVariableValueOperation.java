@@ -30,12 +30,10 @@ import java.util.Set;
 public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
-    private final Class<?> variableType;
     protected Object value;
 
-    public AbstractVariableValueOperation(String variableName, Class<?> variableType) {
+    public AbstractVariableValueOperation(String variableName) {
         this.variableName = variableName;
-        this.variableType = variableType;
     }
 
     @Override
@@ -49,14 +47,10 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     public void setValue(Object newValue, Set<Class<? extends AbstractOperation>> stopOnOperationTypes) {
         if (newValue == null) {
-            throw new IllegalArgumentException(String.format("Variable %s was provided with a null value", variableName));
+            throw new IllegalArgumentException(String.format("Variable [%s] was provided with a null value", variableName));
         }
         clearCache(stopOnOperationTypes);
         this.value = newValue;
-    }
-
-    public Class<?> getVariableType() {
-        return variableType;
     }
 
     @Override

@@ -22,7 +22,6 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree.parser;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.StartContext;
 
 public interface OperationSyntaxTreeGenerator {

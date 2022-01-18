@@ -1,4 +1,4 @@
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler.syntaxtree.parser;
 
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;

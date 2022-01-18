@@ -22,25 +22,9 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-import java.math.MathContext;
+@FunctionalInterface
+public interface UserDefinedOperationFunction {
 
-public class DynamicFunctionContext {
-
-	private final MathContext mathContext;
-	private final Integer scale;
-
-	public DynamicFunctionContext(MathContext mathContext, Integer scale) {
-		super();
-		this.mathContext = mathContext;
-		this.scale = scale;
-	}
-
-	public final MathContext getMathContext() {
-		return mathContext;
-	}
-
-	public final Integer getScale() {
-		return scale;
-	}
+    Object call(OperationFunctionContext context, Object[] parameters);
 
 }

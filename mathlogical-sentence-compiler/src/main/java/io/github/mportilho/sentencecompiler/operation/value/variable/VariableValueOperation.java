@@ -28,35 +28,52 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class VariableValueOperation extends AbstractVariableValueOperation {
 
-    private VariableValueProviderContext contextSupplier;
-
-    public VariableValueOperation(String variableName, Class<?> variableType) {
-        super(variableName, variableType);
+    public VariableValueOperation(String variableName) {
+        super(variableName);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        if (getValue() instanceof VariableProvider) {
-            if (contextSupplier == null) {
-                contextSupplier = new VariableValueProviderContext(context.mathContext(), context.scale(), isCaching());
-            }
-            Object result = ((VariableProvider) getValue()).provideValue(contextSupplier);
-            if (!contextSupplier.isCaching()) {
-                caching(false);
-            }
-            return context.computingSite().getConversionService().convert(result, getExpectedType(), null);
+        if (getValue() instanceof VariableProvider variableProvider) {
+            return resolveVariableProvider(context, variableProvider);
         }
-        return getValue();
+        return resolveVariable(context);
+    }
+
+    /**
+     * Variable provider disables caching, but users can activate it through the 'value provider context' parameter.
+     * Note that by doing so, the provider won't be called again unless it gets cleaned by subtree operations.
+     */
+    private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
+        VariableValueProviderContext valueProviderContext =
+                new VariableValueProviderContext(context.mathContext(), context.scale(), false);
+        Object result = variableProvider.provideValue(valueProviderContext);
+        caching(valueProviderContext.isCaching());
+        return context.syntaxExecutionSite().getConversionService().convert(result, getExpectedType(), null);
+    }
+
+    private Object resolveVariable(OperationContext context) {
+        Object returningValue = context.readDictionary(getVariableName());
+        if (returningValue != null) {
+            returningValue = context.syntaxExecutionSite().getConversionService().convert(returningValue, getExpectedType(), null);
+        } else {
+            returningValue = getValue();
+        }
+        return returningValue;
+    }
+
+    @Override
+    public boolean shouldResetOperation(OperationContext context) {
+        if (isCaching() && getCache() != null) {
+            return !compareValues(getCache(), context.userExecutionContext().getDictionary().get(getVariableName()));
+        }
+        return super.shouldResetOperation(context);
     }
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        VariableValueOperation copiedOperation = new VariableValueOperation(getVariableName(), getVariableType());
+        VariableValueOperation copiedOperation = new VariableValueOperation(getVariableName());
         copiedOperation.value = this.value;
-        if (contextSupplier != null) {
-            copiedOperation.contextSupplier = new VariableValueProviderContext(contextSupplier.getMathContext(), contextSupplier.getScale(),
-                    contextSupplier.isCaching());
-        }
         context.getUserVariables().put(getVariableName(), copiedOperation);
         return copiedOperation;
     }

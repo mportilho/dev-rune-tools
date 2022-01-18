@@ -25,7 +25,7 @@ package io.github.mportilho.sentencecompiler.operation.other;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunctionCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -51,7 +51,7 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        DynamicFunctionCaller caller = context.getProvidedFunction(functionKey);
+        OperationFunctionCaller caller = context.getFunction(functionKey);
         if (caller == null) {
             throw new IllegalArgumentException(String.format("Function '%s' not found", functionName));
         }

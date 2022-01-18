@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunctionCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
 
 import java.math.MathContext;
 import java.time.LocalDateTime;
@@ -33,23 +33,23 @@ public record OperationContext(
         Integer scale,
         boolean allowingNull,
         LocalDateTime currentDateTime,
-        ComputingSite computingSite,
-        ComputingContext computingContext,
-        ComputingContext userComputingContext
+        SyntaxExecutionSite syntaxExecutionSite,
+        ExecutionContext executionContext,
+        ExecutionContext userExecutionContext
 ) {
 
     public Object readDictionary(String name) {
-        Object value = userComputingContext.getDictionary().get(name);
-        if (value == null) {
-            value = computingContext.getDictionary().get(name);
+        Object value = userExecutionContext.getDictionary().get(name);
+        if (value == null && userExecutionContext != executionContext) {
+            value = executionContext.getDictionary().get(name);
         }
         return value;
     }
 
-    public DynamicFunctionCaller getProvidedFunction(String name) {
-        DynamicFunctionCaller func = userComputingContext.getProvidedFunctions().get(name);
-        if (func == null) {
-            func = computingContext.getProvidedFunctions().get(name);
+    public OperationFunctionCaller getFunction(String name) {
+        OperationFunctionCaller func = userExecutionContext.getFunctions().get(name);
+        if (func == null && userExecutionContext != executionContext) {
+            func = executionContext.getFunctions().get(name);
         }
         return func;
     }

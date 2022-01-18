@@ -4,5 +4,5 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 
 import java.util.function.BiFunction;
 
-public interface LambdaCallerInterface extends BiFunction<FormattedConversionService, Object[], Object> {
+public interface OperationLambdaCaller extends BiFunction<FormattedConversionService, Object[], Object> {
 }

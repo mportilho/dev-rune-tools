@@ -22,123 +22,134 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler;
 
-import io.github.mportilho.commons.converters.DefaultFormattedConversionService;
-import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.utils.AssertUtils;
+import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
-import io.github.mportilho.sentencecompiler.syntaxtree.*;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunction;
-import io.github.mportilho.sentencecompiler.syntaxtree.parser.DefaultOperationSyntaxTreeGenerator;
+import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.UserDefinedOperationFunction;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.DefaultOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.time.LocalDateTime;
+import java.math.MathContext;
 import java.util.Map;
 import java.util.Objects;
 
 public class MathSentence {
 
-    private MathSentenceOptions mathSentenceOptions;
-    private ComputingSite computingSite;
-    private ComputingContext computingContext;
+    private MathContext mathContext;
+    private Integer scale;
+    private SyntaxExecutionSite syntaxExecutionSite;
+    private boolean locked = false;
 
     private MathSentence() {
         // internal use
     }
 
     public MathSentence(String sentence) {
-        this(sentence, null, new DefaultFormattedConversionService());
+        this(sentence, new MathSentenceOptions());
     }
 
     public MathSentence(String sentence, MathSentenceOptions mathSentenceOptions) {
-        this(sentence, mathSentenceOptions, new DefaultFormattedConversionService());
-    }
-
-    public MathSentence(
-            String sentence, MathSentenceOptions mathSentenceOptions,
-            FormattedConversionService formattedConversionService) {
         AssertUtils.notNullOrBlank(sentence, "Parameter [sentence] must be provided");
-        Objects.requireNonNull(formattedConversionService, "Parameter [formattedConversionService] must be provided");
-
-        this.mathSentenceOptions = mathSentenceOptions != null ? mathSentenceOptions : new MathSentenceOptions();
-        this.computingContext = new ComputingContext();
-        initializeComputingSite(sentence, formattedConversionService);
+        Objects.requireNonNull(mathSentenceOptions, "Parameter [mathSentenceOptions] must be provided");
+        initializeComputingSite(sentence, mathSentenceOptions);
     }
 
-    private void initializeComputingSite(String sentence, FormattedConversionService formattedConversionService) {
+    private void initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new DefaultOperationSyntaxTreeGenerator());
-        this.computingSite = new ComputingSite(data.operation(), data.userVariables(), data.assignedVariables(),
-                formattedConversionService);
+        this.syntaxExecutionSite = new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
+                mathSentenceOptions.getScale(), data.userVariables(), data.assignedVariables(),
+                new ExecutionContext(), mathSentenceOptions.getFormattedConversionService());
     }
 
     @SuppressWarnings("unchecked")
     public <T> T compute() {
-        OperationContext operationContext = new OperationContext(mathSentenceOptions.getMathContext(),
-                mathSentenceOptions.getScale(), false, LocalDateTime.now(), computingSite,
-                computingContext, ComputingContext.EMPTY);
-        return (T) this.computingSite.compute(operationContext);
+        checkUpdateLock();
+        return (T) this.syntaxExecutionSite.compute();
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T compute(ComputingContext userComputingContext) {
-        OperationContext operationContext = new OperationContext(mathSentenceOptions.getMathContext(),
-                mathSentenceOptions.getScale(), false, LocalDateTime.now(), computingSite,
-                computingContext, userComputingContext);
-        return (T) this.computingSite.compute(operationContext);
+    public <T> T compute(ExecutionContext userExecutionContext) {
+        checkUpdateLock();
+        return (T) this.syntaxExecutionSite.compute(userExecutionContext);
     }
 
     public MathSentence warmUp() {
-        OperationContext operationContext = new OperationContext(mathSentenceOptions.getMathContext(),
-                mathSentenceOptions.getScale(), true, null, computingSite,
-                computingContext, ComputingContext.EMPTY);
-        this.computingSite.warmUp(operationContext);
+        checkUpdateLock();
+        this.syntaxExecutionSite.warmUp();
         return this;
     }
 
-    public MathSentence computingContext(ComputingContext computingContext) {
-        this.computingContext = computingContext;
+    public MathSentence lock() {
+        locked = true;
         return this;
     }
 
-    public void addFunction(String functionName, DynamicFunction function) {
-        throw new IllegalStateException();
+    public MathSentence addDictionary(Map<String, Object> dictionary) {
+        checkUpdateLock();
+        syntaxExecutionSite.addDictionary(dictionary);
+        return this;
     }
 
-    public void addFunctions(Object functionProvider) {
-        throw new IllegalStateException();
+    public void addFunction(String name, UserDefinedOperationFunction function) {
+        checkUpdateLock();
+        syntaxExecutionSite.addFunction(name, function);
+    }
+
+    public void addFunctionFromObject(Object functionProvider) {
+        checkUpdateLock();
+        syntaxExecutionSite.addFunctionFromObject(functionProvider);
     }
 
     public MathSentence setUserVariable(String variableName, Object value) {
-        computingSite.setUserVariable(variableName, value);
+        checkUpdateLock();
+        syntaxExecutionSite.setUserVariable(variableName, value);
         return this;
     }
 
     public MathSentence setUserVariableProvider(String variableName, VariableProvider provider) {
+        checkUpdateLock();
         return setUserVariable(variableName, provider);
     }
 
     public Map<String, Object> listAssignedVariables() {
-        return computingSite.listAssignedVariables();
+        return syntaxExecutionSite.listAssignedVariables();
     }
 
     public Map<String, Object> listUserVariables() {
-        return computingSite.listUserVariables();
+        return syntaxExecutionSite.listUserVariables();
     }
 
     public final MathSentence copy() {
         MathSentence mathSentence = new MathSentence();
-        mathSentence.computingSite = this.computingSite.copy();
-        mathSentence.mathSentenceOptions = this.mathSentenceOptions;
-        mathSentence.computingContext = this.computingContext;
+        mathSentence.mathContext = this.mathContext;
+        mathSentence.scale = this.scale;
+        mathSentence.syntaxExecutionSite = this.syntaxExecutionSite.copy();
+        mathSentence.locked = false;
         return mathSentence;
     }
 
     public <T> T visitOperations(OperationVisitor<T> visitor) {
-        return computingSite.visitOperation(visitor);
+        checkUpdateLock();
+        return syntaxExecutionSite.visitOperation(visitor);
+    }
+
+    private void checkUpdateLock() {
+        if (locked) {
+            throw new MathSentenceLockingException("Math Sentence object is locked for updating");
+        }
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
     @Override
     public String toString() {
-        return computingSite.toOperationStringRepresentation();
+        return syntaxExecutionSite.toOperationStringRepresentation();
     }
 
 }

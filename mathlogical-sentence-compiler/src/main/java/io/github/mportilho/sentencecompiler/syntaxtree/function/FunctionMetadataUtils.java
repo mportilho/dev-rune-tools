@@ -47,6 +47,39 @@ public class FunctionMetadataUtils {
                     s.convert(p[4], parameterTypes[4], null),
                     s.convert(p[5], parameterTypes[5], null),
                     s.convert(p[6], parameterTypes[6], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function9 f) {
+            return (s, p) -> f.apply(instance,
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[6], parameterTypes[7], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function10 f) {
+            return (s, p) -> f.apply(instance,
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[6], parameterTypes[7], null),
+                    s.convert(p[6], parameterTypes[8], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function11 f) {
+            return (s, p) -> f.apply(instance,
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[6], parameterTypes[7], null),
+                    s.convert(p[6], parameterTypes[8], null),
+                    s.convert(p[6], parameterTypes[9], null));
         }
         throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda caller", lambda.getClass().getName()));
     }
@@ -104,6 +137,42 @@ public class FunctionMetadataUtils {
                     s.convert(p[5], parameterTypes[5], null),
                     s.convert(p[6], parameterTypes[6], null),
                     s.convert(p[0], parameterTypes[7], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function9 f) {
+            return (s, p) -> f.apply(
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[0], parameterTypes[7], null),
+                    s.convert(p[0], parameterTypes[8], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function10 f) {
+            return (s, p) -> f.apply(
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[0], parameterTypes[7], null),
+                    s.convert(p[0], parameterTypes[8], null),
+                    s.convert(p[0], parameterTypes[9], null));
+        } else if (lambda instanceof LambdaFunctionInterfacesWrapper.Function11 f) {
+            return (s, p) -> f.apply(
+                    s.convert(p[0], parameterTypes[0], null),
+                    s.convert(p[1], parameterTypes[1], null),
+                    s.convert(p[2], parameterTypes[2], null),
+                    s.convert(p[3], parameterTypes[3], null),
+                    s.convert(p[4], parameterTypes[4], null),
+                    s.convert(p[5], parameterTypes[5], null),
+                    s.convert(p[6], parameterTypes[6], null),
+                    s.convert(p[0], parameterTypes[7], null),
+                    s.convert(p[0], parameterTypes[8], null),
+                    s.convert(p[0], parameterTypes[9], null),
+                    s.convert(p[0], parameterTypes[10], null));
         }
         throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda caller", lambda.getClass().getName()));
     }

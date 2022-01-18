@@ -38,7 +38,6 @@ import java.util.Objects;
 public class MathSentence {
 
     private MathSentenceOptions mathSentenceOptions;
-    private FormattedConversionService service;
     private ComputingSite computingSite;
     private ComputingContext computingContext;
 
@@ -129,7 +128,6 @@ public class MathSentence {
         MathSentence mathSentence = new MathSentence();
         mathSentence.computingSite = this.computingSite.copy();
         mathSentence.mathSentenceOptions = this.mathSentenceOptions;
-        mathSentence.service = this.service;
         mathSentence.computingContext = this.computingContext;
         return mathSentence;
     }

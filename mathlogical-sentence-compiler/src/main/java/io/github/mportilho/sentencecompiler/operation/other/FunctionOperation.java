@@ -25,12 +25,13 @@ package io.github.mportilho.sentencecompiler.operation.other;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunctionCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 public class FunctionOperation extends AbstractOperation {
 
@@ -42,28 +43,19 @@ public class FunctionOperation extends AbstractOperation {
         this.functionName = functionName;
         this.parameters = parameters != null ? parameters : Collections.emptyList();
         this.caching(caching);
-        this.functionKey = functionName + this.parameters.size();
-
-        for (int i = 0; i < this.parameters.size(); i++) {
-            this.parameters.get(i).addParent(this);
+        this.functionKey = FunctionMetadataFactory.keyName(functionName, this.parameters.size());
+        for (AbstractOperation parameter : this.parameters) {
+            parameter.addParent(this);
         }
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        int count = this.parameters.size();
-        Object[] args = new Object[count];
-        for (int i = 0; i < count; i++) {
-            args[i] = this.parameters.get(i).evaluate(context);
+        DynamicFunctionCaller caller = context.getProvidedFunction(functionKey);
+        if (caller == null) {
+            throw new IllegalArgumentException(String.format("Function '%s' not found", functionName));
         }
-
-        Function<Object[], Object> function = context.getProvidedFunction(functionKey);
-        if (function == null) {
-            throw new IllegalStateException(String.format("Function '%s' not found", functionName));
-        }
-
-//        return MathSentenceUtils.tryConventingKnownTypes(function.apply(args), context.mathContext());
-        return null;
+        return caller.call(parameters.stream().map(p -> p.evaluate(context)).toArray());
     }
 
 
@@ -85,8 +77,8 @@ public class FunctionOperation extends AbstractOperation {
         }
         builder.append(functionName).append("(");
         int index = parameters.size();
-        for (int i = 0; i < parameters.size(); i++) {
-            parameters.get(i).generateRepresentation(builder);
+        for (AbstractOperation parameter : parameters) {
+            parameter.generateRepresentation(builder);
             if (--index != 0) {
                 builder.append(", ");
             }

@@ -22,9 +22,10 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
+import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunctionCaller;
+
 import java.math.MathContext;
 import java.time.LocalDateTime;
-import java.util.function.Function;
 
 public record OperationContext(
 
@@ -45,8 +46,8 @@ public record OperationContext(
         return value;
     }
 
-    public Function<Object[], Object> getProvidedFunction(String name) {
-        Function<Object[], Object> func = userComputingContext.getProvidedFunctions().get(name);
+    public DynamicFunctionCaller getProvidedFunction(String name) {
+        DynamicFunctionCaller func = userComputingContext.getProvidedFunctions().get(name);
         if (func == null) {
             func = computingContext.getProvidedFunctions().get(name);
         }

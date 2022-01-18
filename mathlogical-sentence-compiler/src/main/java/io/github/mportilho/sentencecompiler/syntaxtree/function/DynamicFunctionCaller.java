@@ -9,6 +9,13 @@ public class DynamicFunctionCaller {
     private final FormattedConversionService conversionService;
 
     public DynamicFunctionCaller(
+            LambdaCallerInterface caller, Class<?>[] parameterTypes, FormattedConversionService conversionService) {
+        this.caller = caller;
+        this.parameterCount = parameterTypes.length;
+        this.conversionService = conversionService;
+    }
+
+    public DynamicFunctionCaller(
             Class<?>[] parameterTypes, Object lambda, FormattedConversionService conversionService) {
         this.caller = FunctionMetadataUtils.createStaticLambdaCaller(lambda, parameterTypes);
         this.parameterCount = parameterTypes.length;

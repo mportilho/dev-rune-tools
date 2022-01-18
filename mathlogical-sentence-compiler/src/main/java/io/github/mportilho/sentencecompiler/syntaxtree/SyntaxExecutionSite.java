@@ -54,7 +54,7 @@ public class SyntaxExecutionSite {
     public Object compute(ExecutionContext userExecutionContext) {
         Objects.requireNonNull(userExecutionContext, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, false, LocalDateTime.now(), this, executionContext, userExecutionContext);
+                scale, false, LocalDateTime.now(), conversionService, executionContext, userExecutionContext);
         for (AbstractVariableValueOperation variableValueOperation : userVariables.values()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
@@ -65,7 +65,7 @@ public class SyntaxExecutionSite {
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, LocalDateTime.now(), this, executionContext, executionContext);
+                scale, true, LocalDateTime.now(), conversionService, executionContext, executionContext);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 

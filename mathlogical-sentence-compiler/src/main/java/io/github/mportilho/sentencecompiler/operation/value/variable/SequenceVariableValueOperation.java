@@ -22,11 +22,11 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProductOfSequenceOperation;
 import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummationOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,7 +38,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
             Arrays.asList(PreciseSummationOperation.class, PreciseProductOfSequenceOperation.class));
 
     public SequenceVariableValueOperation(String variableName) {
-        super(variableName, Number.class);
+        super(variableName);
     }
 
     @Override

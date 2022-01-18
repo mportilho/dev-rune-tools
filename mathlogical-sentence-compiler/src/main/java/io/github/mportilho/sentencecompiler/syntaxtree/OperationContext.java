@@ -22,6 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
 
 import java.math.MathContext;
@@ -33,7 +34,7 @@ public record OperationContext(
         Integer scale,
         boolean allowingNull,
         LocalDateTime currentDateTime,
-        SyntaxExecutionSite syntaxExecutionSite,
+        FormattedConversionService formattedConversionService,
         ExecutionContext executionContext,
         ExecutionContext userExecutionContext
 ) {

@@ -49,13 +49,13 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
                 new VariableValueProviderContext(context.mathContext(), context.scale(), false);
         Object result = variableProvider.provideValue(valueProviderContext);
         caching(valueProviderContext.isCaching());
-        return context.syntaxExecutionSite().getConversionService().convert(result, getExpectedType(), null);
+        return context.formattedConversionService().convert(result, getExpectedType(), null);
     }
 
     private Object resolveVariable(OperationContext context) {
         Object returningValue = context.readDictionary(getVariableName());
         if (returningValue != null) {
-            returningValue = context.syntaxExecutionSite().getConversionService().convert(returningValue, getExpectedType(), null);
+            returningValue = context.formattedConversionService().convert(returningValue, getExpectedType(), null);
         } else {
             returningValue = getValue();
         }

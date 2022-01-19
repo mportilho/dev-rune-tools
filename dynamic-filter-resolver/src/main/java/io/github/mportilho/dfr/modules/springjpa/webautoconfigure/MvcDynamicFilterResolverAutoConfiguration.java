@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
-import io.github.mportilho.commons.converters.DefaultFormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.dfr.core.processor.ValueExpressionResolver;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationConditionalStatementProcessor;

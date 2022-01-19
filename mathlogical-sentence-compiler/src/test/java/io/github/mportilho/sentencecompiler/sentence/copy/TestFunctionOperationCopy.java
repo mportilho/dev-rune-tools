@@ -1,80 +1,78 @@
 package io.github.mportilho.sentencecompiler.sentence.copy;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.mportilho.sentencecompiler.MathSentence;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.MathSentence;
-
 public class TestFunctionOperationCopy {
 
-	@Test
-	public void testFunctionOperationsWithExternalDateMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalDateMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedDate() = currDate");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		MathSentence mathSentenceCopy1 = mathSentence.copy();
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-		assertThat(mathSentenceCopy1.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f.extractedDate() = currDate");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        MathSentence mathSentenceCopy1 = mathSentence.copy();
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+        assertThat(mathSentenceCopy1.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalTimeMethods_NoCache() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalTimeMethods_NoCache() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f0.extractedTime() = 02:03:00");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		MathSentence mathSentenceCopy1 = mathSentence.copy();
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-		assertThat(mathSentenceCopy1.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f0.extractedTime() = 02:03:00");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        MathSentence mathSentenceCopy1 = mathSentence.copy();
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+        assertThat(mathSentenceCopy1.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		MathSentence mathSentenceCopy1 = mathSentence.copy();
-		assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
-		assertThat(mathSentenceCopy1.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
-	}
+        mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        MathSentence mathSentenceCopy1 = mathSentence.copy();
+        assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
+        assertThat(mathSentenceCopy1.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
+    }
 
-	public static class FunctionProviderClass {
+    public static class FunctionProviderClass {
 
-		public BigDecimal extractedNumber() {
-			return BigDecimal.ONE;
-		}
+        public BigDecimal extractedNumber() {
+            return BigDecimal.ONE;
+        }
 
-		public LocalDate extractedDate() {
-			return LocalDate.now();
-		}
+        public LocalDate extractedDate() {
+            return LocalDate.now();
+        }
 
-		public LocalTime extractedTime() {
-			return LocalTime.of(2, 3, 0);
-		}
+        public LocalTime extractedTime() {
+            return LocalTime.of(2, 3, 0);
+        }
 
-		public LocalDateTime extractedDateTime() {
-			return LocalDateTime.of(LocalDate.now(), LocalTime.of(2, 3, 0));
-		}
+        public LocalDateTime extractedDateTime() {
+            return LocalDateTime.of(LocalDate.now(), LocalTime.of(2, 3, 0));
+        }
 
-		public String extractedString() {
-			return "food";
-		}
+        public String extractedString() {
+            return "food";
+        }
 
-		public Boolean extractedBoolean() {
-			return Boolean.TRUE;
-		}
+        public Boolean extractedBoolean() {
+            return Boolean.TRUE;
+        }
 
-		public BigDecimal add(BigDecimal a, BigDecimal b) {
-			return a.add(b);
-		}
-	}
+        public BigDecimal add(BigDecimal a, BigDecimal b) {
+            return a.add(b);
+        }
+    }
 
 }

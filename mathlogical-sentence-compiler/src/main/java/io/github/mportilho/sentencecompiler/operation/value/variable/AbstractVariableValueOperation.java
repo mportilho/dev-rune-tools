@@ -53,6 +53,13 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         this.value = newValue;
     }
 
+    public Object getCurrentValue() {
+        if (getCache() != null) {
+            return getCache();
+        }
+        return getValue();
+    }
+
     @Override
     protected void composeTextualRepresentation(StringBuilder builder) {
         Object value = getCache() != null ? getCache() : getValue();

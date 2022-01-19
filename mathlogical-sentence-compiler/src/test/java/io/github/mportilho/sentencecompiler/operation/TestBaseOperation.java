@@ -24,21 +24,18 @@ package io.github.mportilho.sentencecompiler.operation;
 
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.ComputingContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestBaseOperation {
 
-    private final OperationContext context = new OperationContext(MathContext.DECIMAL64, null, false,
-            LocalDateTime.now(), null, ComputingContext.EMPTY, ComputingContext.EMPTY);
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
     @Test
     public void testBaseOperation() {

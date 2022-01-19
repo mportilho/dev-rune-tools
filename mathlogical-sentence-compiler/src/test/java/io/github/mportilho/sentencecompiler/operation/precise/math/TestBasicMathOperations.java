@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.math.BigDecimal;
 
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
@@ -35,7 +36,7 @@ import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation
 
 public class TestBasicMathOperations {
 
-	OperationContext context = new OperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
 	@Test
 	public void testPreciseAditionOperation() {

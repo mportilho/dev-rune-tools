@@ -22,46 +22,44 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 import java.beans.IntrospectionException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionExtractor;
-
 public class TestFunctionExtractor {
 
-	@Test
-	public void testCall() throws IllegalAccessException, IntrospectionException {
-		Map<String, Function<Object[], Object>> methods;
-		
-		methods = FunctionExtractor.extractFunctions(new ExampleClass());
-		assertThat(methods).hasSize(2);
-		assertThat((String) methods.get("toText1").apply(new BigDecimal[] { BigDecimal.ONE })).isEqualTo("1");
-		assertThat((BigDecimal) methods.get("staticMethod0").apply(null)).isEqualByComparingTo("0");
-		
-		methods = FunctionExtractor.extractFunctions(ExampleClass.class);
-		assertThat(methods).hasSize(1);
-		assertThat((BigDecimal) methods.get("staticMethod0").apply(null)).isEqualByComparingTo("0");
-	}
+    @Test
+    public void testCall() throws IllegalAccessException, IntrospectionException {
+        Map<String, Function<Object[], Object>> methods;
 
-	public static class ExampleClass {
+        throw new IllegalAccessException();
 
-		public void genericFunction() {
-			System.out.println("Should not be picked up");
-		}
+//		methods = FunctionExtractor.extractFunctions(new ExampleClass());
+//		assertThat(methods).hasSize(2);
+//		assertThat((String) methods.get("toText1").apply(new BigDecimal[] { BigDecimal.ONE })).isEqualTo("1");
+//		assertThat((BigDecimal) methods.get("staticMethod0").apply(null)).isEqualByComparingTo("0");
+//
+//		methods = FunctionExtractor.extractFunctions(ExampleClass.class);
+//		assertThat(methods).hasSize(1);
+//		assertThat((BigDecimal) methods.get("staticMethod0").apply(null)).isEqualByComparingTo("0");
+    }
 
-		public String toText(BigDecimal value) {
-			return value.toPlainString();
-		}
+    public static class ExampleClass {
 
-		public static BigDecimal staticMethod() {
-			return BigDecimal.ZERO;
-		}
-	}
+        public void genericFunction() {
+            System.out.println("Should not be picked up");
+        }
+
+        public String toText(BigDecimal value) {
+            return value.toPlainString();
+        }
+
+        public static BigDecimal staticMethod() {
+            return BigDecimal.ZERO;
+        }
+    }
 
 }

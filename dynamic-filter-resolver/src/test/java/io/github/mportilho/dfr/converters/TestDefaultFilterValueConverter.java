@@ -22,7 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.dfr.converters;
 
-import io.github.mportilho.commons.converters.DefaultFormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;

@@ -22,142 +22,133 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.sentence;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.mportilho.sentencecompiler.MathSentence;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Collections;
-import java.util.function.Function;
-
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunction;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.DynamicFunctionContext;
 
 public class TestFunctionOperations {
 
-	@Test
-	public void testDynamicFunction() {
-		DynamicFunction function = (context, params) -> 5;
-		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(null, null), parameters);
-		OperationContext operationContext = new OperationContext();
-		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
+//	@Test
+//	public void testDynamicFunction() {
+//		DynamicFunction function = (context, params) -> 5;
+//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(null, null), parameters);
+//		OperationContext operationContext = new OperationContext();
+//		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
+//
+//		FunctionOperation operation = new FunctionOperation("teste", null, true);
+//		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
+//	}
 
-		FunctionOperation operation = new FunctionOperation("teste", null, true);
-		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
-	}
+//	@Test
+//	public void testDynamicFunctionContext() {
+//		DynamicFunction function = (context, params) -> {
+//			return new BigDecimal("5", context.getMathContext()).setScale(context.getScale());
+//		};
+//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(MathContext.DECIMAL64, 8), parameters);
+//		OperationContext operationContext = new OperationContext();
+//		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
+//
+//		FunctionOperation operation = new FunctionOperation("teste", null, true);
+//		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
+//	}
 
-	@Test
-	public void testDynamicFunctionContext() {
-		DynamicFunction function = (context, params) -> {
-			return new BigDecimal("5", context.getMathContext()).setScale(context.getScale());
-		};
-		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(MathContext.DECIMAL64, 8), parameters);
-		OperationContext operationContext = new OperationContext();
-		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
+    @Test
+    public void testFunctionOperationsWithExternalNumberMethods() {
+        MathSentence mathSentence;
 
-		FunctionOperation operation = new FunctionOperation("teste", null, true);
-		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
-	}
+        mathSentence = new MathSentence("f.extractedNumber() + 2");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo("3");
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalNumberMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalStringMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedNumber() + 2");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo("3");
-	}
+        mathSentence = new MathSentence("f.extractedString() = 'food'");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalStringMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalDateMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedString() = 'food'");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f.extractedDate() = currDate");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalDateMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalTimeMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedDate() = currDate");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f.extractedTime() = 02:03:00");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalTimeMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalDateTimeMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedTime() = 02:03:00");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<Boolean>compute()).isFalse();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalDateTimeMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithExternalBooleanMethods() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<Boolean>compute()).isFalse();
-	}
+        mathSentence = new MathSentence("f.extractedBoolean()");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<Boolean>compute()).isTrue();
+    }
 
-	@Test
-	public void testFunctionOperationsWithExternalBooleanMethods() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.extractedBoolean()");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<Boolean>compute()).isTrue();
-	}
+        mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
+        mathSentence.addFunctionFromObject(new FunctionProviderClass());
+        assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
+    }
 
-	@Test
-	public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
-		MathSentence mathSentence;
+    public static class FunctionProviderClass {
 
-		mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
-		mathSentence.addFunctions(new FunctionProviderClass());
-		assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
-	}
+        public BigDecimal extractedNumber() {
+            return BigDecimal.ONE;
+        }
 
-	public static class FunctionProviderClass {
+        public LocalDate extractedDate() {
+            return LocalDate.now();
+        }
 
-		public BigDecimal extractedNumber() {
-			return BigDecimal.ONE;
-		}
+        public LocalTime extractedTime() {
+            return LocalTime.of(2, 3, 0);
+        }
 
-		public LocalDate extractedDate() {
-			return LocalDate.now();
-		}
+        public LocalDateTime extractedDateTime() {
+            return LocalDateTime.of(LocalDate.now(), LocalTime.of(2, 3, 0));
+        }
 
-		public LocalTime extractedTime() {
-			return LocalTime.of(2, 3, 0);
-		}
+        public String extractedString() {
+            return "food";
+        }
 
-		public LocalDateTime extractedDateTime() {
-			return LocalDateTime.of(LocalDate.now(), LocalTime.of(2, 3, 0));
-		}
+        public Boolean extractedBoolean() {
+            return Boolean.TRUE;
+        }
 
-		public String extractedString() {
-			return "food";
-		}
-
-		public Boolean extractedBoolean() {
-			return Boolean.TRUE;
-		}
-
-		public BigDecimal add(BigDecimal a, BigDecimal b) {
-			return a.add(b);
-		}
-	}
+        public BigDecimal add(BigDecimal a, BigDecimal b) {
+            return a.add(b);
+        }
+    }
 
 }

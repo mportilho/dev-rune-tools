@@ -22,9 +22,8 @@ SOFTWARE.*/
 
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
-import io.github.mportilho.commons.converters.DefaultFormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.dfr.core.operation.FilterData;
-import io.github.mportilho.dfr.core.operation.type.GreaterOrEquals;
 import io.github.mportilho.dfr.core.operation.type.StartsWith;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
 import org.junit.jupiter.api.Test;

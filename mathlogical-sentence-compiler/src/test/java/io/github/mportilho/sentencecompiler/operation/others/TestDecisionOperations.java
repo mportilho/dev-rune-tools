@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +41,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumb
 
 public class TestDecisionOperations {
 
-	private OperationContext context = new OperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 	private AbstractOperation trueOperation;
 	private AbstractOperation falseOperation;
 

@@ -22,115 +22,106 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.mportilho.sentencecompiler.operation.value.constant.*;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.BooleanConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.DateConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.DateTimeConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.EulerNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.PiNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.StringConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.TimeConstantValueOperation;
-
 public class TestConstantValueOperations {
 
-	OperationContext context = new OperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
-	@Test
-	public void testBooleanConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testBooleanConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new BooleanConstantValueOperation("true");
-		assertThat((Boolean) operation.evaluate(context)).isTrue();
-		assertThat(operation.isCachingForever()).isTrue();
+        operation = new BooleanConstantValueOperation("true");
+        assertThat((Boolean) operation.evaluate(context)).isTrue();
+        assertThat(operation.isAlwaysCache()).isTrue();
 
-		operation = new BooleanConstantValueOperation("false");
-		assertThat((Boolean) operation.evaluate(context)).isFalse();
-	}
+        operation = new BooleanConstantValueOperation("false");
+        assertThat((Boolean) operation.evaluate(context)).isFalse();
+    }
 
-	@Test
-	public void testDateConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testDateConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new DateConstantValueOperation("2001-04-12");
-		assertThat((LocalDate) operation.evaluate(context)).isEqualTo(LocalDate.of(2001, 4, 12));
-		assertThat(operation.isCachingForever()).isTrue();
-	}
+        operation = new DateConstantValueOperation("2001-04-12");
+        assertThat((LocalDate) operation.evaluate(context)).isEqualTo(LocalDate.of(2001, 4, 12));
+        assertThat(operation.isAlwaysCache()).isTrue();
+    }
 
-	@Test
-	public void testTimeConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testTimeConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new TimeConstantValueOperation("04:12:33");
-		assertThat((LocalTime) operation.evaluate(context)).isEqualTo(LocalTime.of(4, 12, 33));
-		assertThat(operation.isCachingForever()).isTrue();
-	}
+        operation = new TimeConstantValueOperation("04:12:33");
+        assertThat((LocalTime) operation.evaluate(context)).isEqualTo(LocalTime.of(4, 12, 33));
+        assertThat(operation.isAlwaysCache()).isTrue();
+    }
 
-	@Test
-	public void testDateTimeConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testDateTimeConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new DateTimeConstantValueOperation("2001-04-12T04:12:33");
-		assertThat((LocalDateTime) operation.evaluate(context)).isEqualTo(LocalDateTime.of(2001, 4, 12, 4, 12, 33));
-		assertThat(operation.isCachingForever()).isTrue();
-	}
+        operation = new DateTimeConstantValueOperation("2001-04-12T04:12:33");
+        assertThat((LocalDateTime) operation.evaluate(context)).isEqualTo(LocalDateTime.of(2001, 4, 12, 4, 12, 33));
+        assertThat(operation.isAlwaysCache()).isTrue();
+    }
 
-	@Test
-	public void testEulerNumberConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testEulerNumberConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new EulerNumberConstantValueOperation();
-		assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(2.718281828459045));
-		assertThat(operation.isCachingForever()).isTrue();
-	}
+        operation = new EulerNumberConstantValueOperation();
+        assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(2.718281828459045));
+        assertThat(operation.isAlwaysCache()).isTrue();
+    }
 
-	@Test
-	public void testPiNumberConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testPiNumberConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new PiNumberConstantValueOperation();
-		assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
-		assertThat(operation.isCachingForever()).isTrue();
-	}
+        operation = new PiNumberConstantValueOperation();
+        assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
+        assertThat(operation.isAlwaysCache()).isTrue();
+    }
 
-	@Test
-	public void testPreciseNumberConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testPreciseNumberConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new PreciseNumberConstantValueOperation("3.141592653589793");
-		assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
-		assertThat(operation.isCachingForever()).isTrue();
+        operation = new PreciseNumberConstantValueOperation("3.141592653589793");
+        assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
+        assertThat(operation.isAlwaysCache()).isTrue();
 
-		operation = new PreciseNumberConstantValueOperation("-3.141592653589793");
-		assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(-3.141592653589793));
+        operation = new PreciseNumberConstantValueOperation("-3.141592653589793");
+        assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(-3.141592653589793));
 
-		operation = new PreciseNumberConstantValueOperation("0");
-		assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(0));
-	}
+        operation = new PreciseNumberConstantValueOperation("0");
+        assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(0));
+    }
 
-	@Test
-	public void testStringConstantValueOperation() {
-		AbstractConstantValueOperation operation;
+    @Test
+    public void testStringConstantValueOperation() {
+        AbstractConstantValueOperation operation;
 
-		operation = new StringConstantValueOperation("3.141592653589793");
-		assertThat((String) operation.evaluate(context)).isEqualTo("3.141592653589793");
-		assertThat(operation.isCachingForever()).isTrue();
+        operation = new StringConstantValueOperation("3.141592653589793");
+        assertThat((String) operation.evaluate(context)).isEqualTo("3.141592653589793");
+        assertThat(operation.isAlwaysCache()).isTrue();
 
-		operation = new StringConstantValueOperation("-3.141592653589793");
-		assertThat((String) operation.evaluate(context)).isEqualTo("-3.141592653589793");
+        operation = new StringConstantValueOperation("-3.141592653589793");
+        assertThat((String) operation.evaluate(context)).isEqualTo("-3.141592653589793");
 
-		operation = new StringConstantValueOperation("AB.CD-e");
-		assertThat((String) operation.evaluate(context)).isEqualTo("AB.CD-e");
-	}
+        operation = new StringConstantValueOperation("AB.CD-e");
+        assertThat((String) operation.evaluate(context)).isEqualTo("AB.CD-e");
+    }
 
 }

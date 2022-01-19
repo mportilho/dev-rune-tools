@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class SyntaxExecutionSite {
 
@@ -125,13 +124,19 @@ public class SyntaxExecutionSite {
     }
 
     public Map<String, Object> listAssignedVariables() {
-        return assignedVariables.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getCache()));
+        Map<String, Object> map = new HashMap<>();
+        for (Map.Entry<String, AssignedVariableOperation> entry : assignedVariables.entrySet()) {
+            map.put(entry.getKey(), entry.getValue().getCache());
+        }
+        return map;
     }
 
     public Map<String, Object> listUserVariables() {
-        return userVariables.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getCache()));
+        Map<String, Object> map = new HashMap<>();
+        for (Map.Entry<String, AbstractVariableValueOperation> entry : userVariables.entrySet()) {
+            map.put(entry.getKey(), entry.getValue().getCache());
+        }
+        return map;
     }
 
     public <T> T visitOperation(OperationVisitor<T> visitor) {

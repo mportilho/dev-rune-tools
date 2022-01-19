@@ -36,7 +36,7 @@ import java.util.function.Function;
  * @param <T> The target type
  * @author Marcelo Portilho
  */
-abstract class AbstractCachedStringFormattedConverter<S, T> implements FormattedConverter<S, T, String> {
+public abstract class AbstractCachedStringFormattedConverter<S, T> implements FormattedConverter<S, T, String> {
 
     private Map<String, Object> cache;
 

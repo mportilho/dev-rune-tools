@@ -26,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
@@ -35,7 +36,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumb
 
 public class TestAssignedVariableOperations {
 
-	private OperationContext context = new OperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
 	@Test
 	public void testAssignedVariableOperation() {

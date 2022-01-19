@@ -22,45 +22,48 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.sentence;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.MathSentenceOptions;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.MathSentenceOptions;
-
 public class TestLogarithmOperations {
 
-	public void computeMathSentence(String sentence, BigDecimal expectedValue) {
-		assertThat(new MathSentence(sentence, new MathSentenceOptions(MathContext.DECIMAL64, 8)).<BigDecimal>compute())
-				.isEqualByComparingTo(expectedValue);
-	}
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
-	@Test
-	public void testBinaryLogarithmOperation() {
-		computeMathSentence("lb(5)", BigDecimal.valueOf(2.32192809));
-	}
+    public void computeMathSentence(String sentence, BigDecimal expectedValue) {
+        assertThat(new MathSentence(sentence, new MathSentenceOptions(MathContext.DECIMAL64, 8,
+                new DefaultFormattedConversionService())).<BigDecimal>compute()).isEqualByComparingTo(expectedValue);
+    }
 
-	@Test
-	public void testCommonLogarithmOperation() {
-		computeMathSentence("log10(11)", BigDecimal.valueOf(1.04139269));
-		computeMathSentence("log10(5) / log10(2)", BigDecimal.valueOf(2.32192809));
-	}
+    @Test
+    public void testBinaryLogarithmOperation() {
+        computeMathSentence("lb(5)", BigDecimal.valueOf(2.32192809));
+    }
 
-	@Test
-	public void testLogarithmOperation() {
-		computeMathSentence("log(3.4322, 50)", BigDecimal.valueOf(3.17224975));
-		computeMathSentence("10*((10*(log(3.4322, 50))))", BigDecimal.valueOf(317.22497485));
-	}
+    @Test
+    public void testCommonLogarithmOperation() {
+        computeMathSentence("log10(11)", BigDecimal.valueOf(1.04139269));
+        computeMathSentence("log10(5) / log10(2)", BigDecimal.valueOf(2.32192809));
+    }
 
-	@Test
-	public void testNaturalLogarithmOperation() {
-		computeMathSentence("ln(4)", BigDecimal.valueOf(1.38629436));
-		computeMathSentence("ln(5) / ln(2)", BigDecimal.valueOf(2.32192809));
-		computeMathSentence("ln(4) + log10(4^2 + |-1|)", BigDecimal.valueOf(2.61674328));
-	}
+    @Test
+    public void testLogarithmOperation() {
+        computeMathSentence("log(3.4322, 50)", BigDecimal.valueOf(3.17224975));
+        computeMathSentence("10*((10*(log(3.4322, 50))))", BigDecimal.valueOf(317.22497485));
+    }
+
+    @Test
+    public void testNaturalLogarithmOperation() {
+        computeMathSentence("ln(4)", BigDecimal.valueOf(1.38629436));
+        computeMathSentence("ln(5) / ln(2)", BigDecimal.valueOf(2.32192809));
+        computeMathSentence("ln(4) + log10(4^2 + |-1|)", BigDecimal.valueOf(2.61674328));
+    }
 
 }

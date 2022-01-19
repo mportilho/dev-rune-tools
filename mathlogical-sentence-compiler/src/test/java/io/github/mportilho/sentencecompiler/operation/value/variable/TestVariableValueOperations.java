@@ -24,16 +24,15 @@ package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 public class TestVariableValueOperations {
 
-    private final OperationContext context = new OperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
     @Test
     public void testProvidedVariableValueOperations() {

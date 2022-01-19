@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
@@ -36,7 +37,7 @@ import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation
 
 public class TestTimeOperations {
 
-	private OperationContext context = new OperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
 	@Test
 	public void testTimeAdditionOperation() {

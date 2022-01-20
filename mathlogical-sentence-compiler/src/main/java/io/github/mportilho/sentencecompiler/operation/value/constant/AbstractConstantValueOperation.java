@@ -27,34 +27,33 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public abstract class AbstractConstantValueOperation extends AbstractOperation {
 
-	private String value;
+    private String value;
 
-	public AbstractConstantValueOperation(String value) {
-		this.value = value;
-		cachingForever();
-	}
+    public AbstractConstantValueOperation(String value) {
+        this.value = value;
+    }
 
-	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
-		builder.append(getCache() != null ? getCache() : getValue());
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(getCache() != null ? getCache() : getValue());
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public <T> T accept(OperationVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	protected void setValue(String value) {
-		this.value = value;
-	}
+    protected void setValue(String value) {
+        this.value = value;
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "";
+    }
 
 }

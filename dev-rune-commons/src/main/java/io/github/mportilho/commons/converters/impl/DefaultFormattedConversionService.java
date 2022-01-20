@@ -35,9 +35,7 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
             if (targetType.isInstance(source)) {
                 return (T) source;
             }
-            throw new NoFormattedConverterFoundException(
-                    String.format("No converter found for source type [%s] and target type [%s]",
-                            source.getClass().getCanonicalName(), targetType.getCanonicalName()));
+            throw new NoFormattedConverterFoundException(source.getClass(), targetType);
         }
         return converter.convert(source, format);
     }

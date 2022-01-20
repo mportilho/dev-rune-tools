@@ -43,7 +43,6 @@ public class TestConstantValueOperations {
 
         operation = new BooleanConstantValueOperation("true");
         assertThat((Boolean) operation.evaluate(context)).isTrue();
-        assertThat(operation.isAlwaysCache()).isTrue();
 
         operation = new BooleanConstantValueOperation("false");
         assertThat((Boolean) operation.evaluate(context)).isFalse();
@@ -55,7 +54,6 @@ public class TestConstantValueOperations {
 
         operation = new DateConstantValueOperation("2001-04-12");
         assertThat((LocalDate) operation.evaluate(context)).isEqualTo(LocalDate.of(2001, 4, 12));
-        assertThat(operation.isAlwaysCache()).isTrue();
     }
 
     @Test
@@ -64,7 +62,6 @@ public class TestConstantValueOperations {
 
         operation = new TimeConstantValueOperation("04:12:33");
         assertThat((LocalTime) operation.evaluate(context)).isEqualTo(LocalTime.of(4, 12, 33));
-        assertThat(operation.isAlwaysCache()).isTrue();
     }
 
     @Test
@@ -73,7 +70,6 @@ public class TestConstantValueOperations {
 
         operation = new DateTimeConstantValueOperation("2001-04-12T04:12:33");
         assertThat((LocalDateTime) operation.evaluate(context)).isEqualTo(LocalDateTime.of(2001, 4, 12, 4, 12, 33));
-        assertThat(operation.isAlwaysCache()).isTrue();
     }
 
     @Test
@@ -82,7 +78,6 @@ public class TestConstantValueOperations {
 
         operation = new EulerNumberConstantValueOperation();
         assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(2.718281828459045));
-        assertThat(operation.isAlwaysCache()).isTrue();
     }
 
     @Test
@@ -91,7 +86,6 @@ public class TestConstantValueOperations {
 
         operation = new PiNumberConstantValueOperation();
         assertThat((BigDecimal) operation.evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
-        assertThat(operation.isAlwaysCache()).isTrue();
     }
 
     @Test
@@ -100,7 +94,6 @@ public class TestConstantValueOperations {
 
         operation = new PreciseNumberConstantValueOperation("3.141592653589793");
         assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(3.141592653589793));
-        assertThat(operation.isAlwaysCache()).isTrue();
 
         operation = new PreciseNumberConstantValueOperation("-3.141592653589793");
         assertThat(operation.<BigDecimal>evaluate(context)).isEqualTo(BigDecimal.valueOf(-3.141592653589793));
@@ -115,7 +108,6 @@ public class TestConstantValueOperations {
 
         operation = new StringConstantValueOperation("3.141592653589793");
         assertThat((String) operation.evaluate(context)).isEqualTo("3.141592653589793");
-        assertThat(operation.isAlwaysCache()).isTrue();
 
         operation = new StringConstantValueOperation("-3.141592653589793");
         assertThat((String) operation.evaluate(context)).isEqualTo("-3.141592653589793");

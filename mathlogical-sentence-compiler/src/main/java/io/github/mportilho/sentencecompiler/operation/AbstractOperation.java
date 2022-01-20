@@ -22,15 +22,13 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation;
 
+import io.github.mportilho.commons.converters.NoFormattedConverterFoundException;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default behavior for all operations
@@ -40,15 +38,13 @@ import java.util.Set;
 public abstract class AbstractOperation {
 
     private Object cache;
-    private boolean caching;
-    private boolean alwaysCache;
+    private Set<AbstractOperation> cacheBlockingSemaphores;
 
-    private Class<?> expectedType;
     private List<AbstractOperation> parents;
+    private Class<?> expectedType;
     private boolean applyingParenthesis;
 
     public AbstractOperation() {
-        this.caching = true;
         this.expectedType = Object.class;
     }
 
@@ -60,46 +56,7 @@ public abstract class AbstractOperation {
 
     public abstract <T> T accept(OperationVisitor<T> visitor);
 
-    protected abstract void composeTextualRepresentation(StringBuilder builder);
-
-    @SuppressWarnings({"unchecked"})
-    public <T extends AbstractOperation> T expectedType(Class<?> expectedType) {
-        this.expectedType = Objects.requireNonNull(expectedType);
-        return (T) this;
-    }
-
-    /**
-     * Builds a String representation of the current operation
-     *
-     * @param builder the {@link StringBuilder} object where the representation will
-     *                be placed
-     */
-    public final void generateRepresentation(StringBuilder builder) {
-        if (this.applyingParenthesis) {
-            builder.append('(');
-            composeTextualRepresentation(builder);
-            builder.append(')');
-        } else {
-            composeTextualRepresentation(builder);
-        }
-    }
-
-    /**
-     * Makes a copy of the current operation, with it's properties and cache value
-     *
-     * @param cloningContext a holder of the cloning operation temporary properties
-     * @return a new copy of this object
-     */
-    public final AbstractOperation copy(CloningContext cloningContext) {
-        AbstractOperation copy;
-        if (cloningContext.getClonedOperationMap().containsKey(this)) {
-            copy = cloningContext.getClonedOperationMap().get(this);
-        } else {
-            copy = createClone(cloningContext).copyAtributes(this);
-            cloningContext.getClonedOperationMap().put(this, copy);
-        }
-        return copy;
-    }
+    protected abstract void formatRepresentation(StringBuilder builder);
 
     /**
      * Evaluates the current operation for it's resulting value. If the current
@@ -114,6 +71,7 @@ public abstract class AbstractOperation {
         Object result;
         try {
             result = readValue(context);
+            result = castOperationResult(result, context);
         } catch (ClassCastException e) {
             throw new IllegalStateException(String.format("Wrong operands type for expression %s", this), e);
         } catch (ArithmeticException e) {
@@ -153,36 +111,83 @@ public abstract class AbstractOperation {
         return result;
     }
 
+    private Object castOperationResult(Object result, OperationContext operationContext) {
+        if (result != null && !getExpectedType().equals(result.getClass())) {
+            try {
+                return operationContext.formattedConversionService().convert(result, getExpectedType(), null);
+            } catch (NoFormattedConverterFoundException e) {
+                return castOperationFromDetectedAmbiguity(result, e);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Possible ambiguity located on root expression. Ex.: "f.someFunction()" doesn't have a predictable return type
+     */
+    private Object castOperationFromDetectedAmbiguity(Object result, NoFormattedConverterFoundException e) {
+        if (parents != null && parents.size() == 1
+                && parents.get(0) instanceof BaseOperation baseOperation
+                && Boolean.class.equals(e.getSourceType()) && Number.class.isAssignableFrom(e.getTargetType())) {
+            expectedType(Boolean.class);
+            baseOperation.expectedType(Boolean.class);
+            return result;
+        } else {
+            throw new SyntaxExecutionException(
+                    String.format("Wrong expected value type on expression [%s]. Expected [%s], got [%s]",
+                            this, e.getTargetType(), e.getSourceType()), e);
+        }
+    }
+
+    /**
+     * Makes a copy of the current operation, with its properties and cache value
+     *
+     * @param cloningContext a holder of the cloning operation temporary properties
+     * @return a new copy of this object
+     */
+    public final AbstractOperation copy(CloningContext cloningContext) {
+        AbstractOperation copy;
+        if (cloningContext.getClonedOperationsMap().containsKey(this)) {
+            copy = cloningContext.getClonedOperationsMap().get(this);
+        } else {
+            copy = createClone(cloningContext).copyAtributes(this);
+            cloningContext.getClonedOperationsMap().put(this, copy);
+        }
+        if (this.cacheBlockingSemaphores != null && !this.cacheBlockingSemaphores.isEmpty()) {
+            copy.cacheBlockingSemaphores = new HashSet<>(this.cacheBlockingSemaphores.size());
+            for (AbstractOperation cacheBlocker : this.cacheBlockingSemaphores) {
+                copy.cacheBlockingSemaphores.add(cloningContext.getClonedOperationsMap().get(cacheBlocker));
+            }
+        }
+        return copy;
+    }
+
     public boolean shouldResetOperation(OperationContext context) {
         return false;
     }
 
     @SuppressWarnings({"unchecked"})
-    protected boolean compareValues(Object value1, Object value2) {
-        if (value1 instanceof Comparable c1 && value2 instanceof Comparable c2) {
-            return c1.compareTo(c2) == 0;
-        }
-        return Objects.equals(value1, value2);
+    public final <T extends AbstractOperation> T expectedType(Class<?> expectedType) {
+        this.expectedType = Objects.requireNonNull(expectedType);
+        return (T) this;
     }
 
     private AbstractOperation copyAtributes(AbstractOperation sourceOperation) {
         this.cache = sourceOperation.cache;
-        this.caching = sourceOperation.caching;
-        this.alwaysCache = sourceOperation.alwaysCache;
         this.applyingParenthesis = sourceOperation.applyingParenthesis;
         this.expectedType = sourceOperation.expectedType;
         return this;
     }
 
     /**
-     * Indicates the current operation must be wrapped by parenthesis
+     * Indicates the string representation must be wrapped by parenthesis
      */
     public void applyingParenthesis() {
         this.applyingParenthesis = true;
     }
 
     /**
-     * Adds a parent operation node for this current operation
+     * Adds a parent operation node
      *
      * @param operation the parent of this operation
      */
@@ -196,25 +201,39 @@ public abstract class AbstractOperation {
         parents.add(operation);
     }
 
-    /**
-     * Sets the caching behavior for this operation
-     *
-     * @param value a indication if the current operation must be cached
-     */
-    public void caching(boolean value) {
-        this.caching = value;
+    protected void setCachingOptions(boolean enable) {
+        if (enable) {
+            enableCaching(this);
+        } else {
+            disableCaching(this);
+        }
+    }
+
+    private void enableCaching(AbstractOperation semaphore) {
+        if (this.cacheBlockingSemaphores == null) {
+            this.cacheBlockingSemaphores = new HashSet<>(3);
+        }
+        if (this.cacheBlockingSemaphores.remove(semaphore)) {
+            for (AbstractOperation parent : getParents()) {
+                parent.disableCaching(semaphore);
+            }
+        }
+    }
+
+    private void disableCaching(AbstractOperation semaphore) {
+        if (this.cacheBlockingSemaphores == null) {
+            this.cacheBlockingSemaphores = new HashSet<>(3);
+        }
+        this.cache = null;
+        if (this.cacheBlockingSemaphores.add(semaphore)) {
+            for (AbstractOperation parent : getParents()) {
+                parent.enableCaching(semaphore);
+            }
+        }
     }
 
     protected boolean isCaching() {
-        return caching || alwaysCache;
-    }
-
-    protected void cachingForever() {
-        this.alwaysCache = true;
-    }
-
-    protected boolean isAlwaysCache() {
-        return alwaysCache;
+        return this.cacheBlockingSemaphores == null || this.cacheBlockingSemaphores.isEmpty();
     }
 
     public void clearCache() {
@@ -235,6 +254,10 @@ public abstract class AbstractOperation {
         }
     }
 
+    protected List<AbstractOperation> getParents() {
+        return parents != null ? parents : Collections.emptyList();
+    }
+
     /**
      * Retrieves the current cached value for this operation
      *
@@ -250,19 +273,32 @@ public abstract class AbstractOperation {
     }
 
     /**
-     * Verify
      *
-     * @return a indication if the current operation must have it's text
-     * representation wrapped by parenthesis
      */
     public boolean isApplyingParenthesis() {
         return applyingParenthesis;
     }
 
+    /**
+     * Builds a String representation of the current operation
+     *
+     * @param builder the {@link StringBuilder} object where the representation will
+     *                be placed
+     */
+    public final void toString(StringBuilder builder) {
+        if (this.applyingParenthesis) {
+            builder.append('(');
+            formatRepresentation(builder);
+            builder.append(')');
+        } else {
+            formatRepresentation(builder);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        generateRepresentation(builder);
+        toString(builder);
         return builder.toString();
     }
 

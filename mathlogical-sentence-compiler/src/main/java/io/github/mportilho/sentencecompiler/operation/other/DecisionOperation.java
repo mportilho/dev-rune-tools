@@ -67,7 +67,7 @@ public class DecisionOperation extends AbstractOperation {
     }
 
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
+    protected void formatRepresentation(StringBuilder builder) {
         int count = operations.size();
         for (int i = 0; i < count - 1; i += 2) {
             if (i == 0) {

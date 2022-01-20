@@ -40,10 +40,10 @@ public class PreciseSquareRootOperation extends AbstractUnaryOperator {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
+	public void formatRepresentation(StringBuilder builder) {
 		builder.append(2);
 		builder.append(getOperationToken()).append('(');
-		getOperand().generateRepresentation(builder);
+		getOperand().toString(builder);
 		builder.append(')');
 	}
 

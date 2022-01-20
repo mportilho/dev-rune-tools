@@ -47,10 +47,10 @@ public class PreciseExponentialOperation extends AbstractBinaryOperation {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
-		getLeftOperand().generateRepresentation(builder);
+	public void formatRepresentation(StringBuilder builder) {
+		getLeftOperand().toString(builder);
 		builder.append(getOperationToken());
-		getRightOperand().generateRepresentation(builder);
+		getRightOperand().toString(builder);
 	}
 
 	@Override

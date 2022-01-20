@@ -22,6 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation;
 
+import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
@@ -44,7 +45,10 @@ public class BaseOperation extends AbstractOperation {
         this.assignedVariables = assignedVariables != null ? assignedVariables : Collections.emptyMap();
         this.operation = operation;
         if (this.operation != null) {
+            this.expectedType(this.operation.getExpectedType());
             this.operation.addParent(this);
+        } else {
+            this.expectedType(Boolean.class);
         }
     }
 
@@ -70,7 +74,7 @@ public class BaseOperation extends AbstractOperation {
         } else if (Boolean.class.equals(this.getExpectedType())) {
             return Boolean.FALSE;
         }
-        throw new IllegalStateException(String.format("Current expected type [%s] for base operation incorrect", this.getExpectedType()));
+        throw new SyntaxExecutionException(String.format("Current expected type [%s] is incorrect for base operation", this.getExpectedType()));
     }
 
     @Override
@@ -86,17 +90,17 @@ public class BaseOperation extends AbstractOperation {
     }
 
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
+    protected void formatRepresentation(StringBuilder builder) {
         Set<Entry<String, AssignedVariableOperation>> entrySet = assignedVariables.entrySet();
         for (Entry<String, AssignedVariableOperation> entry : entrySet) {
             builder.append(entry.getValue().getVariableName()).append(' ').append(entry.getValue().getOperationToken()).append(' ');
-            ((AbstractOperation) entry.getValue().getValue()).generateRepresentation(builder);
+            ((AbstractOperation) entry.getValue().getValue()).toString(builder);
             builder.append(';');
             builder.append("\n");
         }
         if (operation != null) {
-            operation.generateRepresentation(builder);
-        } else {
+            operation.toString(builder);
+        } else if (builder.length() > 0) {
             builder.deleteCharAt(builder.length() - 1);
         }
     }

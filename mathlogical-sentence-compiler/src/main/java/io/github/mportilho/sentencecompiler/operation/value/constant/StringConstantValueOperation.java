@@ -38,9 +38,9 @@ public class StringConstantValueOperation extends AbstractConstantValueOperation
 	}
 
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
+	protected void formatRepresentation(StringBuilder builder) {
 		builder.append('\'');
-		super.composeTextualRepresentation(builder);
+		super.formatRepresentation(builder);
 		builder.append('\'');
 	}
 

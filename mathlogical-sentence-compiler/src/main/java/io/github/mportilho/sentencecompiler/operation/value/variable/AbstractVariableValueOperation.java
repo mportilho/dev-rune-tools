@@ -53,18 +53,17 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         this.value = newValue;
     }
 
-    public Object getCurrentValue() {
-        if (getCache() != null) {
-            return getCache();
-        }
-        return getValue();
-    }
-
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
-        Object value = getCache() != null ? getCache() : getValue();
-        value = value != null ? value : getVariableName();
-        builder.append(value);
+    protected void formatRepresentation(StringBuilder builder) {
+        if (getCache() != null) {
+            builder.append(getCache());
+        } else {
+            if (getValue() == null || getValue() instanceof VariableProvider) {
+                builder.append(getVariableName());
+            } else {
+                builder.append(getValue());
+            }
+        }
     }
 
     @Override

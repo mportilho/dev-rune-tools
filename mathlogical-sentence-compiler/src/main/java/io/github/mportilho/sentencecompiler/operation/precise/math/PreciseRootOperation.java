@@ -44,10 +44,10 @@ public class PreciseRootOperation extends AbstractBinaryOperation {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
-		getRightOperand().generateRepresentation(builder);
+	public void formatRepresentation(StringBuilder builder) {
+		getRightOperand().toString(builder);
 		builder.append(getOperationToken()).append('(');
-		getLeftOperand().generateRepresentation(builder);
+		getLeftOperand().toString(builder);
 		builder.append(')');
 	}
 

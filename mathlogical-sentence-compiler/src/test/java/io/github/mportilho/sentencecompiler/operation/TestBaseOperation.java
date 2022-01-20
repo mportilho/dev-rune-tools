@@ -29,7 +29,6 @@ import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockup
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +49,7 @@ public class TestBaseOperation {
         map.put("two", new AssignedVariableOperation("two", new PreciseNumberConstantValueOperation("2")));
 
         BaseOperation operation = new BaseOperation(null, map);
-        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("0");
+        assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
     @Test
@@ -73,8 +72,8 @@ public class TestBaseOperation {
         BaseOperation copyOperation = (BaseOperation) operation.copy(new CloningContext());
 
         assertThat(operation).isNotEqualTo(copyOperation);
-        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("0");
-        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("0");
+        assertThat(operation.<Boolean>evaluate(context)).isFalse();
+        assertThat(copyOperation.<Boolean>evaluate(context)).isFalse();
 
         for (String key : operation.getAssignedVariables().keySet()) {
             assertThat(operation.getAssignedVariables().get(key)).isNotEqualTo(copyOperation.getAssignedVariables().get(key));

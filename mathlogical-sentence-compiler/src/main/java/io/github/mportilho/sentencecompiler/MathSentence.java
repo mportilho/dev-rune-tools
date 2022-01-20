@@ -27,9 +27,9 @@ import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingExcept
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.UserDefinedOperationFunction;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.UserDefinedOperationFunction;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.DefaultOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -39,14 +39,10 @@ import java.util.Objects;
 
 public class MathSentence {
 
-    private MathContext mathContext;
-    private Integer scale;
-    private SyntaxExecutionSite syntaxExecutionSite;
-    private boolean locked = false;
-
-    private MathSentence() {
-        // internal use
-    }
+    private final MathContext mathContext;
+    private final Integer scale;
+    private final SyntaxExecutionSite syntaxExecutionSite;
+    private boolean locked;
 
     public MathSentence(String sentence) {
         this(sentence, new MathSentenceOptions());
@@ -55,12 +51,24 @@ public class MathSentence {
     public MathSentence(String sentence, MathSentenceOptions mathSentenceOptions) {
         AssertUtils.notNullOrBlank(sentence, "Parameter [sentence] must be provided");
         Objects.requireNonNull(mathSentenceOptions, "Parameter [mathSentenceOptions] must be provided");
-        initializeComputingSite(sentence, mathSentenceOptions);
+        this.mathContext = mathSentenceOptions.getMathContext();
+        this.scale = mathSentenceOptions.getScale();
+        this.syntaxExecutionSite = initializeComputingSite(sentence, mathSentenceOptions);
+        this.locked = false;
     }
 
-    private void initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
+    // internal use only, for coping
+    private MathSentence(
+            MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite, boolean locked) {
+        this.mathContext = mathContext;
+        this.scale = scale;
+        this.syntaxExecutionSite = syntaxExecutionSite;
+        this.locked = locked;
+    }
+
+    private SyntaxExecutionSite initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new DefaultOperationSyntaxTreeGenerator());
-        this.syntaxExecutionSite = new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
+        return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
                 mathSentenceOptions.getScale(), data.userVariables(), data.assignedVariables(),
                 new ExecutionContext(), mathSentenceOptions.getFormattedConversionService());
     }
@@ -124,12 +132,7 @@ public class MathSentence {
     }
 
     public final MathSentence copy() {
-        MathSentence mathSentence = new MathSentence();
-        mathSentence.mathContext = this.mathContext;
-        mathSentence.scale = this.scale;
-        mathSentence.syntaxExecutionSite = this.syntaxExecutionSite.copy();
-        mathSentence.locked = false;
-        return mathSentence;
+        return new MathSentence(this.mathContext, this.scale, this.syntaxExecutionSite.copy(), this.locked);
     }
 
     public <T> T visitOperations(OperationVisitor<T> visitor) {

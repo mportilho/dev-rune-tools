@@ -32,16 +32,16 @@ public class CloningContext {
 
     private final Map<String, AbstractVariableValueOperation> userVariables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
-    private final Map<AbstractOperation, AbstractOperation> clonedOperationMap;
+    private final Map<AbstractOperation, AbstractOperation> clonedOperationsMap;
 
     public CloningContext() {
         this.userVariables = new HashMap<>();
         this.assignedVariables = new HashMap<>();
-        this.clonedOperationMap = new HashMap<>();
+        this.clonedOperationsMap = new HashMap<>();
     }
 
-    public Map<AbstractOperation, AbstractOperation> getClonedOperationMap() {
-        return clonedOperationMap;
+    public Map<AbstractOperation, AbstractOperation> getClonedOperationsMap() {
+        return clonedOperationsMap;
     }
 
     public final Map<String, AbstractVariableValueOperation> getUserVariables() {

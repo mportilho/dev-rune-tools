@@ -47,12 +47,12 @@ public abstract class AbstractDateTimeOperation extends AbstractOperation {
 	}
 
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
-		getLeftOperand().generateRepresentation(builder);
+	protected void formatRepresentation(StringBuilder builder) {
+		getLeftOperand().toString(builder);
 		builder.append(' ');
 		builder.append(getOperationToken());
 		builder.append(dateElement.toString()).append(' ');
-		getRightOperand().generateRepresentation(builder);
+		getRightOperand().toString(builder);
 	}
 
 	@Override

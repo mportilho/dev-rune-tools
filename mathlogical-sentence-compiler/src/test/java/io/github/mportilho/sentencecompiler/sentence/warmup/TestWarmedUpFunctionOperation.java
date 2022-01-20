@@ -105,7 +105,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalBooleanMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedBoolean()");
+        mathSentence = new MathSentence("<bool>f.extractedBoolean()");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();

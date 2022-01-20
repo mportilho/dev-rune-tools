@@ -22,11 +22,11 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.other;
 
+import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.ArrayList;
@@ -42,8 +42,8 @@ public class FunctionOperation extends AbstractOperation {
     public FunctionOperation(String functionName, List<AbstractOperation> parameters, boolean caching) {
         this.functionName = functionName;
         this.parameters = parameters != null ? parameters : Collections.emptyList();
-        this.caching(caching);
-        this.functionKey = FunctionMetadataFactory.keyName(functionName, this.parameters.size());
+        this.setCachingOptions(caching);
+        this.functionKey = functionName;
         for (AbstractOperation parameter : this.parameters) {
             parameter.addParent(this);
         }
@@ -51,9 +51,10 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        OperationFunctionCaller caller = context.getFunction(functionKey);
+        OperationFunctionCaller caller = context.getFunction(functionKey, parameters.size());
         if (caller == null) {
-            throw new IllegalArgumentException(String.format("Function '%s' not found", functionName));
+            throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found",
+                    functionName, parameters.size()));
         }
         return caller.call(parameters.stream().map(p -> p.evaluate(context)).toArray());
     }
@@ -69,16 +70,11 @@ public class FunctionOperation extends AbstractOperation {
     }
 
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
-        if (isCaching()) {
-            builder.append("f.");
-        } else {
-            builder.append("f0.");
-        }
-        builder.append(functionName).append("(");
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(isCaching() ? "f." : "f0.").append(functionName).append("(");
         int index = parameters.size();
         for (AbstractOperation parameter : parameters) {
-            parameter.generateRepresentation(builder);
+            parameter.toString(builder);
             if (--index != 0) {
                 builder.append(", ");
             }

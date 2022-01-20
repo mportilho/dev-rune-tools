@@ -26,6 +26,8 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.util.Objects;
+
 public class VariableValueOperation extends AbstractVariableValueOperation {
 
     public VariableValueOperation(String variableName) {
@@ -41,33 +43,37 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     }
 
     /**
-     * Variable provider disables caching, but users can activate it through the 'value provider context' parameter.
+     * Variable provider disables setCachingOptions, but users can activate it through the 'value provider context' parameter.
      * Note that by doing so, the provider won't be called again unless it gets cleaned by subtree operations.
      */
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
                 new VariableValueProviderContext(context.mathContext(), context.scale(), false);
         Object result = variableProvider.provideValue(valueProviderContext);
-        caching(valueProviderContext.isCaching());
-        return context.formattedConversionService().convert(result, getExpectedType(), null);
+        setCachingOptions(valueProviderContext.isCaching());
+        return result;
     }
 
     private Object resolveVariable(OperationContext context) {
         Object returningValue = context.readDictionary(getVariableName());
-        if (returningValue != null) {
-            returningValue = context.formattedConversionService().convert(returningValue, getExpectedType(), null);
-        } else {
-            returningValue = getValue();
-        }
-        return returningValue;
+        return returningValue == null ? getValue() : returningValue;
     }
 
     @Override
     public boolean shouldResetOperation(OperationContext context) {
         if (isCaching() && getCache() != null) {
-            return !compareValues(getCache(), context.userExecutionContext().getDictionary().get(getVariableName()));
+            return context.userExecutionContext().getDictionary().containsKey(getVariableName())
+                    && !compareValues(getCache(), context.userExecutionContext().getDictionary().get(getVariableName()));
         }
         return super.shouldResetOperation(context);
+    }
+
+    @SuppressWarnings({"unchecked"})
+    protected boolean compareValues(Object value1, Object value2) {
+        if (value1 instanceof Comparable c1 && value2 instanceof Comparable c2) {
+            return c1.compareTo(c2) == 0;
+        }
+        return Objects.equals(value1, value2);
     }
 
     @Override

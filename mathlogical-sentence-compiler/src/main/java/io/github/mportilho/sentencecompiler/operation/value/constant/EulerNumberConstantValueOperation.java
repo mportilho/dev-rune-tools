@@ -38,7 +38,7 @@ public class EulerNumberConstantValueOperation extends AbstractConstantValueOper
 	}
 
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
+	protected void formatRepresentation(StringBuilder builder) {
 		builder.append(getValue());
 	}
 

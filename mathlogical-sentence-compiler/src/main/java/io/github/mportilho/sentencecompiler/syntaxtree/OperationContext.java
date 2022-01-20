@@ -23,6 +23,7 @@ SOFTWARE.*/
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
 
 import java.math.MathContext;
@@ -47,10 +48,14 @@ public record OperationContext(
         return value;
     }
 
-    public OperationFunctionCaller getFunction(String name) {
-        OperationFunctionCaller func = userExecutionContext.getFunctions().get(name);
+    public OperationFunctionCaller getFunction(String name, int parameterCount) {
+        String functionKey = FunctionMetadataFactory.keyName(name, parameterCount);
+        OperationFunctionCaller func = userExecutionContext.getFunctions().get(functionKey);
         if (func == null && userExecutionContext != executionContext) {
-            func = executionContext.getFunctions().get(name);
+            func = executionContext.getFunctions().get(functionKey);
+        }
+        if (func == null && parameterCount >= 0) {
+            func = getFunction(name, -1);
         }
         return func;
     }

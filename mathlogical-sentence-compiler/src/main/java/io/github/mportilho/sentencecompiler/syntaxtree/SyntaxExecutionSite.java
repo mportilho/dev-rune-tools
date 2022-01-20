@@ -80,7 +80,7 @@ public class SyntaxExecutionSite {
         OperationLambdaCaller lambdaCaller = (s, p) -> function.call(
                 new OperationFunctionContext(mathContext, scale, conversionService), p);
         OperationFunctionCaller caller = new OperationFunctionCaller(lambdaCaller, null, conversionService);
-        executionContext.getFunctions().put(name, caller);
+        executionContext.getFunctions().put(FunctionMetadataFactory.keyName(name, -1), caller);
     }
 
     public void addFunctionFromObject(Object functionProvider) {

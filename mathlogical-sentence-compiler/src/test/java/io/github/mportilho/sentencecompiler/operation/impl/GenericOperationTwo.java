@@ -46,7 +46,7 @@ public class GenericOperationTwo extends AbstractOperation {
 	}
 	
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
+	protected void formatRepresentation(StringBuilder builder) {
 		
 	}
 

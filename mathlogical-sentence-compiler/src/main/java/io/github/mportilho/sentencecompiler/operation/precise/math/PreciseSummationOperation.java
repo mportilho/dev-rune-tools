@@ -74,13 +74,13 @@ public class PreciseSummationOperation extends AbstractOperation {
 	}
 
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
+	protected void formatRepresentation(StringBuilder builder) {
 		builder.append("S[");
-		startIndex.generateRepresentation(builder);
+		startIndex.toString(builder);
 		builder.append(',');
-		endIndex.generateRepresentation(builder);
+		endIndex.toString(builder);
 		builder.append("](");
-		operation.generateRepresentation(builder);
+		operation.toString(builder);
 		builder.append(')');
 	}
 

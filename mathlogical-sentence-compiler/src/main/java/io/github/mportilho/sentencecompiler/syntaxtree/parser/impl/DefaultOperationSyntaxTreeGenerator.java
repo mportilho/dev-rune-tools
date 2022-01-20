@@ -66,7 +66,6 @@ import static java.util.Objects.nonNull;
 public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentenceParserGrammarBaseVisitor<AbstractOperation>
         implements OperationSyntaxTreeGenerator {
 
-    //    private final OperationSyntaxTreeContext parserContext;
     private final Map<String, AbstractVariableValueOperation> userVariables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
     private Stack<List<SequenceVariableValueOperation>> sequenceVariableStack;
@@ -93,7 +92,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
             assignedVariables.put(operator.getVariableName(), operator);
         }
         AbstractOperation mathOperation = ctx.mathExpression() != null ? ctx.mathExpression().accept(this) : null;
-        return new BaseOperation(mathOperation, assignedVariables).expectedType(BigDecimal.class);
+        return new BaseOperation(mathOperation, assignedVariables);
     }
 
     @Override
@@ -103,7 +102,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
             assignedVariables.put(operator.getVariableName(), operator);
         }
         AbstractOperation logicalOperation = ctx.logicalExpression() != null ? ctx.logicalExpression().accept(this) : null;
-        return new BaseOperation(logicalOperation, assignedVariables).expectedType(Boolean.class);
+        return new BaseOperation(logicalOperation, assignedVariables);
     }
 
     @Override

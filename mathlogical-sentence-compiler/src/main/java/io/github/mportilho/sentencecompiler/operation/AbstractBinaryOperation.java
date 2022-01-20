@@ -37,10 +37,10 @@ public abstract class AbstractBinaryOperation extends AbstractOperation {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
-		getLeftOperand().generateRepresentation(builder);
+	public void formatRepresentation(StringBuilder builder) {
+		getLeftOperand().toString(builder);
 		builder.append(' ').append(getOperationToken()).append(' ');
-		getRightOperand().generateRepresentation(builder);
+		getRightOperand().toString(builder);
 	}
 
 	@Override

@@ -71,11 +71,11 @@ public class PreciseNumberRoundingOperation extends AbstractBinaryOperation {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
+	public void formatRepresentation(StringBuilder builder) {
 		builder.append(getOperationToken()).append('(');
-		getLeftOperand().generateRepresentation(builder);
+		getLeftOperand().toString(builder);
 		builder.append(", ");
-		getRightOperand().generateRepresentation(builder);
+		getRightOperand().toString(builder);
 		builder.append(')');
 	}
 

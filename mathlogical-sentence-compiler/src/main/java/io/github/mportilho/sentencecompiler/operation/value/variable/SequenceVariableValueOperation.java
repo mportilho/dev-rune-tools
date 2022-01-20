@@ -58,7 +58,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
     }
 
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
+    protected void formatRepresentation(StringBuilder builder) {
         builder.append(getVariableName());
     }
 

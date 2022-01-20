@@ -55,7 +55,7 @@ public class GenericValueOperation extends AbstractOperation {
 	}
 
 	@Override
-	protected void composeTextualRepresentation(StringBuilder builder) {
+	protected void formatRepresentation(StringBuilder builder) {
 
 	}
 

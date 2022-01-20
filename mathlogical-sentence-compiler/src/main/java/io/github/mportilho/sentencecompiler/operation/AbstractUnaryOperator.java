@@ -42,24 +42,24 @@ public abstract class AbstractUnaryOperator extends AbstractOperation {
 	}
 
 	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
+	public void formatRepresentation(StringBuilder builder) {
 		switch (operatorPosition) {
 		case FUNCTION:
 			builder.append(getOperationToken()).append('(');
-			getOperand().generateRepresentation(builder);
+			getOperand().toString(builder);
 			builder.append(')');
 			break;
 		case LEFT:
 			builder.append(getOperationToken());
-			getOperand().generateRepresentation(builder);
+			getOperand().toString(builder);
 			break;
 		case RIGHT:
-			getOperand().generateRepresentation(builder);
+			getOperand().toString(builder);
 			builder.append(getOperationToken());
 			break;
 		case WRAPPED:
 			builder.append(getOperationToken());
-			getOperand().generateRepresentation(builder);
+			getOperand().toString(builder);
 			builder.append(getOperationToken());
 			break;
 		default:

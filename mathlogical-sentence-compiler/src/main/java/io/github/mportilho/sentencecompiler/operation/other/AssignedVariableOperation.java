@@ -50,7 +50,7 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
     }
 
     @Override
-    protected void composeTextualRepresentation(StringBuilder builder) {
+    protected void formatRepresentation(StringBuilder builder) {
         builder.append(getCache() != null ? getCache() : getVariableName());
     }
 

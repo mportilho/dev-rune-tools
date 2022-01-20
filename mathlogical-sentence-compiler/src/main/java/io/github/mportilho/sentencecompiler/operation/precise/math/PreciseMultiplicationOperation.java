@@ -22,68 +22,72 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.precise.math;
 
-import java.math.BigDecimal;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+
+import java.math.BigDecimal;
 
 public class PreciseMultiplicationOperation extends AbstractBinaryOperation {
 
-	private boolean implicit = false;
+    private boolean implicit = false;
 
-	public PreciseMultiplicationOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public PreciseMultiplicationOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	public PreciseMultiplicationOperation(AbstractOperation leftOperand, AbstractOperation rightOperand, boolean implicit) {
-		super(leftOperand, rightOperand);
-		this.implicit = implicit;
-	}
+    public PreciseMultiplicationOperation(
+            AbstractOperation leftOperand, AbstractOperation rightOperand, boolean implicit) {
+        super(leftOperand, rightOperand);
+        this.implicit = implicit;
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		PreciseMultiplicationOperation operation = new PreciseMultiplicationOperation(getLeftOperand().copy(context),
-				getRightOperand().copy(context));
-		operation.implicit = this.implicit;
-		return operation;
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        PreciseMultiplicationOperation operation = new PreciseMultiplicationOperation(getLeftOperand().copy(context),
+                getRightOperand().copy(context));
+        operation.implicit = this.implicit;
+        return operation;
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<BigDecimal>evaluate(context).multiply(getRightOperand().evaluate(context), context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<BigDecimal>evaluate(context).multiply(getRightOperand().evaluate(context), context.mathContext());
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "*";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "*";
+    }
 
-	public boolean isImplicit() {
-		return implicit;
-	}
+    public boolean isImplicit() {
+        return implicit;
+    }
 
-	@Override
-	public void composeTextualRepresentation(StringBuilder builder) {
-		if (implicit) {
-			boolean isVariableWithCache = AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
-					&& getRightOperand().getCache() != null;
-			boolean isOperationNotApplyingParenthesis = !AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
-					&& !getRightOperand().isApplyingParenthesis();
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        if (implicit) {
+            boolean isVariableWithCache =
+                    AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
+                            && getRightOperand().getCache() != null;
+            boolean isRightOperationNotApplyingParenthesis =
+                    !AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
+                            && !getRightOperand().isApplyingParenthesis();
+            boolean applyParenthesis = isVariableWithCache || isRightOperationNotApplyingParenthesis;
 
-			getLeftOperand().generateRepresentation(builder);
-			if (isVariableWithCache || isOperationNotApplyingParenthesis) {
-				builder.append('(');
-			}
-			getRightOperand().generateRepresentation(builder);
-			if (isVariableWithCache || isOperationNotApplyingParenthesis) {
-				builder.append(')');
-			}
-		} else {
-			super.composeTextualRepresentation(builder);
-		}
-	}
+            getLeftOperand().toString(builder);
+            if (applyParenthesis) {
+                builder.append('(');
+            }
+            getRightOperand().toString(builder);
+            if (applyParenthesis) {
+                builder.append(')');
+            }
+        } else {
+            super.formatRepresentation(builder);
+        }
+    }
 
 }

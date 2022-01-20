@@ -201,7 +201,7 @@ public abstract class AbstractOperation {
         parents.add(operation);
     }
 
-    protected void setCachingOptions(boolean enable) {
+    public void setCachingOptions(boolean enable) {
         if (enable) {
             enableCaching(this);
         } else {
@@ -211,11 +211,11 @@ public abstract class AbstractOperation {
 
     private void enableCaching(AbstractOperation semaphore) {
         if (this.cacheBlockingSemaphores == null) {
-            this.cacheBlockingSemaphores = new HashSet<>(3);
+            return;
         }
         if (this.cacheBlockingSemaphores.remove(semaphore)) {
             for (AbstractOperation parent : getParents()) {
-                parent.disableCaching(semaphore);
+                parent.enableCaching(semaphore);
             }
         }
     }
@@ -227,9 +227,13 @@ public abstract class AbstractOperation {
         this.cache = null;
         if (this.cacheBlockingSemaphores.add(semaphore)) {
             for (AbstractOperation parent : getParents()) {
-                parent.enableCaching(semaphore);
+                parent.disableCaching(semaphore);
             }
         }
+    }
+
+    public boolean isDisablingCache() {
+        return this.cacheBlockingSemaphores != null && this.cacheBlockingSemaphores.contains(this);
     }
 
     protected boolean isCaching() {
@@ -240,16 +244,11 @@ public abstract class AbstractOperation {
         clearCache(null);
     }
 
-    protected final void clearCache(Set<Class<? extends AbstractOperation>> stopOnOperationTypes) {
-        if (!isCaching() || this.cache == null) {
-            return;
-        }
+    protected final void clearCache(Set<Class<? extends AbstractOperation>> limitingOperationTypesMap) {
         this.cache = null;
-        if (parents != null) {
-            for (AbstractOperation currParent : parents) {
-                if (currParent.cache != null && (stopOnOperationTypes == null || !stopOnOperationTypes.contains(getClass()))) {
-                    currParent.clearCache(stopOnOperationTypes);
-                }
+        for (AbstractOperation currParent : getParents()) {
+            if (limitingOperationTypesMap == null || !limitingOperationTypesMap.contains(getClass())) {
+                currParent.clearCache(limitingOperationTypesMap);
             }
         }
     }

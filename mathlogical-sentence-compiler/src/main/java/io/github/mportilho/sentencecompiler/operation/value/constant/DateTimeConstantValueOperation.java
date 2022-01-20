@@ -31,29 +31,17 @@ import java.time.format.DateTimeFormatter;
 
 public class DateTimeConstantValueOperation extends AbstractConstantValueOperation {
 
-    private boolean current;
-
     public DateTimeConstantValueOperation(String value) {
         super(value);
     }
 
-    public DateTimeConstantValueOperation() {
-        super("currDateTime");
-        this.current = true;
-    }
-
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        DateTimeConstantValueOperation operation = new DateTimeConstantValueOperation(getValue());
-        operation.current = this.current;
-        return operation;
+        return new DateTimeConstantValueOperation(getValue());
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        if (current) {
-            return context.currentDateTime();
-        }
         return DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(getValue(), LocalDateTime::from);
     }
 

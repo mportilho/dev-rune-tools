@@ -22,6 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
+import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -45,11 +46,11 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         setValue(newValue, null);
     }
 
-    public void setValue(Object newValue, Set<Class<? extends AbstractOperation>> stopOnOperationTypes) {
+    public void setValue(Object newValue, Set<Class<? extends AbstractOperation>> limitingOperationTypesMap) {
         if (newValue == null) {
-            throw new IllegalArgumentException(String.format("Variable [%s] was provided with a null value", variableName));
+            throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));
         }
-        clearCache(stopOnOperationTypes);
+        clearCache(limitingOperationTypesMap);
         this.value = newValue;
     }
 

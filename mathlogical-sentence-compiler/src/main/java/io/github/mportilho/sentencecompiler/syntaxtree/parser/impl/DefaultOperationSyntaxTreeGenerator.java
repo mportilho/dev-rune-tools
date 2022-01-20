@@ -22,6 +22,7 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 
+import io.github.mportilho.sentencecompiler.exceptions.SyntaxParsingException;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarBaseVisitor;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.*;
@@ -41,6 +42,7 @@ import io.github.mportilho.sentencecompiler.operation.precise.math.logarithm.Nat
 import io.github.mportilho.sentencecompiler.operation.precise.math.trigonometry.*;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.InternallyMutableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
@@ -77,7 +79,10 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public SyntaxTreeData createOperationSyntaxTree(StartContext startContext) {
-        return new SyntaxTreeData(visit(startContext), userVariables, assignedVariables);
+        AbstractOperation abstractOperation = visit(startContext);
+
+
+        return new SyntaxTreeData(abstractOperation, userVariables, assignedVariables);
     }
 
     @Override
@@ -628,7 +633,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitLogicalVariable(LogicalVariableContext ctx) {
-        return createNewVariable(ctx).expectedType(Boolean.class);
+        return createNewUserVariable(ctx).expectedType(Boolean.class);
     }
 
     @Override
@@ -688,9 +693,9 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     @Override
     public AbstractOperation visitNumericVariable(NumericVariableContext ctx) {
         if (nonNull(ctx.IDENTIFIER())) {
-            return createNewVariable(ctx).expectedType(BigDecimal.class);
+            return createNewUserVariable(ctx).expectedType(BigDecimal.class);
         } else if (nonNull(ctx.NEGATIVE_IDENTIFIER())) {
-            return new PreciseNegativeOperation(createNewVariable(ctx,
+            return new PreciseNegativeOperation(createNewUserVariable(ctx,
                     name -> new VariableValueOperation(name).expectedType(BigDecimal.class),
                     () -> ctx.getText().substring(1)));
         }
@@ -723,7 +728,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitStringVariable(StringVariableContext ctx) {
-        return createNewVariable(ctx).expectedType(String.class);
+        return createNewUserVariable(ctx).expectedType(String.class);
     }
 
     @Override
@@ -747,12 +752,13 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateCurrentValue(DateCurrentValueContext ctx) {
-        return new DateConstantValueOperation().expectedType(LocalDate.class);
+        return new InternallyMutableValueOperation("currDate",
+                (op, context) -> context.currentDateTime().toLocalDate()).expectedType(LocalDate.class);
     }
 
     @Override
     public AbstractOperation visitDateVariable(DateVariableContext ctx) {
-        return createNewVariable(ctx).expectedType(LocalDate.class);
+        return createNewUserVariable(ctx).expectedType(LocalDate.class);
     }
 
     @Override
@@ -781,12 +787,13 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitTimeCurrentValue(TimeCurrentValueContext ctx) {
-        return new TimeConstantValueOperation().expectedType(LocalTime.class);
+        return new InternallyMutableValueOperation("currTime",
+                (op, context) -> context.currentDateTime().toLocalTime()).expectedType(LocalTime.class);
     }
 
     @Override
     public AbstractOperation visitTimeVariable(TimeVariableContext ctx) {
-        return createNewVariable(ctx).expectedType(LocalTime.class);
+        return createNewUserVariable(ctx).expectedType(LocalTime.class);
     }
 
     @Override
@@ -815,12 +822,13 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateTimeCurrentValue(DateTimeCurrentValueContext ctx) {
-        return new DateTimeConstantValueOperation().expectedType(LocalDateTime.class);
+        return new InternallyMutableValueOperation("currDateTime",
+                (op, context) -> context.currentDateTime()).expectedType(LocalDateTime.class);
     }
 
     @Override
     public AbstractOperation visitDateTimeVariable(DateTimeVariableContext ctx) {
-        return createNewVariable(ctx).expectedType(LocalDateTime.class);
+        return createNewUserVariable(ctx).expectedType(LocalDateTime.class);
     }
 
     @Override
@@ -828,11 +836,11 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         return ctx.function().accept(this).expectedType(LocalDateTime.class);
     }
 
-    private AbstractOperation createNewVariable(ParserRuleContext context) {
-        return createNewVariable(context, VariableValueOperation::new, null);
+    private AbstractOperation createNewUserVariable(ParserRuleContext context) {
+        return createNewUserVariable(context, VariableValueOperation::new, null);
     }
 
-    private AbstractOperation createNewVariable(
+    private AbstractOperation createNewUserVariable(
             ParserRuleContext context, Function<String, AbstractVariableValueOperation> supplier,
             Supplier<String> nameSupplier) {
         String name;
@@ -847,16 +855,16 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         }
 
         boolean containsAssignedVariable = assignedVariables.containsKey(name);
-        boolean containsVariable = userVariables.containsKey(name);
-        if (containsAssignedVariable && containsVariable) {
-            throw new IllegalStateException(String.format("Duplicate variables named '%s' on current sentence", name));
+        if (containsAssignedVariable && userVariables.containsKey(name)) {
+            throw new SyntaxParsingException(
+                    String.format("Duplicate variable name [%s] found between assigned and user variables", name));
         }
 
         if (containsAssignedVariable) {
             AssignedVariableOperation valueOperation = assignedVariables.get(name);
             if (valueOperation == null) {
-                throw new IllegalStateException(
-                        String.format("Assigned variable '%s' is not declared before the operation '%s'", name, context.getParent().getText()));
+                throw new SyntaxParsingException(String.format(
+                        "Assigned variable [%s] not declared before requiring operation [%s]", name, context.getParent().getText()));
             }
             return valueOperation;
         } else {

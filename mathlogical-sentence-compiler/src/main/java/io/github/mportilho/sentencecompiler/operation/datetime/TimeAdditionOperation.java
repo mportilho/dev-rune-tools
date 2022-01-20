@@ -22,42 +22,39 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import java.time.LocalTime;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalTime;
+
 public class TimeAdditionOperation extends AbstractDateTimeOperation {
 
-	public TimeAdditionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
-		super(leftOperand, rightOperand, dateElement);
-	}
+    public TimeAdditionOperation(
+            AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
+        super(leftOperand, rightOperand, dateElement);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		LocalTime leftResult = getLeftOperand().evaluate(context);
-		Number rightResult = getRightOperand().evaluate(context);
-		switch (getDateElement()) {
-		case HOUR:
-			return leftResult.plusHours(rightResult.longValue());
-		case MINUTE:
-			return leftResult.plusMinutes(rightResult.longValue());
-		case SECOND:
-			return leftResult.plusSeconds(rightResult.longValue());
-		default:
-			throw new IllegalStateException("Date information not supported: " + getDateElement());
-		}
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        LocalTime leftResult = getLeftOperand().evaluate(context);
+        Number rightResult = getRightOperand().evaluate(context);
+        return switch (getDateElement()) {
+            case SECOND -> leftResult.plusSeconds(rightResult.longValue());
+            case MINUTE -> leftResult.plusMinutes(rightResult.longValue());
+            case HOUR -> leftResult.plusHours(rightResult.longValue());
+            default -> throw new IllegalStateException("Date information not supported: " + getDateElement());
+        };
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new TimeAdditionOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new TimeAdditionOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "plus";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "plus";
+    }
 
 }

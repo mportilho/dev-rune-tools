@@ -93,10 +93,6 @@ public class SyntaxExecutionSite {
         }
     }
 
-    public FormattedConversionService getConversionService() {
-        return conversionService;
-    }
-
     public SyntaxExecutionSite copy() {
         CloningContext cloningCtx = new CloningContext();
         AbstractOperation copy = operation.copy(cloningCtx);

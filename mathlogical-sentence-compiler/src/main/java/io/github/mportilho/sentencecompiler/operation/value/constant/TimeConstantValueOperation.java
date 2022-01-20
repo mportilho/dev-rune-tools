@@ -22,39 +22,27 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class TimeConstantValueOperation extends AbstractConstantValueOperation {
 
-	private boolean current;
+    public TimeConstantValueOperation(String value) {
+        super(value);
+    }
 
-	public TimeConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return DateTimeFormatter.ISO_LOCAL_TIME.parse(getValue(), LocalTime::from);
+    }
 
-	public TimeConstantValueOperation() {
-		super("currTime");
-		this.current = true;
-	}
-
-	@Override
-	protected Object resolve(OperationContext context) {
-		if (current) {
-			return context.currentDateTime().toLocalTime();
-		}
-		return DateTimeFormatter.ISO_LOCAL_TIME.parse(getValue(), LocalTime::from);
-	}
-
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		TimeConstantValueOperation operation = new TimeConstantValueOperation(getValue());
-		operation.current = this.current;
-		return operation;
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new TimeConstantValueOperation(getValue());
+    }
 
 }

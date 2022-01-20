@@ -22,48 +22,41 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import java.time.LocalDateTime;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalDateTime;
+
 public class DateTimeSubtractionOperation extends AbstractDateTimeOperation {
 
-	public DateTimeSubtractionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
-		super(leftOperand, rightOperand, dateElement);
-	}
+    public DateTimeSubtractionOperation(
+            AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
+        super(leftOperand, rightOperand, dateElement);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		LocalDateTime leftResult = getLeftOperand().evaluate(context);
-		Number rightResult = getRightOperand().evaluate(context);
-		switch (getDateElement()) {
-		case DAY:
-			return leftResult.minusDays(rightResult.longValue());
-		case HOUR:
-			return leftResult.minusHours(rightResult.longValue());
-		case MINUTE:
-			return leftResult.minusMinutes(rightResult.longValue());
-		case MONTH:
-			return leftResult.minusMonths(rightResult.longValue());
-		case SECOND:
-			return leftResult.minusSeconds(rightResult.longValue());
-		case YEAR:
-			return leftResult.minusYears(rightResult.longValue());
-		default:
-			throw new IllegalStateException("Date information not supported: " + getDateElement());
-		}
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        LocalDateTime leftResult = getLeftOperand().evaluate(context);
+        Number rightResult = getRightOperand().evaluate(context);
+        return switch (getDateElement()) {
+            case SECOND -> leftResult.minusSeconds(rightResult.longValue());
+            case MINUTE -> leftResult.minusMinutes(rightResult.longValue());
+            case HOUR -> leftResult.minusHours(rightResult.longValue());
+            case DAY -> leftResult.minusDays(rightResult.longValue());
+            case MONTH -> leftResult.minusMonths(rightResult.longValue());
+            case YEAR -> leftResult.minusYears(rightResult.longValue());
+        };
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new DateTimeSubtractionOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new DateTimeSubtractionOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "minus";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "minus";
+    }
 
 }

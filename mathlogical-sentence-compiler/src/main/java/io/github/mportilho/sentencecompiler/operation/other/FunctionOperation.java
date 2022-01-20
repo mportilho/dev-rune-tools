@@ -69,6 +69,9 @@ public class FunctionOperation extends AbstractOperation {
         return new FunctionOperation(functionName, newOperationList, isCaching());
     }
 
+    /**
+     * Caching representation ([f.] and [f0.]) can dynamically change
+     */
     @Override
     protected void formatRepresentation(StringBuilder builder) {
         builder.append(isCaching() ? "f." : "f0.").append(functionName).append("(");

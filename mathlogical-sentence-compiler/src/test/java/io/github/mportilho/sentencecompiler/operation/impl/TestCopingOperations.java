@@ -126,20 +126,23 @@ public class TestCopingOperations {
         AbstractDateTimeOperation operation;
         AbstractDateTimeOperation copyOperation;
 
-        operation = new DateAdditionOperation(new DateConstantValueOperation(), new PreciseNumberConstantValueOperation("2"), DateElementEnum.DAY);
+        operation = new DateAdditionOperation(new DateConstantValueOperation(LocalDate.now().toString()),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.DAY);
         copyOperation = (AbstractDateTimeOperation) operation.copy(new CloningContext());
         assertThat(operation.<LocalDate>evaluate(context)).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
         assertThat(copyOperation).isNotEqualTo(operation);
         assertThat(copyOperation.<LocalDate>evaluate(context)).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
 
-        operation = new DateTimeAdditionOperation(new DateTimeConstantValueOperation(), new PreciseNumberConstantValueOperation("2"),
+        operation = new DateTimeAdditionOperation(new DateTimeConstantValueOperation(LocalDateTime.now().toString()),
+                new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         copyOperation = (AbstractDateTimeOperation) operation.copy(new CloningContext());
         assertThat(operation.<LocalDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
         assertThat(copyOperation).isNotEqualTo(operation);
         assertThat(copyOperation.<LocalDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
 
-        operation = new TimeAdditionOperation(new TimeConstantValueOperation(), new PreciseNumberConstantValueOperation("2"), DateElementEnum.MINUTE);
+        operation = new TimeAdditionOperation(new TimeConstantValueOperation(LocalTime.now().toString()),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.MINUTE);
         copyOperation = (AbstractDateTimeOperation) operation.copy(new CloningContext());
         assertThat(operation.<LocalTime>evaluate(context).getMinute()).isNotNull().isEqualTo(LocalTime.now().plusMinutes(2).getMinute());
         assertThat(copyOperation).isNotEqualTo(operation);

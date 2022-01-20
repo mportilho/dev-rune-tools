@@ -23,6 +23,7 @@ SOFTWARE.*/
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,8 @@ public class TestVariableValueOperations {
 
     @Test
     public void testNullVariableValue() {
-        assertThatThrownBy(() -> new VariableValueOperation("a").setValue(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new VariableValueOperation("a").setValue(null))
+                .isInstanceOf(SentenceConfigurationException.class);
     }
 
     @Test

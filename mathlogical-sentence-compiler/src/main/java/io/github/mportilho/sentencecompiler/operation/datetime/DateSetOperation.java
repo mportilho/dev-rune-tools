@@ -22,42 +22,39 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import java.time.LocalDate;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalDate;
+
 public class DateSetOperation extends AbstractDateTimeOperation {
 
-	public DateSetOperation(AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
-		super(leftOperand, rightOperand, dateElement);
-	}
+    public DateSetOperation(
+            AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
+        super(leftOperand, rightOperand, dateElement);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		LocalDate leftResult = getLeftOperand().evaluate(context);
-		Number rightResult = getRightOperand().evaluate(context);
-		switch (getDateElement()) {
-		case DAY:
-			return leftResult.withDayOfMonth(rightResult.intValue());
-		case MONTH:
-			return leftResult.withMonth(rightResult.intValue());
-		case YEAR:
-			return leftResult.withYear(rightResult.intValue());
-		default:
-			throw new IllegalStateException("Date information not supported: " + getDateElement());
-		}
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        LocalDate leftResult = getLeftOperand().evaluate(context);
+        Number rightResult = getRightOperand().evaluate(context);
+        return switch (getDateElement()) {
+            case DAY -> leftResult.withDayOfMonth(rightResult.intValue());
+            case MONTH -> leftResult.withMonth(rightResult.intValue());
+            case YEAR -> leftResult.withYear(rightResult.intValue());
+            default -> throw new IllegalStateException("Date information not supported: " + getDateElement());
+        };
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new DateSetOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new DateSetOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "set";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "set";
+    }
 
 }

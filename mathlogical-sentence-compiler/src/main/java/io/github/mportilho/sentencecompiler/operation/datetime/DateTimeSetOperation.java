@@ -22,48 +22,41 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import java.time.LocalDateTime;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalDateTime;
+
 public class DateTimeSetOperation extends AbstractDateTimeOperation {
 
-	public DateTimeSetOperation(AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
-		super(leftOperand, rightOperand, dateElement);
-	}
+    public DateTimeSetOperation(
+            AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
+        super(leftOperand, rightOperand, dateElement);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		LocalDateTime leftResult = getLeftOperand().evaluate(context);
-		Number rightResult = getRightOperand().evaluate(context);
-		switch (getDateElement()) {
-		case DAY:
-			return leftResult.withDayOfMonth(rightResult.intValue());
-		case HOUR:
-			return leftResult.withHour(rightResult.intValue());
-		case MINUTE:
-			return leftResult.withMinute(rightResult.intValue());
-		case MONTH:
-			return leftResult.withMonth(rightResult.intValue());
-		case SECOND:
-			return leftResult.withSecond(rightResult.intValue());
-		case YEAR:
-			return leftResult.withYear(rightResult.intValue());
-		default:
-			throw new IllegalStateException("Date information not supported: " + getDateElement());
-		}
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        LocalDateTime leftResult = getLeftOperand().evaluate(context);
+        Number rightResult = getRightOperand().evaluate(context);
+        return switch (getDateElement()) {
+            case SECOND -> leftResult.withSecond(rightResult.intValue());
+            case MINUTE -> leftResult.withMinute(rightResult.intValue());
+            case HOUR -> leftResult.withHour(rightResult.intValue());
+            case DAY -> leftResult.withDayOfMonth(rightResult.intValue());
+            case MONTH -> leftResult.withMonth(rightResult.intValue());
+            case YEAR -> leftResult.withYear(rightResult.intValue());
+        };
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new DateTimeSetOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new DateTimeSetOperation(getLeftOperand().copy(context), getRightOperand().copy(context), getDateElement());
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "set";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "set";
+    }
 
 }

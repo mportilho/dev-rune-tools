@@ -22,39 +22,27 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class DateConstantValueOperation extends AbstractConstantValueOperation {
 
-	private boolean current;
+    public DateConstantValueOperation(String value) {
+        super(value);
+    }
 
-	public DateConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return DateTimeFormatter.ISO_LOCAL_DATE.parse(getValue(), LocalDate::from);
+    }
 
-	public DateConstantValueOperation() {
-		super("currDate");
-		this.current = true;
-	}
-
-	@Override
-	protected Object resolve(OperationContext context) {
-		if (current) {
-			return context.currentDateTime().toLocalDate();
-		}
-		return DateTimeFormatter.ISO_LOCAL_DATE.parse(getValue(), LocalDate::from);
-	}
-
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		DateConstantValueOperation operation = new DateConstantValueOperation(getValue());
-		operation.current = this.current;
-		return operation;
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new DateConstantValueOperation(getValue());
+    }
 
 }

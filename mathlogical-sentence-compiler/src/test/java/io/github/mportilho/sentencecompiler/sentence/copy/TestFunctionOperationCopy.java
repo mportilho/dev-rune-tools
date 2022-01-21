@@ -15,7 +15,7 @@ public class TestFunctionOperationCopy {
     public void testFunctionOperationsWithExternalDateMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedDate() = currDate");
+        mathSentence = new MathSentence("$.extractedDate() = currDate");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         MathSentence mathSentenceCopy1 = mathSentence.copy();
         assertThat(mathSentence.<Boolean>compute()).isTrue();
@@ -26,7 +26,7 @@ public class TestFunctionOperationCopy {
     public void testFunctionOperationsWithExternalTimeMethods_NoCache() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f0.extractedTime() = 02:03:00");
+        mathSentence = new MathSentence("extractedTime() = 02:03:00");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         MathSentence mathSentenceCopy1 = mathSentence.copy();
         assertThat(mathSentence.<Boolean>compute()).isTrue();
@@ -37,7 +37,7 @@ public class TestFunctionOperationCopy {
     public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
+        mathSentence = new MathSentence("$.add(3, 4 + 2 - $.extractedNumber())");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         MathSentence mathSentenceCopy1 = mathSentence.copy();
         assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));

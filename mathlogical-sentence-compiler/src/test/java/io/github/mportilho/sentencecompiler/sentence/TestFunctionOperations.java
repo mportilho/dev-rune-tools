@@ -61,7 +61,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalNumberMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedNumber() + 2");
+        mathSentence = new MathSentence("$.extractedNumber() + 2");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo("3");
     }
@@ -70,7 +70,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalStringMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedString() = 'food'");
+        mathSentence = new MathSentence("$.extractedString() = 'food'");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isTrue();
     }
@@ -79,7 +79,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalDateMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedDate() = currDate");
+        mathSentence = new MathSentence("$.extractedDate() = currDate");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isTrue();
     }
@@ -88,7 +88,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalTimeMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedTime() = 02:03:00");
+        mathSentence = new MathSentence("$.extractedTime() = 02:03:00");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isTrue();
     }
@@ -97,7 +97,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalDateTimeMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
+        mathSentence = new MathSentence("$.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isFalse();
     }
@@ -106,7 +106,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithExternalBooleanMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.extractedBoolean()");
+        mathSentence = new MathSentence("$.extractedBoolean()");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isTrue();
     }
@@ -115,7 +115,7 @@ public class TestFunctionOperations {
     public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("f.add(3, 4 + 2 - f.extractedNumber())");
+        mathSentence = new MathSentence("$.add(3, 4 + 2 - $.extractedNumber())");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));
     }

@@ -108,13 +108,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitLogicalParenthesis(MathematicalSentenceParserGrammarParser.LogicalParenthesisContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code inverseHyperbolicSineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code sequenceExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -122,19 +115,12 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code hyperbolicSineExpression}
+	 * Visit a parse tree produced by the {@code trigonometryExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code inverseHyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
+	T visitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code modulusExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -149,62 +135,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitMathParenthesis(MathematicalSentenceParserGrammarParser.MathParenthesisContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code tangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arctangent2Expression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code squareRootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code rootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code numberValue}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code hyperbolicTangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code hyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code multiplicationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -227,12 +157,26 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitNegateMathParenthesis(MathematicalSentenceParserGrammarParser.NegateMathParenthesisContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code squareRootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code percentExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPercentExpression(MathematicalSentenceParserGrammarParser.PercentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code rootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code logarithmExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -241,27 +185,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code sineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code cosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arctangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code sumExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -269,12 +192,12 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * Visit a parse tree produced by the {@code roundingExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
+	T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code degreeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -283,6 +206,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code exponentiationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -290,19 +220,96 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code sineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code cosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code tangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arcsineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code arccosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArccosineExpression(MathematicalSentenceParserGrammarParser.ArccosineExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arcsineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * Visit a parse tree produced by the {@code arctangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx);
+	T visitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arctangent2Expression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code hyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code hyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code hyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code inverseHyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code inverseHyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code fixedLogarithm}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logarithmFunction}.

@@ -186,18 +186,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -210,25 +198,13 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx) { }
+	@Override public void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx) { }
+	@Override public void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -253,102 +229,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMathParenthesis(MathematicalSentenceParserGrammarParser.MathParenthesisContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -390,6 +270,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPercentExpression(MathematicalSentenceParserGrammarParser.PercentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -402,6 +294,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -409,6 +313,66 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -438,61 +402,25 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx) { }
+	@Override public void enterTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx) { }
+	@Override public void exitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
+	@Override public void enterArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { }
+	@Override public void exitArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -510,13 +438,97 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx) { }
+	@Override public void enterArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx) { }
+	@Override public void exitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

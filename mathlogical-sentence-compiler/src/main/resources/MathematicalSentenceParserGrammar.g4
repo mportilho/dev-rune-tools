@@ -267,7 +267,12 @@ mathExpression
   | roundingFunction # roundingExpression
   | sequenceFunction # sequenceExpression
   | mathExpression DEGREE # degreeExpression
-  | SINE LPAREN mathExpression RPAREN #sineExpression
+  | trigonometryFunction # trigonometryExpression
+  | numericEntity # numberValue
+  ;
+
+trigonometryFunction
+  : SINE LPAREN mathExpression RPAREN #sineExpression
   | COSINE LPAREN mathExpression RPAREN #cosineExpression
   | TANGENT LPAREN mathExpression RPAREN #tangentExpression
   | ARCSINE LPAREN mathExpression RPAREN #arcsineExpression
@@ -280,8 +285,8 @@ mathExpression
   | INVERSE_HYPERBOLIC_SINE LPAREN mathExpression RPAREN #inverseHyperbolicSineExpression
   | INVERSE_HYPERBOLIC_COSINE LPAREN mathExpression RPAREN #inverseHyperbolicCosineExpression
   | INVERSE_HYPERBOLIC_TANGENT LPAREN mathExpression RPAREN #inverseHyperbolicTangentExpression
-  | numericEntity # numberValue
   ;
+
 
 logarithmFunction
   : (BINARY_LOGARITHM | NATURAL_LOGARITHM | COMMOM_LOGARITHM) LPAREN mathExpression RPAREN #fixedLogarithm

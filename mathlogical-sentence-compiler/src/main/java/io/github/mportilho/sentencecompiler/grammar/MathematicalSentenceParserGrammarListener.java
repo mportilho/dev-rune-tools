@@ -172,18 +172,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitLogicalParenthesis(MathematicalSentenceParserGrammarParser.LogicalParenthesisContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code inverseHyperbolicSineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code inverseHyperbolicSineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code sequenceExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -196,29 +184,17 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code hyperbolicSineExpression}
+	 * Enter a parse tree produced by the {@code trigonometryExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
+	void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code hyperbolicSineExpression}
+	 * Exit a parse tree produced by the {@code trigonometryExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code inverseHyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code inverseHyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
+	void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code modulusExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -243,102 +219,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitMathParenthesis(MathematicalSentenceParserGrammarParser.MathParenthesisContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code tangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code tangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arctangent2Expression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arctangent2Expression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code squareRootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code squareRootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code rootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code rootExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code numberValue}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code numberValue}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code hyperbolicTangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code hyperbolicTangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code hyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code hyperbolicCosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code multiplicationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -376,6 +256,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitNegateMathParenthesis(MathematicalSentenceParserGrammarParser.NegateMathParenthesisContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code squareRootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code squareRootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitSquareRootExpression(MathematicalSentenceParserGrammarParser.SquareRootExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code percentExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -387,6 +279,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitPercentExpression(MathematicalSentenceParserGrammarParser.PercentExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rootExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code logarithmExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -400,42 +304,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code sineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code sineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code cosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code cosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code arctangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code arctangentExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code sumExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -448,17 +316,17 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * Enter a parse tree produced by the {@code roundingExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
+	void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * Exit a parse tree produced by the {@code roundingExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
+	void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code degreeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -472,6 +340,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitDegreeExpression(MathematicalSentenceParserGrammarParser.DegreeExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code numberValue}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNumberValue(MathematicalSentenceParserGrammarParser.NumberValueContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code exponentiationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -484,29 +364,161 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code arccosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * Enter a parse tree produced by the {@code sineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 */
-	void enterArccosineExpression(MathematicalSentenceParserGrammarParser.ArccosineExpressionContext ctx);
+	void enterSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code arccosineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * Exit a parse tree produced by the {@code sineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 */
-	void exitArccosineExpression(MathematicalSentenceParserGrammarParser.ArccosineExpressionContext ctx);
+	void exitSineExpression(MathematicalSentenceParserGrammarParser.SineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code cosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code cosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitCosineExpression(MathematicalSentenceParserGrammarParser.CosineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code tangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code tangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitTangentExpression(MathematicalSentenceParserGrammarParser.TangentExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code arcsineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 */
 	void enterArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code arcsineExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
 	 * @param ctx the parse tree
 	 */
 	void exitArcsineExpression(MathematicalSentenceParserGrammarParser.ArcsineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arccosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterArccosineExpression(MathematicalSentenceParserGrammarParser.ArccosineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arccosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitArccosineExpression(MathematicalSentenceParserGrammarParser.ArccosineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arctangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arctangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitArctangentExpression(MathematicalSentenceParserGrammarParser.ArctangentExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arctangent2Expression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arctangent2Expression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitArctangent2Expression(MathematicalSentenceParserGrammarParser.Arctangent2ExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code hyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code hyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.HyperbolicSineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code hyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code hyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code hyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code hyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.HyperbolicTangentExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code inverseHyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code inverseHyperbolicSineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitInverseHyperbolicSineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicSineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code inverseHyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code inverseHyperbolicCosineExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitInverseHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicCosineExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code inverseHyperbolicTangentExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitInverseHyperbolicTangentExpression(MathematicalSentenceParserGrammarParser.InverseHyperbolicTangentExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code fixedLogarithm}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logarithmFunction}.

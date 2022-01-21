@@ -117,20 +117,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitModulusExpression(MathematicalSentenceParserGrammarParser.ModulusExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -146,6 +132,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMultiplicationExpression(MathematicalSentenceParserGrammarParser.MultiplicationExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -187,21 +180,7 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -223,6 +202,34 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -108,20 +108,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitLogicalParenthesis(MathematicalSentenceParserGrammarParser.LogicalParenthesisContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code sequenceExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code trigonometryExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code modulusExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -142,6 +128,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitMultiplicationExpression(MathematicalSentenceParserGrammarParser.MultiplicationExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mathSpecificExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code factorialExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -178,26 +171,12 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code logarithmExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code sumExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code degreeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -219,6 +198,34 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code trigonometryExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code logarithmExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code roundingExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sequenceExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code sineExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.

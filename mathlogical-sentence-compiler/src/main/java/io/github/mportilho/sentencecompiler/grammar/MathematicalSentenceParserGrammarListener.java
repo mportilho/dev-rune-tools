@@ -172,30 +172,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitLogicalParenthesis(MathematicalSentenceParserGrammarParser.LogicalParenthesisContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code sequenceExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code sequenceExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code trigonometryExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code trigonometryExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code modulusExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -231,6 +207,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitMultiplicationExpression(MathematicalSentenceParserGrammarParser.MultiplicationExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mathSpecificExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mathSpecificExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code factorialExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -292,18 +280,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitRootExpression(MathematicalSentenceParserGrammarParser.RootExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code logarithmExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code logarithmExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code sumExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree
@@ -315,18 +291,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code roundingExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code degreeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
@@ -363,6 +327,54 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code trigonometryExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code trigonometryExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logarithmExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logarithmExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code roundingExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code roundingExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sequenceExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void enterSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sequenceExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathSpecificFunction}.
+	 * @param ctx the parse tree
+	 */
+	void exitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code sineExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#trigonometryFunction}.

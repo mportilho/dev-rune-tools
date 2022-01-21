@@ -151,9 +151,8 @@ COMMA : ',';
 SEMI : ';' ;
 PERIOD : '.';
 CONTAINS: 'contains' ;
-JSON_PATH:  '$.' RawTextNoWhiteSpace;
-FUNCTION_PREFIX: 'f.' ;
-NO_CACHE_FUNCTION_PREFIX: 'f0.' ;
+JSON_PATH:  '.$.' RawTextNoWhiteSpace;
+CACHE_FUNCTION_PREFIX: '$.' ;
 
 // DECIMAL, IDENTIFIER, and OTHER TYPES
 IDENTIFIER : IdentifierText ;
@@ -263,12 +262,16 @@ mathExpression
   | mathExpression (MULT | DIV | MODULO) mathExpression # multiplicationExpression
   | mathExpression (PLUS | MINUS) mathExpression # sumExpression
   | MODULUS mathExpression MODULUS # modulusExpression
+  | mathExpression DEGREE # degreeExpression
+  | mathSpecificFunction # mathSpecificExpression
+  | numericEntity # numberValue
+  ;
+
+mathSpecificFunction
+  : trigonometryFunction # trigonometryExpression
   | logarithmFunction # logarithmExpression
   | roundingFunction # roundingExpression
   | sequenceFunction # sequenceExpression
-  | mathExpression DEGREE # degreeExpression
-  | trigonometryFunction # trigonometryExpression
-  | numericEntity # numberValue
   ;
 
 trigonometryFunction
@@ -316,7 +319,7 @@ dateTimeOperation
     ;
 
 function
-  : (FUNCTION_PREFIX | NO_CACHE_FUNCTION_PREFIX) IDENTIFIER LPAREN (allEntityTypes (COMMA  allEntityTypes)*)* RPAREN
+  : CACHE_FUNCTION_PREFIX? IDENTIFIER LPAREN (allEntityTypes (COMMA  allEntityTypes)*)* RPAREN
   ;
 
 listFunction

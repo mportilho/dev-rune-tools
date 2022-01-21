@@ -589,7 +589,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         for (AllEntityTypesContext entityType : ctx.allEntityTypes()) {
             parameters.add(entityType.accept(this));
         }
-        return new FunctionOperation(ctx.IDENTIFIER().getText(), parameters, ctx.NO_CACHE_FUNCTION_PREFIX() == null);
+        return new FunctionOperation(ctx.IDENTIFIER().getText(), parameters, ctx.CACHE_FUNCTION_PREFIX() != null);
     }
 
     @Override

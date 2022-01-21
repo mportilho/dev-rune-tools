@@ -68,11 +68,14 @@ public class FunctionOperation extends AbstractOperation {
     }
 
     /**
-     * Caching representation ([f.] and [f0.]) can dynamically change
+     * Caching representation token ($.) can dynamically change
      */
     @Override
     protected void formatRepresentation(StringBuilder builder) {
-        builder.append(isCaching() ? "f." : "f0.").append(functionName).append("(");
+        if (isCaching()) {
+            builder.append("$.");
+        }
+        builder.append(functionName).append("(");
         int index = parameters.size();
         for (AbstractOperation parameter : parameters) {
             parameter.toString(builder);

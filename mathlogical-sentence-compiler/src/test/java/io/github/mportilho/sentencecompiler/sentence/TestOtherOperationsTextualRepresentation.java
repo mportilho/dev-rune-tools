@@ -78,31 +78,31 @@ public class TestOtherOperationsTextualRepresentation {
 	public void testFunctionOperationWithOneParameterTextRepresentation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.function1(1 * 2) + f.function2(3 / 4)");
+		mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
 		mathSentence.addFunction("function1", (context, params) -> 5);
 		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2) + f.function2(3 / 4)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2) + f.function2(3 / 4)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
 
-		mathSentence = new MathSentence("f.function1(1 * 2) + f0.function2(3 / 4, 7)");
+		mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
 		mathSentence.addFunction("function1", (context, params) -> 5);
 		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2) + f0.function2(3 / 4, 7)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2) + f0.function2(3 / 4, 7)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
 	}
 
 	@Test
 	public void testFunctionOperationWithMultipleParametersTextRepresentation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("f.function1(1 * 2, 9) + f0.function2(3 / 4, 7, 11)");
+		mathSentence = new MathSentence("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
 		mathSentence.addFunction("function1", (context, params) -> 5);
 		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2, 9) + f0.function2(3 / 4, 7, 11)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("f.function1(1 * 2, 9) + f0.function2(3 / 4, 7, 11)");
+		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
 	}
 
 }

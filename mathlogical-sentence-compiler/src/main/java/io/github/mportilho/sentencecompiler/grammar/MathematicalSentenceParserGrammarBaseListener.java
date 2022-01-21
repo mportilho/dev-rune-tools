@@ -186,30 +186,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterModulusExpression(MathematicalSentenceParserGrammarParser.ModulusExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -241,6 +217,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMultiplicationExpression(MathematicalSentenceParserGrammarParser.MultiplicationExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMathSpecificExpression(MathematicalSentenceParserGrammarParser.MathSpecificExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -306,18 +294,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -325,18 +301,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSumExpression(MathematicalSentenceParserGrammarParser.SumExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -373,6 +337,54 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExponentiationExpression(MathematicalSentenceParserGrammarParser.ExponentiationExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTrigonometryExpression(MathematicalSentenceParserGrammarParser.TrigonometryExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogarithmExpression(MathematicalSentenceParserGrammarParser.LogarithmExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRoundingExpression(MathematicalSentenceParserGrammarParser.RoundingExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSequenceExpression(MathematicalSentenceParserGrammarParser.SequenceExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

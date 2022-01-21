@@ -439,6 +439,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLogicalJsonPath(MathematicalSentenceParserGrammarParser.LogicalJsonPathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -461,6 +468,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitMathDecisionExpression(MathematicalSentenceParserGrammarParser.MathDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -530,6 +544,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitStringConstant(MathematicalSentenceParserGrammarParser.StringConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -559,6 +580,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitDateDecisionExpression(MathematicalSentenceParserGrammarParser.DateDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -607,6 +635,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitTimeConstant(MathematicalSentenceParserGrammarParser.TimeConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -649,6 +684,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitDateTimeConstant(MathematicalSentenceParserGrammarParser.DateTimeConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -685,6 +727,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

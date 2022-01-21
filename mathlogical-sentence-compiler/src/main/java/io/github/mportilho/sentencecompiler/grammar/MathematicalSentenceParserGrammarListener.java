@@ -712,6 +712,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitLogicalDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalDecisionExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code logicalFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicalFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code logicalJsonPath}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
 	 * @param ctx the parse tree
@@ -759,6 +771,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitMathDecisionExpression(MathematicalSentenceParserGrammarParser.MathDecisionExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code eulerConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
@@ -868,6 +892,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitStringDecisionExpression(MathematicalSentenceParserGrammarParser.StringDecisionExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code stringFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code stringFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code stringConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
 	 * @param ctx the parse tree
@@ -927,6 +963,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitDateDecisionExpression(MathematicalSentenceParserGrammarParser.DateDecisionExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code dateFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dateFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code dateConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
@@ -1000,6 +1048,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitTimeDecisionExpression(MathematicalSentenceParserGrammarParser.TimeDecisionExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code timeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code timeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code timeConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
 	 * @param ctx the parse tree
@@ -1072,6 +1132,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitDateTimeDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeDecisionExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code dateTimeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code dateTimeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code dateTimeConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
 	 * @param ctx the parse tree
@@ -1143,6 +1215,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code jsonPathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code jsonPathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code jsonPathValue}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.

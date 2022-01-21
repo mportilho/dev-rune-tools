@@ -611,6 +611,19 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     }
 
     @Override
+    public AbstractOperation visitLogicalFunctionDecisionExpression(LogicalFunctionDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+
+        for (int i = 0; i < logicalExpressions.size() - 1; i += 2) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(logicalExpressions.get(i + 1).accept(this));
+        }
+        operations.add(logicalExpressions.get(logicalExpressions.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(Boolean.class);
+    }
+
+    @Override
     public AbstractOperation visitLogicalFunctionResult(LogicalFunctionResultContext ctx) {
         return ctx.function().accept(this).expectedType(Boolean.class);
     }
@@ -622,6 +635,20 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitMathDecisionExpression(MathDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+        List<MathExpressionContext> mathExpressions = ctx.mathExpression();
+
+        for (int i = 0; i < logicalExpressions.size(); i++) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(mathExpressions.get(i).accept(this));
+        }
+        operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(BigDecimal.class);
+    }
+
+    @Override
+    public AbstractOperation visitMathFunctionDecisionExpression(MathFunctionDecisionExpressionContext ctx) {
         List<AbstractOperation> operations = new ArrayList<>();
         List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
         List<MathExpressionContext> mathExpressions = ctx.mathExpression();
@@ -701,6 +728,20 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     }
 
     @Override
+    public AbstractOperation visitStringFunctionDecisionExpression(StringFunctionDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+        List<StringEntityContext> stringEntities = ctx.stringEntity();
+
+        for (int i = 0; i < logicalExpressions.size(); i++) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(stringEntities.get(i).accept(this));
+        }
+        operations.add(stringEntities.get(stringEntities.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(String.class);
+    }
+
+    @Override
     public AbstractOperation visitStringConstant(StringConstantContext ctx) {
         return new StringConstantValueOperation(ctx.getText().substring(1, ctx.getText().length() - 1)).expectedType(String.class);
     }
@@ -717,6 +758,20 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateDecisionExpression(DateDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+        List<DateOperationContext> dateOperations = ctx.dateOperation();
+
+        for (int i = 0; i < logicalExpressions.size(); i++) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(dateOperations.get(i).accept(this));
+        }
+        operations.add(dateOperations.get(dateOperations.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(LocalDate.class);
+    }
+
+    @Override
+    public AbstractOperation visitDateFunctionDecisionExpression(DateFunctionDecisionExpressionContext ctx) {
         List<AbstractOperation> operations = new ArrayList<>();
         List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
         List<DateOperationContext> dateOperations = ctx.dateOperation();
@@ -765,6 +820,20 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     }
 
     @Override
+    public AbstractOperation visitTimeFunctionDecisionExpression(TimeFunctionDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+        List<TimeOperationContext> timeOperations = ctx.timeOperation();
+
+        for (int i = 0; i < logicalExpressions.size(); i++) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(timeOperations.get(i).accept(this));
+        }
+        operations.add(timeOperations.get(timeOperations.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(LocalTime.class);
+    }
+
+    @Override
     public AbstractOperation visitTimeConstant(TimeConstantContext ctx) {
         return new TimeConstantValueOperation(ctx.getText()).expectedType(LocalTime.class);
     }
@@ -787,6 +856,20 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitDateTimeDecisionExpression(DateTimeDecisionExpressionContext ctx) {
+        List<AbstractOperation> operations = new ArrayList<>();
+        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
+        List<DateTimeOperationContext> dateTimeOperations = ctx.dateTimeOperation();
+
+        for (int i = 0; i < logicalExpressions.size(); i++) {
+            operations.add(logicalExpressions.get(i).accept(this));
+            operations.add(dateTimeOperations.get(i).accept(this));
+        }
+        operations.add(dateTimeOperations.get(dateTimeOperations.size() - 1).accept(this));
+        return new DecisionOperation(operations).expectedType(LocalDateTime.class);
+    }
+
+    @Override
+    public AbstractOperation visitDateTimeFunctionDecisionExpression(DateTimeFunctionDecisionExpressionContext ctx) {
         List<AbstractOperation> operations = new ArrayList<>();
         List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
         List<DateTimeOperationContext> dateTimeOperations = ctx.dateTimeOperation();

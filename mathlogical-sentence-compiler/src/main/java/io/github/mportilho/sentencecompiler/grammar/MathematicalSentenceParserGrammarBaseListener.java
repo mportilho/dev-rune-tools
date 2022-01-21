@@ -738,6 +738,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogicalJsonPath(MathematicalSentenceParserGrammarParser.LogicalJsonPathContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -781,6 +793,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMathDecisionExpression(MathematicalSentenceParserGrammarParser.MathDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -894,6 +918,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStringConstant(MathematicalSentenceParserGrammarParser.StringConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -949,6 +985,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDateDecisionExpression(MathematicalSentenceParserGrammarParser.DateDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1026,6 +1074,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTimeConstant(MathematicalSentenceParserGrammarParser.TimeConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1098,6 +1158,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDateTimeConstant(MathematicalSentenceParserGrammarParser.DateTimeConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1165,6 +1237,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

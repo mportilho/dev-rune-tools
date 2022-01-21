@@ -424,6 +424,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitLogicalDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalDecisionExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code logicalFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code logicalJsonPath}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
 	 * @param ctx the parse tree
@@ -451,6 +458,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitMathDecisionExpression(MathematicalSentenceParserGrammarParser.MathDecisionExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code mathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.MathFunctionDecisionExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code eulerConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
@@ -515,6 +529,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitStringDecisionExpression(MathematicalSentenceParserGrammarParser.StringDecisionExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code stringFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStringFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.StringFunctionDecisionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code stringConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
 	 * @param ctx the parse tree
@@ -549,6 +570,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitDateDecisionExpression(MathematicalSentenceParserGrammarParser.DateDecisionExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code dateFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDateFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateFunctionDecisionExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code dateConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
@@ -592,6 +620,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitTimeDecisionExpression(MathematicalSentenceParserGrammarParser.TimeDecisionExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code timeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.TimeFunctionDecisionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code timeConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
 	 * @param ctx the parse tree
@@ -634,6 +669,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitDateTimeDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeDecisionExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code dateTimeFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDateTimeFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeFunctionDecisionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code dateTimeConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
 	 * @param ctx the parse tree
@@ -675,6 +717,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code jsonPathFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code jsonPathValue}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.

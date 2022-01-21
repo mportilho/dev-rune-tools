@@ -22,38 +22,36 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.impl;
 
-import java.math.BigDecimal;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
+import java.math.BigDecimal;
+
 public class GenericOperationOne extends AbstractOperation {
 
-	protected AbstractOperation createClone(CloningContext context) {
-		return new GenericOperationOne();
-	}
+    protected AbstractOperation createClone(CloningContext context) {
+        return new GenericOperationOne();
+    }
 
-	@Override
-	public Object resolve(OperationContext context) {
-		return BigDecimal.ZERO;
-	}
+    @Override
+    public Object resolve(OperationContext context) {
+        return BigDecimal.ZERO;
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return null;
-	}
-	
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		
-	}
+    @Override
+    protected String getOperationToken() {
+        return null;
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+
+    }
+
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+    }
 
 }

@@ -68,8 +68,8 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
     }
 
     @Override
-    public <T> T accept(OperationVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(OperationVisitor<?> visitor) {
+        visitor.visit(this);
     }
 
     public String getVariableName() {

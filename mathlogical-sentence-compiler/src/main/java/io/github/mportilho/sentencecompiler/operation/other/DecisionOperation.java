@@ -81,8 +81,9 @@ public class DecisionOperation extends AbstractOperation {
     }
 
     @Override
-    public <T> T accept(OperationVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(OperationVisitor<?> visitor) {
+        getOperations().forEach(op -> op.accept(visitor));
+        visitor.visit(this);
     }
 
     public List<AbstractOperation> getOperations() {

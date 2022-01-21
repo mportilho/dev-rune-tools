@@ -26,34 +26,36 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public abstract class AbstractBinaryOperation extends AbstractOperation {
 
-	private final AbstractOperation leftOperand;
-	private final AbstractOperation rightOperand;
+    private final AbstractOperation leftOperand;
+    private final AbstractOperation rightOperand;
 
-	public AbstractBinaryOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		this.leftOperand = leftOperand;
-		this.rightOperand = rightOperand;
-		this.leftOperand.addParent(this);
-		this.rightOperand.addParent(this);
-	}
+    public AbstractBinaryOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        this.leftOperand = leftOperand;
+        this.rightOperand = rightOperand;
+        this.leftOperand.addParent(this);
+        this.rightOperand.addParent(this);
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		getLeftOperand().toString(builder);
-		builder.append(' ').append(getOperationToken()).append(' ');
-		getRightOperand().toString(builder);
-	}
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        getLeftOperand().toString(builder);
+        builder.append(' ').append(getOperationToken()).append(' ');
+        getRightOperand().toString(builder);
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+        getLeftOperand().accept(visitor);
+        getRightOperand().accept(visitor);
+        visitor.visit(this);
+    }
 
-	public AbstractOperation getLeftOperand() {
-		return leftOperand;
-	}
+    public AbstractOperation getLeftOperand() {
+        return leftOperand;
+    }
 
-	public AbstractOperation getRightOperand() {
-		return rightOperand;
-	}
+    public AbstractOperation getRightOperand() {
+        return rightOperand;
+    }
 
 }

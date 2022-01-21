@@ -12,11 +12,11 @@ import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummat
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 
-public class CachingConfigurationOperationVisitor implements OperationVisitor<Object> {
+public class CacheConfigurationOperationVisitor implements OperationVisitor<Object> {
 
 
     private Object disableCaching(AbstractOperation operation) {
-        if (operation.isDisablingCache()) {
+        if (operation.isDisableCacheMarkupActive()) {
             operation.setCachingOptions(false);
         }
         return operation;

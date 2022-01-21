@@ -106,8 +106,12 @@ public class BaseOperation extends AbstractOperation {
     }
 
     @Override
-    public <T> T accept(OperationVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(OperationVisitor<?> visitor) {
+        getAssignedVariables().values().forEach(op -> op.accept(visitor));
+        if (getOperation() != null) {
+            getOperation().accept(visitor);
+        }
+        visitor.visit(this);
     }
 
     public AbstractOperation getOperation() {

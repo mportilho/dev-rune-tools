@@ -37,21 +37,19 @@ public class FunctionOperation extends AbstractOperation {
 
     private final String functionName;
     private final List<AbstractOperation> parameters;
-    private final String functionKey;
 
     public FunctionOperation(String functionName, List<AbstractOperation> parameters, boolean caching) {
         this.functionName = functionName;
         this.parameters = parameters != null ? parameters : Collections.emptyList();
-        this.setCachingOptions(caching);
-        this.functionKey = functionName;
-        for (AbstractOperation parameter : this.parameters) {
-            parameter.addParent(this);
+        this.parameters.forEach(parameter -> parameter.addParent(this));
+        if (!caching) {
+            this.disableCacheMarkup();
         }
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        OperationFunctionCaller caller = context.getFunction(functionKey, parameters.size());
+        OperationFunctionCaller caller = context.getFunction(functionName, parameters.size());
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found",
                     functionName, parameters.size()));
@@ -86,12 +84,17 @@ public class FunctionOperation extends AbstractOperation {
     }
 
     @Override
-    public <T> T accept(OperationVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(OperationVisitor<?> visitor) {
+        getParameters().forEach(op -> op.accept(visitor));
+        visitor.visit(this);
     }
 
     public List<AbstractOperation> getParameters() {
         return parameters;
+    }
+
+    public String getFunctionName() {
+        return functionName;
     }
 
     @Override

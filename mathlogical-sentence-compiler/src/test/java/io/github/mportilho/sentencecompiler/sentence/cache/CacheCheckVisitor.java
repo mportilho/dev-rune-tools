@@ -27,7 +27,6 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeOperation;
-import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProductOfSequenceOperation;
@@ -42,88 +41,68 @@ import java.util.Set;
 public class CacheCheckVisitor implements OperationVisitor<Integer> {
 
     private Set<AbstractVariableValueOperation> visitedVariables = new HashSet<>();
+    private int counter = 0;
 
     public CacheCheckVisitor reset() {
         visitedVariables = new HashSet<>();
+        counter = 0;
         return this;
+    }
+
+    @Override
+    public Integer getFinalResult() {
+        return counter;
+    }
+
+    public int getCounter() {
+        return counter;
     }
 
     private Integer checkCache(AbstractOperation operation) {
         if (operation.getCache() != null) {
-            return 1;
+            return ++counter;
         }
-        return 0;
+        return counter;
     }
 
     @Override
     public Integer visit(BaseOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        for (AssignedVariableOperation assignedVariableOperation : operation.getAssignedVariables().values()) {
-            numberOfCaches += assignedVariableOperation.accept(this);
-        }
-        if (operation.getOperation() != null) {
-            numberOfCaches += operation.getOperation().accept(this);
-        }
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(AbstractUnaryOperator operation) {
-        Integer numberOfCaches = checkCache(operation);
-        numberOfCaches += operation.getOperand().accept(this);
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(AbstractBinaryOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        numberOfCaches += operation.getLeftOperand().accept(this);
-        numberOfCaches += operation.getRightOperand().accept(this);
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(AbstractDateTimeOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        numberOfCaches += operation.getLeftOperand().accept(this);
-        numberOfCaches += operation.getRightOperand().accept(this);
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(DecisionOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        for (AbstractOperation op : operation.getOperations()) {
-            numberOfCaches += op.accept(this);
-        }
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(FunctionOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        for (AbstractOperation op : operation.getParameters()) {
-            numberOfCaches += op.accept(this);
-        }
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(PreciseSummationOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        numberOfCaches += operation.getStartIndex().accept(this);
-        numberOfCaches += operation.getEndIndex().accept(this);
-        numberOfCaches += operation.getOperation().accept(this);
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
     public Integer visit(PreciseProductOfSequenceOperation operation) {
-        Integer numberOfCaches = checkCache(operation);
-        numberOfCaches += operation.getStartIndex().accept(this);
-        numberOfCaches += operation.getEndIndex().accept(this);
-        numberOfCaches += operation.getOperation().accept(this);
-        return numberOfCaches;
+        return checkCache(operation);
     }
 
     @Override
@@ -139,8 +118,8 @@ public class CacheCheckVisitor implements OperationVisitor<Integer> {
         } else {
             Integer numberOfCaches = checkCache(operation);
             visitedVariables.add(operation);
-            if (operation.getValue() instanceof AbstractOperation) {
-                numberOfCaches += ((AbstractOperation) operation.getValue()).accept(this);
+            if (operation.getValue() instanceof AbstractOperation op) {
+                op.accept(this);
             }
             return numberOfCaches;
         }

@@ -55,8 +55,8 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
     }
 
     @Override
-    public <T> T accept(OperationVisitor<T> visitor) {
-        return visitor.visit(this);
+    public void accept(OperationVisitor<?> visitor) {
+        visitor.visit(this);
     }
 
     @Override

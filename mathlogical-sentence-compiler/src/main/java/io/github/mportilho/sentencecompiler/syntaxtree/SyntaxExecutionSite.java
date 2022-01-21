@@ -135,8 +135,8 @@ public class SyntaxExecutionSite {
         return map;
     }
 
-    public <T> T visitOperation(OperationVisitor<T> visitor) {
-        return operation.accept(visitor);
+    public void visitOperation(OperationVisitor<?> visitor) {
+        operation.accept(visitor);
     }
 
     public String toOperationStringRepresentation() {

@@ -22,92 +22,96 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.precise.math;
 
-import java.math.BigDecimal;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
+
+import java.math.BigDecimal;
 
 public class PreciseSummationOperation extends AbstractOperation {
 
-	private final AbstractOperation startIndex;
-	private final AbstractOperation endIndex;
-	private final AbstractOperation operation;
-	private final SequenceVariableValueOperation sequenceVariable;
+    private final AbstractOperation startIndex;
+    private final AbstractOperation endIndex;
+    private final AbstractOperation operation;
+    private final SequenceVariableValueOperation sequenceVariable;
 
-	public PreciseSummationOperation(AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
-			SequenceVariableValueOperation sequenceVariable) {
-		super();
-		this.startIndex = startIndex;
-		this.endIndex = endIndex;
-		this.operation = operation;
-		this.sequenceVariable = sequenceVariable;
+    public PreciseSummationOperation(
+            AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
+            SequenceVariableValueOperation sequenceVariable) {
+        super();
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+        this.operation = operation;
+        this.sequenceVariable = sequenceVariable;
 
-		this.startIndex.addParent(this);
-		this.endIndex.addParent(this);
-		this.operation.addParent(this);
-		if (this.sequenceVariable != null) {
-			this.sequenceVariable.addParent(this);
-		}
-	}
+        this.startIndex.addParent(this);
+        this.endIndex.addParent(this);
+        this.operation.addParent(this);
+        if (this.sequenceVariable != null) {
+            this.sequenceVariable.addParent(this);
+        }
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		int startIndexResult = startIndex.<BigDecimal>evaluate(context).intValue();
-		int endIndexResult = endIndex.<BigDecimal>evaluate(context).intValue();
-		BigDecimal result = BigDecimal.ZERO;
-		for (int i = startIndexResult; i <= endIndexResult; i++) {
-			if (this.sequenceVariable != null) {
-				this.sequenceVariable.setSequenceIndex(BigDecimal.valueOf(i));
-			}
-			result = result.add(operation.evaluate(context));
-		}
-		return result;
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        int startIndexResult = startIndex.<BigDecimal>evaluate(context).intValue();
+        int endIndexResult = endIndex.<BigDecimal>evaluate(context).intValue();
+        BigDecimal result = BigDecimal.ZERO;
+        for (int i = startIndexResult; i <= endIndexResult; i++) {
+            if (this.sequenceVariable != null) {
+                this.sequenceVariable.setSequenceIndex(BigDecimal.valueOf(i));
+            }
+            result = result.add(operation.evaluate(context));
+        }
+        return result;
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseSummationOperation(startIndex.copy(context), endIndex.copy(context), operation.copy(context),
-				(SequenceVariableValueOperation) sequenceVariable.copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PreciseSummationOperation(startIndex.copy(context), endIndex.copy(context), operation.copy(context),
+                (SequenceVariableValueOperation) sequenceVariable.copy(context));
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append("S[");
-		startIndex.toString(builder);
-		builder.append(',');
-		endIndex.toString(builder);
-		builder.append("](");
-		operation.toString(builder);
-		builder.append(')');
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append("S[");
+        startIndex.toString(builder);
+        builder.append(',');
+        endIndex.toString(builder);
+        builder.append("](");
+        operation.toString(builder);
+        builder.append(')');
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+        getStartIndex().accept(visitor);
+        getEndIndex().accept(visitor);
+        getOperation().accept(visitor);
+        visitor.visit(this);
+    }
 
-	public AbstractOperation getStartIndex() {
-		return startIndex;
-	}
+    public AbstractOperation getStartIndex() {
+        return startIndex;
+    }
 
-	public AbstractOperation getEndIndex() {
-		return endIndex;
-	}
+    public AbstractOperation getEndIndex() {
+        return endIndex;
+    }
 
-	public AbstractOperation getOperation() {
-		return operation;
-	}
+    public AbstractOperation getOperation() {
+        return operation;
+    }
 
-	public SequenceVariableValueOperation getSequenceVariable() {
-		return sequenceVariable;
-	}
+    public SequenceVariableValueOperation getSequenceVariable() {
+        return sequenceVariable;
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "";
+    }
 
 }

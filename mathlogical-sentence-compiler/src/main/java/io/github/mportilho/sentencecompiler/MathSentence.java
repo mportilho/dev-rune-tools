@@ -137,7 +137,8 @@ public class MathSentence {
 
     public <T> T visitOperations(OperationVisitor<T> visitor) {
         checkUpdateLock();
-        return syntaxExecutionSite.visitOperation(visitor);
+        syntaxExecutionSite.visitOperation(visitor);
+        return visitor.getFinalResult();
     }
 
     private void checkUpdateLock() {

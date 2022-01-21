@@ -22,58 +22,57 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation;
 
-import java.util.Objects;
-
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
+
+import java.util.Objects;
 
 public abstract class AbstractUnaryOperator extends AbstractOperation {
 
-	private final AbstractOperation operand;
-	private final OperatorPosition operatorPosition;
+    private final AbstractOperation operand;
+    private final OperatorPosition operatorPosition;
 
-	public AbstractUnaryOperator(AbstractOperation operand, OperatorPosition operatorPosition) {
-		this.operand = operand;
-		this.operatorPosition = Objects.requireNonNull(operatorPosition, "Operator token position of unary operation is required");
-		this.operand.addParent(this);
-	}
+    public AbstractUnaryOperator(AbstractOperation operand, OperatorPosition operatorPosition) {
+        this.operand = operand;
+        this.operatorPosition = Objects.requireNonNull(operatorPosition, "Operator token position of unary operation is required");
+        this.operand.addParent(this);
+    }
 
-	public AbstractOperation getOperand() {
-		return operand;
-	}
+    public AbstractOperation getOperand() {
+        return operand;
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		switch (operatorPosition) {
-		case FUNCTION:
-			builder.append(getOperationToken()).append('(');
-			getOperand().toString(builder);
-			builder.append(')');
-			break;
-		case LEFT:
-			builder.append(getOperationToken());
-			getOperand().toString(builder);
-			break;
-		case RIGHT:
-			getOperand().toString(builder);
-			builder.append(getOperationToken());
-			break;
-		case WRAPPED:
-			builder.append(getOperationToken());
-			getOperand().toString(builder);
-			builder.append(getOperationToken());
-			break;
-		default:
-			throw new IllegalStateException("Operation position not implemented: " + operatorPosition);
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        switch (operatorPosition) {
+            case FUNCTION -> {
+                builder.append(getOperationToken()).append('(');
+                getOperand().toString(builder);
+                builder.append(')');
+            }
+            case LEFT -> {
+                builder.append(getOperationToken());
+                getOperand().toString(builder);
+            }
+            case RIGHT -> {
+                getOperand().toString(builder);
+                builder.append(getOperationToken());
+            }
+            case WRAPPED -> {
+                builder.append(getOperationToken());
+                getOperand().toString(builder);
+                builder.append(getOperationToken());
+            }
+            default -> throw new IllegalStateException("Operation position not implemented: " + operatorPosition);
+        }
+    }
 
-		}
-	}
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+        getOperand().accept(visitor);
+        visitor.visit(this);
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		return visitor.visit(this);
-	}
-
-	public enum OperatorPosition {
-		LEFT, RIGHT, WRAPPED, FUNCTION
-	}
+    public enum OperatorPosition {
+        LEFT, RIGHT, WRAPPED, FUNCTION
+    }
 }

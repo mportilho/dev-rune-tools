@@ -35,6 +35,10 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 
 public interface OperationVisitor<T> {
 
+    default T getFinalResult() {
+        return null;
+    }
+
     T visit(BaseOperation operation);
 
     T visit(AbstractUnaryOperator operation);

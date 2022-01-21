@@ -22,14 +22,10 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.syntaxtree.visitor;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
@@ -37,96 +33,100 @@ import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProduc
 import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+
+import java.util.Collection;
+import java.util.Map;
+
+import static java.util.Objects.nonNull;
 
 public class WarmUpOperationVisitor implements OperationVisitor<Object> {
 
-	private final OperationContext context;
+    private final OperationContext context;
 
-	public WarmUpOperationVisitor(OperationContext context) {
-		this.context = context;
-	}
+    public WarmUpOperationVisitor(OperationContext context) {
+        this.context = context;
+    }
 
-	@Override
-	public Object visit(BaseOperation operation) {
-		if (nonNull(operation.getAssignedVariables())) {
-			for (AbstractOperation abstractoperation : operation.getAssignedVariables().values()) {
-				abstractoperation.accept(this);
-			}
-		}
-		if (operation.getOperation() != null) {
-			Object object = operation.getOperation().accept(this);
-			return object != null ? operation.evaluate(context) : null;
-		}
-		return null;
-	}
+    private boolean canEvaluate(Collection<? extends AbstractOperation> operations) {
+        return operations.stream().allMatch(this::canEvaluate);
+    }
 
-	@Override
-	public Object visit(AbstractUnaryOperator operation) {
-		Object result = operation.getOperand().accept(this);
-		return isNull(result) ? null : operation.evaluate(context);
-	}
+    private boolean canEvaluate(Map<String, ? extends AbstractOperation> operations) {
+        return canEvaluate(operations.values());
+    }
 
-	@Override
-	public Object visit(AbstractBinaryOperation operation) {
-		Object left = operation.getLeftOperand().accept(this);
-		Object right = operation.getRightOperand().accept(this);
-		return (isNull(left) || isNull(right)) ? null : operation.evaluate(context);
-	}
+    private boolean canEvaluate(AbstractOperation operation) {
+        return nonNull(operation) && nonNull(operation.getCache());
+    }
 
-	@Override
-	public Object visit(AbstractDateTimeOperation operation) {
-		Object left = operation.getLeftOperand().accept(this);
-		Object right = operation.getRightOperand().accept(this);
-		return (isNull(left) || isNull(right)) ? null : operation.evaluate(context);
-	}
+    @Override
+    public Object visit(BaseOperation operation) {
+        return canEvaluate(operation.getAssignedVariables()) && canEvaluate(operation.getOperation()) ?
+                operation.evaluate(context) : null;
+    }
 
-	@Override
-	public Object visit(DecisionOperation operation) {
-		for (AbstractOperation abstractoperation : operation.getOperations()) {
-			abstractoperation.accept(this);
-		}
-		try {
-			return operation.evaluate(context);
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    @Override
+    public Object visit(AbstractUnaryOperator operation) {
+        return canEvaluate(operation.getOperand()) ? operation.evaluate(context) : null;
+    }
 
-	@Override
-	public Object visit(FunctionOperation operation) {
-		boolean hasNull = false;
-		for (AbstractOperation exp : operation.getParameters()) {
-			if (exp.accept(this) == null) {
-				hasNull = true;
-			}
-		}
-		return hasNull ? null : operation.evaluate(context);
-	}
+    @Override
+    public Object visit(AbstractBinaryOperation operation) {
+        return canEvaluate(operation.getLeftOperand()) && canEvaluate(operation.getRightOperand()) ?
+                operation.evaluate(context) : null;
+    }
 
-	@Override
-	public Object visit(PreciseSummationOperation operation) {
-		operation.getStartIndex().accept(this);
-		operation.getEndIndex().accept(this);
-		operation.getOperation().accept(this);
-		return operation.evaluate(context);
-	}
+    @Override
+    public Object visit(AbstractDateTimeOperation operation) {
+        return canEvaluate(operation.getLeftOperand()) && canEvaluate(operation.getRightOperand()) ?
+                operation.evaluate(context) : null;
+    }
 
-	@Override
-	public Object visit(PreciseProductOfSequenceOperation operation) {
-		operation.getStartIndex().accept(this);
-		operation.getEndIndex().accept(this);
-		operation.getOperation().accept(this);
-		return operation.evaluate(context);
-	}
+    @Override
+    public Object visit(DecisionOperation operation) {
+        try {
+            return operation.evaluate(context);
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
 
-	@Override
-	public Object visit(AbstractConstantValueOperation operation) {
-		return operation.evaluate(context);
-	}
+    @Override
+    public Object visit(FunctionOperation operation) {
+        return canEvaluate(operation.getParameters()) &&
+                context.getFunction(operation.getFunctionName(), operation.getParameters().size()) != null ?
+                operation.evaluate(context) : null;
+    }
 
-	@Override
-	public Object visit(AbstractVariableValueOperation operation) {
-		return operation.evaluate(context);
-	}
+    @Override
+    public Object visit(PreciseSummationOperation operation) {
+        try {
+            return canEvaluate(operation.getStartIndex()) && canEvaluate(operation.getEndIndex()) ?
+                    operation.evaluate(context) : null;
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Object visit(PreciseProductOfSequenceOperation operation) {
+        try {
+            return canEvaluate(operation.getStartIndex()) && canEvaluate(operation.getEndIndex()) ?
+                    operation.evaluate(context) : null;
+        } catch (NullPointerException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Object visit(AbstractConstantValueOperation operation) {
+        return operation.evaluate(context);
+    }
+
+    @Override
+    public Object visit(AbstractVariableValueOperation operation) {
+        return operation.evaluate(context);
+    }
 
 }

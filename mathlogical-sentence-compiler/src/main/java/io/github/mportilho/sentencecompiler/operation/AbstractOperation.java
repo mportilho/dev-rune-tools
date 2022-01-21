@@ -39,6 +39,7 @@ public abstract class AbstractOperation {
 
     private Object cache;
     private Set<AbstractOperation> cacheBlockingSemaphores;
+    private Set<AbstractOperation> cacheDisableMarkup;
 
     private List<AbstractOperation> parents;
     private Class<?> expectedType;
@@ -54,7 +55,7 @@ public abstract class AbstractOperation {
 
     protected abstract String getOperationToken();
 
-    public abstract <T> T accept(OperationVisitor<T> visitor);
+    public abstract void accept(OperationVisitor<?> visitor);
 
     protected abstract void formatRepresentation(StringBuilder builder);
 
@@ -68,6 +69,7 @@ public abstract class AbstractOperation {
      */
     @SuppressWarnings("unchecked")
     public final <T> T evaluate(OperationContext context) {
+        Collections.emptyList();
         Object result;
         try {
             result = readValue(context);
@@ -83,6 +85,12 @@ public abstract class AbstractOperation {
             throw new IllegalStateException(e.getMessage(), e.getCause());
         } catch (IllegalArgumentException | IllegalStateException e) {
             throw e;
+        } catch (NullPointerException e) {
+            if (context.allowingNull()) {
+                return null;
+            } else {
+                throw e;
+            }
         } catch (Exception e) {
             throw new IllegalStateException(String.format("Error during calculation of expression '%s'", this), e);
         }
@@ -201,6 +209,14 @@ public abstract class AbstractOperation {
         parents.add(operation);
     }
 
+    /**
+     * The CacheConfigurationVisitor will check if this semaphore is not null to decide to disable caching
+     */
+    protected void disableCacheMarkup() {
+        this.cacheDisableMarkup = Collections.emptySet();
+        this.cacheBlockingSemaphores = this.cacheDisableMarkup;
+    }
+
     public void setCachingOptions(boolean enable) {
         if (enable) {
             enableCaching(this);
@@ -232,8 +248,12 @@ public abstract class AbstractOperation {
         }
     }
 
-    public boolean isDisablingCache() {
-        return this.cacheBlockingSemaphores != null && this.cacheBlockingSemaphores.contains(this);
+    public boolean isDisableCacheMarkupActive() {
+        if (this.cacheDisableMarkup != null && this.cacheBlockingSemaphores == this.cacheDisableMarkup) {
+            this.cacheBlockingSemaphores = new HashSet<>(3);
+            return true;
+        }
+        return false;
     }
 
     protected boolean isCaching() {

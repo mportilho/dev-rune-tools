@@ -76,7 +76,7 @@ public class TestWarmedUpFunctionOperation {
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
-        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class TestWarmedUpFunctionOperation {
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
-        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(10);
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
     }
 
     @Test

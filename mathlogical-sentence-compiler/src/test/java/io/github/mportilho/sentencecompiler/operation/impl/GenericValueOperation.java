@@ -29,40 +29,39 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public class GenericValueOperation extends AbstractOperation {
 
-	private Object value;
+    private final Object value;
 
-	public GenericValueOperation(Object value) {
-		this.value = value;
-	}
+    public GenericValueOperation(Object value) {
+        this.value = value;
+    }
 
-	@Override
-	public Object resolve(OperationContext context) {
-		return getValue();
-	}
+    @Override
+    public Object resolve(OperationContext context) {
+        return getValue();
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return null;
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return null;
+    }
 
-	public Object getValue() {
-		return value;
-	}
+    public Object getValue() {
+        return value;
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return null;
-	}
+    @Override
+    protected String getOperationToken() {
+        return null;
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
 
-	}
+    }
 
-	@Override
-	public <T> T accept(OperationVisitor<T> visitor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+
+    }
 
 }

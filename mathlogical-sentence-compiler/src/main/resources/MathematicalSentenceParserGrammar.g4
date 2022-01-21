@@ -228,15 +228,15 @@ WS : [ \r\t\u000C\n]+ -> channel(HIDDEN) ;
 start: mathStart | logicalStart ;
 
 mathStart
-  : (assignmentExpression SEMI)* mathExpression EOF
+  : (assignmentExpression)* mathExpression EOF
   ;
 
 logicalStart
-  : (assignmentExpression SEMI)* logicalExpression? EOF
+  : (assignmentExpression)* logicalExpression? EOF
   ;
 
 assignmentExpression
-  : IDENTIFIER ASSIGNMENT allEntityTypes # assignOperation
+  : IDENTIFIER ASSIGNMENT allEntityTypes SEMI # assignOperation
   ;
 
 logicalExpression

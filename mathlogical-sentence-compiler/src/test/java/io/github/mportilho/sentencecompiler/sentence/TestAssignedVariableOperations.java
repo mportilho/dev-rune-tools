@@ -41,7 +41,7 @@ public class TestAssignedVariableOperations {
         StringBuilder sb;
 
         sb = new StringBuilder();
-        sb.append("a := 1 + 2;");
+        sb.append("a = 1 + 2;");
         sb.append("a * 5");
         computeMathSentence(sb.toString(), valueOf(15));
     }
@@ -51,8 +51,8 @@ public class TestAssignedVariableOperations {
         StringBuilder sb;
 
         sb = new StringBuilder();
-        sb.append("a := 1 + 2;");
-        sb.append("b := 5;");
+        sb.append("a = 1 + 2;");
+        sb.append("b = 5;");
         sb.append("a * b");
         computeMathSentence(sb.toString(), valueOf(15));
     }
@@ -62,8 +62,8 @@ public class TestAssignedVariableOperations {
         StringBuilder sb;
 
         sb = new StringBuilder();
-        sb.append("a := 1 + 2;");
-        sb.append("b := 5;");
+        sb.append("a = 1 + 2;");
+        sb.append("b = 5;");
         MathSentence ms = new MathSentence(sb.toString());
 
         assertThat(ms.<Boolean>compute()).isFalse();
@@ -76,8 +76,8 @@ public class TestAssignedVariableOperations {
         StringBuilder sb;
 
         sb = new StringBuilder();
-        sb.append("a := 1 + 2;");
-        sb.append("b := a + 5;");
+        sb.append("a = 1 + 2;");
+        sb.append("b = a + 5;");
         MathSentence ms = new MathSentence(sb.toString());
         assertThat((BigDecimal) ms.listAssignedVariables().get("b")).isNull();
     }

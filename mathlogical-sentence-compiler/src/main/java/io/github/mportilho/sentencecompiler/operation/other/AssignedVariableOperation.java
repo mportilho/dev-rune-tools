@@ -61,7 +61,7 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
 
     @Override
     public String getOperationToken() {
-        return ":=";
+        return "=";
     }
 
 }

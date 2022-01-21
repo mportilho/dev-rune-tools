@@ -34,15 +34,15 @@ public class TestOtherOperationsTextualRepresentation {
 	public void testAssingedVariablesOnlyBaseOperationTextRepresentation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("a := 3; b := 5;");
-		assertThat(mathSentence.toString()).isEqualTo("a := 3;\nb := 5;");
+		mathSentence = new MathSentence("a = 3; b = 5;");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a := 3;\nb := 5;");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
 
-		mathSentence = new MathSentence("a := 3; b := 5; a + b");
-		assertThat(mathSentence.toString()).isEqualTo("a := 3;\nb := 5;\na + b");
+		mathSentence = new MathSentence("a = 3; b = 5; a + b");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\na + b");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a := 3;\nb := 5;\n3 + 5");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\n3 + 5");
 	}
 
 	@Test
@@ -50,13 +50,13 @@ public class TestOtherOperationsTextualRepresentation {
 		MathSentence mathSentence;
 
 		StringBuilder builder = new StringBuilder();
-		builder.append("a := 3 - 2;");
-		builder.append("b := 5 * 2;");
+		builder.append("a = 3 - 2;");
+		builder.append("b = 5 * 2;");
 		builder.append("a + b");
 		mathSentence = new MathSentence(builder.toString());
-		assertThat(mathSentence.toString()).isEqualTo("a := 3 - 2;\nb := 5 * 2;\na + b");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\na + b");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a := 3 - 2;\nb := 5 * 2;\n1 + 10");
+		assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\n1 + 10");
 	}
 
 	@Test

@@ -236,7 +236,7 @@ logicalStart
   ;
 
 assignmentExpression
-  : IDENTIFIER ASSIGNMENT allEntityTypes SEMI # assignOperation
+  : IDENTIFIER EQ allEntityTypes SEMI # assignOperation
   ;
 
 logicalExpression

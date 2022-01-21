@@ -383,7 +383,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 	}
 	public static class AssignOperationContext extends AssignmentExpressionContext {
 		public TerminalNode IDENTIFIER() { return getToken(MathematicalSentenceParserGrammarParser.IDENTIFIER, 0); }
-		public TerminalNode ASSIGNMENT() { return getToken(MathematicalSentenceParserGrammarParser.ASSIGNMENT, 0); }
+		public TerminalNode EQ() { return getToken(MathematicalSentenceParserGrammarParser.EQ, 0); }
 		public AllEntityTypesContext allEntityTypes() {
 			return getRuleContext(AllEntityTypesContext.class,0);
 		}
@@ -414,7 +414,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 			setState(74);
 			match(IDENTIFIER);
 			setState(75);
-			match(ASSIGNMENT);
+			match(EQ);
 			setState(76);
 			allEntityTypes();
 			setState(77);
@@ -5652,7 +5652,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		"\3\2\2\28:\5\b\5\298\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<>\3\2\2\2="+
 		";\3\2\2\2>?\5\f\7\2?@\7\2\2\3@\5\3\2\2\2AC\5\b\5\2BA\3\2\2\2CF\3\2\2\2"+
 		"DB\3\2\2\2DE\3\2\2\2EH\3\2\2\2FD\3\2\2\2GI\5\n\6\2HG\3\2\2\2HI\3\2\2\2"+
-		"IJ\3\2\2\2JK\7\2\2\3K\7\3\2\2\2LM\7g\2\2MN\7_\2\2NO\5\"\22\2OP\7a\2\2"+
+		"IJ\3\2\2\2JK\7\2\2\3K\7\3\2\2\2LM\7g\2\2MN\78\2\2NO\5\"\22\2OP\7a\2\2"+
 		"P\t\3\2\2\2QR\b\6\1\2RS\t\2\2\2So\5\n\6\fTU\5\f\7\2UV\5\36\20\2VW\5\f"+
 		"\7\2Wo\3\2\2\2XY\5(\25\2YZ\5\36\20\2Z[\5(\25\2[o\3\2\2\2\\]\5\24\13\2"+
 		"]^\5\36\20\2^_\5\24\13\2_o\3\2\2\2`a\5\26\f\2ab\5\36\20\2bc\5\26\f\2c"+

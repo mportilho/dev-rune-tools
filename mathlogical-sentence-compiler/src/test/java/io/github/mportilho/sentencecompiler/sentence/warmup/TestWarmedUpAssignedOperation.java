@@ -43,7 +43,7 @@ public class TestWarmedUpAssignedOperation {
 	public void testAssignedVariable() {
 		StringBuilder sb;
 		sb = new StringBuilder();
-		sb.append("a := 1 + 2;");
+		sb.append("a = 1 + 2;");
 		sb.append("a * 5");
 
 		MathSentence mathSentence;
@@ -57,8 +57,8 @@ public class TestWarmedUpAssignedOperation {
 	public void testMultipleAssignedVariables() {
 		StringBuilder sb;
 		sb = new StringBuilder();
-		sb.append("a := 1 + 2;");
-		sb.append("b := 5;");
+		sb.append("a = 1 + 2;");
+		sb.append("b = 5;");
 		sb.append("a * b");
 
 		MathSentence mathSentence;
@@ -73,8 +73,8 @@ public class TestWarmedUpAssignedOperation {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
-		sb.append("a := 1 + 2;");
-		sb.append("b := 5;");
+		sb.append("a = 1 + 2;");
+		sb.append("b = 5;");
 
 		MathSentence mathSentence;
 		mathSentence = new MathSentence(sb.toString());
@@ -88,8 +88,8 @@ public class TestWarmedUpAssignedOperation {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
-		sb.append("a := 1 + 2;");
-		sb.append("b := a + 5;");
+		sb.append("a = 1 + 2;");
+		sb.append("b = a + 5;");
 
 		MathSentence mathSentence;
 		mathSentence = new MathSentence(sb.toString());

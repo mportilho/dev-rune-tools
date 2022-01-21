@@ -46,7 +46,7 @@ public class TestTrigonometryOperations {
         computeMathSentence("90°", new BigDecimal("1.57079633"));
         computeMathSentence("135°", new BigDecimal("2.35619449"));
         computeMathSentence("180°", new MathSentence("pi", MATH_OPTION).compute());
-        computeMathSentence("360°", new MathSentence("2pi", MATH_OPTION).compute());
+        computeMathSentence("360°", new MathSentence("2 * pi", MATH_OPTION).compute());
     }
 
     @Test

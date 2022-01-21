@@ -307,22 +307,6 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     }
 
     @Override
-    public AbstractOperation visitImplicitMultiplicationExpression(ImplicitMultiplicationExpressionContext ctx) {
-        AbstractOperation leftOperation = ctx.mathExpression(0).accept(this);
-        AbstractOperation rightOperation = ctx.mathExpression(1).accept(this);
-
-        if (rightOperation instanceof PreciseNegativeOperation) {
-            ((PreciseNegativeOperation) rightOperation).negatingValue(false);
-            return new PreciseSubtractionOperation(leftOperation, rightOperation).expectedType(BigDecimal.class);
-        } else if ((rightOperation instanceof PreciseNumberConstantValueOperation
-                && ((PreciseNumberConstantValueOperation) rightOperation).getValue().startsWith("-"))) {
-            ((PreciseNumberConstantValueOperation) rightOperation).transformToPositiveValue();
-            return new PreciseSubtractionOperation(leftOperation, rightOperation).expectedType(BigDecimal.class);
-        }
-        return new PreciseMultiplicationOperation(leftOperation, rightOperation, true).expectedType(BigDecimal.class);
-    }
-
-    @Override
     public AbstractOperation visitMultiplicationExpression(MultiplicationExpressionContext ctx) {
         if (ctx.MULT() != null) {
             return new PreciseMultiplicationOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);

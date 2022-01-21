@@ -80,8 +80,8 @@ public class TestMathSentence {
 		computeMathSentence("4 * 4", valueOf(16));
 		computeMathSentence("-7 * 7", valueOf(-49));
 		
-		computeMathSentence("7(7 + 2)", valueOf(63));
-		computeMathSentence("-7(7 + 2)", valueOf(-63));
+		computeMathSentence("7*(7 + 2)", valueOf(63));
+		computeMathSentence("-7*(7 + 2)", valueOf(-63));
 	}
 
 	@Test

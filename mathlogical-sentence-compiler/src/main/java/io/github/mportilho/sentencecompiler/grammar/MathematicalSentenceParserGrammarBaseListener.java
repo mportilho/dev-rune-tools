@@ -1,4 +1,4 @@
-// Generated from C:/Users/marce/IdeaProjects/ExpressionReader/src/io/github/mportilho/mathsentenceparser\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.1
+// Generated from D:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.2
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -349,18 +349,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

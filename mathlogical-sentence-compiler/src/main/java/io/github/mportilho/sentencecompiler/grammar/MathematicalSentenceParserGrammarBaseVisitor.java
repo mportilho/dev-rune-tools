@@ -1,4 +1,4 @@
-// Generated from C:/Users/marce/IdeaProjects/ExpressionReader/src/io/github/mportilho/mathsentenceparser\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.1
+// Generated from D:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.2
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -209,13 +209,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

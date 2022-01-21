@@ -142,12 +142,12 @@ public class TestMathOperationCaches {
 		mathSentence.compute();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
 
-		mathSentence = new MathSentence("7(7 + 2)");
+		mathSentence = new MathSentence("7*(7 + 2)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
 
-		mathSentence = new MathSentence("-7(7 + 2)");
+		mathSentence = new MathSentence("-7*(7 + 2)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);

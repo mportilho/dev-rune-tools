@@ -1,4 +1,4 @@
-// Generated from C:/Users/marce/IdeaProjects/ExpressionReader/src/io/github/mportilho/mathsentenceparser\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.1
+// Generated from D:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.2
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -339,18 +339,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code implicitMultiplicationExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code implicitMultiplicationExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code multiplicationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.

@@ -1,4 +1,4 @@
-// Generated from C:/Users/marce/IdeaProjects/ExpressionReader/src/io/github/mportilho/mathsentenceparser\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.1
+// Generated from D:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.2
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -205,13 +205,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitHyperbolicCosineExpression(MathematicalSentenceParserGrammarParser.HyperbolicCosineExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code implicitMultiplicationExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImplicitMultiplicationExpression(MathematicalSentenceParserGrammarParser.ImplicitMultiplicationExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code multiplicationExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.

@@ -260,7 +260,6 @@ mathExpression
   | mathExpression ROOT mathExpression # rootExpression
   | SQRT LPAREN mathExpression RPAREN # squareRootExpression
   | <assoc=right> mathExpression EXPONENTIATION mathExpression # exponentiationExpression
-  | mathExpression mathExpression # implicitMultiplicationExpression
   | mathExpression (MULT | DIV | MODULO) mathExpression # multiplicationExpression
   | mathExpression (PLUS | MINUS) mathExpression # sumExpression
   | MODULUS mathExpression MODULUS # modulusExpression

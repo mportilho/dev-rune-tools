@@ -42,7 +42,7 @@ public class TestGeneralMathSentenceCopy {
 
     @Test
     public void testSimpleCopy() {
-        MathSentence original = new MathSentence("(c)(a + b)");
+        MathSentence original = new MathSentence("(c) * (a + b)");
         MathSentence copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);

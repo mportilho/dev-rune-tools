@@ -142,7 +142,7 @@ public class TestMathTextualRepresentation {
 
 		mathSentence = new MathSentence("7*a");
 		assertThat(mathSentence.toString()).isEqualTo("7 * a");
-		mathSentence.setUserVariable("a", 5);
+		mathSentence.setVariable("a", 5);
 		mathSentence.compute();
 		assertThat(mathSentence.toString()).isEqualTo("7 * 5");
 	}

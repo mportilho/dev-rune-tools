@@ -107,15 +107,13 @@ public class SyntaxExecutionSite {
         Objects.requireNonNull(value, "Parameter [value] must be provided");
 
         AbstractVariableValueOperation variableOperation = userVariables.get(name);
-        if (variableOperation == null) {
-            throw new IllegalArgumentException(String.format("No variable [%s] present in sentence", name));
-        }
-
-        if (value instanceof VariableProvider
-                || !conversionService.canConvert(value.getClass(), variableOperation.getExpectedType())) {
-            variableOperation.setValue(value);
-        } else {
-            variableOperation.setValue(conversionService.convert(value, variableOperation.getExpectedType(), null));
+        if (variableOperation != null) {
+            if (value instanceof VariableProvider
+                    || !conversionService.canConvert(value.getClass(), variableOperation.getExpectedType())) {
+                variableOperation.setValue(value);
+            } else {
+                variableOperation.setValue(conversionService.convert(value, variableOperation.getExpectedType(), null));
+            }
         }
     }
 

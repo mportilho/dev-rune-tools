@@ -112,15 +112,21 @@ public class MathSentence {
         syntaxExecutionSite.addFunctionFromObject(functionProvider);
     }
 
-    public MathSentence setUserVariable(String variableName, Object value) {
+    public MathSentence setVariable(String variableName, Object value) {
         checkUpdateLock();
         syntaxExecutionSite.setUserVariable(variableName, value);
         return this;
     }
 
-    public MathSentence setUserVariableProvider(String variableName, VariableProvider provider) {
+    public MathSentence setVariables(Map<String, Object> variables) {
         checkUpdateLock();
-        return setUserVariable(variableName, provider);
+        variables.forEach(this::setVariable);
+        return this;
+    }
+
+    public MathSentence setVariableProvider(String variableName, VariableProvider provider) {
+        checkUpdateLock();
+        return setVariable(variableName, provider);
     }
 
     public Map<String, Object> listAssignedVariables() {

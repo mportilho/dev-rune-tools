@@ -64,8 +64,8 @@ public class TestVariableValueOperations {
     @Test
     public void testVariableValueProviderOnExpression() {
         MathSentence parser = new MathSentence("a * b");
-        parser.setUserVariable("a", 5);
-        parser.setUserVariableProvider("b", context -> {
+        parser.setVariable("a", 5);
+        parser.setVariableProvider("b", context -> {
             context.caching(false);
             int scale = context.getScale() != null ? context.getScale() : 8;
             return new BigDecimal(6, context.getMathContext()).setScale(scale, context.getMathContext().getRoundingMode());

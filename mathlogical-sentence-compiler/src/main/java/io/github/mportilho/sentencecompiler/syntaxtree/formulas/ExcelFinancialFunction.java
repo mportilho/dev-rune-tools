@@ -111,24 +111,6 @@ public class ExcelFinancialFunction {
     }
 
     /**
-     * Future value of a series
-     *
-     * @param r
-     * @param per
-     * @param nper
-     * @param pmt
-     * @param type
-     * @param mc
-     * @return
-     */
-    public static BigDecimal fvs(
-            BigDecimal r, int per, int nper, BigDecimal pmt, int type, MathContext mc) {
-        BigDecimal ratePerPeriod = pow(ONE.add(r.divide(valueOf(per), mc), mc), valueOf((long) per * nper), mc);
-        return pmt.multiply(ratePerPeriod.subtract(ONE, mc).divide(r.divide(valueOf(per), mc), mc)
-                .multiply(ONE.add(r.multiply(valueOf(type), mc).divide(valueOf(per), mc), mc)), mc);
-    }
-
-    /**
      * Emulates Excel/Calc's FV(interest_rate, number_payments, payment, PV,
      * Type) function, which calculates future value or principal at period N.
      *
@@ -149,6 +131,47 @@ public class ExcelFinancialFunction {
      */
     public static BigDecimal fv(BigDecimal r, int nper, BigDecimal pmt, BigDecimal pv, MathContext mc) {
         return fv(r, nper, pmt, pv, 0, mc);
+    }
+
+    /**
+     * Future value of a series
+     *
+     * @param r
+     * @param per
+     * @param nper
+     * @param pmt
+     * @param type
+     * @param mc
+     * @return
+     */
+    //https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php
+    public static BigDecimal fvs(
+            BigDecimal r, int per, int nper, BigDecimal pmt, int type, MathContext mc) {
+        return fvs(r, per, nper, pmt, per, type, mc);
+    }
+
+    /**
+     * Different periodic payments and compounding
+     * <p>
+     * An amount of $100 is deposited quarterly into a savings account at an annual interest rate of 10%,
+     * compounded monthly. The value of the investment after 12 months can be calculated as follows...
+     *
+     * @param r
+     * @param per
+     * @param nper
+     * @param pmt
+     * @param pper number of period payment in the compounding period
+     * @param type
+     * @param mc
+     * @return
+     */
+    public static BigDecimal fvs(
+            BigDecimal r, int per, int nper, BigDecimal pmt, int pper, int type, MathContext mc) {
+        // p = number of periodic payments in the compounding period, divided by [per]
+        BigDecimal p = per == pper ? ONE : valueOf(pper).divide(valueOf(per), mc);
+        BigDecimal ratePerPeriod = pow(ONE.add(r.divide(valueOf(per), mc), mc), valueOf((long) per * nper), mc);
+        return pmt.multiply(p, mc).multiply(ratePerPeriod.subtract(ONE, mc).divide(r.divide(valueOf(per), mc), mc)
+                .multiply(ONE.add(r.multiply(valueOf(type), mc).divide(valueOf(per), mc), mc)), mc);
     }
 
 }

@@ -62,6 +62,9 @@ public class TestExcelFinancialFormulas {
     public void test_fvs() {
         assertThat(fvs(r, per, nper, pmt, 0, MathContext.DECIMAL64))
                 .isEqualByComparingTo("15528.22794456837");
+
+        assertThat(fvs(valueOf(0.1), 12, 1, pmt, 4, 0, MathContext.DECIMAL64))
+                .isEqualByComparingTo("418.8522697651720");
     }
 
 }

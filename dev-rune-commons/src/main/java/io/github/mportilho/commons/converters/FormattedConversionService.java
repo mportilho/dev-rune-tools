@@ -50,4 +50,17 @@ public interface FormattedConversionService {
      */
     <S, T, F> T convert(S source, Class<T> targetType, F format);
 
+    /**
+     * Converts an object to a target type
+     *
+     * @param source
+     * @param targetType
+     * @param <S>
+     * @param <T>
+     * @return
+     */
+    default <S, T> T convert(S source, Class<T> targetType) {
+        return convert(source, targetType, null);
+    }
+
 }

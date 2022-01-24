@@ -272,17 +272,7 @@ mathSpecificFunction
   | logarithmFunction # logarithmExpression
   | roundingFunction # roundingExpression
   | sequenceFunction # sequenceExpression
-  | 'max' LPAREN mathExpression (COMMA mathExpression)* RPAREN # maxOfExpression
-  | 'min' LPAREN mathExpression COMMA mathExpression (COMMA mathExpression)* RPAREN # minOfExpression
-  | 'avg' LPAREN mathExpression (COMMA mathExpression)* RPAREN # averageOfExpression
-  | 'median' LPAREN mathExpression COMMA mathExpression (COMMA mathExpression)* RPAREN # medianOfExpression
-  | 'r3' LPAREN mathExpression COMMA mathExpression COMMA mathExpression RPAREN # ruleThreeOfExpression
   ;
-
-  // finantial: simple and compound interest
-  //    [future value ]: fvs(VP, TX, Periodo)
-  //
-  // string: trim(string), contat('', '', '')
 
 trigonometryFunction
   : SINE LPAREN mathExpression RPAREN #sineExpression

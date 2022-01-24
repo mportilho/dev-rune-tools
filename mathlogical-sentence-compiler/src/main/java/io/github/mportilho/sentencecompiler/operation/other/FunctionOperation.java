@@ -26,7 +26,8 @@ import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.ArrayList;
@@ -49,12 +50,14 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        OperationFunctionCaller caller = context.getFunction(functionName, parameters.size());
+        OperationLambdaCaller caller = context.getFunction(functionName, parameters.size());
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found",
                     functionName, parameters.size()));
         }
-        return caller.call(parameters.stream().map(p -> p.evaluate(context)).toArray());
+        FunctionContext functionContext =
+                new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
+        return caller.apply(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
     }
 
 

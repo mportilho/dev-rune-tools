@@ -1,8 +1,8 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-import io.github.mportilho.commons.converters.FormattedConversionService;
+@FunctionalInterface
+public interface OperationLambdaCaller {
 
-import java.util.function.BiFunction;
+    Object apply(FunctionContext functionContext, Object[] parameters);
 
-public interface OperationLambdaCaller extends BiFunction<FormattedConversionService, Object[], Object> {
 }

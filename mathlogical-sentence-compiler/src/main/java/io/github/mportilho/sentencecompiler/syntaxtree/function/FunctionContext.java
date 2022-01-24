@@ -26,7 +26,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 
 import java.math.MathContext;
 
-public record OperationFunctionContext(MathContext mathContext, Integer scale,
-                                       FormattedConversionService conversionService) {
+public record FunctionContext(MathContext mathContext, Integer scale,
+                              FormattedConversionService conversionService) {
 
 }

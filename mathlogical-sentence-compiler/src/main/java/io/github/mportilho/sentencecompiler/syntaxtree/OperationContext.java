@@ -24,7 +24,7 @@ package io.github.mportilho.sentencecompiler.syntaxtree;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationFunctionCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 
 import java.math.MathContext;
 import java.time.LocalDateTime;
@@ -48,9 +48,9 @@ public record OperationContext(
         return value;
     }
 
-    public OperationFunctionCaller getFunction(String name, int parameterCount) {
+    public OperationLambdaCaller getFunction(String name, int parameterCount) {
         String functionKey = FunctionMetadataFactory.keyName(name, parameterCount);
-        OperationFunctionCaller func = userExecutionContext.getFunctions().get(functionKey);
+        OperationLambdaCaller func = userExecutionContext.getFunctions().get(functionKey);
         if (func == null && userExecutionContext != executionContext) {
             func = executionContext.getFunctions().get(functionKey);
         }

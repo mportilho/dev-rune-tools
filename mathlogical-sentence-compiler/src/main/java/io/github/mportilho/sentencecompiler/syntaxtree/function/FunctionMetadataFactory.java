@@ -1,6 +1,5 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 
 import java.beans.BeanInfo;
@@ -13,20 +12,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWrapper.createLambdaCaller;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWrapper.createStaticLambdaCaller;
 import static java.lang.reflect.Modifier.isStatic;
 
 public class FunctionMetadataFactory {
 
-    public static Map<String, OperationFunctionCaller> createFunctionCaller(
-            Object functionProvider,
-            FormattedConversionService conversionService) throws Throwable {
+    public static Map<String, OperationLambdaCaller> createFunctionCaller(Object functionProvider) throws Throwable {
         Objects.requireNonNull(functionProvider, "Parameter [functionProvider] must not be null");
-
         boolean isClassObject = functionProvider instanceof Class<?>;
         Class<?> clazz = isClassObject ? (Class<?>) functionProvider : functionProvider.getClass();
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz, Object.class);
 
-        Map<String, OperationFunctionCaller> dynamicCallerPool = new HashMap<>();
+        Map<String, OperationLambdaCaller> dynamicCallerPool = new HashMap<>();
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         for (MethodDescriptor methodDescriptor : beanInfo.getMethodDescriptors()) {
             Method method = methodDescriptor.getMethod();
@@ -36,32 +34,31 @@ public class FunctionMetadataFactory {
 
             if (findFactoryInterface(method.getParameterCount()) == null) {
                 dynamicCallerPool.put(keyName(method),
-                        createMethodHandleCaller(lookup, method, conversionService, functionProvider));
+                        createMethodHandleCaller(lookup, method, functionProvider));
             } else if (isStatic(method.getModifiers())) {
                 dynamicCallerPool.put(keyName(method),
-                        createStaticCaller(lookup, method, conversionService));
+                        createStaticCaller(lookup, method));
             } else if (!isClassObject) {
                 dynamicCallerPool.put(keyName(method),
-                        createDynamicCaller(lookup, method, functionProvider, conversionService));
+                        createDynamicCaller(lookup, method, functionProvider));
             }
         }
         return dynamicCallerPool;
     }
 
     // slower
-    private static OperationFunctionCaller createMethodHandleCaller(
-            MethodHandles.Lookup lookup, Method method,
-            FormattedConversionService conversionService, Object instance) throws Throwable {
+    private static OperationLambdaCaller createMethodHandleCaller(
+            MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
 
         MethodHandle methodHandle = instance == null ? lookup.unreflect(method) : lookup.unreflect(method).bindTo(instance);
         MethodHandle callableMethodHandle = methodHandle.asType(methodHandle.type().generic())
                 .asSpreader(Object[].class, methodHandle.type().parameterCount());
 
         Class<?>[] parameterArray = methodHandle.type().parameterArray();
-        OperationLambdaCaller caller = (s, params) -> {
+        return (context, params) -> {
             Object[] callingParameters = new Object[params.length];
             for (int i = 0; i < parameterArray.length; i++) {
-                callingParameters[i] = s.convert(params[i], parameterArray[i], null);
+                callingParameters[i] = context.conversionService().convert(params[i], parameterArray[i], null);
             }
             try {
                 return callableMethodHandle.invokeExact(callingParameters);
@@ -69,11 +66,10 @@ public class FunctionMetadataFactory {
                 throw new SyntaxExecutionException("Error calling dynamic function", e);
             }
         };
-        return new OperationFunctionCaller(caller, method.getParameterTypes(), conversionService);
     }
 
-    private static OperationFunctionCaller createStaticCaller(
-            MethodHandles.Lookup lookup, Method method, FormattedConversionService conversionService) throws Throwable {
+    private static OperationLambdaCaller createStaticCaller(
+            MethodHandles.Lookup lookup, Method method) throws Throwable {
 
         Class<?> clazz = method.getDeclaringClass();
         Class<?> factoryInterface = findFactoryInterface(method.getParameterCount());
@@ -85,13 +81,11 @@ public class FunctionMetadataFactory {
                 functionMethodType.generic(),
                 implementationMethodHandle,
                 functionMethodType);
-
-        return new OperationFunctionCaller(method.getParameterTypes(), callSite.getTarget().invoke(), conversionService);
+        return createStaticLambdaCaller(callSite.getTarget().invoke(), method.getParameterTypes());
     }
 
-    private static OperationFunctionCaller createDynamicCaller(
-            MethodHandles.Lookup lookup, Method method, Object instance,
-            FormattedConversionService conversionService) throws Throwable {
+    private static OperationLambdaCaller createDynamicCaller(
+            MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
 
         Class<?> clazz = method.getDeclaringClass();
         Class<?> factoryInterface = findFactoryInterface(method.getParameterCount() + 1);
@@ -104,7 +98,7 @@ public class FunctionMetadataFactory {
                 MethodType.genericMethodType(method.getParameterCount() + 1), // method params plus instance object
                 implementationMethodHandle,
                 functionMethodType.insertParameterTypes(0, clazz)); // method params plus instance object
-        return new OperationFunctionCaller(method.getParameterTypes(), callSite.getTarget().invoke(), instance, conversionService);
+        return createLambdaCaller(callSite.getTarget().invoke(), instance, method.getParameterTypes());
     }
 
     public static String keyName(Method method) {
@@ -133,17 +127,17 @@ public class FunctionMetadataFactory {
 
     private static Class<?> findFactoryInterface(int parameterNumber) {
         return switch (parameterNumber) {
-            case 1 -> OperationFunctionLambdaWrapper.Function1.class;
-            case 2 -> OperationFunctionLambdaWrapper.Function2.class;
-            case 3 -> OperationFunctionLambdaWrapper.Function3.class;
-            case 4 -> OperationFunctionLambdaWrapper.Function4.class;
-            case 5 -> OperationFunctionLambdaWrapper.Function5.class;
-            case 6 -> OperationFunctionLambdaWrapper.Function6.class;
-            case 7 -> OperationFunctionLambdaWrapper.Function7.class;
-            case 8 -> OperationFunctionLambdaWrapper.Function8.class;
-            case 9 -> OperationFunctionLambdaWrapper.Function9.class;
-            case 10 -> OperationFunctionLambdaWrapper.Function10.class;
-            case 11 -> OperationFunctionLambdaWrapper.Function11.class;
+            case 1 -> LambdaWrapper.Function1.class;
+            case 2 -> LambdaWrapper.Function2.class;
+            case 3 -> LambdaWrapper.Function3.class;
+            case 4 -> LambdaWrapper.Function4.class;
+            case 5 -> LambdaWrapper.Function5.class;
+            case 6 -> LambdaWrapper.Function6.class;
+            case 7 -> LambdaWrapper.Function7.class;
+            case 8 -> LambdaWrapper.Function8.class;
+            case 9 -> LambdaWrapper.Function9.class;
+            case 10 -> LambdaWrapper.Function10.class;
+            case 11 -> LambdaWrapper.Function11.class;
             default -> null;
         };
     }

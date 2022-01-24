@@ -29,6 +29,8 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
         Objects.requireNonNull(targetType, "Target Type must be provided");
         if (source == null) {
             return null;
+        } else if (source.getClass().equals(targetType)) {
+            return (T) source;
         }
         FormattedConverter<S, T, F> converter = (FormattedConverter<S, T, F>) formattedConverters.get(new ConvertMappingKey(source.getClass(), targetType));
         if (converter == null) {

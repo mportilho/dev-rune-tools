@@ -8,7 +8,8 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.*;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 
@@ -18,6 +19,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.createFunctionCaller;
 
 public class SyntaxExecutionSite {
 
@@ -73,20 +76,15 @@ public class SyntaxExecutionSite {
         executionContext.getDictionary().putAll(dictionary);
     }
 
-    public void addFunction(String name, UserDefinedOperationFunction function) {
+    public void addFunction(String name, OperationLambdaCaller function) {
         AssertUtils.notNullOrBlank(name, "Function name must be provided");
         Objects.requireNonNull(function, "Parameter [function] must be provided");
-
-        OperationLambdaCaller lambdaCaller = (s, p) -> function.call(
-                new OperationFunctionContext(mathContext, scale, conversionService), p);
-        OperationFunctionCaller caller = new OperationFunctionCaller(lambdaCaller, null, conversionService);
-        executionContext.getFunctions().put(FunctionMetadataFactory.keyName(name, -1), caller);
+        executionContext.getFunctions().put(FunctionMetadataFactory.keyName(name, -1), function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
-            Map<String, OperationFunctionCaller> callerMap = FunctionMetadataFactory
-                    .createFunctionCaller(functionProvider, conversionService);
+            Map<String, OperationLambdaCaller> callerMap = createFunctionCaller(functionProvider);
             executionContext.getFunctions().putAll(callerMap);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);

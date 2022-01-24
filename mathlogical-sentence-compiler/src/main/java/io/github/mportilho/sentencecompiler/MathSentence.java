@@ -27,7 +27,7 @@ import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingExcept
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.UserDefinedOperationFunction;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.DefaultOperationSyntaxTreeGenerator;
@@ -102,7 +102,7 @@ public class MathSentence {
         return this;
     }
 
-    public void addFunction(String name, UserDefinedOperationFunction function) {
+    public void addFunction(String name, OperationLambdaCaller function) {
         checkUpdateLock();
         syntaxExecutionSite.addFunction(name, function);
     }

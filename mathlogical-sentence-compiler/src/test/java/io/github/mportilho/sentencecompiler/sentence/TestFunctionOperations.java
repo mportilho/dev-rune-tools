@@ -36,7 +36,7 @@ public class TestFunctionOperations {
 //	@Test
 //	public void testDynamicFunction() {
 //		DynamicFunction function = (context, params) -> 5;
-//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(null, null), parameters);
+//		Function<Object[], Object> dynamicFunction = parameters -> function.apply(new DynamicFunctionContext(null, null), parameters);
 //		OperationContext operationContext = new OperationContext();
 //		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
 //
@@ -49,7 +49,7 @@ public class TestFunctionOperations {
 //		DynamicFunction function = (context, params) -> {
 //			return new BigDecimal("5", context.getMathContext()).setScale(context.getScale());
 //		};
-//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(MathContext.DECIMAL64, 8), parameters);
+//		Function<Object[], Object> dynamicFunction = parameters -> function.apply(new DynamicFunctionContext(MathContext.DECIMAL64, 8), parameters);
 //		OperationContext operationContext = new OperationContext();
 //		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
 //

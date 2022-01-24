@@ -76,7 +76,7 @@ public class FunctionMetadataFactory {
         MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
         MethodHandle implementationMethodHandle = lookup.findStatic(clazz, method.getName(), functionMethodType);
         CallSite callSite = LambdaMetafactory.metafactory(lookup,
-                "apply",
+                "call",
                 MethodType.methodType(factoryInterface),
                 functionMethodType.generic(),
                 implementationMethodHandle,
@@ -93,7 +93,7 @@ public class FunctionMetadataFactory {
         MethodHandle implementationMethodHandle = lookup.findVirtual(clazz, method.getName(), functionMethodType);
 
         CallSite callSite = LambdaMetafactory.metafactory(lookup,
-                "apply",
+                "call",
                 MethodType.methodType(factoryInterface), // factoryMethodType
                 MethodType.genericMethodType(method.getParameterCount() + 1), // method params plus instance object
                 implementationMethodHandle,

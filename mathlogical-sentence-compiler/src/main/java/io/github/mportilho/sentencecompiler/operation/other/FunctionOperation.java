@@ -57,7 +57,7 @@ public class FunctionOperation extends AbstractOperation {
         }
         FunctionContext functionContext =
                 new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
-        return caller.apply(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
+        return caller.call(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
     }
 
 

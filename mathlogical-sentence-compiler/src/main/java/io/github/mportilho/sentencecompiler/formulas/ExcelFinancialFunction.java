@@ -48,14 +48,14 @@ public class ExcelFinancialFunction {
     }
 
     /**
-     * Overloaded pmt() apply omitting type, which defaults to 0.
+     * Overloaded pmt() call omitting type, which defaults to 0.
      */
     public static BigDecimal pmt(BigDecimal r, int nper, BigDecimal pv, BigDecimal fv, MathContext mc) {
         return pmt(r, nper, pv, fv, 0, mc);
     }
 
     /**
-     * Overloaded pmt() apply omitting fv and type, which both default to 0.
+     * Overloaded pmt() call omitting fv and type, which both default to 0.
      */
     public static BigDecimal pmt(BigDecimal r, int nper, BigDecimal pv, MathContext mc) {
         return pmt(r, nper, pv, ZERO, mc);
@@ -95,7 +95,7 @@ public class ExcelFinancialFunction {
     /**
      * Emulates Excel/Calc's PPMT(interest_rate, period, number_payments, PV,
      * FV, Type) function, which calculates the portion of the payment at a
-     * given period that will apply to principal.
+     * given period that will call to principal.
      *
      * @param r    - periodic interest rate represented as a decimal.
      * @param per  - period (payment number) to check value at (capitalização).
@@ -141,7 +141,7 @@ public class ExcelFinancialFunction {
     }
 
     /**
-     * Overloaded fv() apply omitting type, which defaults to 0.
+     * Overloaded fv() call omitting type, which defaults to 0.
      */
     public static BigDecimal fv(BigDecimal r, int nper, BigDecimal pmt, BigDecimal pv, MathContext mc) {
         return fv(r, nper, pmt, pv, 0, mc);

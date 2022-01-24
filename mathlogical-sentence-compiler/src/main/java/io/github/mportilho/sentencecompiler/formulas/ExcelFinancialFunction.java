@@ -70,7 +70,8 @@ public class ExcelFinancialFunction {
     }
 
     public static BigDecimal fv(
-            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal pv, int type, MathContext mc) {
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal pv, BigDecimal type,
+            MathContext mc) {
         BigDecimal fv = pv.multiply(eir(r, per, nper, mc).add(ONE, mc), mc);
         return fv.add(fvs(r, per, nper, pmt, type, mc), mc).negate(mc);
     }
@@ -88,7 +89,7 @@ public class ExcelFinancialFunction {
      */
     //http://en.wikipedia.org/wiki/Future_value
     public static BigDecimal fv(
-            BigDecimal r, BigDecimal nper, BigDecimal pmt, BigDecimal pv, int type, MathContext mc) {
+            BigDecimal r, BigDecimal nper, BigDecimal pmt, BigDecimal pv, BigDecimal type, MathContext mc) {
         return fv(r, ONE, nper, pmt, pv, type, mc);
     }
 
@@ -96,7 +97,7 @@ public class ExcelFinancialFunction {
      * Overloaded fv() call omitting type, which defaults to 0.
      */
     public static BigDecimal fv(BigDecimal r, BigDecimal nper, BigDecimal pmt, BigDecimal pv, MathContext mc) {
-        return fv(r, nper, pmt, pv, 0, mc);
+        return fv(r, nper, pmt, pv, ZERO, mc);
     }
 
     /**
@@ -112,7 +113,7 @@ public class ExcelFinancialFunction {
      */
     //https://www.thecalculatorsite.com/articles/finance/compound-interest-formula.php
     public static BigDecimal fvs(
-            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, int type, MathContext mc) {
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal type, MathContext mc) {
         return fvs(r, per, nper, pmt, per, type, mc);
     }
 
@@ -132,13 +133,14 @@ public class ExcelFinancialFunction {
      * @return
      */
     public static BigDecimal fvs(
-            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal pper, int type, MathContext mc) {
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal pper, BigDecimal type,
+            MathContext mc) {
         // p = number of periodic payments in the compounding period, divided by [per]
         BigDecimal p = per.compareTo(pper) == 0 ? ONE : pper.divide(per, mc);
         BigDecimal ratePerPeriod = r.divide(per, mc);
         BigDecimal equivRateOfPeriod = eir(r, per, nper, mc);
         return pmt.multiply(p, mc).multiply(equivRateOfPeriod.divide(ratePerPeriod, mc)
-                .multiply(ONE.add(r.multiply(valueOf(type), mc).divide(per, mc), mc)), mc);
+                .multiply(ONE.add(r.multiply(type, mc).divide(per, mc), mc)), mc);
     }
 
     /**
@@ -171,10 +173,10 @@ public class ExcelFinancialFunction {
      */
     // http://arachnoid.com/lutusp/finance.html
     public static BigDecimal pmt(
-            BigDecimal r, BigDecimal nper, BigDecimal pv, BigDecimal fv, int type, MathContext mc) {
+            BigDecimal r, BigDecimal nper, BigDecimal pv, BigDecimal fv, BigDecimal type, MathContext mc) {
         BigDecimal equivInterestRate = eir(r, ONE, nper, mc);
         BigDecimal totalFv = pv.multiply(equivInterestRate.add(ONE, mc), mc).add(fv, mc);
-        BigDecimal pmtAtBeginning = ONE.add(r.multiply(valueOf(type), mc), mc).multiply(equivInterestRate, mc);
+        BigDecimal pmtAtBeginning = ONE.add(r.multiply(type, mc), mc).multiply(equivInterestRate, mc);
         return r.negate(mc).multiply(totalFv, mc).divide(pmtAtBeginning, mc);
     }
 
@@ -182,7 +184,7 @@ public class ExcelFinancialFunction {
      * Overloaded pmt() call omitting type, which defaults to 0.
      */
     public static BigDecimal pmt(BigDecimal r, BigDecimal nper, BigDecimal pv, BigDecimal fv, MathContext mc) {
-        return pmt(r, nper, pv, fv, 0, mc);
+        return pmt(r, nper, pv, fv, ZERO, mc);
     }
 
     /**
@@ -207,9 +209,10 @@ public class ExcelFinancialFunction {
      */
     // http://doc.optadata.com/en/dokumentation/application/expression/functions/financial.html
     public static BigDecimal ipmt(
-            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, int type, MathContext mc) {
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, BigDecimal type,
+            MathContext mc) {
         BigDecimal ipmt = fv(r, per.subtract(ONE, mc), pmt(r, nper, pv, fv, type, mc), pv, type, mc).multiply(r, mc);
-        if (type == 1) {
+        if (ONE.compareTo(type) == 0) {
             ipmt = ipmt.divide(ONE.add(r, mc), mc);
         }
         return ipmt;
@@ -217,7 +220,7 @@ public class ExcelFinancialFunction {
 
     public static BigDecimal ipmt(
             BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, MathContext mc) {
-        return ipmt(r, per, nper, pv, fv, 0, mc);
+        return ipmt(r, per, nper, pv, fv, ZERO, mc);
     }
 
     public static BigDecimal ipmt(BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, MathContext mc) {
@@ -238,7 +241,8 @@ public class ExcelFinancialFunction {
      * @return <code>double</code> representing principal portion of payment.
      */
     public static BigDecimal ppmt(
-            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, int type, MathContext mc) {
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, BigDecimal type,
+            MathContext mc) {
         return pmt(r, nper, pv, fv, type, mc).subtract(ipmt(r, per, nper, pv, fv, type, mc), mc);
     }
 

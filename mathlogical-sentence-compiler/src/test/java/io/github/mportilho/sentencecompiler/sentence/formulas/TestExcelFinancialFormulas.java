@@ -22,7 +22,7 @@ public class TestExcelFinancialFormulas {
 
     @Test
     public void test_pmt() {
-        assertThat(pmt(r, nper, pv, fv, 0, mc))
+        assertThat(pmt(r, nper, pv, fv, ZERO, mc))
                 .isEqualByComparingTo("-2396.623524067332");
 
         assertThat(pmt(r, nper, pv, fv, mc)).isEqualByComparingTo("-2396.623524067332");
@@ -31,42 +31,42 @@ public class TestExcelFinancialFormulas {
 
     @Test
     public void test_ipmt() {
-        assertThat(ipmt(r, per, nper, pv, fv, 0, mc)).isEqualByComparingTo("1274.831176203366");
+        assertThat(ipmt(r, per, nper, pv, fv, ZERO, mc)).isEqualByComparingTo("1274.831176203366");
         assertThat(ipmt(r, per, nper, pv, fv, mc)).isEqualByComparingTo("1274.831176203366");
         assertThat(ipmt(r, per, nper, pv, mc)).isEqualByComparingTo("32.37614374136415");
     }
 
     @Test
     public void test_ppmt() {
-        assertThat(ppmt(r, per, nper, pv, fv, 0, mc)).isEqualByComparingTo("-3671.454700270698");
+        assertThat(ppmt(r, per, nper, pv, fv, ZERO, mc)).isEqualByComparingTo("-3671.454700270698");
         assertThat(ppmt(r, per, nper, pv, fv, mc)).isEqualByComparingTo("-3671.454700270698");
         assertThat(ppmt(r, per, nper, pv, mc)).isEqualByComparingTo("-679.8990185686478");
     }
 
     @Test
     public void test_fv() {
-        assertThat(fv(valueOf(0.18), valueOf(12), ONE, ZERO, valueOf(10000), 0, MathContext.DECIMAL64))
+        assertThat(fv(valueOf(0.18), valueOf(12), ONE, ZERO, valueOf(10000), ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-11956.18171461535");
 
-        assertThat(fv(r, ONE, nper, ZERO, pv, 0, MathContext.DECIMAL64))
+        assertThat(fv(r, ONE, nper, ZERO, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-8144.473133887205");
 
-        assertThat(fv(r, ONE, nper, pmt, pv, 0, MathContext.DECIMAL64))
+        assertThat(fv(r, ONE, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-9402.262387442087");
 
-        assertThat(fv(r, per, nper, ZERO, pv, 0, MathContext.DECIMAL64))
+        assertThat(fv(r, per, nper, ZERO, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-8235.047488451745");
 
-        assertThat(fv(r, per, nper, pmt, pv, 0, MathContext.DECIMAL64))
+        assertThat(fv(r, per, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-23763.27543302012");
     }
 
     @Test
     public void test_fvs() {
-        assertThat(fvs(r, per, nper, pmt, 0, MathContext.DECIMAL64))
+        assertThat(fvs(r, per, nper, pmt, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("15528.22794456837");
 
-        assertThat(fvs(valueOf(0.1), valueOf(12), ONE, pmt, valueOf(4), 0, MathContext.DECIMAL64))
+        assertThat(fvs(valueOf(0.1), valueOf(12), ONE, pmt, valueOf(4), ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("418.8522697651720");
     }
 

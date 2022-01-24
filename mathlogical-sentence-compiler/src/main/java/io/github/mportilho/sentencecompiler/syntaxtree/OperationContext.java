@@ -28,13 +28,14 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaC
 
 import java.math.MathContext;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public record OperationContext(
 
         MathContext mathContext,
         Integer scale,
         boolean allowingNull,
-        LocalDateTime currentDateTime,
+        ZonedDateTime currentDateTime,
         FormattedConversionService formattedConversionService,
         ExecutionContext executionContext,
         ExecutionContext userExecutionContext

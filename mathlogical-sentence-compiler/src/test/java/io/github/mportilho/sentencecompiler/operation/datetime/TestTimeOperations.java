@@ -22,117 +22,125 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import static java.math.BigDecimal.valueOf;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
+import static java.math.BigDecimal.valueOf;
 
 public class TestTimeOperations {
 
-	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
-	@Test
-	public void testTimeAdditionOperation() {
-		TimeAdditionOperation operation;
+    @Test
+    public void testTimeAdditionOperation() {
+        TimeAdditionOperation operation;
 
-		operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.HOUR);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("01:55:50");
+        operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.HOUR);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("01:55:50");
 
-		operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.MINUTE);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:57:50");
+        operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.MINUTE);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:57:50");
 
-		operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.SECOND);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:52");
-	}
+        operation = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.SECOND);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:52");
+    }
 
-	@Test
-	public void testTimeSetOperation() {
-		TimeSetOperation operation;
+    @Test
+    public void testTimeSetOperation() {
+        TimeSetOperation operation;
 
-		operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.HOUR);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("02:55:50");
+        operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.HOUR);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("02:55:50");
 
-		operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.MINUTE);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:02:50");
+        operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.MINUTE);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:02:50");
 
-		operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.SECOND);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:02");
-	}
+        operation = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.SECOND);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:02");
+    }
 
-	@Test
-	public void testTimeSubtractionOperation() {
-		TimeSubtractionOperation operation;
+    @Test
+    public void testTimeSubtractionOperation() {
+        TimeSubtractionOperation operation;
 
-		operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.HOUR);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("21:55:50");
+        operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.HOUR);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("21:55:50");
 
-		operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.MINUTE);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:53:50");
+        operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.MINUTE);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:53:50");
 
-		operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.SECOND);
-		assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:48");
-	}
+        operation = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.SECOND);
+        assertThat(operation.<LocalTime>evaluate(context)).isEqualTo("23:55:48");
+    }
 
-	@Test
-	public void testTimeAdditionOperation_WithInvalidDateElement() {
-		TimeAdditionOperation operation1 = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
-		assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+    @Test
+    public void testTimeAdditionOperation_WithInvalidDateElement() {
+        TimeAdditionOperation operation1 = new TimeAdditionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
+        assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeAdditionOperation operation2 = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
-		assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+        TimeAdditionOperation operation2 = new TimeAdditionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
+        assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeAdditionOperation operation3 = new TimeAdditionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.YEAR);
-		assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
-	}
+        TimeAdditionOperation operation3 = new TimeAdditionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.YEAR);
+        assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+    }
 
-	@Test
-	public void testTimeSetOperation_WithInvalidDateElement() {
-		TimeSetOperation operation1 = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.DAY);
-		assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+    @Test
+    public void testTimeSetOperation_WithInvalidDateElement() {
+        TimeSetOperation operation1 = new TimeSetOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.DAY);
+        assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeSetOperation operation2 = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.MONTH);
-		assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+        TimeSetOperation operation2 = new TimeSetOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.MONTH);
+        assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeSetOperation operation3 = new TimeSetOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
-				DateElementEnum.YEAR);
-		assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
-	}
+        TimeSetOperation operation3 = new TimeSetOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)), new GenericValueOperation(valueOf(2)),
+                DateElementEnum.YEAR);
+        assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+    }
 
-	@Test
-	public void testTimeSubtractionOperation_WithInvalidDateElement() {
-		TimeSubtractionOperation operation1 = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
-		assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+    @Test
+    public void testTimeSubtractionOperation_WithInvalidDateElement() {
+        TimeSubtractionOperation operation1 = new TimeSubtractionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
+        assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeSubtractionOperation operation2 = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
-		assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
+        TimeSubtractionOperation operation2 = new TimeSubtractionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
+        assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
 
-		TimeSubtractionOperation operation3 = new TimeSubtractionOperation(new GenericValueOperation(LocalTime.of(23, 55, 50)),
-				new GenericValueOperation(valueOf(2)), DateElementEnum.YEAR);
-		assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(IllegalStateException.class);
-	}
+        TimeSubtractionOperation operation3 = new TimeSubtractionOperation(
+                new GenericValueOperation(LocalTime.of(23, 55, 50)),
+                new GenericValueOperation(valueOf(2)), DateElementEnum.YEAR);
+        assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+    }
 
 }

@@ -5,17 +5,17 @@ import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.math.MathContext;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class MathSentenceCompilerMockupFactory {
 
     public static OperationContext getOperationContext() {
-        return new OperationContext(MathContext.DECIMAL64, 8, false, LocalDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
                 new DefaultFormattedConversionService(), new ExecutionContext(), new ExecutionContext());
     }
 
     public static OperationContext getOperationContext(boolean allowingNull) {
-        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, LocalDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
                 new DefaultFormattedConversionService(), new ExecutionContext(), new ExecutionContext());
     }
 

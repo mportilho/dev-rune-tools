@@ -14,13 +14,14 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 
 import java.math.MathContext;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.createFunctionCaller;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
 
 public class SyntaxExecutionSite {
 
@@ -56,7 +57,7 @@ public class SyntaxExecutionSite {
     public Object compute(ExecutionContext userExecutionContext) {
         Objects.requireNonNull(userExecutionContext, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, false, LocalDateTime.now(), conversionService, executionContext, userExecutionContext);
+                scale, false, ZonedDateTime.now(), conversionService, executionContext, userExecutionContext);
         for (AbstractVariableValueOperation variableValueOperation : userVariables.values()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
@@ -67,7 +68,7 @@ public class SyntaxExecutionSite {
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, LocalDateTime.now(), conversionService, executionContext, executionContext);
+                scale, true, ZonedDateTime.now(), conversionService, executionContext, executionContext);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
@@ -78,8 +79,8 @@ public class SyntaxExecutionSite {
 
     public void addFunction(String name, OperationLambdaCaller function) {
         AssertUtils.notNullOrBlank(name, "Function name must be provided");
-        Objects.requireNonNull(function, "Parameter [function] must be provided");
-        executionContext.getFunctions().put(FunctionMetadataFactory.keyName(name, -1), function);
+        Objects.requireNonNull(function, "A function implementation must be provided");
+        executionContext.getFunctions().put(keyName(name, -1), function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {

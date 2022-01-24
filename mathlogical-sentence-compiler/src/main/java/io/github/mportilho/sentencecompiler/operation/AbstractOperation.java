@@ -39,7 +39,7 @@ public abstract class AbstractOperation {
 
     private Object cache;
     private Set<AbstractOperation> cacheBlockingSemaphores;
-    private Set<AbstractOperation> cacheDisableMarkup;
+    private Set<AbstractOperation> cacheDisableHint;
 
     private List<AbstractOperation> parents;
     private Class<?> expectedType;
@@ -69,36 +69,24 @@ public abstract class AbstractOperation {
      */
     @SuppressWarnings("unchecked")
     public final <T> T evaluate(OperationContext context) {
-        Collections.emptyList();
         Object result;
         try {
             result = readValue(context);
             result = castOperationResult(result, context);
         } catch (ClassCastException e) {
-            throw new IllegalStateException(String.format("Wrong operands type for expression %s", this), e);
+            throw new SyntaxExecutionException(String.format("Wrong operands type for expression [%s]", this), e);
         } catch (ArithmeticException e) {
-            ArithmeticException newException = new ArithmeticException(
-                    String.format("Arithmetic error for expression '%s': %s", this, e.getMessage()));
-            newException.setStackTrace(e.getStackTrace());
-            throw newException;
-        } catch (SyntaxExecutionException e) {
-            throw new IllegalStateException(e.getMessage(), e.getCause());
-        } catch (IllegalArgumentException | IllegalStateException e) {
+            throw new SyntaxExecutionException(String.format("Arithmetic error computing expression [%s]", this), e);
+        } catch (NullPointerException | SyntaxExecutionException e) {
             throw e;
-        } catch (NullPointerException e) {
-            if (context.allowingNull()) {
-                return null;
-            } else {
-                throw e;
-            }
         } catch (Exception e) {
-            throw new IllegalStateException(String.format("Error during calculation of expression '%s'", this), e);
+            throw new SyntaxExecutionException(String.format("Error computing expression [%s]", this), e);
         }
         if (result == null && !context.allowingNull()) {
             if (this instanceof AbstractVariableValueOperation) {
-                throw new IllegalArgumentException(String.format("The variable '%s' does not have any provided value", this));
+                throw new SyntaxExecutionException(String.format("The variable [%s] does not have any provided value", this));
             } else {
-                throw new NullPointerException(String.format("Not expecting null for expression value '%s' ", this));
+                throw new NullPointerException(String.format("Invalid null result for expression [%s] ", this));
             }
         }
         return (T) result;
@@ -212,9 +200,9 @@ public abstract class AbstractOperation {
     /**
      * The CacheConfigurationVisitor will check if this semaphore is not null to decide to disable caching
      */
-    protected void disableCacheMarkup() {
-        this.cacheDisableMarkup = Collections.emptySet();
-        this.cacheBlockingSemaphores = this.cacheDisableMarkup;
+    protected void hintDisableCache() {
+        this.cacheDisableHint = Collections.emptySet();
+        this.cacheBlockingSemaphores = this.cacheDisableHint;
     }
 
     public void setCachingOptions(boolean enable) {
@@ -248,9 +236,10 @@ public abstract class AbstractOperation {
         }
     }
 
-    public boolean isDisableCacheMarkupActive() {
-        if (this.cacheDisableMarkup != null && this.cacheBlockingSemaphores == this.cacheDisableMarkup) {
+    public boolean checkAndRemoveDisableCacheHint() {
+        if (this.cacheDisableHint != null && this.cacheBlockingSemaphores == this.cacheDisableHint) {
             this.cacheBlockingSemaphores = new HashSet<>(3);
+            this.cacheDisableHint = null;
             return true;
         }
         return false;

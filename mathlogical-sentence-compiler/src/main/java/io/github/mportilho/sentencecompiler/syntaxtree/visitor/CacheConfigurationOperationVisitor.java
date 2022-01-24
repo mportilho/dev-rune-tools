@@ -16,7 +16,7 @@ public class CacheConfigurationOperationVisitor implements OperationVisitor<Obje
 
 
     private Object disableCaching(AbstractOperation operation) {
-        if (operation.isDisableCacheMarkupActive()) {
+        if (operation.checkAndRemoveDisableCacheHint()) {
             operation.setCachingOptions(false);
         }
         return operation;

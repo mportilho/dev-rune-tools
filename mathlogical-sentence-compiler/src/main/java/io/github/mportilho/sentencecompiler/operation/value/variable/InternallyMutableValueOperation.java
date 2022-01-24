@@ -19,7 +19,7 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
         super(variableName);
         Objects.requireNonNull(mutableOperationResolver, "Mutable operation resolver must be provided");
         this.mutableOperationResolver = mutableOperationResolver;
-        this.disableCacheMarkup();
+        this.hintDisableCache();
     }
 
     @Override

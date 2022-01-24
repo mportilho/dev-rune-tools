@@ -52,7 +52,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
                 context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], int.class),
+                context.conversionService().convert(params[5], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("fv_5", (context, params) -> ExcelFinancialFunction.fv(
@@ -60,7 +60,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[1], BigDecimal.class),
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], int.class),
+                context.conversionService().convert(params[4], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("fv_4", (context, params) -> ExcelFinancialFunction.fv(
@@ -75,7 +75,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[1], BigDecimal.class),
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], int.class),
+                context.conversionService().convert(params[4], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("fvs_6", (context, params) -> ExcelFinancialFunction.fvs(
@@ -84,7 +84,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
                 context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], int.class),
+                context.conversionService().convert(params[5], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("pmt_5", (context, params) -> ExcelFinancialFunction.pmt(
@@ -92,7 +92,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[1], BigDecimal.class),
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], int.class),
+                context.conversionService().convert(params[4], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("pmt_4", (context, params) -> ExcelFinancialFunction.pmt(
@@ -114,7 +114,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
                 context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], int.class),
+                context.conversionService().convert(params[5], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("ipmt_5", (context, params) -> ExcelFinancialFunction.ipmt(
@@ -139,7 +139,7 @@ public class FinancialFormulasExtension {
                 context.conversionService().convert(params[2], BigDecimal.class),
                 context.conversionService().convert(params[3], BigDecimal.class),
                 context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], int.class),
+                context.conversionService().convert(params[5], BigDecimal.class),
                 context.mathContext()));
 
         extensions.put("ppmt_5", (context, params) -> ExcelFinancialFunction.ppmt(

@@ -44,7 +44,7 @@ public class FunctionOperation extends AbstractOperation {
         this.parameters = parameters != null ? parameters : Collections.emptyList();
         this.parameters.forEach(parameter -> parameter.addParent(this));
         if (!caching) {
-            this.disableCacheMarkup();
+            this.hintDisableCache();
         }
     }
 
@@ -57,7 +57,13 @@ public class FunctionOperation extends AbstractOperation {
         }
         FunctionContext functionContext =
                 new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
-        return caller.call(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
+        try {
+            return caller.call(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new SyntaxExecutionException(
+                    String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
+                            functionName, parameters.size()), e);
+        }
     }
 
 

@@ -890,7 +890,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     @Override
     public AbstractOperation visitDateTimeCurrentValue(DateTimeCurrentValueContext ctx) {
         return new InternallyMutableValueOperation("currDateTime",
-                (op, context) -> context.currentDateTime()).expectedType(LocalDateTime.class);
+                (op, context) -> context.currentDateTime().toLocalDateTime()).expectedType(LocalDateTime.class);
     }
 
     @Override

@@ -8,7 +8,6 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
@@ -30,7 +29,7 @@ public class SyntaxExecutionSite {
     private final Integer scale;
     private final Map<String, AbstractVariableValueOperation> userVariables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
-    private final ExecutionContext executionContext;
+    private final OperationSupportData operationSupportData;
     private final FormattedConversionService conversionService;
 
     public SyntaxExecutionSite(
@@ -39,25 +38,25 @@ public class SyntaxExecutionSite {
             Integer scale,
             Map<String, AbstractVariableValueOperation> userVariables,
             Map<String, AssignedVariableOperation> assignedVariables,
-            ExecutionContext executionContext,
+            OperationSupportData operationSupportData,
             FormattedConversionService conversionService) {
         this.operation = operation;
         this.mathContext = mathContext;
         this.scale = scale;
         this.userVariables = Collections.unmodifiableMap(userVariables);
         this.assignedVariables = Collections.unmodifiableMap(assignedVariables);
-        this.executionContext = executionContext;
+        this.operationSupportData = operationSupportData;
         this.conversionService = conversionService;
     }
 
     public Object compute() {
-        return compute(executionContext);
+        return compute(operationSupportData);
     }
 
-    public Object compute(ExecutionContext userExecutionContext) {
-        Objects.requireNonNull(userExecutionContext, "Parameter [userExecutionContext] must be provided");
+    public Object compute(OperationSupportData userOperationSupportData) {
+        Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, false, ZonedDateTime.now(), conversionService, executionContext, userExecutionContext);
+                scale, false, ZonedDateTime.now(), conversionService, operationSupportData, userOperationSupportData);
         for (AbstractVariableValueOperation variableValueOperation : userVariables.values()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
@@ -68,25 +67,25 @@ public class SyntaxExecutionSite {
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, ZonedDateTime.now(), conversionService, executionContext, executionContext);
+                scale, true, ZonedDateTime.now(), conversionService, operationSupportData, operationSupportData);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
     public void addDictionary(Map<String, Object> dictionary) {
         Objects.requireNonNull(dictionary, "Cannot add a null dictionary to execution context");
-        executionContext.getDictionary().putAll(dictionary);
+        operationSupportData.getDictionary().putAll(dictionary);
     }
 
     public void addFunction(String name, OperationLambdaCaller function) {
         AssertUtils.notNullOrBlank(name, "Function name must be provided");
         Objects.requireNonNull(function, "A function implementation must be provided");
-        executionContext.getFunctions().put(keyName(name, -1), function);
+        operationSupportData.getFunctions().put(keyName(name, -1), function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
             Map<String, OperationLambdaCaller> callerMap = createFunctionCaller(functionProvider);
-            executionContext.getFunctions().putAll(callerMap);
+            operationSupportData.getFunctions().putAll(callerMap);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);
         }
@@ -97,7 +96,7 @@ public class SyntaxExecutionSite {
         AbstractOperation copy = operation.copy(cloningCtx);
         return new SyntaxExecutionSite(
                 copy, mathContext, scale, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
-                new ExecutionContext(new HashMap<>(executionContext.getDictionary()), new HashMap<>(executionContext.getFunctions())),
+                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), new HashMap<>(operationSupportData.getFunctions())),
                 conversionService);
     }
 

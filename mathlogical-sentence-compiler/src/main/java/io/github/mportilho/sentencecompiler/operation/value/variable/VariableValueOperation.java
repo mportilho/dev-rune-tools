@@ -62,8 +62,8 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     @Override
     public boolean shouldResetOperation(OperationContext context) {
         if (isCaching() && getCache() != null) {
-            return context.userExecutionContext().getDictionary().containsKey(getVariableName())
-                    && !compareValues(getCache(), context.userExecutionContext().getDictionary().get(getVariableName()));
+            return context.userOperationSupportData().getDictionary().containsKey(getVariableName())
+                    && !compareValues(getCache(), context.userOperationSupportData().getDictionary().get(getVariableName()));
         }
         return super.shouldResetOperation(context);
     }

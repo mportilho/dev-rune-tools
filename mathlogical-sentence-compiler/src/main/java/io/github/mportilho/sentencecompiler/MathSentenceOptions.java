@@ -22,8 +22,9 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler;
 
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 
 import java.math.MathContext;
 
@@ -32,17 +33,25 @@ public class MathSentenceOptions {
     private final MathContext mathContext;
     private final Integer scale;
     private final FormattedConversionService formattedConversionService;
+    private final OperationSupportData operationSupportData;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService());
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
+        this(mathContext, scale, formattedConversionService, null);
+    }
+
+    public MathSentenceOptions(
+            MathContext mathContext, Integer scale,
+            FormattedConversionService formattedConversionService, OperationSupportData operationSupportData) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.formattedConversionService = formattedConversionService;
+        this.operationSupportData = operationSupportData;
     }
 
     public MathContext getMathContext() {
@@ -55,5 +64,9 @@ public class MathSentenceOptions {
 
     public FormattedConversionService getFormattedConversionService() {
         return formattedConversionService;
+    }
+
+    public OperationSupportData getOperationSupportData() {
+        return operationSupportData;
     }
 }

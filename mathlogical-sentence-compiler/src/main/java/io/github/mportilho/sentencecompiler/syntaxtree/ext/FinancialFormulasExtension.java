@@ -12,7 +12,7 @@ public class FinancialFormulasExtension {
 
     private static final Map<String, OperationLambdaCaller> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
 
-    private static Map<String, OperationLambdaCaller> financialFunctionsFactory() {
+    public static Map<String, OperationLambdaCaller> financialFunctionsFactory() {
         return FORMULA_MAP;
     }
 

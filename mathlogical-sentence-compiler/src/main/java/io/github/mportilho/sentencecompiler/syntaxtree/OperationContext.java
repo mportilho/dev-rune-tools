@@ -27,7 +27,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadata
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 
 import java.math.MathContext;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public record OperationContext(
@@ -37,23 +36,23 @@ public record OperationContext(
         boolean allowingNull,
         ZonedDateTime currentDateTime,
         FormattedConversionService formattedConversionService,
-        ExecutionContext executionContext,
-        ExecutionContext userExecutionContext
+        OperationSupportData operationSupportData,
+        OperationSupportData userOperationSupportData
 ) {
 
     public Object readDictionary(String name) {
-        Object value = userExecutionContext.getDictionary().get(name);
-        if (value == null && userExecutionContext != executionContext) {
-            value = executionContext.getDictionary().get(name);
+        Object value = userOperationSupportData.getDictionary().get(name);
+        if (value == null && userOperationSupportData != operationSupportData) {
+            value = operationSupportData.getDictionary().get(name);
         }
         return value;
     }
 
     public OperationLambdaCaller getFunction(String name, int parameterCount) {
         String functionKey = FunctionMetadataFactory.keyName(name, parameterCount);
-        OperationLambdaCaller func = userExecutionContext.getFunctions().get(functionKey);
-        if (func == null && userExecutionContext != executionContext) {
-            func = executionContext.getFunctions().get(functionKey);
+        OperationLambdaCaller func = userOperationSupportData.getFunctions().get(functionKey);
+        if (func == null && userOperationSupportData != operationSupportData) {
+            func = operationSupportData.getFunctions().get(functionKey);
         }
         if (func == null && parameterCount >= 0) {
             func = getFunction(name, -1);

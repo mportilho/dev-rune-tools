@@ -1,7 +1,7 @@
 package io.github.mportilho.sentencecompiler.testutils;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.math.MathContext;
@@ -11,12 +11,12 @@ public class MathSentenceCompilerMockupFactory {
 
     public static OperationContext getOperationContext() {
         return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
-                new DefaultFormattedConversionService(), new ExecutionContext(), new ExecutionContext());
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData());
     }
 
     public static OperationContext getOperationContext(boolean allowingNull) {
         return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
-                new DefaultFormattedConversionService(), new ExecutionContext(), new ExecutionContext());
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData());
     }
 
 }

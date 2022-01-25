@@ -5,17 +5,17 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaC
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExecutionContext {
+public class OperationSupportData {
 
     private final Map<String, Object> dictionary;
     private final Map<String, OperationLambdaCaller> functions;
 
-    public ExecutionContext() {
+    public OperationSupportData() {
         this.dictionary = new HashMap<>();
         this.functions = new HashMap<>();
     }
 
-    public ExecutionContext(
+    public OperationSupportData(
             Map<String, Object> dictionary,
             Map<String, OperationLambdaCaller> functions) {
         this.dictionary = dictionary;

@@ -25,8 +25,12 @@ package io.github.mportilho.sentencecompiler;
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
-import io.github.mportilho.sentencecompiler.syntaxtree.ExecutionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.DateTimeFunctionExtension;
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.FinancialFormulasExtension;
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension;
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -49,15 +53,14 @@ public class MathSentence {
     }
 
     public MathSentence(String sentence, MathSentenceOptions mathSentenceOptions) {
-        AssertUtils.notNullOrBlank(sentence, "Parameter [sentence] must be provided");
-        Objects.requireNonNull(mathSentenceOptions, "Parameter [mathSentenceOptions] must be provided");
+        AssertUtils.notNullOrBlank(sentence, "Sentence text must be provided");
+        Objects.requireNonNull(mathSentenceOptions, "MathSentenceOptions must be provided");
         this.mathContext = mathSentenceOptions.getMathContext();
         this.scale = mathSentenceOptions.getScale();
         this.syntaxExecutionSite = initializeComputingSite(sentence, mathSentenceOptions);
         this.locked = false;
     }
 
-    // internal use only, for coping
     private MathSentence(
             MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite, boolean locked) {
         this.mathContext = mathContext;
@@ -70,7 +73,19 @@ public class MathSentence {
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new DefaultOperationSyntaxTreeGenerator());
         return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
                 mathSentenceOptions.getScale(), data.userVariables(), data.assignedVariables(),
-                new ExecutionContext(), mathSentenceOptions.getFormattedConversionService());
+                createDefaultOperationSupportData(mathSentenceOptions),
+                mathSentenceOptions.getFormattedConversionService());
+    }
+
+    private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {
+        OperationSupportData operationSupportData = mathSentenceOptions.getOperationSupportData() != null ?
+                mathSentenceOptions.getOperationSupportData() : new OperationSupportData();
+
+        operationSupportData.getFunctions().putAll(DateTimeFunctionExtension.dateTimeFunctionsFactory());
+        operationSupportData.getFunctions().putAll(FinancialFormulasExtension.financialFunctionsFactory());
+        operationSupportData.getFunctions().putAll(MathFormulasExtension.mathFunctionsFactory());
+        operationSupportData.getFunctions().putAll(StringFunctionExtension.stringFunctionsFactory());
+        return operationSupportData;
     }
 
     @SuppressWarnings("unchecked")
@@ -80,9 +95,9 @@ public class MathSentence {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T compute(ExecutionContext userExecutionContext) {
+    public <T> T compute(OperationSupportData userOperationSupportData) {
         checkUpdateLock();
-        return (T) this.syntaxExecutionSite.compute(userExecutionContext);
+        return (T) this.syntaxExecutionSite.compute(userOperationSupportData);
     }
 
     public MathSentence warmUp() {

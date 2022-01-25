@@ -25,8 +25,6 @@ package io.github.mportilho.sentencecompiler.sentence;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.MathSentenceOptions;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -34,8 +32,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 public class TestLogarithmOperations {
-
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
 
     public void computeMathSentence(String sentence, BigDecimal expectedValue) {
         assertThat(new MathSentence(sentence, new MathSentenceOptions(MathContext.DECIMAL64, 8,

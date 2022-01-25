@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension.stringFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.VARARGS;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
@@ -20,7 +21,7 @@ public class TestStringFormulaExtensions {
 
     @Test
     public void test_concat_Function() {
-        OperationLambdaCaller concat = stringFunctionsFactory().get(keyName("concat", -1));
+        OperationLambdaCaller concat = stringFunctionsFactory().get(keyName("concat", VARARGS));
 
         assertThat((String) concat.call(functionContext, new Object[]{ONE, TEN, "teste", "123"}))
                 .isEqualTo("110teste123");

@@ -18,6 +18,9 @@ import static java.lang.reflect.Modifier.isStatic;
 
 public class FunctionMetadataFactory {
 
+    public static final int VARARGS = -1;
+    public static final int UNKNOWN = -1;
+
     public static Map<String, OperationLambdaCaller> createFunctionCaller(Object functionProvider) throws Throwable {
         Objects.requireNonNull(functionProvider, "Parameter [functionProvider] must not be null");
         boolean isClassObject = functionProvider instanceof Class<?>;

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension.mathFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.VARARGS;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
 import static java.math.BigDecimal.*;
 
@@ -20,7 +21,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Max_Function() {
-        OperationLambdaCaller max = mathFunctionsFactory().get(keyName("max", -1));
+        OperationLambdaCaller max = mathFunctionsFactory().get(keyName("max", VARARGS));
 
         assertThat((BigDecimal) max.call(functionContext, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("231");
@@ -31,7 +32,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Min_Function() {
-        OperationLambdaCaller min = mathFunctionsFactory().get(keyName("min", -1));
+        OperationLambdaCaller min = mathFunctionsFactory().get(keyName("min", VARARGS));
 
         assertThat((BigDecimal) min.call(functionContext, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("-50");
@@ -42,7 +43,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Avg_Function() {
-        OperationLambdaCaller avg = mathFunctionsFactory().get(keyName("avg", -1));
+        OperationLambdaCaller avg = mathFunctionsFactory().get(keyName("avg", VARARGS));
 
         assertThat((BigDecimal) avg.call(functionContext, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("48");

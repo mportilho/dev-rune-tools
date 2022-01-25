@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.VARARGS;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
 
 public class StringFunctionExtension {
@@ -21,7 +22,7 @@ public class StringFunctionExtension {
     private static Map<String, OperationLambdaCaller> internalStringFunctionsFactory() {
         Map<String, OperationLambdaCaller> extensions = new HashMap<>();
 
-        extensions.put(keyName("concat", -1), (context, params) -> Stream.of(params)
+        extensions.put(keyName("concat", VARARGS), (context, params) -> Stream.of(params)
                 .filter(Objects::nonNull)
                 .map(p -> context.conversionService().convert(p, String.class)).collect(Collectors.joining()));
 

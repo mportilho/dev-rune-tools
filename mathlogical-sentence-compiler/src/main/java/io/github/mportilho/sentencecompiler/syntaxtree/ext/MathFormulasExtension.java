@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.VARARGS;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
 
 public class MathFormulasExtension {
@@ -21,17 +22,17 @@ public class MathFormulasExtension {
     private static Map<String, OperationLambdaCaller> internalMathFunctionsFactory() {
         Map<String, OperationLambdaCaller> extensions = new HashMap<>();
 
-        extensions.put(keyName("max", -1), (context, params) -> Stream.of(params)
+        extensions.put(keyName("max", VARARGS), (context, params) -> Stream.of(params)
                 .filter(Objects::nonNull)
                 .map(p -> context.conversionService().convert(p, BigDecimal.class)).max(BigDecimal::compareTo)
                 .orElse(null));
 
-        extensions.put(keyName("min", -1), (context, params) -> Stream.of(params)
+        extensions.put(keyName("min", VARARGS), (context, params) -> Stream.of(params)
                 .filter(Objects::nonNull)
                 .map(p -> context.conversionService().convert(p, BigDecimal.class)).min(BigDecimal::compareTo)
                 .orElse(null));
 
-        extensions.put(keyName("avg", -1), (context, params) -> {
+        extensions.put(keyName("avg", VARARGS), (context, params) -> {
             BigDecimal[] totalWithCount = Stream.of(params).filter(Objects::nonNull)
                     .map(p -> new BigDecimal[]{context.conversionService().convert(p, BigDecimal.class), BigDecimal.ONE})
                     .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0], context.mathContext()), a[1].add(BigDecimal.ONE)})

@@ -14,13 +14,9 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVi
 
 import java.math.MathContext;
 import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.createFunctionCaller;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.*;
 
 public class SyntaxExecutionSite {
 
@@ -79,12 +75,23 @@ public class SyntaxExecutionSite {
     public void addFunction(String name, OperationLambdaCaller function) {
         AssertUtils.notNullOrBlank(name, "Function name must be provided");
         Objects.requireNonNull(function, "A function implementation must be provided");
-        operationSupportData.getFunctions().put(keyName(name, -1), function);
+        String keyName = keyName(name, UNKNOWN);
+        if (operationSupportData.getFunctions().containsKey(keyName)) {
+            throw new SentenceConfigurationException(String.format("Cannot override predefined function [%s]", name));
+        }
+        operationSupportData.getFunctions().put(keyName, function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
             Map<String, OperationLambdaCaller> callerMap = createFunctionCaller(functionProvider);
+
+            List<String> overridingFunctions = callerMap.keySet().stream().filter(key ->
+                    operationSupportData.getFunctions().containsKey(key)).toList();
+            if (!overridingFunctions.isEmpty()) {
+                throw new SentenceConfigurationException(String.format("Cannot override predefined functions [%s]",
+                        String.join(", ", overridingFunctions)));
+            }
             operationSupportData.getFunctions().putAll(callerMap);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);

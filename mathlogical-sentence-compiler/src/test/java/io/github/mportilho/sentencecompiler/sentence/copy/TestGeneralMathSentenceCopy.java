@@ -167,8 +167,9 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence = original.copy();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(1);
 
-        original.setVariable("a", new Date());
-        original.setVariable("b", new Date());
+        Date date = new Date();
+        original.setVariable("a", new java.sql.Date(date.getTime()));
+        original.setVariable("b", date);
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(5);

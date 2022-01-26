@@ -26,7 +26,8 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 
 public class DateTimeSubtractionOperation extends AbstractDateTimeOperation {
 
@@ -37,15 +38,15 @@ public class DateTimeSubtractionOperation extends AbstractDateTimeOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        LocalDateTime leftResult = getLeftOperand().evaluate(context);
+        Temporal leftResult = getLeftOperand().evaluate(context);
         Number rightResult = getRightOperand().evaluate(context);
         return switch (getDateElement()) {
-            case SECOND -> leftResult.minusSeconds(rightResult.longValue());
-            case MINUTE -> leftResult.minusMinutes(rightResult.longValue());
-            case HOUR -> leftResult.minusHours(rightResult.longValue());
-            case DAY -> leftResult.minusDays(rightResult.longValue());
-            case MONTH -> leftResult.minusMonths(rightResult.longValue());
-            case YEAR -> leftResult.minusYears(rightResult.longValue());
+            case SECOND -> leftResult.minus(rightResult.longValue(), ChronoUnit.SECONDS);
+            case MINUTE -> leftResult.minus(rightResult.longValue(), ChronoUnit.MINUTES);
+            case HOUR -> leftResult.minus(rightResult.longValue(), ChronoUnit.HOURS);
+            case DAY -> leftResult.minus(rightResult.longValue(), ChronoUnit.DAYS);
+            case MONTH -> leftResult.minus(rightResult.longValue(), ChronoUnit.MONTHS);
+            case YEAR -> leftResult.minus(rightResult.longValue(), ChronoUnit.YEARS);
         };
     }
 

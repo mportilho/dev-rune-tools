@@ -72,8 +72,8 @@ public class MathSentence {
     private SyntaxExecutionSite initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new DefaultOperationSyntaxTreeGenerator());
         return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
-                mathSentenceOptions.getScale(), data.userVariables(), data.assignedVariables(),
-                createDefaultOperationSupportData(mathSentenceOptions),
+                mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), data.userVariables(),
+                data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
                 mathSentenceOptions.getFormattedConversionService());
     }
 

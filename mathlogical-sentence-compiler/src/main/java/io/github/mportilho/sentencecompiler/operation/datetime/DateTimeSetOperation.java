@@ -26,7 +26,9 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
+
+import static java.time.temporal.ChronoField.*;
 
 public class DateTimeSetOperation extends AbstractDateTimeOperation {
 
@@ -37,15 +39,15 @@ public class DateTimeSetOperation extends AbstractDateTimeOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        LocalDateTime leftResult = getLeftOperand().evaluate(context);
+        Temporal leftResult = getLeftOperand().evaluate(context);
         Number rightResult = getRightOperand().evaluate(context);
         return switch (getDateElement()) {
-            case SECOND -> leftResult.withSecond(rightResult.intValue());
-            case MINUTE -> leftResult.withMinute(rightResult.intValue());
-            case HOUR -> leftResult.withHour(rightResult.intValue());
-            case DAY -> leftResult.withDayOfMonth(rightResult.intValue());
-            case MONTH -> leftResult.withMonth(rightResult.intValue());
-            case YEAR -> leftResult.withYear(rightResult.intValue());
+            case SECOND -> leftResult.with(SECOND_OF_MINUTE, rightResult.intValue());
+            case MINUTE -> leftResult.with(MINUTE_OF_HOUR, rightResult.intValue());
+            case HOUR -> leftResult.with(HOUR_OF_DAY, rightResult.intValue());
+            case DAY -> leftResult.with(DAY_OF_MONTH, rightResult.intValue());
+            case MONTH -> leftResult.with(MONTH_OF_YEAR, rightResult.intValue());
+            case YEAR -> leftResult.with(YEAR, rightResult.intValue());
         };
     }
 

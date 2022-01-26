@@ -30,8 +30,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class TestConstantOperations {
 
@@ -50,7 +51,17 @@ public class TestConstantOperations {
 
     @Test
     public void testDateTimeConstantValueOperation() {
-        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44").<LocalDateTime>evaluate(context)).isEqualTo("2000-03-04T23:33:44");
+        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44").
+                <ZonedDateTime>evaluate(context).toLocalDateTime())
+                .isEqualTo("2000-03-04T23:33:44");
+    }
+
+    @Test
+    public void testDateTimeConstantValueOperation_FullZonedDateTimeText() {
+        String zoneName = "Europe/Paris";
+        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44-03:00[" + zoneName + "]")
+                .<ZonedDateTime>evaluate(context))
+                .isEqualTo(ZonedDateTime.of(2000, 3, 4, 23, 33, 44, 0, ZoneId.of(zoneName)));
     }
 
     @Test

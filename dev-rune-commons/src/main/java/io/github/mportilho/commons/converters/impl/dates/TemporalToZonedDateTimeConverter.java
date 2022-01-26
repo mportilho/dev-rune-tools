@@ -9,12 +9,12 @@ public class TemporalToZonedDateTimeConverter implements FormattedConverter<Temp
 
     @Override
     public ZonedDateTime convert(Temporal source, String format) {
-        if (source instanceof LocalDateTime ldt) {
-            return localDateTimeToZonedDateTime(ldt, format);
-        } else if (source instanceof LocalDate ld) {
-            return localDateToZonedDateTime(ld, format);
-        } else if (source instanceof OffsetDateTime odt) {
-            return offsetDateTimeToZonedDateTime(odt, format);
+        if (source instanceof LocalDateTime src) {
+            return localDateTimeToZonedDateTime(src, format);
+        } else if (source instanceof LocalDate src) {
+            return localDateToZonedDateTime(src, format);
+        } else if (source instanceof OffsetDateTime src) {
+            return offsetDateTimeToZonedDateTime(src, format);
         }
         throw new IllegalArgumentException(String.format("Converter from [%s] to [%s] not available",
                 source.getClass(), ZonedDateTime.class));

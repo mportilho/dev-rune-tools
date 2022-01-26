@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 public class TestCopingOperations {
 
@@ -137,9 +138,9 @@ public class TestCopingOperations {
                 new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         copyOperation = (AbstractDateTimeOperation) operation.copy(new CloningContext());
-        assertThat(operation.<LocalDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
         assertThat(copyOperation).isNotEqualTo(operation);
-        assertThat(copyOperation.<LocalDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
+        assertThat(copyOperation.<ZonedDateTime>evaluate(context).toLocalDate()).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
 
         operation = new TimeAdditionOperation(new TimeConstantValueOperation(LocalTime.now().toString()),
                 new PreciseNumberConstantValueOperation("2"), DateElementEnum.MINUTE);

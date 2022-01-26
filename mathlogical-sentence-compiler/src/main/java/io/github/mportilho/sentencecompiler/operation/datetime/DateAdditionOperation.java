@@ -26,7 +26,8 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 
 public class DateAdditionOperation extends AbstractDateTimeOperation {
 
@@ -37,12 +38,12 @@ public class DateAdditionOperation extends AbstractDateTimeOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        LocalDate leftResult = getLeftOperand().evaluate(context);
+        Temporal leftResult = getLeftOperand().evaluate(context);
         Number rightResult = getRightOperand().evaluate(context);
         return switch (getDateElement()) {
-            case DAY -> leftResult.plusDays(rightResult.longValue());
-            case MONTH -> leftResult.plusMonths(rightResult.longValue());
-            case YEAR -> leftResult.plusYears(rightResult.longValue());
+            case DAY -> leftResult.plus(rightResult.longValue(), ChronoUnit.DAYS);
+            case MONTH -> leftResult.plus(rightResult.longValue(), ChronoUnit.MONTHS);
+            case YEAR -> leftResult.plus(rightResult.longValue(), ChronoUnit.YEARS);
             default -> throw new IllegalStateException("Date information not supported: " + getDateElement());
         };
     }

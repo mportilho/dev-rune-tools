@@ -30,8 +30,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 public class TestConstantValueOperations {
 
@@ -69,7 +69,8 @@ public class TestConstantValueOperations {
         AbstractConstantValueOperation operation;
 
         operation = new DateTimeConstantValueOperation("2001-04-12T04:12:33");
-        assertThat((LocalDateTime) operation.evaluate(context)).isEqualTo(LocalDateTime.of(2001, 4, 12, 4, 12, 33));
+        assertThat(operation.<ZonedDateTime>evaluate(context))
+                .isEqualTo(ZonedDateTime.of(2001, 4, 12, 4, 12, 33, 0, context.currentDateTime().getZone()));
     }
 
     @Test

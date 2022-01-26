@@ -44,7 +44,7 @@ public class StringToLocalDateTimeConverter extends AbstractCachedStringFormatte
     public LocalDateTime convert(String source, String format) {
         Objects.requireNonNull(source);
         if (isNullOrBlank(format)) {
-            return DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse(source, LocalDateTime::from);
+            return DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
         }
         return cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
     }

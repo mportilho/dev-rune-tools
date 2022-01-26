@@ -53,8 +53,8 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -530,7 +530,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     public AbstractOperation visitDateTimeParenthesis(DateTimeParenthesisContext ctx) {
         AbstractOperation operation = ctx.dateTimeOperation().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(LocalDateTime.class);
+        return operation.expectedType(ZonedDateTime.class);
     }
 
     @Override
@@ -580,7 +580,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
                 throw new IllegalStateException(String.format("Operation %s not implemented", ctx.DATE_OPERATIONS(i).getText()));
             }//@formatter:on
         }
-        return leftOperand.expectedType(LocalDateTime.class);
+        return leftOperand.expectedType(ZonedDateTime.class);
     }
 
     @Override
@@ -865,7 +865,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
             operations.add(dateTimeOperations.get(i).accept(this));
         }
         operations.add(dateTimeOperations.get(dateTimeOperations.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(LocalDateTime.class);
+        return new DecisionOperation(operations).expectedType(ZonedDateTime.class);
     }
 
     @Override
@@ -879,28 +879,28 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
             operations.add(dateTimeOperations.get(i).accept(this));
         }
         operations.add(dateTimeOperations.get(dateTimeOperations.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(LocalDateTime.class);
+        return new DecisionOperation(operations).expectedType(ZonedDateTime.class);
     }
 
     @Override
     public AbstractOperation visitDateTimeConstant(DateTimeConstantContext ctx) {
-        return new DateTimeConstantValueOperation(ctx.getText()).expectedType(LocalDateTime.class);
+        return new DateTimeConstantValueOperation(ctx.getText()).expectedType(ZonedDateTime.class);
     }
 
     @Override
     public AbstractOperation visitDateTimeCurrentValue(DateTimeCurrentValueContext ctx) {
         return new InternallyMutableValueOperation("currDateTime",
-                (op, context) -> context.currentDateTime().toLocalDateTime()).expectedType(LocalDateTime.class);
+                (op, context) -> context.currentDateTime()).expectedType(ZonedDateTime.class);
     }
 
     @Override
     public AbstractOperation visitDateTimeVariable(DateTimeVariableContext ctx) {
-        return createNewUserVariable(ctx).expectedType(LocalDateTime.class);
+        return createNewUserVariable(ctx).expectedType(ZonedDateTime.class);
     }
 
     @Override
     public AbstractOperation visitDateTimeFunctionResult(DateTimeFunctionResultContext ctx) {
-        return ctx.function().accept(this).expectedType(LocalDateTime.class);
+        return ctx.function().accept(this).expectedType(ZonedDateTime.class);
     }
 
     private AbstractOperation createNewUserVariable(ParserRuleContext context) {

@@ -22,12 +22,14 @@ SOFTWARE.*/
 
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
+import io.github.mportilho.commons.utils.DateUtils;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 
 public class DateTimeConstantValueOperation extends AbstractConstantValueOperation {
 
@@ -42,7 +44,13 @@ public class DateTimeConstantValueOperation extends AbstractConstantValueOperati
 
     @Override
     protected Object resolve(OperationContext context) {
-        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(getValue(), LocalDateTime::from);
+        try {
+            return DateUtils.DATETIME_FORMATTER.parse(getValue(), ZonedDateTime::from);
+        } catch (DateTimeException e) {
+            return ZonedDateTime.of(DateUtils.DATETIME_FORMATTER.parse(getValue(), LocalDateTime::from),
+                    context.currentDateTime().getZone());
+        }
+
     }
 
 }

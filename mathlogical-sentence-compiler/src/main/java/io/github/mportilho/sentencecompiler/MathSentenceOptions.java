@@ -27,6 +27,7 @@ import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionSer
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 
 import java.math.MathContext;
+import java.time.ZoneId;
 
 public class MathSentenceOptions {
 
@@ -34,24 +35,26 @@ public class MathSentenceOptions {
     private final Integer scale;
     private final FormattedConversionService formattedConversionService;
     private final OperationSupportData operationSupportData;
+    private final ZoneId zoneId;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null);
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null, ZoneId.systemDefault());
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
-        this(mathContext, scale, formattedConversionService, null);
+        this(mathContext, scale, formattedConversionService, null, ZoneId.systemDefault());
     }
 
     public MathSentenceOptions(
-            MathContext mathContext, Integer scale,
-            FormattedConversionService formattedConversionService, OperationSupportData operationSupportData) {
+            MathContext mathContext, Integer scale, FormattedConversionService formattedConversionService,
+            OperationSupportData operationSupportData, ZoneId zoneId) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.formattedConversionService = formattedConversionService;
         this.operationSupportData = operationSupportData;
+        this.zoneId = zoneId;
     }
 
     public MathContext getMathContext() {
@@ -68,5 +71,9 @@ public class MathSentenceOptions {
 
     public OperationSupportData getOperationSupportData() {
         return operationSupportData;
+    }
+
+    public ZoneId getZoneId() {
+        return zoneId;
     }
 }

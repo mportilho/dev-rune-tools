@@ -26,7 +26,8 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.Temporal;
 
 public class TimeSetOperation extends AbstractDateTimeOperation {
 
@@ -37,12 +38,12 @@ public class TimeSetOperation extends AbstractDateTimeOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        LocalTime leftResult = getLeftOperand().evaluate(context);
+        Temporal leftResult = getLeftOperand().evaluate(context);
         Number rightResult = getRightOperand().evaluate(context);
         return switch (getDateElement()) {
-            case SECOND -> leftResult.withSecond(rightResult.intValue());
-            case MINUTE -> leftResult.withMinute(rightResult.intValue());
-            case HOUR -> leftResult.withHour(rightResult.intValue());
+            case SECOND -> leftResult.with(ChronoField.SECOND_OF_MINUTE, rightResult.intValue());
+            case MINUTE -> leftResult.with(ChronoField.MINUTE_OF_HOUR, rightResult.intValue());
+            case HOUR -> leftResult.with(ChronoField.HOUR_OF_DAY, rightResult.intValue());
             default -> throw new IllegalStateException("Date information not supported: " + getDateElement());
         };
     }

@@ -40,18 +40,10 @@ public record OperationContext(
         OperationSupportData userOperationSupportData
 ) {
 
-    public Object readDictionary(String name) {
-        Object value = userOperationSupportData.getDictionary().get(name);
-        if (value == null && userOperationSupportData != operationSupportData) {
-            value = operationSupportData.getDictionary().get(name);
-        }
-        return value;
-    }
-
     public OperationLambdaCaller getFunction(String name, int parameterCount) {
         String functionKey = FunctionMetadataFactory.keyName(name, parameterCount);
         OperationLambdaCaller func = userOperationSupportData.getFunctions().get(functionKey);
-        if (func == null && userOperationSupportData != operationSupportData) {
+        if (func == null) {
             func = operationSupportData.getFunctions().get(functionKey);
         }
         if (func == null && parameterCount >= 0) {

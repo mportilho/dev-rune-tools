@@ -44,7 +44,7 @@ public class StringToYearMonthConverter extends AbstractCachedStringFormattedCon
     public YearMonth convert(String source, String format) {
         Objects.requireNonNull(source);
         if (isNullOrBlank(format)) {
-            return DateUtils.MONTH_YEAR_FORMATTER.parse(source, YearMonth::from);
+            return DateUtils.YEAR_MONTH_FORMATTER.parse(source, YearMonth::from);
         }
         return cache(format, DateTimeFormatter::ofPattern).parse(source, YearMonth::from);
     }

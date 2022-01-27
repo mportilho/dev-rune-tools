@@ -24,6 +24,6 @@ package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 public interface VariableProvider {
 
-	Object provideValue(VariableValueProviderContext context);
+	Object retrieveValue(VariableValueProviderContext context);
 
 }

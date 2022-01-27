@@ -44,7 +44,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
     @Override
     protected AbstractOperation createClone(CloningContext context) {
         SequenceVariableValueOperation operation = new SequenceVariableValueOperation(getVariableName());
-        operation.value = this.value;
+        operation.overrideValue(this.getValue());
         return operation;
     }
 

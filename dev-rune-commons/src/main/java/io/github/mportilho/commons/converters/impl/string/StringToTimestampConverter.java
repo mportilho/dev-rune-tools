@@ -27,9 +27,12 @@ import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormatted
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.time.temporal.Temporal;
 
 /**
  * Converts a {@link Timestamp} from a {@link String}
@@ -43,13 +46,30 @@ public class StringToTimestampConverter extends AbstractCachedStringFormattedCon
      */
     @Override
     public Timestamp convert(String source, String format) {
-        Objects.requireNonNull(source);
+        Temporal temporal;
         if (isNullOrBlank(format)) {
-            LocalDateTime dateTime = DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
-            return Timestamp.valueOf(dateTime);
+            if (source.length() <= 10) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
+            } else {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, ZonedDateTime::from);
+            }
+        } else {
+            if (source.length() <= 10) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+            } else {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+            }
         }
-        LocalDateTime dateTime = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
-        return Timestamp.valueOf(dateTime);
+        if (temporal instanceof LocalDate localDate) {
+            return Timestamp.valueOf(localDate.atTime(LocalTime.MIDNIGHT));
+        } else if (temporal instanceof LocalDateTime localDateTime) {
+            return Timestamp.valueOf(localDateTime);
+        }
+        return Timestamp.from(((ZonedDateTime) temporal).toInstant());
     }
 
 }

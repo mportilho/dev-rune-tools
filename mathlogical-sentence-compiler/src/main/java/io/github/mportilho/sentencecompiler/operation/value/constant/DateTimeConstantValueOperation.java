@@ -50,7 +50,6 @@ public class DateTimeConstantValueOperation extends AbstractConstantValueOperati
             return ZonedDateTime.of(DateUtils.DATETIME_FORMATTER.parse(getValue(), LocalDateTime::from),
                     context.currentDateTime().getZone());
         }
-
     }
 
 }

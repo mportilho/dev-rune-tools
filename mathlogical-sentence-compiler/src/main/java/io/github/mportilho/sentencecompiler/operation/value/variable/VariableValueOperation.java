@@ -26,8 +26,6 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.util.Objects;
-
 public class VariableValueOperation extends AbstractVariableValueOperation {
 
     public VariableValueOperation(String variableName) {
@@ -49,14 +47,23 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
                 new VariableValueProviderContext(context.mathContext(), context.scale(), false);
-        Object result = variableProvider.provideValue(valueProviderContext);
+        Object result = variableProvider.retrieveValue(valueProviderContext);
         setCachingOptions(valueProviderContext.isCaching());
         return result;
     }
 
     private Object resolveVariable(OperationContext context) {
-        Object returningValue = context.readDictionary(getVariableName());
-        return returningValue == null ? getValue() : returningValue;
+        Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
+        if (currValue != null) {
+            setCachingOptions(false);
+            return currValue;
+        }
+
+        setCachingOptions(true);
+        if (getValue() != null) {
+            return getValue();
+        }
+        return context.operationSupportData().getDictionary().get(getVariableName());
     }
 
     @Override
@@ -68,19 +75,11 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
         return super.shouldResetOperation(context);
     }
 
-    @SuppressWarnings({"unchecked"})
-    protected boolean compareValues(Object value1, Object value2) {
-        if (value1 instanceof Comparable c1 && value2 instanceof Comparable c2) {
-            return c1.compareTo(c2) == 0;
-        }
-        return Objects.equals(value1, value2);
-    }
-
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        VariableValueOperation copiedOperation = new VariableValueOperation(getVariableName());
-        copiedOperation.value = this.value;
-        context.getUserVariables().put(getVariableName(), copiedOperation);
+        VariableValueOperation copiedOperation = new VariableValueOperation(this.getVariableName());
+        copiedOperation.overrideValue(this.getValue());
+        context.getUserVariables().put(this.getVariableName(), copiedOperation);
         return copiedOperation;
     }
 

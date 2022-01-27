@@ -50,7 +50,7 @@ public class SyntaxExecutionSite {
     }
 
     public Object compute() {
-        return compute(operationSupportData);
+        return compute(OperationSupportData.EMPTY_DATA);
     }
 
     public Object compute(OperationSupportData userOperationSupportData) {
@@ -70,6 +70,12 @@ public class SyntaxExecutionSite {
         OperationContext operationContext = new OperationContext(mathContext,
                 scale, true, ZonedDateTime.now(), conversionService, operationSupportData, operationSupportData);
         visitOperation(new WarmUpOperationVisitor(operationContext));
+    }
+
+    public void addDictionaryEntry(String key, Object value) {
+        AssertUtils.notNullOrBlank(key, "Dictionary entry name required");
+        Objects.requireNonNull(value, "Dictionary entry value required");
+        operationSupportData.getDictionary().put(key, value);
     }
 
     public void addDictionary(Map<String, Object> dictionary) {

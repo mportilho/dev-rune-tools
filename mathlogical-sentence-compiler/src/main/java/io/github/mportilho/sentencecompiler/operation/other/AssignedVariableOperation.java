@@ -32,7 +32,7 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
 
     public AssignedVariableOperation(String variableName, AbstractOperation assignedOperation) {
         super(variableName);
-        this.value = assignedOperation;
+        this.overrideValue(assignedOperation);
         assignedOperation.addParent(this);
     }
 

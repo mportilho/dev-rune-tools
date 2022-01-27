@@ -6,13 +6,13 @@ import java.time.temporal.ChronoField;
 
 public final class DateUtils {
 
-    public static final DateTimeFormatter MONTH_YEAR_FORMATTER;
+    public static final DateTimeFormatter YEAR_MONTH_FORMATTER;
     public static final DateTimeFormatter DATE_FORMATTER;
     public static final DateTimeFormatter TIME_FORMATTER;
     public static final DateTimeFormatter DATETIME_FORMATTER;
 
     static {
-        MONTH_YEAR_FORMATTER = new DateTimeFormatterBuilder()
+        YEAR_MONTH_FORMATTER = new DateTimeFormatterBuilder()
                 .appendPattern("[yyyyMM][MM/yyyy][MM-yyyy][yyyy/MM][yyyy-MM]")
                 .toFormatter();
 
@@ -22,7 +22,7 @@ public final class DateUtils {
                 .toFormatter();
 
         TIME_FORMATTER = new DateTimeFormatterBuilder()
-                .appendPattern("HH:mm[:ss[.SSSSSSSSS][.SSS]]")
+                .appendPattern("HH:mm[:ss[.SSSSSSSSS][.SSSSSS][.SSS]]")
                 .parseLenient()
                 .optionalStart().appendZoneOrOffsetId().optionalEnd()
                 .optionalStart().appendPattern("[ Z][Z][XXX]['Z']").optionalEnd()

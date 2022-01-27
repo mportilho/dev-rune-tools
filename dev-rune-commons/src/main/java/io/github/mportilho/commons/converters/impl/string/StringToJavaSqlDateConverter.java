@@ -28,8 +28,10 @@ import io.github.mportilho.commons.utils.DateUtils;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.time.temporal.Temporal;
 
 /**
  * Converts a {@link Date} from a {@link String}
@@ -43,13 +45,30 @@ public class StringToJavaSqlDateConverter extends AbstractCachedStringFormattedC
      */
     @Override
     public Date convert(String source, String format) {
-        Objects.requireNonNull(source);
+        Temporal temporal;
         if (isNullOrBlank(format)) {
-            LocalDate localDate = DateUtils.DATE_FORMATTER.parse(source, LocalDate::from);
-            return Date.valueOf(localDate);
+            if (source.length() <= 10) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
+            } else {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, ZonedDateTime::from);
+            }
+        } else {
+            if (source.length() <= 10) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+            } else {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+            }
         }
-        LocalDate localDate = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
-        return Date.valueOf(localDate);
+        if (temporal instanceof LocalDate localDate) {
+            return Date.valueOf(localDate);
+        } else if (temporal instanceof LocalDateTime localDateTime) {
+            return Date.valueOf(localDateTime.toLocalDate());
+        }
+        return Date.valueOf(((ZonedDateTime) temporal).toLocalDate());
     }
 
 }

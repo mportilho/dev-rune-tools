@@ -28,7 +28,6 @@ import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  * Converts a {@link LocalDateTime} from a {@link String}
@@ -42,7 +41,6 @@ public class StringToLocalDateTimeConverter extends AbstractCachedStringFormatte
      */
     @Override
     public LocalDateTime convert(String source, String format) {
-        Objects.requireNonNull(source);
         if (isNullOrBlank(format)) {
             return DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
         }

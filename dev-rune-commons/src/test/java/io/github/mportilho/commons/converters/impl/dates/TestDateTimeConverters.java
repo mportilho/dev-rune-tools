@@ -11,7 +11,8 @@ public class TestDateTimeConverters {
     public void testLocalDateTimeToZonedDateTimeConverter() {
         TemporalToZonedDateTimeConverter converter = new TemporalToZonedDateTimeConverter();
 
-        assertThat(converter.convert(LocalDateTime.of(2020, 4, 30, 13, 14, 15), null))
+        assertThat(converter.convert(
+                LocalDateTime.of(2020, 4, 30, 13, 14, 15), null))
                 .isEqualTo(ZonedDateTime.of(2020, 4, 30,
                         13, 14, 15, 0, ZoneId.systemDefault()));
     }

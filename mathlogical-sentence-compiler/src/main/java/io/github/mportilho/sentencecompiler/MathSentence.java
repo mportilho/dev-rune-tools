@@ -111,6 +111,12 @@ public class MathSentence {
         return this;
     }
 
+    public MathSentence addDictionaryEntry(String key, Object value) {
+        checkUpdateLock();
+        syntaxExecutionSite.addDictionaryEntry(key, value);
+        return this;
+    }
+
     public MathSentence addDictionary(Map<String, Object> dictionary) {
         checkUpdateLock();
         syntaxExecutionSite.addDictionary(dictionary);

@@ -82,9 +82,10 @@ public abstract class AbstractOperation {
         } catch (Exception e) {
             throw new SyntaxExecutionException(String.format("Error computing expression [%s]", this), e);
         }
+
         if (result == null && !context.allowingNull()) {
             if (this instanceof AbstractVariableValueOperation) {
-                throw new SyntaxExecutionException(String.format("The variable [%s] does not have any provided value", this));
+                throw new SyntaxExecutionException(String.format("Variable [%s] requires a value", this));
             } else {
                 throw new NullPointerException(String.format("Invalid null result for expression [%s] ", this));
             }
@@ -206,9 +207,9 @@ public abstract class AbstractOperation {
     }
 
     public void setCachingOptions(boolean enable) {
-        if (enable) {
+        if (enable && !isCaching()) {
             enableCaching(this);
-        } else {
+        } else if (!enable) {
             disableCaching(this);
         }
     }

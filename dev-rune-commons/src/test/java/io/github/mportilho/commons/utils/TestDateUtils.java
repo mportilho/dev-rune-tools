@@ -9,11 +9,11 @@ public class TestDateUtils {
 
     @Test
     public void testYearMonthPatterns() {
-        assertThat(DateUtils.MONTH_YEAR_FORMATTER.parse("2019-03", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
-        assertThat(DateUtils.MONTH_YEAR_FORMATTER.parse("2019/03", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
-        assertThat(DateUtils.MONTH_YEAR_FORMATTER.parse("201903", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
-        assertThat(DateUtils.MONTH_YEAR_FORMATTER.parse("03/2019", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
-        assertThat(DateUtils.MONTH_YEAR_FORMATTER.parse("03-2019", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
+        assertThat(DateUtils.YEAR_MONTH_FORMATTER.parse("2019-03", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
+        assertThat(DateUtils.YEAR_MONTH_FORMATTER.parse("2019/03", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
+        assertThat(DateUtils.YEAR_MONTH_FORMATTER.parse("201903", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
+        assertThat(DateUtils.YEAR_MONTH_FORMATTER.parse("03/2019", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
+        assertThat(DateUtils.YEAR_MONTH_FORMATTER.parse("03-2019", YearMonth::from)).isEqualTo(YearMonth.of(2019, 3));
     }
 
     @Test
@@ -33,39 +33,27 @@ public class TestDateUtils {
 
     @Test
     public void testLocalTimePatterns() {
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22", LocalTime::from)).isEqualTo(LocalTime.of(15, 22, 0));
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32", LocalTime::from)).isEqualTo(LocalTime.of(15, 22, 32));
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.356", LocalTime::from)).isEqualTo(LocalTime.of(15, 22, 32, 356000000));
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.879-03:00", LocalTime::from)).isEqualTo(LocalTime.of(15, 22, 32, 879000000));
-        assertThat(DateUtils.TIME_FORMATTER.parse("10:22:11+00:00", LocalTime::from)).isEqualTo(LocalTime.of(10, 22, 11));
-    }
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22", LocalTime::from))
+                .isEqualTo(LocalTime.of(15, 22, 0));
 
-    @Test
-    public void testOffsetTimePatterns() {
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.000-03:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(15, 22, 32, 0, ZoneOffset.ofHours(-3)));
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.356-03:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(15, 22, 32, 356000000, ZoneOffset.ofHours(-3)));
-        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.879-03:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(15, 22, 32, 879000000, ZoneOffset.ofHours(-3)));
-        assertThat(DateUtils.TIME_FORMATTER.parse("10:22:11-03:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(10, 22, 11, 0, ZoneOffset.ofHours(-3)));
-        assertThat(DateUtils.TIME_FORMATTER.parse("10:15+01:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(10, 15, 0, 0, ZoneOffset.ofHours(+1)));
-        assertThat(DateUtils.TIME_FORMATTER.parse("10:15:30+01:00", OffsetTime::from))
-                .isEqualTo(OffsetTime.of(10, 15, 30, 0, ZoneOffset.ofHours(+1)));
-    }
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32", LocalTime::from))
+                .isEqualTo(LocalTime.of(15, 22, 32));
 
-    @Test
-    public void testOffsetDateTimePatterns() {
-        assertThat(DateUtils.DATETIME_FORMATTER.parse("14-12-2000 22:23:24.123-04:00", OffsetDateTime::from))
-                .isEqualTo(OffsetDateTime.of(LocalDate.of(2000, 12, 14),
-                        LocalTime.of(22, 23, 24, 123000000), ZoneOffset.ofHours(-4)));
-    }
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.356", LocalTime::from))
+                .isEqualTo(LocalTime.of(15, 22, 32, 356000000));
 
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.879-03:00", LocalTime::from))
+                .isEqualTo(LocalTime.of(15, 22, 32, 879000000));
+
+        assertThat(DateUtils.TIME_FORMATTER.parse("10:22:11+00:00", LocalTime::from))
+                .isEqualTo(LocalTime.of(10, 22, 11));
+    }
 
     @Test
     public void testLocalDateTimePatterns() {
+        assertThat(DateUtils.DATETIME_FORMATTER.parse("2022-01-27T13:18:57.147118", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2022, 1, 27, 13, 18, 57, 147118000));
+
         assertThat(DateUtils.DATETIME_FORMATTER.parse("2000/12/14 22:23:24", LocalDateTime::from))
                 .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
         assertThat(DateUtils.DATETIME_FORMATTER.parse("2000/12/14-22:23:24", LocalDateTime::from))
@@ -100,7 +88,29 @@ public class TestDateUtils {
 
         assertThat(DateUtils.DATETIME_FORMATTER.parse("01/10/2020 08:00", LocalDateTime::from))
                 .isEqualTo(LocalDateTime.of(2020, 10, 1, 8, 0));
+    }
 
+    @Test
+    public void testOffsetTimePatterns() {
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.000-03:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(15, 22, 32, 0, ZoneOffset.ofHours(-3)));
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.356-03:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(15, 22, 32, 356000000, ZoneOffset.ofHours(-3)));
+        assertThat(DateUtils.TIME_FORMATTER.parse("15:22:32.879-03:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(15, 22, 32, 879000000, ZoneOffset.ofHours(-3)));
+        assertThat(DateUtils.TIME_FORMATTER.parse("10:22:11-03:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(10, 22, 11, 0, ZoneOffset.ofHours(-3)));
+        assertThat(DateUtils.TIME_FORMATTER.parse("10:15+01:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(10, 15, 0, 0, ZoneOffset.ofHours(+1)));
+        assertThat(DateUtils.TIME_FORMATTER.parse("10:15:30+01:00", OffsetTime::from))
+                .isEqualTo(OffsetTime.of(10, 15, 30, 0, ZoneOffset.ofHours(+1)));
+    }
+
+    @Test
+    public void testOffsetDateTimePatterns() {
+        assertThat(DateUtils.DATETIME_FORMATTER.parse("14-12-2000 22:23:24.123-04:00", OffsetDateTime::from))
+                .isEqualTo(OffsetDateTime.of(LocalDate.of(2000, 12, 14),
+                        LocalTime.of(22, 23, 24, 123000000), ZoneOffset.ofHours(-4)));
     }
 
     @Test

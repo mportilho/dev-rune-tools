@@ -32,13 +32,14 @@ import java.time.*;
 
 public class TestDefaultFilterValueConverter {
 
+    FormattedConversionService filterValueConverter = new DefaultFormattedConversionService();
+
     static class NotConfiguredForConversionClass {
 
     }
 
     @Test
-    public void testCanConvert() {
-        FormattedConversionService filterValueConverter = new DefaultFormattedConversionService();
+    public void test_CanConvert_method() {
         assertThat(filterValueConverter.canConvert(String.class, LocalDate.class)).isTrue();
         assertThat(filterValueConverter.canConvert(NotConfiguredForConversionClass.class, LocalDate.class)).isFalse();
         assertThat(filterValueConverter.canConvert(LocalDate.class, NotConfiguredForConversionClass.class)).isFalse();
@@ -47,42 +48,97 @@ public class TestDefaultFilterValueConverter {
     }
 
     @Test
-    public void testDefaultFormattedConversionService() {
-        FormattedConversionService filterValueConverter = new DefaultFormattedConversionService();
-
+    public void test_Instant_converter() {
         Instant instant = filterValueConverter.convert("03-12-2011T10:15:30Z", Instant.class, null);
         assertThat(instant).isEqualTo("2011-12-03T10:15:30Z");
+    }
 
-        Date javaSqlDate = filterValueConverter.convert("21/12/2014", Date.class, null);
+    @Test
+    public void test_javaSqlDate_converter() {
+        Date javaSqlDate;
+
+        javaSqlDate = filterValueConverter.convert("21/12/2014", Date.class, null);
         assertThat(javaSqlDate).isEqualTo("2014-12-21");
 
-        java.util.Date javaUtilDate = filterValueConverter.convert("21/12/2014", java.util.Date.class, null);
+        javaSqlDate = filterValueConverter.convert("21/12/2014 13:14:15", Date.class, null);
+        assertThat(javaSqlDate).isEqualTo("2014-12-21T13:14:15");
+
+        javaSqlDate = filterValueConverter.convert("2014-12-21T13:14:15+01:00[Europe/Paris]", Date.class, null);
+        assertThat(javaSqlDate).isEqualTo("2014-12-21T10:14:15[Europe/Paris]");
+    }
+
+    @Test
+    public void test_javaUtilDate_dateOnly_converter() {
+        java.util.Date javaUtilDate;
+
+        javaUtilDate = filterValueConverter.convert("21/12/2014", java.util.Date.class, null);
         assertThat(javaUtilDate).isEqualTo("2014-12-21");
 
-        LocalDate localDate = filterValueConverter.convert("21/12/2014", LocalDate.class, null);
-        assertThat(localDate).isEqualTo("2014-12-21");
+        javaUtilDate = filterValueConverter.convert("21/12/2014 13:14:15", java.util.Date.class, null);
+        assertThat(javaUtilDate).isEqualTo("2014-12-21T13:14:15");
 
+        // java.util.Date combines local date-time with offset
+        javaUtilDate = filterValueConverter.convert("2014-12-21T13:14:15+01:00[Europe/Paris]", java.util.Date.class, null);
+        assertThat(javaUtilDate).isEqualTo("2014-12-21T10:14:15[Europe/Paris]");
+    }
+
+    @Test
+    public void test_localDate_converter() {
+        LocalDate localDate = filterValueConverter.convert("21/12/2014", LocalDate.class, null);
+        assertThat(localDate).isEqualTo(LocalDate.of(2014, 12, 21));
+    }
+
+    @Test
+    public void test_LocalDateTime_converter() {
         LocalDateTime localDateTime = filterValueConverter.convert("21/12/2011T10:15:30Z", LocalDateTime.class, null);
         assertThat(localDateTime).isEqualTo("2011-12-21T10:15:30");
+    }
 
+    @Test
+    public void test_LocalTime_converter() {
         LocalTime localTime = filterValueConverter.convert("10:15:30Z", LocalTime.class, null);
         assertThat(localTime).isEqualTo("10:15:30");
+    }
 
-        OffsetDateTime offsetDateTime = filterValueConverter.convert("03-12-2007T10:15:30+01:00", OffsetDateTime.class, null);
+    @Test
+    public void test_OffsetDateTime_converter() {
+        OffsetDateTime offsetDateTime;
+
+        offsetDateTime = filterValueConverter.convert("03-12-2007T10:15:30+01:00", OffsetDateTime.class, null);
         assertThat(offsetDateTime).isEqualTo("2007-12-03T10:15:30+01:00");
 
+        offsetDateTime = filterValueConverter.convert("03-12-2007T10:15:30+01:00", OffsetDateTime.class, null);
+        assertThat(offsetDateTime).isEqualTo("2007-12-03T10:15:30+01:00");
+
+
+    }
+
+    @Test
+    public void test_OffsetTime_converter() {
         OffsetTime offsetTime = filterValueConverter.convert("10:15-01:00", OffsetTime.class, null);
         assertThat(offsetTime).isEqualTo("10:15-01:00");
+    }
 
+    @Test
+    public void test_Timestamp_converter() {
         Timestamp timestamp = filterValueConverter.convert("03-12-2011T10:15:30Z", Timestamp.class, null);
         assertThat(timestamp).isEqualTo(Timestamp.valueOf(LocalDateTime.of(2011, 12, 3, 10, 15, 30, 0)));
+    }
 
+    @Test
+    public void test_Year_converter() {
         Year year = filterValueConverter.convert("2014", Year.class, null);
         assertThat(year).isEqualTo(Year.of(2014));
+    }
 
+    @Test
+    public void test_YearMonth_converter() {
         YearMonth yearMonth = filterValueConverter.convert("12/2012", YearMonth.class, null);
         assertThat(yearMonth).isEqualByComparingTo(YearMonth.of(2012, 12));
+    }
 
+    @Test
+    public void test_ZonedDateTime_converter() {
         ZonedDateTime zonedDateTime = filterValueConverter.convert("03-12-2011T10:15:30Z", ZonedDateTime.class, null);
         assertThat(zonedDateTime).isEqualTo("2011-12-03T10:15:30Z");
     }

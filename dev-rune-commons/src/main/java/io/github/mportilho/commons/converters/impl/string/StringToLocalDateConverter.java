@@ -42,7 +42,6 @@ public class StringToLocalDateConverter extends AbstractCachedStringFormattedCon
      */
     @Override
     public LocalDate convert(String source, String format) {
-        Objects.requireNonNull(source);
         if (isNullOrBlank(format)) {
             return DateUtils.DATE_FORMATTER.parse(source, LocalDate::from);
         }

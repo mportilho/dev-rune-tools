@@ -32,7 +32,8 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
         } else if (source.getClass().equals(targetType)) {
             return (T) source;
         }
-        FormattedConverter<S, T, F> converter = (FormattedConverter<S, T, F>) formattedConverters.get(new ConvertMappingKey(source.getClass(), targetType));
+        FormattedConverter<S, T, F> converter = (FormattedConverter<S, T, F>) formattedConverters
+                .get(new ConvertMappingKey(source.getClass(), targetType));
         if (converter == null) {
             if (targetType.isInstance(source)) {
                 return (T) source;

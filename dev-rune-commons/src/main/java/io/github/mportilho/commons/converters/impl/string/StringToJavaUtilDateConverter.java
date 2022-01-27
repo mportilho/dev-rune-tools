@@ -26,10 +26,12 @@ package io.github.mportilho.commons.converters.impl.string;
 import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -45,15 +47,30 @@ public class StringToJavaUtilDateConverter extends AbstractCachedStringFormatted
      */
     @Override
     public Date convert(String source, String format) {
-        Objects.requireNonNull(source);
-        LocalDateTime localDateTime;
+        Temporal temporal;
         if (isNullOrBlank(format)) {
-            localDateTime = DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
+            if (source.length() <= 10) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, LocalDateTime::from);
+            } else {
+                temporal = DateUtils.DATETIME_FORMATTER.parse(source, ZonedDateTime::from);
+            }
         } else {
-            localDateTime = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+            if (source.length() <= 10) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+            } else if (source.length() <= 30) {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+            } else {
+                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+            }
         }
-        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
-        return Date.from(instant);
+        if (temporal instanceof LocalDate localDate) {
+            return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        } else if (temporal instanceof LocalDateTime localDateTime) {
+            return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        }
+        return Date.from(((ZonedDateTime) temporal).toInstant());
     }
 
 }

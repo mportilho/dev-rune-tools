@@ -25,15 +25,10 @@
 package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import io.github.mportilho.dfr.core.processor.annotation.Conjunction;
-import io.github.mportilho.dfr.core.processor.annotation.Disjunction;
-import io.github.mportilho.dfr.core.processor.annotation.Filter;
-import io.github.mportilho.dfr.core.processor.annotation.Statement;
 import io.github.mportilho.dfr.core.operation.type.Dynamic;
 import io.github.mportilho.dfr.core.operation.type.IsNotNull;
 import io.github.mportilho.dfr.core.operation.type.IsNull;
-import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
-import io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils;
+import io.github.mportilho.dfr.core.processor.annotation.*;
 import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.Operation;
@@ -92,13 +87,16 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
      * representation
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static void customizeParameter(Operation operation, MethodParameter methodParameter, Filter filter) throws Exception {
+    private static void customizeParameter(
+            Operation operation, MethodParameter methodParameter, Filter filter) throws Exception {
         ParameterizedType parameterizedType = (ParameterizedType) methodParameter.getParameter().getParameterizedType();
         Class<?> parameterizedClassType = Class.forName(parameterizedType.getActualTypeArguments()[0].getTypeName());
 
         Field field;
         try {
-            field = ConditionalAnnotationUtils.findFilterField(parameterizedClassType, filter.path());
+            String fieldToSearch = filter.attributePath() != null && !filter.attributePath().isBlank() ?
+                    filter.attributePath() : filter.path();
+            field = ConditionalAnnotationUtils.findFilterField(parameterizedClassType, fieldToSearch);
         } catch (IllegalStateException e) {
             String location = CollectionUtils.isNotEmpty(operation.getTags()) ? operation.getTags().get(0) + "." : "";
             location += operation.getOperationId();

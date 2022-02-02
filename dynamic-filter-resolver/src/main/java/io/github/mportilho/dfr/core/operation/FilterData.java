@@ -31,7 +31,7 @@ import java.util.Objects;
 //TODO include doc
 
 public record FilterData(
-        String attributePath,
+        String parameterField,
         String path,
         String[] parameters,
         Class<?> targetType,

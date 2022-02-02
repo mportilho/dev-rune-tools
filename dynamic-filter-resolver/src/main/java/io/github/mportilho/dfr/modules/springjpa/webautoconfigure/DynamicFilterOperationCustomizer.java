@@ -33,8 +33,6 @@ import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MultiValuedMap;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,6 +48,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.mportilho.commons.utils.PredicateUtils.isNotEmpty;
 import static io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils.findStatementAnnotations;
 import static java.util.Objects.requireNonNull;
 
@@ -94,11 +93,11 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
 
         Field field;
         try {
-            String fieldToSearch = filter.attributePath() != null && !filter.attributePath().isBlank() ?
-                    filter.attributePath() : filter.path();
+            String fieldToSearch = filter.parameterField() != null && !filter.parameterField().isBlank() ?
+                    filter.parameterField() : filter.path();
             field = ConditionalAnnotationUtils.findFilterField(parameterizedClassType, fieldToSearch);
         } catch (IllegalStateException e) {
-            String location = CollectionUtils.isNotEmpty(operation.getTags()) ? operation.getTags().get(0) + "." : "";
+            String location = isNotEmpty(operation.getTags()) ? operation.getTags().get(0) + "." : "";
             location += operation.getOperationId();
             throw new IllegalStateException(String.format("Fail to get Schema data from Operation '%s'", location), e);
         }
@@ -196,7 +195,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
         if (!Specification.class.isAssignableFrom(methodParameter.getParameterType())) {
             return Collections.emptyList();
         }
-        MultiValuedMap<Annotation, List<Annotation>> statementAnnotations =
+        Map<Annotation, List<Annotation>> statementAnnotations =
                 findStatementAnnotations(new AnnotationProcessorParameter(methodParameter.getParameterType(), methodParameter.getParameterAnnotations()));
         return statementAnnotations.values().stream()
                 .flatMap(Collection::stream)

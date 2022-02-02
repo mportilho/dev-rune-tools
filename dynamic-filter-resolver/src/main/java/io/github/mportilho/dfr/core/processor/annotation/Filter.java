@@ -47,12 +47,12 @@ public @interface Filter {
      *
      * <p>
      * For example: In a controller, the developer can reference to the DTO class
-     * and it's properties with <code>attributePath</code> and indicate the target
+     * and it's properties with <code>parameterField</code> and indicate the target
      * JPA entity's attribute with <code>path</code>.
      *
      * @return Optional path for another type's attribute
      */
-    String attributePath() default "";
+    String parameterField() default "";
 
     /**
      * <b>Path</b> is the notation from which the target attribute can be found on a

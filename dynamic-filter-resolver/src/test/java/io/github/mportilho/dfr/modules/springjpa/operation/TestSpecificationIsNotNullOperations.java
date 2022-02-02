@@ -166,8 +166,7 @@ public class TestSpecificationIsNotNullOperations {
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
 
-        assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("A boolean value must be provided to resolve the 'IsNotNull' operation");
+        assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(NullPointerException.class);
         verify(builder, times(0)).isNull(any(Expression.class));
     }
 

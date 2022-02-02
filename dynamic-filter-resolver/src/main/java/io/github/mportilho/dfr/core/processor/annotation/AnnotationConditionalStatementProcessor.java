@@ -31,7 +31,6 @@ import io.github.mportilho.dfr.core.processor.AbstractConditionalStatementProces
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
 import io.github.mportilho.dfr.core.processor.ValueExpressionResolver;
-import org.apache.commons.collections4.MultiValuedMap;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -56,15 +55,16 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
      * {@inheritDoc}
      */
     @Override
-    public ConditionalStatement createStatements(AnnotationProcessorParameter parameter, Map<String, Object[]> userParameters) {
+    public ConditionalStatement createStatements(
+            AnnotationProcessorParameter parameter, Map<String, Object[]> userParameters) {
         Map<String, Object[]> parametersMap = userParameters != null ? userParameters : Collections.emptyMap();
         List<ConditionalStatement> statements = new ArrayList<>();
-        MultiValuedMap<Annotation, List<Annotation>> statementAnnotations = findStatementAnnotations(parameter);
+        Map<Annotation, List<Annotation>> statementAnnotations = findStatementAnnotations(parameter);
 
-        for (Map.Entry<Annotation, Collection<List<Annotation>>> entry : statementAnnotations.asMap().entrySet()) {
+        for (Map.Entry<Annotation, List<Annotation>> entry : statementAnnotations.entrySet()) {
             String stmtId = findStatementName(entry.getKey());
             statements.addAll(
-                    entry.getValue().stream().flatMap(Collection::stream)
+                    entry.getValue().stream()
                             .map(ann -> createStatements(stmtId, ann, parametersMap))
                             .filter(Objects::nonNull).toList());
         }
@@ -89,7 +89,8 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
     /**
      *
      */
-    private ConditionalStatement createStatements(String stmtId, Annotation annotation, Map<String, Object[]> userParameters) {
+    private ConditionalStatement createStatements(
+            String stmtId, Annotation annotation, Map<String, Object[]> userParameters) {
         if (annotation == null) {
             return null;
         }
@@ -154,7 +155,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
             String format = computeFormatParameter(filter, userParameters);
             Map<String, String> modifiers = computeModifiersMap(filter.modifiers());
 
-            FilterData parameter = new FilterData(filter.attributePath(), filter.path(), filter.parameters(), filter.targetType(),
+            FilterData parameter = new FilterData(filter.parameterField(), filter.path(), filter.parameters(), filter.targetType(),
                     filter.operation(), negate, filter.ignoreCase(), values, format, modifiers);
             parameter = decorateFilterData(parameter, userParameters);
             filterParameters.add(parameter);
@@ -201,7 +202,8 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
     /**
      *
      */
-    private Boolean computeNegatingParameter(String elementName, String strNegate, Map<String, Object[]> userParameters) {
+    private Boolean computeNegatingParameter(
+            String elementName, String strNegate, Map<String, Object[]> userParameters) {
         if ("true".equalsIgnoreCase(strNegate)) {
             return Boolean.TRUE;
         } else if ("false".equalsIgnoreCase(strNegate)) {

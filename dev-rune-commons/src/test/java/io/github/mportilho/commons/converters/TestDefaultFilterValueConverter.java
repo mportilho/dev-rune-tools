@@ -63,10 +63,10 @@ public class TestDefaultFilterValueConverter {
         assertThat(javaSqlDate).isEqualTo("2014-12-21");
 
         javaSqlDate = filterValueConverter.convert("21/12/2014 13:14:15", Date.class, null);
-        assertThat(javaSqlDate).isEqualTo("2014-12-21T13:14:15");
+        assertThat(javaSqlDate).isEqualTo("2014-12-21T00:00:00");
 
         javaSqlDate = filterValueConverter.convert("2014-12-21T13:14:15+01:00[Europe/Paris]", Date.class, null);
-        assertThat(javaSqlDate).isEqualTo("2014-12-21T10:14:15[Europe/Paris]");
+        assertThat(javaSqlDate).isEqualTo("2014-12-21T00:00:00[Europe/Paris]");
     }
 
     @Test

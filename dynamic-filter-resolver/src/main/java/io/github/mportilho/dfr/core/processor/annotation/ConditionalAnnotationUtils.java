@@ -24,10 +24,6 @@
 
 package io.github.mportilho.dfr.core.processor.annotation;
 
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.map.AbstractReferenceMap;
-import org.apache.commons.collections4.map.ReferenceMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.annotation.Annotation;
@@ -37,8 +33,7 @@ import java.util.*;
 
 public class ConditionalAnnotationUtils {
 
-    private static final Map<AnnotationProcessorParameter, MultiValuedMap<Annotation, List<Annotation>>> cache =
-            new ReferenceMap<>(AbstractReferenceMap.ReferenceStrength.WEAK, AbstractReferenceMap.ReferenceStrength.SOFT);
+    private static final Map<AnnotationProcessorParameter, Map<Annotation, List<Annotation>>> cache = new WeakHashMap<>();
 
     private ConditionalAnnotationUtils() {
     }
@@ -46,15 +41,17 @@ public class ConditionalAnnotationUtils {
     /**
      *
      */
-    public static MultiValuedMap<Annotation, List<Annotation>> findStatementAnnotations(AnnotationProcessorParameter annotationProcessorParameter) {
+    public static Map<Annotation, List<Annotation>> findStatementAnnotations(
+            AnnotationProcessorParameter annotationProcessorParameter) {
         return cache.computeIfAbsent(annotationProcessorParameter, ConditionalAnnotationUtils::findStatementAnnotationsInternal);
     }
 
     /**
      *
      */
-    private static MultiValuedMap<Annotation, List<Annotation>> findStatementAnnotationsInternal(AnnotationProcessorParameter annotationProcessorParameter) {
-        MultiValuedMap<Annotation, List<Annotation>> statementAnnotations = new ArrayListValuedHashMap<>();
+    private static Map<Annotation, List<Annotation>> findStatementAnnotationsInternal(
+            AnnotationProcessorParameter annotationProcessorParameter) {
+        Map<Annotation, List<Annotation>> statementAnnotations = new LinkedHashMap<>();
         for (Class<?> anInterface : extractProcessableInterfaces(annotationProcessorParameter.type())) {
             statementAnnotations.putAll(extractFilterAnnotations(anInterface));
         }
@@ -163,7 +160,8 @@ public class ConditionalAnnotationUtils {
     /**
      *
      */
-    private static boolean getAllAnnotations(Annotation annotation, Map<Annotation, List<Annotation>> annotationsFound) {
+    private static boolean getAllAnnotations(
+            Annotation annotation, Map<Annotation, List<Annotation>> annotationsFound) {
         List<Annotation> annotations;
         if (annotation instanceof VirtualAnnotationHolder virtualAnnotationHolder) {
             annotations = virtualAnnotationHolder.getAnnotations();

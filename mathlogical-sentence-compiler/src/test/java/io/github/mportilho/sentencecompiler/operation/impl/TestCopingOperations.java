@@ -48,7 +48,7 @@ import java.time.ZonedDateTime;
 
 public class TestCopingOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testCopingUnaryOperation() throws Throwable {
@@ -125,7 +125,7 @@ public class TestCopingOperations {
 
     @Test
     public void testCopingDateOperations() throws Throwable {
-        OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext(true);
+        OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext(true);
         AbstractDateTimeOperation operation;
         AbstractDateTimeOperation copyOperation;
 
@@ -154,7 +154,7 @@ public class TestCopingOperations {
 
     @Test
     public void testCopingProvidedVariableValueOperations() throws Throwable {
-        OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext(true);
+        OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext(true);
         VariableValueOperation operation;
         VariableValueOperation copy;
 
@@ -181,7 +181,7 @@ public class TestCopingOperations {
 
     @Test
     public void testCopingSequenceVariableValueOperations() throws Throwable {
-        OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext(true);
+        OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext(true);
         SequenceVariableValueOperation operation;
         SequenceVariableValueOperation copy;
 

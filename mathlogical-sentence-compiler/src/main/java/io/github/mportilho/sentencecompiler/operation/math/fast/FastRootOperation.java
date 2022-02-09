@@ -34,33 +34,33 @@ import java.math.BigDecimal;
 
 public class FastRootOperation extends AbstractBinaryOperation {
 
-	public FastRootOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public FastRootOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		Double leftValue = getLeftOperand().evaluate(context);
-		Double rightValue = getRightOperand().evaluate(context);
-		return Math.round(Math.pow(rightValue, 1.0d / leftValue));
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        Double leftValue = getLeftOperand().evaluate(context);
+        Double rightValue = getRightOperand().evaluate(context);
+        return BigDecimalMath.root(BigDecimal.valueOf(leftValue), BigDecimal.valueOf(rightValue), context.mathContext()).doubleValue();
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		getRightOperand().toString(builder);
-		builder.append(getOperationToken()).append('(');
-		getLeftOperand().toString(builder);
-		builder.append(')');
-	}
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        getRightOperand().toString(builder);
+        builder.append(getOperationToken()).append('(');
+        getLeftOperand().toString(builder);
+        builder.append(')');
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastRootOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastRootOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "\u221A";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "\u221A";
+    }
 
 }

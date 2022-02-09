@@ -40,7 +40,7 @@ import java.time.ZonedDateTime;
 
 public class TestConstantValueOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testBooleanConstantValueOperation() {

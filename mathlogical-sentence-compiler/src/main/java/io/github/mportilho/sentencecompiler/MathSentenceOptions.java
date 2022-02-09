@@ -38,25 +38,29 @@ public class MathSentenceOptions {
     private final FormattedConversionService formattedConversionService;
     private final OperationSupportData operationSupportData;
     private final ZoneId zoneId;
+    private final boolean preciseNumbers;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null, ZoneId.systemDefault());
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null,
+                ZoneId.systemDefault(), true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
-        this(mathContext, scale, formattedConversionService, null, ZoneId.systemDefault());
+        this(mathContext, scale, formattedConversionService, null,
+                ZoneId.systemDefault(), true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale, FormattedConversionService formattedConversionService,
-            OperationSupportData operationSupportData, ZoneId zoneId) {
+            OperationSupportData operationSupportData, ZoneId zoneId, boolean preciseNumbers) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.formattedConversionService = formattedConversionService;
         this.operationSupportData = operationSupportData;
         this.zoneId = zoneId;
+        this.preciseNumbers = preciseNumbers;
     }
 
     public MathContext getMathContext() {
@@ -77,5 +81,9 @@ public class MathSentenceOptions {
 
     public ZoneId getZoneId() {
         return zoneId;
+    }
+
+    public boolean isPreciseNumbers() {
+        return preciseNumbers;
     }
 }

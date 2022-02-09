@@ -53,6 +53,7 @@ public class SyntaxExecutionSite {
     private final Map<String, AssignedVariableOperation> assignedVariables;
     private final OperationSupportData operationSupportData;
     private final FormattedConversionService conversionService;
+    private final boolean preciseNumbers;
 
     public SyntaxExecutionSite(
             AbstractOperation operation,
@@ -62,7 +63,8 @@ public class SyntaxExecutionSite {
             Map<String, AbstractVariableValueOperation> userVariables,
             Map<String, AssignedVariableOperation> assignedVariables,
             OperationSupportData operationSupportData,
-            FormattedConversionService conversionService) {
+            FormattedConversionService conversionService,
+            boolean preciseNumbers) {
         this.operation = operation;
         this.mathContext = mathContext;
         this.scale = scale;
@@ -71,6 +73,7 @@ public class SyntaxExecutionSite {
         this.assignedVariables = Collections.unmodifiableMap(assignedVariables);
         this.operationSupportData = operationSupportData;
         this.conversionService = conversionService;
+        this.preciseNumbers = preciseNumbers;
     }
 
     public Object compute() {
@@ -81,7 +84,7 @@ public class SyntaxExecutionSite {
         Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
                 scale, false, ZonedDateTime.now(zoneId), conversionService, operationSupportData,
-                userOperationSupportData);
+                userOperationSupportData, false);
         for (AbstractVariableValueOperation variableValueOperation : userVariables.values()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
@@ -92,7 +95,8 @@ public class SyntaxExecutionSite {
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, ZonedDateTime.now(), conversionService, operationSupportData, operationSupportData);
+                scale, true, ZonedDateTime.now(), conversionService, operationSupportData,
+                operationSupportData, preciseNumbers);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
@@ -139,7 +143,7 @@ public class SyntaxExecutionSite {
         return new SyntaxExecutionSite(
                 copy, mathContext, scale, zoneId, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
                 new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), new HashMap<>(operationSupportData.getFunctions())),
-                conversionService);
+                conversionService, preciseNumbers);
     }
 
     public void setUserVariable(String name, Object value) {

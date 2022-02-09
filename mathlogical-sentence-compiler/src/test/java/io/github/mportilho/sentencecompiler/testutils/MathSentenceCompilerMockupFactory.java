@@ -25,22 +25,39 @@
 package io.github.mportilho.sentencecompiler.testutils;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.MathSentenceOptions;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 
 import java.math.MathContext;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class MathSentenceCompilerMockupFactory {
 
-    public static OperationContext getOperationContext() {
+    public static OperationContext getPreciseOperationContext() {
         return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
-                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData());
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(), true);
     }
 
-    public static OperationContext getOperationContext(boolean allowingNull) {
+    public static OperationContext getPreciseOperationContext(boolean allowingNull) {
         return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
-                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData());
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(), true);
+    }
+
+    public static OperationContext getFastOperationContext() {
+        return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(), false);
+    }
+
+    public static MathSentenceOptions getFastMathSentenceOptions() {
+        return new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService(), new OperationSupportData(),
+                ZoneId.systemDefault(), false);
+    }
+
+    public static OperationContext getFastOperationContext(boolean allowingNull) {
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
+                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(), false);
     }
 
 }

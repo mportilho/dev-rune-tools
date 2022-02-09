@@ -38,7 +38,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.precise.Pre
 
 public class TestAssignedVariableOperations {
 
-	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
 	@Test
 	public void testAssignedVariableOperation() {

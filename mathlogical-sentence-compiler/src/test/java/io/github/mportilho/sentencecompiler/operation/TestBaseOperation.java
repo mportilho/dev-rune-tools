@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class TestBaseOperation {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testBaseOperation() {

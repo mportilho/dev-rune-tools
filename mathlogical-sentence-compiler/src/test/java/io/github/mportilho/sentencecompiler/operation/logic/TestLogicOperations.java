@@ -35,7 +35,7 @@ import java.time.LocalDate;
 
 public class TestLogicOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testAndOperation() {

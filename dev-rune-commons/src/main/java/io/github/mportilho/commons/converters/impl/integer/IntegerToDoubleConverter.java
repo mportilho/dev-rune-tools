@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,33 +22,14 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.math.fast;
+package io.github.mportilho.commons.converters.impl.integer;
 
-import ch.obermuhlner.math.big.BigDecimalMath;
-import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
-import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
-import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.commons.converters.FormattedConverter;
 
-public class FastFactorialOperation extends AbstractUnaryOperator {
-
-    public FastFactorialOperation(AbstractOperation operand) {
-        super(operand, OperatorPosition.RIGHT);
-    }
+public class IntegerToDoubleConverter implements FormattedConverter<Integer, Double, String> {
 
     @Override
-    protected Object resolve(OperationContext context) {
-        return BigDecimalMath.factorial(getOperand().<Number>evaluate(context).intValue()).doubleValue();
+    public Double convert(Integer source, String format) {
+        return source.doubleValue();
     }
-
-    @Override
-    protected AbstractOperation createClone(CloningContext context) {
-        return new FastFactorialOperation(getOperand().copy(context));
-    }
-
-    @Override
-    protected String getOperationToken() {
-        return "!";
-    }
-
 }

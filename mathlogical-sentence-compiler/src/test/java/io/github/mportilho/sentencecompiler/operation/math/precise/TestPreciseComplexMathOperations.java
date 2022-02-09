@@ -27,7 +27,6 @@ package io.github.mportilho.sentencecompiler.operation.math.precise;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.*;
 import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
@@ -39,9 +38,9 @@ import java.math.BigDecimal;
 
 import static java.math.BigDecimal.valueOf;
 
-public class TestComplexMathOperations {
+public class TestPreciseComplexMathOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testExponentialOperation() {

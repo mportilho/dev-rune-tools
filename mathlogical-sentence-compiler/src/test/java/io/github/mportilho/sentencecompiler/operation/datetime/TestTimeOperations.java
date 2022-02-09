@@ -38,7 +38,7 @@ import static java.math.BigDecimal.valueOf;
 
 public class TestTimeOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testTimeAdditionOperation() {

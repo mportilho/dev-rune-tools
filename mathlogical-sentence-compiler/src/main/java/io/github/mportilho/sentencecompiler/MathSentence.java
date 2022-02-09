@@ -34,8 +34,10 @@ import io.github.mportilho.sentencecompiler.syntaxtree.ext.FinancialFormulasExte
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension;
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.FastOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.PreciseOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -72,11 +74,14 @@ public class MathSentence {
     }
 
     private SyntaxExecutionSite initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
-        SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new PreciseOperationSyntaxTreeGenerator());
+        OperationSyntaxTreeGenerator generator = mathSentenceOptions.isPreciseNumbers() ?
+                new PreciseOperationSyntaxTreeGenerator() : new FastOperationSyntaxTreeGenerator();
+
+        SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, generator);
         return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
                 mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), data.userVariables(),
                 data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
-                mathSentenceOptions.getFormattedConversionService());
+                mathSentenceOptions.getFormattedConversionService(), mathSentenceOptions.isPreciseNumbers());
     }
 
     private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {

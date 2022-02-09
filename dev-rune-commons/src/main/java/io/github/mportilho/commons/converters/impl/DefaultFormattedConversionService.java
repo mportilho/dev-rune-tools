@@ -56,8 +56,13 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
         } else if (source.getClass().equals(targetType)) {
             return (T) source;
         }
-        FormattedConverter<S, T, F> converter = (FormattedConverter<S, T, F>) formattedConverters
-                .get(new ConvertMappingKey(source.getClass(), targetType));
+        ConvertMappingKey convertMappingKey = new ConvertMappingKey(source.getClass(), targetType);
+        return convert(convertMappingKey, source, targetType, format);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <S, T, F> T convert(ConvertMappingKey convertMappingKey, S source, Class<T> targetType, F format) {
+        FormattedConverter<S, T, F> converter = (FormattedConverter<S, T, F>) formattedConverters.get(convertMappingKey);
         if (converter == null) {
             if (targetType.isInstance(source)) {
                 return (T) source;
@@ -66,6 +71,7 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
         }
         return converter.convert(source, format);
     }
+
 
     /**
      * Adds the default {@link FormattedConverter}s into the new instance of this

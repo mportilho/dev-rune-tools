@@ -27,6 +27,7 @@ package io.github.mportilho.commons.converters.impl.availfacs;
 import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.converters.impl.ConvertMappingKey;
 import io.github.mportilho.commons.converters.impl.integer.IntegerToBigDecimalConverter;
+import io.github.mportilho.commons.converters.impl.integer.IntegerToDoubleConverter;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -37,6 +38,8 @@ public class AvailableIntegerConverters {
             Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(Integer.class, BigDecimal.class), new IntegerToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(int.class, BigDecimal.class), new IntegerToBigDecimalConverter());
+        formattedConverters.put(new ConvertMappingKey(Integer.class, Double.class), new IntegerToDoubleConverter());
+        formattedConverters.put(new ConvertMappingKey(int.class, Double.class), new IntegerToDoubleConverter());
     }
 
 }

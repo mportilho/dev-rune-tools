@@ -34,35 +34,35 @@ import java.math.BigDecimal;
 
 public class FastExponentialOperation extends AbstractBinaryOperation {
 
-	public FastExponentialOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public FastExponentialOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		Double rightValue = getRightOperand().evaluate(context);
-		if (rightValue == 0d) {
-			return 0d;
-		}
-		Double leftValue = getLeftOperand().evaluate(context);
-		return Math.pow(rightValue, leftValue);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        Double rightValue = getRightOperand().evaluate(context);
+        if (rightValue == -0d) {
+            return 1d;
+        }
+        Double leftValue = getLeftOperand().evaluate(context);
+        return BigDecimalMath.pow(BigDecimal.valueOf(leftValue), BigDecimal.valueOf(rightValue), context.mathContext()).doubleValue();
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		getLeftOperand().toString(builder);
-		builder.append(getOperationToken());
-		getRightOperand().toString(builder);
-	}
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        getLeftOperand().toString(builder);
+        builder.append(getOperationToken());
+        getRightOperand().toString(builder);
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastExponentialOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastExponentialOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "^";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "^";
+    }
 
 }

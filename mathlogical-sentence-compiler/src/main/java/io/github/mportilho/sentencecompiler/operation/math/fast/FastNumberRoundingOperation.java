@@ -47,14 +47,14 @@ public class FastNumberRoundingOperation extends AbstractBinaryOperation {
         Double number = getLeftOperand().evaluate(context);
         Double roundingFactor = getRightOperand().evaluate(context);
         return switch (roundingEnum) {
-            case CEILING -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.CEILING);
-            case DOWN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.DOWN);
-            case FLOOR -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.FLOOR);
-            case HALF_DOWN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_DOWN);
-            case HALF_EVEN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_EVEN);
-            case HALF_UP -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_UP);
-            case UP -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.UP);
-            case UNNECESSARY -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.UNNECESSARY);
+            case CEILING -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.CEILING).doubleValue();
+            case DOWN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.DOWN).doubleValue();
+            case FLOOR -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.FLOOR).doubleValue();
+            case HALF_DOWN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_DOWN).doubleValue();
+            case HALF_EVEN -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_EVEN).doubleValue();
+            case HALF_UP -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.HALF_UP).doubleValue();
+            case UP -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.UP).doubleValue();
+            case UNNECESSARY -> BigDecimal.valueOf(number).setScale(roundingFactor.intValue(), RoundingMode.UNNECESSARY).doubleValue();
 		};
     }
 

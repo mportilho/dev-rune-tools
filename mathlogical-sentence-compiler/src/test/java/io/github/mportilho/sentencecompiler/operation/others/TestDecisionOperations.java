@@ -43,7 +43,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.precise.Pre
 
 public class TestDecisionOperations {
 
-	private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+	private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 	private AbstractOperation trueOperation;
 	private AbstractOperation falseOperation;
 

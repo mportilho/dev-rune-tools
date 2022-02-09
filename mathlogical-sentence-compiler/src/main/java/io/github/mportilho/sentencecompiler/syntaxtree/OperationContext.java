@@ -39,7 +39,8 @@ public record OperationContext(
         ZonedDateTime currentDateTime,
         FormattedConversionService formattedConversionService,
         OperationSupportData operationSupportData,
-        OperationSupportData userOperationSupportData
+        OperationSupportData userOperationSupportData,
+        boolean preciseNumbers
 ) {
 
     public OperationLambdaCaller getFunction(String name, int parameterCount) {

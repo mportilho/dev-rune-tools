@@ -35,7 +35,7 @@ import java.math.BigDecimal;
 
 public class TestVariableValueOperations {
 
-    private final OperationContext context = MathSentenceCompilerMockupFactory.getOperationContext();
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
     public void testProvidedVariableValueOperations() {

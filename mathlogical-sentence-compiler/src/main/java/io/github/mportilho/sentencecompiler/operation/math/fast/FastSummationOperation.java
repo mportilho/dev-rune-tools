@@ -31,8 +31,6 @@ import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMat
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastSummationOperation extends AbstractSequencialMathOperation {
 
     public FastSummationOperation(
@@ -43,9 +41,9 @@ public class FastSummationOperation extends AbstractSequencialMathOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        int startIndexResult = getStartIndex().<BigDecimal>evaluate(context).intValue();
-        int endIndexResult = getEndIndex().<BigDecimal>evaluate(context).intValue();
-        double result = 1d;
+        int startIndexResult = getStartIndex().<Double>evaluate(context).intValue();
+        int endIndexResult = getEndIndex().<Double>evaluate(context).intValue();
+        double result = 0d;
         for (double i = startIndexResult; i <= endIndexResult; i++) {
             if (this.getSequenceVariable() != null) {
                 this.getSequenceVariable().setSequenceIndex(i);

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,34 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.math.fast;
+package io.github.mportilho.sentencecompiler.operation.types;
 
-import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
-import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
-import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-
-import java.math.BigDecimal;
-
-public class FastDivisionOperation extends AbstractBinaryOperation {
-
-	public FastDivisionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
-
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<Double>evaluate(context) / getRightOperand().<Double>evaluate(context);
-	}
-
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastDivisionOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
-
-	@Override
-	protected String getOperationToken() {
-		return "/";
-	}
-
+public class AbstractUnaryNumericOperation {
 }

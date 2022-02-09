@@ -30,8 +30,6 @@ import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMat
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastProductOfSequenceOperation extends AbstractSequencialMathOperation {
 
     public FastProductOfSequenceOperation(
@@ -42,14 +40,14 @@ public class FastProductOfSequenceOperation extends AbstractSequencialMathOperat
 
     @Override
     protected Object resolve(OperationContext context) {
-        int startIndexResult = getStartIndex().<BigDecimal>evaluate(context).intValue();
-        int endIndexResult = getEndIndex().<BigDecimal>evaluate(context).intValue();
-        BigDecimal result = BigDecimal.ONE;
-        for (int i = startIndexResult; i <= endIndexResult; i++) {
+        int startIndexResult = getStartIndex().<Double>evaluate(context).intValue();
+        int endIndexResult = getEndIndex().<Double>evaluate(context).intValue();
+        double result = 1d;
+        for (double i = startIndexResult; i <= endIndexResult; i++) {
             if (this.getSequenceVariable() != null) {
-                this.getSequenceVariable().setValue(BigDecimal.valueOf(i));
+                this.getSequenceVariable().setValue(i);
             }
-            result = result.multiply(getOperation().evaluate(context));
+            result = result * getOperation().<Double>evaluate(context);
         }
         return result;
     }

@@ -38,7 +38,7 @@ public class FastSquareRootOperation extends AbstractUnaryOperator {
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.sqrt(getOperand().evaluate(context), context.mathContext());
+		return Math.sqrt(getOperand().evaluate(context));
 	}
 
 	@Override

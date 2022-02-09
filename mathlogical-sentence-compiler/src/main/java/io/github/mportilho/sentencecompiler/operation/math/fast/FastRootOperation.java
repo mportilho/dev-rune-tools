@@ -40,9 +40,9 @@ public class FastRootOperation extends AbstractBinaryOperation {
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		BigDecimal leftValue = getLeftOperand().evaluate(context);
-		BigDecimal rightValue = getRightOperand().evaluate(context);
-		return BigDecimalMath.root(leftValue, rightValue, context.mathContext());
+		Double leftValue = getLeftOperand().evaluate(context);
+		Double rightValue = getRightOperand().evaluate(context);
+		return Math.round(Math.pow(rightValue, 1.0d / leftValue));
 	}
 
 	@Override

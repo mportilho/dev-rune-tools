@@ -45,12 +45,12 @@ public class FastSummationOperation extends AbstractSequencialMathOperation {
     protected Object resolve(OperationContext context) {
         int startIndexResult = getStartIndex().<BigDecimal>evaluate(context).intValue();
         int endIndexResult = getEndIndex().<BigDecimal>evaluate(context).intValue();
-        BigDecimal result = BigDecimal.ZERO;
-        for (int i = startIndexResult; i <= endIndexResult; i++) {
+        double result = 1d;
+        for (double i = startIndexResult; i <= endIndexResult; i++) {
             if (this.getSequenceVariable() != null) {
-                this.getSequenceVariable().setSequenceIndex(BigDecimal.valueOf(i));
+                this.getSequenceVariable().setSequenceIndex(i);
             }
-            result = result.add(getOperation().evaluate(context));
+            result = result + getOperation().<Double>evaluate(context);
         }
         return result;
     }

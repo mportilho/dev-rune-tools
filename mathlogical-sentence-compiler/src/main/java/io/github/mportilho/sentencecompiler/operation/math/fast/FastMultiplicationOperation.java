@@ -47,16 +47,16 @@ public class FastMultiplicationOperation extends AbstractBinaryOperation {
     }
 
     @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<Double>evaluate(context) * getRightOperand().<Double>evaluate(context);
+    }
+
+    @Override
     protected AbstractOperation createClone(CloningContext context) {
         FastMultiplicationOperation operation = new FastMultiplicationOperation(getLeftOperand().copy(context),
                 getRightOperand().copy(context));
         operation.implicit = this.implicit;
         return operation;
-    }
-
-    @Override
-    protected Object resolve(OperationContext context) {
-        return getLeftOperand().<BigDecimal>evaluate(context).multiply(getRightOperand().evaluate(context), context.mathContext());
     }
 
     @Override

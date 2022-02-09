@@ -47,16 +47,16 @@ public class PreciseMultiplicationOperation extends AbstractBinaryOperation {
     }
 
     @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<BigDecimal>evaluate(context).multiply(getRightOperand().evaluate(context), context.mathContext());
+    }
+
+    @Override
     protected AbstractOperation createClone(CloningContext context) {
         PreciseMultiplicationOperation operation = new PreciseMultiplicationOperation(getLeftOperand().copy(context),
                 getRightOperand().copy(context));
         operation.implicit = this.implicit;
         return operation;
-    }
-
-    @Override
-    protected Object resolve(OperationContext context) {
-        return getLeftOperand().<BigDecimal>evaluate(context).multiply(getRightOperand().evaluate(context), context.mathContext());
     }
 
     @Override

@@ -39,9 +39,7 @@ public class FastModuloOperation extends AbstractBinaryOperation {
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		BigDecimal leftValue = getLeftOperand().evaluate(context);
-		BigDecimal rightValue = getRightOperand().evaluate(context);
-		return leftValue.remainder(rightValue, context.mathContext());
+		return getLeftOperand().<Double>evaluate(context) % getRightOperand().<Double>evaluate(context);
 	}
 
 	@Override

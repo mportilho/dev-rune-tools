@@ -40,12 +40,12 @@ public class FastExponentialOperation extends AbstractBinaryOperation {
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		BigDecimal rightValue = getRightOperand().evaluate(context);
-		if (rightValue.compareTo(BigDecimal.ZERO) == 0) {
-			return BigDecimal.ONE;
+		Double rightValue = getRightOperand().evaluate(context);
+		if (rightValue == 0d) {
+			return 0d;
 		}
-		BigDecimal leftValue = getLeftOperand().evaluate(context);
-		return BigDecimalMath.pow(leftValue, rightValue, context.mathContext());
+		Double leftValue = getLeftOperand().evaluate(context);
+		return Math.pow(rightValue, leftValue);
 	}
 
 	@Override

@@ -29,29 +29,25 @@ import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastPercentualOperation extends AbstractUnaryOperator {
 
-	private static final BigDecimal PERCENT = new BigDecimal("0.01");
+    public FastPercentualOperation(AbstractOperation operand) {
+        super(operand, OperatorPosition.RIGHT);
+    }
 
-	public FastPercentualOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.RIGHT);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getOperand().<Double>evaluate(context) * 0.01d;
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getOperand().<BigDecimal>evaluate(context).multiply(PERCENT, context.mathContext());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastPercentualOperation(getOperand().copy(context));
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastPercentualOperation(getOperand().copy(context));
-	}
-
-	@Override
-	protected String getOperationToken() {
-		return "%";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "%";
+    }
 
 }

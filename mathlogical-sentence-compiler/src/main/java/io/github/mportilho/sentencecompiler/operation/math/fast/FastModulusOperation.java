@@ -29,27 +29,25 @@ import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastModulusOperation extends AbstractUnaryOperator {
 
-	public FastModulusOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.WRAPPED);
-	}
+    public FastModulusOperation(AbstractOperation operand) {
+        super(operand, OperatorPosition.WRAPPED);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getOperand().<BigDecimal>evaluate(context).abs(context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return Math.abs(getOperand().<Double>evaluate(context));
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastModulusOperation(getOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastModulusOperation(getOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "|";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "|";
+    }
 
 }

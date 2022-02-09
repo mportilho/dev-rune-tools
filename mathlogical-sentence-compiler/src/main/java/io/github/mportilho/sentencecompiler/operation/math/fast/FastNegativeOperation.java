@@ -29,40 +29,38 @@ import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastNegativeOperation extends AbstractUnaryOperator {
 
-	private boolean negatingValue = true;
+    private boolean negatingValue = true;
 
-	public FastNegativeOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.LEFT);
-	}
+    public FastNegativeOperation(AbstractOperation operand) {
+        super(operand, OperatorPosition.LEFT);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		if (negatingValue) {
-			return getOperand().<BigDecimal>evaluate(context).negate(context.mathContext());
-		}
-		return getOperand().evaluate(context);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        if (negatingValue) {
+            return getOperand().<Double>evaluate(context) * -1d;
+        }
+        return getOperand().evaluate(context);
+    }
 
-	public void negatingValue(boolean negating) {
-		this.negatingValue = negating;
-	}
+    public void negatingValue(boolean negating) {
+        this.negatingValue = negating;
+    }
 
-	public boolean isNegatingValue() {
-		return negatingValue;
-	}
+    public boolean isNegatingValue() {
+        return negatingValue;
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastNegativeOperation(getOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastNegativeOperation(getOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return negatingValue ? "-" : "";
-	}
+    @Override
+    protected String getOperationToken() {
+        return negatingValue ? "-" : "";
+    }
 
 }

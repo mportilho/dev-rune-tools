@@ -39,7 +39,7 @@ public class FastAdditionOperation extends AbstractBinaryOperation {
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<BigDecimal>evaluate(context).add(getRightOperand().evaluate(context), context.mathContext());
+		return getLeftOperand().<Double>evaluate(context) + getRightOperand().<Double>evaluate(context);
 	}
 
 	@Override

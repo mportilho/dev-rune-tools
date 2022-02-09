@@ -32,13 +32,52 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class FastFactorialOperation extends AbstractUnaryOperator {
 
+	private static final Double[] factorialCache = new Double[100];
+
 	public FastFactorialOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.RIGHT);
 	}
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.factorial(getOperand().evaluate(context), context.mathContext());
+		return factorial(getOperand().evaluate(context));
+	}
+
+	public static Double factorial(int n) {
+		if (n < 0) {
+			throw new ArithmeticException("Illegal factorial(n) for n < 0: n = " + n);
+		}
+		if (n < factorialCache.length) {
+			return factorialCache[n];
+		}
+
+		Double result = factorialCache[factorialCache.length - 1];
+		return result * (factorialRecursion(factorialCache.length, n));
+	}
+
+	private static long factorialLoop(int n1, final int n2) {
+		final long limit = Long.MAX_VALUE / n2;
+		long accu = 1;
+		long result = 1;
+		while (n1 <= n2) {
+			if (accu <= limit) {
+				accu *= n1;
+			} else {
+				result = result * accu;
+				accu = n1;
+			}
+			n1++;
+		}
+		return result * accu;
+	}
+
+	private static long factorialRecursion(final int n1, final int n2) {
+		int threshold = n1 > 200 ? 80 : 150;
+		if (n2 - n1 < threshold) {
+			return factorialLoop(n1, n2);
+		}
+		final int mid = (n1 + n2) >> 1;
+		return factorialRecursion(mid + 1, n2) * (factorialRecursion(n1, mid));
 	}
 
 	@Override

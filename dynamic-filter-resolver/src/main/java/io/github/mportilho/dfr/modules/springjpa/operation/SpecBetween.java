@@ -47,7 +47,7 @@ class SpecBetween<T> implements Between<Specification<T>> {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression<Comparable> expression = PredicateUtils.computeAttributePath(filterData, root);
+            Expression<Comparable> expression = JpaPredicateUtils.computeAttributePath(filterData, root);
             Comparable lowerValue;
             Comparable upperValue;
 

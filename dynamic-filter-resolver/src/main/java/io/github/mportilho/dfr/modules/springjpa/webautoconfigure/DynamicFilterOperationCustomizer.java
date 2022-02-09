@@ -28,26 +28,30 @@ import com.fasterxml.jackson.annotation.JsonView;
 import io.github.mportilho.dfr.core.operation.type.Dynamic;
 import io.github.mportilho.dfr.core.operation.type.IsNotNull;
 import io.github.mportilho.dfr.core.operation.type.IsNull;
-import io.github.mportilho.dfr.core.processor.annotation.*;
+import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
+import io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils;
+import io.github.mportilho.dfr.core.processor.annotation.Filter;
+import io.github.mportilho.dfr.modules.springjpa.webautoconfigure.openapi3utils.SchemaValidationUtils;
 import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.BooleanSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.method.HandlerMethod;
 
-import javax.validation.constraints.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import static io.github.mportilho.commons.utils.PredicateUtils.isEmpty;
 import static io.github.mportilho.commons.utils.PredicateUtils.isNotEmpty;
 import static io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils.findStatementAnnotations;
 import static java.util.Objects.requireNonNull;
@@ -65,7 +69,8 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
         for (MethodParameter methodParameter : handlerMethod.getMethodParameters()) {
             String parameterName = getParameterName(methodParameter);
-            List<Filter> parameterAnnotations = retrieveFilterParameterAnnotations(methodParameter);
+            List<Filter> parameterAnnotations = retrieveFilterParameterAnnotations(methodParameter.getParameterType(),
+                    methodParameter.getParameterAnnotations());
 
             if (!parameterAnnotations.isEmpty()) {
                 operation.getParameters().removeIf(p -> p.getName().equals(parameterName));
@@ -143,10 +148,12 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
                 if (filter.defaultValues() != null && filter.defaultValues().length == 1) {
                     schema.setDefault(filter.defaultValues()[0]);
                 }
-                applyValidations(schema, field.getAnnotations());
+                SchemaValidationUtils.applyValidations(schema, field);
             }
 
-            parameter.required(filter.required());
+            if (filter.required() || SchemaValidationUtils.isFieldRequired(field)) {
+                parameter.required(true);
+            }
             if (parameterExists) {
                 if (parameter.getIn() == null || ParameterIn.DEFAULT.toString().equals(parameter.getIn())) {
                     parameter.setIn(ParameterIn.QUERY.toString());
@@ -191,92 +198,17 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
     /**
      * Extract {@link Filter} annotation from the {@link MethodParameter}'s instance
      */
-    private static List<Filter> retrieveFilterParameterAnnotations(MethodParameter methodParameter) {
-        if (!Specification.class.isAssignableFrom(methodParameter.getParameterType())) {
-            return Collections.emptyList();
-        }
+    static List<Filter> retrieveFilterParameterAnnotations(
+            Class<?> parameterType, Annotation[] parameterAnnotations) {
         Map<Annotation, List<Annotation>> statementAnnotations =
-                findStatementAnnotations(new AnnotationProcessorParameter(methodParameter.getParameterType(), methodParameter.getParameterAnnotations()));
+                findStatementAnnotations(new AnnotationProcessorParameter(parameterType, parameterAnnotations));
         return statementAnnotations.values().stream()
                 .flatMap(Collection::stream)
-                .filter(a -> a.annotationType().equals(Conjunction.class) || a.annotationType().equals(Disjunction.class))
-                .map(DynamicFilterOperationCustomizer::composeSpecsFromParameterConfiguration)
+                .map(ConditionalAnnotationUtils::flattenFilterAnnotations)
                 .flatMap(Collection::stream)
+                .filter(filter -> isEmpty(filter.constantValues()))
                 .toList();
     }
 
-    /**
-     * Creates a list of parameter's filters from the annotation
-     */
-    private static List<Filter> composeSpecsFromParameterConfiguration(Annotation annotation) {
-        List<Filter> specsList = new ArrayList<>();
-        if (annotation instanceof Conjunction conjunction) {
-            specsList.addAll(Arrays.asList(conjunction.value()));
-            specsList.addAll(Stream.of(conjunction.disjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
-        } else if (annotation instanceof Disjunction disjunction) {
-            specsList.addAll(Arrays.asList(disjunction.value()));
-            specsList.addAll(Stream.of(disjunction.conjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
-        } else if (annotation instanceof Statement statement) {
-            specsList.addAll(Arrays.asList(statement.value()));
-        }
-//        specsList.removeIf(filter -> isNotEmpty(filter.constantValues()));
-        return specsList;
-    }
-
-    /**
-     * Applies Bean Validation's requirements on the request parameter based on the
-     * annotated attribute located on the {@link Filter#path()}
-     */
-    private static void applyValidations(Schema<?> property, Annotation[] annotations) {
-        Map<String, Annotation> annotationMap = new HashMap<>();
-        for (Annotation anno : annotations) {
-            annotationMap.put(anno.annotationType().getName(), anno);
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.Min")) {
-            if ("integer".equals(property.getType()) || "number".equals(property.getType())) {
-                Min min = (Min) annotationMap.get("javax.validation.constraints.Min");
-                property.setMinimum(new BigDecimal(min.value()));
-            }
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.Max")) {
-            if ("integer".equals(property.getType()) || "number".equals(property.getType())) {
-                Max max = (Max) annotationMap.get("javax.validation.constraints.Max");
-                property.setMaximum(new BigDecimal(max.value()));
-            }
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.Size")) {
-            Size size = (Size) annotationMap.get("javax.validation.constraints.Size");
-            if ("integer".equals(property.getType()) || "number".equals(property.getType())) {
-                property.setMinimum(new BigDecimal(size.min()));
-                property.setMaximum(new BigDecimal(size.max()));
-            } else if (property instanceof StringSchema sp) {
-                sp.minLength(size.min());
-                sp.maxLength(size.max());
-            } else if (property instanceof ArraySchema sp) {
-                sp.setMinItems(size.min());
-                sp.setMaxItems(size.max());
-            }
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.DecimalMin")) {
-            DecimalMin min = (DecimalMin) annotationMap.get("javax.validation.constraints.DecimalMin");
-            if (property instanceof NumberSchema ap) {
-                ap.setMinimum(new BigDecimal(min.value()));
-                ap.setExclusiveMinimum(!min.inclusive());
-            }
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.DecimalMax")) {
-            DecimalMax max = (DecimalMax) annotationMap.get("javax.validation.constraints.DecimalMax");
-            if (property instanceof NumberSchema ap) {
-                ap.setMaximum(new BigDecimal(max.value()));
-                ap.setExclusiveMaximum(!max.inclusive());
-            }
-        }
-        if (annotationMap.containsKey("javax.validation.constraints.Pattern")) {
-            Pattern pattern = (Pattern) annotationMap.get("javax.validation.constraints.Pattern");
-            if (property instanceof StringSchema) {
-                property.setPattern(pattern.regexp());
-            }
-        }
-    }
 
 }

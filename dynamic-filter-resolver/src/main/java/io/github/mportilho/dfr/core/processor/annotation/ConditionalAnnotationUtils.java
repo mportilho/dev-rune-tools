@@ -30,12 +30,32 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ConditionalAnnotationUtils {
 
     private static final Map<AnnotationProcessorParameter, Map<Annotation, List<Annotation>>> cache = new WeakHashMap<>();
 
     private ConditionalAnnotationUtils() {
+    }
+
+    /**
+     * Creates a list of parameter's filters from the annotation
+     */
+    public static List<Filter> flattenFilterAnnotations(Annotation annotation) {
+        List<Filter> specsList = new ArrayList<>();
+        if (annotation instanceof Conjunction conjunction) {
+            specsList.addAll(Arrays.asList(conjunction.value()));
+            specsList.addAll(Stream.of(conjunction.disjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
+        } else if (annotation instanceof Disjunction disjunction) {
+            specsList.addAll(Arrays.asList(disjunction.value()));
+            specsList.addAll(Stream.of(disjunction.conjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
+        } else if (annotation instanceof Statement statement) {
+            specsList.addAll(Arrays.asList(statement.value()));
+        }
+//        specsList.removeIf(filter -> isNotEmpty(filter.constantValues()));
+        return specsList;
     }
 
     /**

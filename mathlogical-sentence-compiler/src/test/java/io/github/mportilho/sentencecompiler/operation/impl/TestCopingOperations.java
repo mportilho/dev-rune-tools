@@ -26,9 +26,9 @@ package io.github.mportilho.sentencecompiler.operation.impl;
 
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseMultiplicationOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseNumberRoundingOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseNumberRoundingOperation.RoundingEnum;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseMultiplicationOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.operation.value.constant.DateConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.DateTimeConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumberConstantValueOperation;

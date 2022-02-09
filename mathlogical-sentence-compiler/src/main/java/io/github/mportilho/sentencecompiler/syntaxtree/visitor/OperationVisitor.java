@@ -28,10 +28,11 @@ import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeOperation;
+import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMathOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProductOfSequenceOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummationOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseProductOfSequenceOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 
@@ -53,9 +54,7 @@ public interface OperationVisitor<T> {
 
     T visit(FunctionOperation operation);
 
-    T visit(PreciseSummationOperation operation);
-
-    T visit(PreciseProductOfSequenceOperation operation);
+    T visit(AbstractSequencialMathOperation operation);
 
     T visit(AbstractConstantValueOperation operation);
 

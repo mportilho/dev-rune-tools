@@ -47,7 +47,7 @@ class SpecLike<T> implements Like<Specification<T>> {
     @Override
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Path<String> path = PredicateUtils.computeAttributePath(filterData, root);
+            Path<String> path = JpaPredicateUtils.computeAttributePath(filterData, root);
             String value = formattedConversionService.convert(filterData.findOneValue(), path.getJavaType(), filterData.format());
 
             Expression<String> expression;

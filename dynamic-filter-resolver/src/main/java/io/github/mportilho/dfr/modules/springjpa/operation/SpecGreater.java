@@ -47,13 +47,13 @@ class SpecGreater<T> implements Greater<Specification<T>> {
     @SuppressWarnings("unchecked")
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression<? extends Comparable<?>> expression = PredicateUtils.computeAttributePath(filterData, root);
+            Expression<? extends Comparable<?>> expression = JpaPredicateUtils.computeAttributePath(filterData, root);
             Object value = formattedConversionService.convert(filterData.findOneValue(), expression.getJavaType(), filterData.format());
             if (filterData.ignoreCase() && expression.getJavaType().equals(String.class)) {
                 expression = criteriaBuilder.upper((Expression<String>) expression);
                 value = value != null ? value.toString().toUpperCase() : null;
             }
-            return PredicateUtils.toComparablePredicate(expression, value, criteriaBuilder::greaterThan, criteriaBuilder::gt);
+            return JpaPredicateUtils.toComparablePredicate(expression, value, criteriaBuilder::greaterThan, criteriaBuilder::gt);
         };
     }
 

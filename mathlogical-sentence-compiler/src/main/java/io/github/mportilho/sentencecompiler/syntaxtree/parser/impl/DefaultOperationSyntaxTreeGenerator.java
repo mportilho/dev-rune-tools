@@ -32,16 +32,16 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
 import io.github.mportilho.sentencecompiler.operation.logic.*;
+import io.github.mportilho.sentencecompiler.operation.math.precise.*;
+import io.github.mportilho.sentencecompiler.operation.math.precise.trigonometry.*;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.*;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseNumberRoundingOperation.RoundingEnum;
-import io.github.mportilho.sentencecompiler.operation.precise.math.logarithm.BinaryLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.logarithm.CommonLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.logarithm.LogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.logarithm.NaturalLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.trigonometry.*;
+import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
+import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseBinaryLogarithmOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseCommonLogarithmOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseLogarithmOperation;
+import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseNaturalLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.InternallyMutableValueOperation;
@@ -245,7 +245,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitInverseHyperbolicSineExpression(InverseHyperbolicSineExpressionContext ctx) {
-        return new InverseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseInverseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -258,12 +258,12 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitHyperbolicSineExpression(HyperbolicSineExpressionContext ctx) {
-        return new HyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitInverseHyperbolicCosineExpression(InverseHyperbolicCosineExpressionContext ctx) {
-        return new InverseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseInverseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -280,12 +280,12 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitTangentExpression(TangentExpressionContext ctx) {
-        return new TangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitArctangent2Expression(Arctangent2ExpressionContext ctx) {
-        return new Arctangent2Operation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+        return new PreciseArctangent2Operation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -300,12 +300,12 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitHyperbolicTangentExpression(HyperbolicTangentExpressionContext ctx) {
-        return new HyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitHyperbolicCosineExpression(HyperbolicCosineExpressionContext ctx) {
-        return new HyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -339,17 +339,17 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitSineExpression(SineExpressionContext ctx) {
-        return new SineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitCosineExpression(CosineExpressionContext ctx) {
-        return new CosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitArctangentExpression(ArctangentExpressionContext ctx) {
-        return new ArctangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseArctangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -364,12 +364,12 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitInverseHyperbolicTangentExpression(InverseHyperbolicTangentExpressionContext ctx) {
-        return new InverseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseInverseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
-        return new DeggreOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseDeggreOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -379,29 +379,29 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitArccosineExpression(ArccosineExpressionContext ctx) {
-        return new ArccosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseArccosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitArcsineExpression(ArcsineExpressionContext ctx) {
-        return new ArcsineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseArcsineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
     public AbstractOperation visitFixedLogarithm(FixedLogarithmContext ctx) {
         if (nonNull(ctx.BINARY_LOGARITHM())) {
-            return new BinaryLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseBinaryLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
         } else if (nonNull(ctx.COMMOM_LOGARITHM())) {
-            return new CommonLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseCommonLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
         } else if (nonNull(ctx.NATURAL_LOGARITHM())) {
-            return new NaturalLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseNaturalLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
     public AbstractOperation visitVariableLogarithm(VariableLogarithmContext ctx) {
-        return new LogarithmOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+        return new PreciseLogarithmOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override

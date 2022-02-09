@@ -29,7 +29,7 @@ import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.IsNotNull;
 import org.springframework.data.jpa.domain.Specification;
 
-import static io.github.mportilho.dfr.modules.springjpa.operation.PredicateUtils.computeAttributePath;
+import static io.github.mportilho.dfr.modules.springjpa.operation.JpaPredicateUtils.computeAttributePath;
 
 /**
  * Implementation of {@link IsNotNull} for the Spring Data JPA's

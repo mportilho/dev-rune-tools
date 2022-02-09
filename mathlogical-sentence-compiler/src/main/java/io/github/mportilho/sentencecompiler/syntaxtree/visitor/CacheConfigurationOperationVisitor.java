@@ -29,15 +29,13 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeOperation;
+import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMathOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProductOfSequenceOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 
 public class CacheConfigurationOperationVisitor implements OperationVisitor<Object> {
-
 
     private Object disableCaching(AbstractOperation operation) {
         if (operation.checkAndRemoveDisableCacheHint()) {
@@ -77,13 +75,7 @@ public class CacheConfigurationOperationVisitor implements OperationVisitor<Obje
     }
 
     @Override
-    public Object visit(PreciseSummationOperation operation) {
-        return disableCaching(operation);
-    }
-
-    @Override
-    public Object visit(
-            PreciseProductOfSequenceOperation operation) {
+    public Object visit(AbstractSequencialMathOperation operation) {
         return disableCaching(operation);
     }
 

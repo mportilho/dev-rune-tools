@@ -49,7 +49,7 @@ class SpecIsIn<T> implements IsIn<Specification<T>> {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression expressionTemp = PredicateUtils.computeAttributePath(filterData, root);
+            Expression expressionTemp = JpaPredicateUtils.computeAttributePath(filterData, root);
             Object[] rawValues = filterData.values().get(0);
 
             Predicate predicate = null;

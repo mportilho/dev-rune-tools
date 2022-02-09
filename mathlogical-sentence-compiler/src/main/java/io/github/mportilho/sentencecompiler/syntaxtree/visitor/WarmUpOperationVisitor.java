@@ -29,10 +29,9 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeOperation;
+import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMathOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseProductOfSequenceOperation;
-import io.github.mportilho.sentencecompiler.operation.precise.math.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
@@ -102,17 +101,7 @@ public class WarmUpOperationVisitor implements OperationVisitor<Object> {
     }
 
     @Override
-    public Object visit(PreciseSummationOperation operation) {
-        try {
-            return canEvaluate(operation.getStartIndex()) && canEvaluate(operation.getEndIndex()) ?
-                    operation.evaluate(context) : null;
-        } catch (NullPointerException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public Object visit(PreciseProductOfSequenceOperation operation) {
+    public Object visit(AbstractSequencialMathOperation operation) {
         try {
             return canEvaluate(operation.getStartIndex()) && canEvaluate(operation.getEndIndex()) ?
                     operation.evaluate(context) : null;

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
+ * Copyright (c) 2021-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,37 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.commons.converters.impl.availfacs;
+package io.github.mportilho.sentencecompiler.operation.value.constant.fast;
 
-import io.github.mportilho.commons.converters.FormattedConverter;
-import io.github.mportilho.commons.converters.impl.ConvertMappingKey;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToDoubleConverter;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToStringConverter;
+import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-import java.util.Map;
+public class FastPiNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-public class AvailableBigDecimalFormatters {
+	public FastPiNumberConstantValueOperation() {
+		this("pi");
+	}
 
-    public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, String.class), new BigDecimalToStringConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, double.class), new BigDecimalToDoubleConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, Double.class), new BigDecimalToDoubleConverter());
+	private FastPiNumberConstantValueOperation(String value) {
+		super(value);
+	}
 
-    }
+	@Override
+	protected void formatRepresentation(StringBuilder builder) {
+		builder.append(getValue());
+	}
+
+	@Override
+	protected AbstractOperation createClone(CloningContext context) {
+		return new FastPiNumberConstantValueOperation();
+	}
+
+	@Override
+	protected Object resolve(OperationContext context) {
+		return 3.141592653589793238462643383279502884197169399d;
+	}
 
 }

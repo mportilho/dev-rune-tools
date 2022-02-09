@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,21 +27,14 @@ package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxParsingException;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarBaseVisitor;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
-import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.*;
+import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
 import io.github.mportilho.sentencecompiler.operation.logic.*;
-import io.github.mportilho.sentencecompiler.operation.math.precise.*;
-import io.github.mportilho.sentencecompiler.operation.math.precise.trigonometry.*;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
-import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseBinaryLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseCommonLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseNaturalLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.InternallyMutableValueOperation;
@@ -53,7 +46,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.CacheConfiguratio
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -66,16 +58,17 @@ import static io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceP
 import static io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer.PLUS_MONTHS;
 import static io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer.PLUS_YEARS;
 import static io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer.VOCABULARY;
+import static io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.*;
 import static java.util.Objects.nonNull;
 
-public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentenceParserGrammarBaseVisitor<AbstractOperation>
+public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalSentenceParserGrammarBaseVisitor<AbstractOperation>
         implements OperationSyntaxTreeGenerator {
 
-    private final Map<String, AbstractVariableValueOperation> userVariables;
-    private final Map<String, AssignedVariableOperation> assignedVariables;
-    private Stack<List<SequenceVariableValueOperation>> sequenceVariableStack;
+    protected final Map<String, AbstractVariableValueOperation> userVariables;
+    protected final Map<String, AssignedVariableOperation> assignedVariables;
+    protected Stack<List<SequenceVariableValueOperation>> sequenceVariableStack;
 
-    public DefaultOperationSyntaxTreeGenerator() {
+    public AbstractOperationSyntaxTreeGenerator() {
         this.userVariables = new HashMap<>();
         this.assignedVariables = new HashMap<>();
     }
@@ -94,7 +87,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitMathStart(MathStartContext ctx) {
-        for (AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
+        for (MathematicalSentenceParserGrammarParser.AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
             AssignedVariableOperation operator = (AssignedVariableOperation) expressionContext.accept(this);
             assignedVariables.put(operator.getVariableName(), operator);
         }
@@ -104,7 +97,7 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
 
     @Override
     public AbstractOperation visitLogicalStart(LogicalStartContext ctx) {
-        for (AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
+        for (MathematicalSentenceParserGrammarParser.AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
             AssignedVariableOperation operator = (AssignedVariableOperation) expressionContext.accept(this);
             assignedVariables.put(operator.getVariableName(), operator);
         }
@@ -117,24 +110,6 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         AbstractOperation abstractOperation = ctx.allEntityTypes().accept(this);
         return new AssignedVariableOperation(ctx.IDENTIFIER().getText(), abstractOperation)
                 .expectedType(abstractOperation.getExpectedType());
-    }
-
-    @Override
-    public AbstractOperation visitDateTimeExpression(DateTimeExpressionContext ctx) {
-        if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
-        }
-        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
@@ -241,213 +216,6 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         AbstractOperation operation = ctx.logicalExpression().accept(this);
         operation.applyingParenthesis();
         return operation.expectedType(Boolean.class);
-    }
-
-    @Override
-    public AbstractOperation visitInverseHyperbolicSineExpression(InverseHyperbolicSineExpressionContext ctx) {
-        return new PreciseInverseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitSequenceExpression(SequenceExpressionContext ctx) {
-        if (sequenceVariableStack == null) {
-            sequenceVariableStack = new Stack<>();
-        }
-        return super.visitSequenceExpression(ctx).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicSineExpression(HyperbolicSineExpressionContext ctx) {
-        return new PreciseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitInverseHyperbolicCosineExpression(InverseHyperbolicCosineExpressionContext ctx) {
-        return new PreciseInverseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitModulusExpression(ModulusExpressionContext ctx) {
-        return new PreciseModulusOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitMathParenthesis(MathParenthesisContext ctx) {
-        AbstractOperation operation = ctx.mathExpression().accept(this);
-        operation.applyingParenthesis();
-        return operation.expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitTangentExpression(TangentExpressionContext ctx) {
-        return new PreciseTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangent2Expression(Arctangent2ExpressionContext ctx) {
-        return new PreciseArctangent2Operation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitSquareRootExpression(SquareRootExpressionContext ctx) {
-        return new PreciseSquareRootOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitRootExpression(RootExpressionContext ctx) {
-        return new PreciseRootOperation(ctx.mathExpression(1).accept(this), ctx.mathExpression(0).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicTangentExpression(HyperbolicTangentExpressionContext ctx) {
-        return new PreciseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicCosineExpression(HyperbolicCosineExpressionContext ctx) {
-        return new PreciseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitMultiplicationExpression(MultiplicationExpressionContext ctx) {
-        if (ctx.MULT() != null) {
-            return new PreciseMultiplicationOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.DIV())) {
-            return new PreciseDivisionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.MODULO())) {
-            return new PreciseModuloOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-        }
-        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
-    }
-
-    @Override
-    public AbstractOperation visitFactorialExpression(FactorialExpressionContext ctx) {
-        return new PreciseFactorialOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitNegateMathParenthesis(NegateMathParenthesisContext ctx) {
-        AbstractOperation operation = ctx.mathExpression().accept(this);
-        operation.applyingParenthesis();
-        return new PreciseNegativeOperation(operation).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitPercentExpression(PercentExpressionContext ctx) {
-        return new PrecisePercentualOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitSineExpression(SineExpressionContext ctx) {
-        return new PreciseSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitCosineExpression(CosineExpressionContext ctx) {
-        return new PreciseCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangentExpression(ArctangentExpressionContext ctx) {
-        return new PreciseArctangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitSumExpression(SumExpressionContext ctx) {
-        if (ctx.PLUS() != null) {
-            return new PreciseAdditionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.MINUS())) {
-            return new PreciseSubtractionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-        }
-        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
-    }
-
-    @Override
-    public AbstractOperation visitInverseHyperbolicTangentExpression(InverseHyperbolicTangentExpressionContext ctx) {
-        return new PreciseInverseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
-        return new PreciseDeggreOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitExponentiationExpression(ExponentiationExpressionContext ctx) {
-        return new PreciseExponentialOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArccosineExpression(ArccosineExpressionContext ctx) {
-        return new PreciseArccosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArcsineExpression(ArcsineExpressionContext ctx) {
-        return new PreciseArcsineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitFixedLogarithm(FixedLogarithmContext ctx) {
-        if (nonNull(ctx.BINARY_LOGARITHM())) {
-            return new PreciseBinaryLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.COMMOM_LOGARITHM())) {
-            return new PreciseCommonLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.NATURAL_LOGARITHM())) {
-            return new PreciseNaturalLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-        }
-        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
-    }
-
-    @Override
-    public AbstractOperation visitVariableLogarithm(VariableLogarithmContext ctx) {
-        return new PreciseLogarithmOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitRoundingFunction(RoundingFunctionContext ctx) {
-        if (ctx.R_HALF_EVEN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_EVEN).expectedType(BigDecimal.class);
-        } else if (ctx.R_DOWN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.DOWN).expectedType(BigDecimal.class);
-        } else if (ctx.R_CEILING() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.CEILING).expectedType(BigDecimal.class);
-        } else if (ctx.R_FLOOR() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.FLOOR).expectedType(BigDecimal.class);
-        } else if (ctx.R_HALF_UP() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_UP).expectedType(BigDecimal.class);
-        } else if (ctx.R_UP() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UP).expectedType(BigDecimal.class);
-        } else if (ctx.R_HALF_DOWN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_DOWN).expectedType(BigDecimal.class);
-        } else if (ctx.R_UNNECESSARY() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UNNECESSARY).expectedType(BigDecimal.class);
-        } else {
-            throw new IllegalStateException("No rounding method defined for operation " + ctx.getText());
-        }
-    }
-
-    @Override
-    public AbstractOperation visitSequenceFunction(SequenceFunctionContext ctx) {
-        if (sequenceVariableStack == null) {
-            sequenceVariableStack = new Stack<>();
-        }
-        sequenceVariableStack.add(new ArrayList<>());
-
-        AbstractOperation startIndexOperation = ctx.mathExpression(0).accept(this);
-        AbstractOperation endIndexOperation = ctx.mathExpression(1).accept(this);
-        AbstractOperation mathExpression = ctx.mathExpression(2).accept(this);
-
-        List<SequenceVariableValueOperation> sequenceVariableContainer = sequenceVariableStack.pop();
-        SequenceVariableValueOperation sequenceVariable = sequenceVariableContainer.isEmpty() ? null : sequenceVariableContainer.get(0);
-        if (ctx.SUMMATION() != null) {
-            return new PreciseSummationOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
-                    .expectedType(BigDecimal.class);
-        } else if (ctx.PRODUCT_SEQUENCE() != null) {
-            return new PreciseProductOfSequenceOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
-                    .expectedType(BigDecimal.class);
-        }
-        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
@@ -636,83 +404,21 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
     }
 
     @Override
-    public AbstractOperation visitMathDecisionExpression(MathDecisionExpressionContext ctx) {
-        List<AbstractOperation> operations = new ArrayList<>();
-        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
-        List<MathExpressionContext> mathExpressions = ctx.mathExpression();
-
-        for (int i = 0; i < logicalExpressions.size(); i++) {
-            operations.add(logicalExpressions.get(i).accept(this));
-            operations.add(mathExpressions.get(i).accept(this));
+    public AbstractOperation visitDateTimeExpression(DateTimeExpressionContext ctx) {
+        if (nonNull(ctx.comparisonOperator().GT())) {
+            return new GreaterOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+        } else if (nonNull(ctx.comparisonOperator().GE())) {
+            return new GreaterOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+        } else if (nonNull(ctx.comparisonOperator().LT())) {
+            return new LessOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+        } else if (nonNull(ctx.comparisonOperator().LE())) {
+            return new LessOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+        } else if (nonNull(ctx.comparisonOperator().EQ())) {
+            return new EqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+        } else if (nonNull(ctx.comparisonOperator().NEQ())) {
+            return new NotEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
         }
-        operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitMathFunctionDecisionExpression(MathFunctionDecisionExpressionContext ctx) {
-        List<AbstractOperation> operations = new ArrayList<>();
-        List<LogicalExpressionContext> logicalExpressions = ctx.logicalExpression();
-        List<MathExpressionContext> mathExpressions = ctx.mathExpression();
-
-        for (int i = 0; i < logicalExpressions.size(); i++) {
-            operations.add(logicalExpressions.get(i).accept(this));
-            operations.add(mathExpressions.get(i).accept(this));
-        }
-        operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitEulerConstant(EulerConstantContext ctx) {
-        return new EulerNumberConstantValueOperation().expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitPiConstant(PiConstantContext ctx) {
-        return new PiNumberConstantValueOperation().expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitSummationVariable(SummationVariableContext ctx) {
-        if (sequenceVariableStack.peek().isEmpty()) {
-            SequenceVariableValueOperation sequenceVariable = new SequenceVariableValueOperation("S");
-            sequenceVariableStack.peek().add(sequenceVariable);
-            return sequenceVariable;
-        }
-        return sequenceVariableStack.peek().get(0).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitProductSequenceVariable(ProductSequenceVariableContext ctx) {
-        if (sequenceVariableStack.peek().isEmpty()) {
-            SequenceVariableValueOperation sequenceVariable = new SequenceVariableValueOperation("P");
-            sequenceVariableStack.peek().add(sequenceVariable);
-            return sequenceVariable;
-        }
-        return sequenceVariableStack.peek().get(0).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitNumericConstant(NumericConstantContext ctx) {
-        return new PreciseNumberConstantValueOperation(ctx.getText()).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitNumericFunctionResult(NumericFunctionResultContext ctx) {
-        return ctx.function().accept(this).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitNumericVariable(NumericVariableContext ctx) {
-        if (nonNull(ctx.IDENTIFIER())) {
-            return createNewUserVariable(ctx).expectedType(BigDecimal.class);
-        } else if (nonNull(ctx.NEGATIVE_IDENTIFIER())) {
-            return new PreciseNegativeOperation(createNewUserVariable(ctx,
-                    name -> new VariableValueOperation(name).expectedType(BigDecimal.class),
-                    () -> ctx.getText().substring(1)));
-        }
-        throw new IllegalStateException("Invalid numeric operation: " + ctx.getText());
+        throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
@@ -905,11 +611,11 @@ public class DefaultOperationSyntaxTreeGenerator extends MathematicalSentencePar
         return ctx.function().accept(this).expectedType(ZonedDateTime.class);
     }
 
-    private AbstractOperation createNewUserVariable(ParserRuleContext context) {
+    protected AbstractOperation createNewUserVariable(ParserRuleContext context) {
         return createNewUserVariable(context, VariableValueOperation::new, null);
     }
 
-    private AbstractOperation createNewUserVariable(
+    protected AbstractOperation createNewUserVariable(
             ParserRuleContext context, Function<String, AbstractVariableValueOperation> supplier,
             Supplier<String> nameSupplier) {
         String name;

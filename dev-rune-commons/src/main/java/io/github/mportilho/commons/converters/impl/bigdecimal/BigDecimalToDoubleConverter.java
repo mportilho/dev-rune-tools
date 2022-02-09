@@ -22,24 +22,17 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.commons.converters.impl.availfacs;
+package io.github.mportilho.commons.converters.impl.bigdecimal;
 
-import io.github.mportilho.commons.converters.FormattedConverter;
-import io.github.mportilho.commons.converters.impl.ConvertMappingKey;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToDoubleConverter;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToStringConverter;
+import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
-public class AvailableBigDecimalFormatters {
+public class BigDecimalToDoubleConverter extends AbstractCachedStringFormattedConverter<BigDecimal, Double> {
 
-    public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, String.class), new BigDecimalToStringConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, double.class), new BigDecimalToDoubleConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, Double.class), new BigDecimalToDoubleConverter());
-
+    @Override
+    public Double convert(BigDecimal source, String format) {
+        return source.doubleValue();
     }
 
 }

@@ -36,7 +36,7 @@ import io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtensi
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
-import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.DefaultOperationSyntaxTreeGenerator;
+import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.PreciseOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.math.MathContext;
@@ -72,7 +72,7 @@ public class MathSentence {
     }
 
     private SyntaxExecutionSite initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
-        SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new DefaultOperationSyntaxTreeGenerator());
+        SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, new PreciseOperationSyntaxTreeGenerator());
         return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
                 mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), data.userVariables(),
                 data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),

@@ -31,7 +31,7 @@ import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumber
 import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.operation.value.constant.DateConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.DateTimeConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.TimeConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;

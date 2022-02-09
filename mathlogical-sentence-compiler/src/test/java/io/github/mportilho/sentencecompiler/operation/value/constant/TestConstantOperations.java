@@ -25,6 +25,9 @@
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseEulerNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PrecisePiNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
@@ -68,13 +71,13 @@ public class TestConstantOperations {
 
     @Test
     public void testEulerNumberConstantValueOperation() {
-        assertThat(new EulerNumberConstantValueOperation().<BigDecimal>evaluate(context))
+        assertThat(new PreciseEulerNumberConstantValueOperation().<BigDecimal>evaluate(context))
                 .isEqualByComparingTo(BigDecimalMath.e(context.mathContext()));
     }
 
     @Test
     public void testPiNumberConstantValueOperation() {
-        assertThat(new PiNumberConstantValueOperation().<BigDecimal>evaluate(context))
+        assertThat(new PrecisePiNumberConstantValueOperation().<BigDecimal>evaluate(context))
                 .isEqualByComparingTo(BigDecimalMath.pi(context.mathContext()));
     }
 

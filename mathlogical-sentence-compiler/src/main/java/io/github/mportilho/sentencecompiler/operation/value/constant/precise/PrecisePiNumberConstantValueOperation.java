@@ -22,33 +22,37 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.value.constant;
+package io.github.mportilho.sentencecompiler.operation.value.constant.precise;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-public class PreciseNumberConstantValueOperation extends AbstractConstantValueOperation {
+public class PrecisePiNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public PreciseNumberConstantValueOperation(String value) {
+	public PrecisePiNumberConstantValueOperation() {
+		this("pi");
+	}
+
+	private PrecisePiNumberConstantValueOperation(String value) {
 		super(value);
 	}
 
 	@Override
-	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.toBigDecimal(getValue(), context.mathContext());
-	}
-
-	public void transformToPositiveValue() {
-		if (getValue() != null && getValue().startsWith("-")) {
-			setValue(getValue().substring(1));
-		}
+	protected void formatRepresentation(StringBuilder builder) {
+		builder.append(getValue());
 	}
 
 	@Override
 	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseNumberConstantValueOperation(getValue());
+		return new PrecisePiNumberConstantValueOperation();
+	}
+
+	@Override
+	protected Object resolve(OperationContext context) {
+		return BigDecimalMath.pi(context.mathContext());
 	}
 
 }

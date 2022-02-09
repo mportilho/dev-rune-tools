@@ -22,20 +22,21 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.value.constant;
+package io.github.mportilho.sentencecompiler.operation.value.constant.fast;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-public class EulerNumberConstantValueOperation extends AbstractConstantValueOperation {
+public class FastEulerNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public EulerNumberConstantValueOperation() {
+	public FastEulerNumberConstantValueOperation() {
 		this("E");
 	}
 
-	private EulerNumberConstantValueOperation(String value) {
+	private FastEulerNumberConstantValueOperation(String value) {
 		super(value);
 	}
 
@@ -46,12 +47,12 @@ public class EulerNumberConstantValueOperation extends AbstractConstantValueOper
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.e(context.mathContext());
+		return 2.718281828459045235360287471352662497757247093d;
 	}
 
 	@Override
 	protected AbstractOperation createClone(CloningContext context) {
-		return new EulerNumberConstantValueOperation();
+		return new FastEulerNumberConstantValueOperation();
 	}
 
 }

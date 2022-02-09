@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
+ * Copyright (c) 2021-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,34 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.commons.converters.impl.availfacs;
+package io.github.mportilho.sentencecompiler.operation.value.constant.precise;
 
-import io.github.mportilho.commons.converters.FormattedConverter;
-import io.github.mportilho.commons.converters.impl.ConvertMappingKey;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToDoubleConverter;
-import io.github.mportilho.commons.converters.impl.bigdecimal.BigDecimalToStringConverter;
+import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-import java.util.Map;
+public class PreciseNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-public class AvailableBigDecimalFormatters {
+	public PreciseNumberConstantValueOperation(String value) {
+		super(value);
+	}
 
-    public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, String.class), new BigDecimalToStringConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, double.class), new BigDecimalToDoubleConverter());
-        formattedConverters.put(new ConvertMappingKey(BigDecimal.class, Double.class), new BigDecimalToDoubleConverter());
+	@Override
+	protected Object resolve(OperationContext context) {
+		return BigDecimalMath.toBigDecimal(getValue(), context.mathContext());
+	}
 
-    }
+	public void transformToPositiveValue() {
+		if (getValue() != null && getValue().startsWith("-")) {
+			setValue(getValue().substring(1));
+		}
+	}
+
+	@Override
+	protected AbstractOperation createClone(CloningContext context) {
+		return new PreciseNumberConstantValueOperation(getValue());
+	}
 
 }

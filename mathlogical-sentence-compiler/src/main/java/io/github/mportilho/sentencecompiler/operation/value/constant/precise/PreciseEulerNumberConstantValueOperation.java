@@ -22,20 +22,21 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.value.constant;
+package io.github.mportilho.sentencecompiler.operation.value.constant.precise;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-public class PiNumberConstantValueOperation extends AbstractConstantValueOperation {
+public class PreciseEulerNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public PiNumberConstantValueOperation() {
-		this("pi");
+	public PreciseEulerNumberConstantValueOperation() {
+		this("E");
 	}
 
-	private PiNumberConstantValueOperation(String value) {
+	private PreciseEulerNumberConstantValueOperation(String value) {
 		super(value);
 	}
 
@@ -45,13 +46,13 @@ public class PiNumberConstantValueOperation extends AbstractConstantValueOperati
 	}
 
 	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PiNumberConstantValueOperation();
+	protected Object resolve(OperationContext context) {
+		return BigDecimalMath.e(context.mathContext());
 	}
 
 	@Override
-	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.pi(context.mathContext());
+	protected AbstractOperation createClone(CloningContext context) {
+		return new PreciseEulerNumberConstantValueOperation();
 	}
 
 }

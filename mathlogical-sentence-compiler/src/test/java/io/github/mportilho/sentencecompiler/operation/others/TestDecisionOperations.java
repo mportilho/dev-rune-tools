@@ -39,7 +39,7 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.BooleanConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.PreciseNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 
 public class TestDecisionOperations {
 

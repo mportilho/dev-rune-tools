@@ -25,7 +25,7 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.sql.Date;
@@ -40,7 +40,7 @@ import java.time.temporal.Temporal;
  *
  * @author Marcelo Portilho
  */
-public class StringToJavaSqlDateConverter extends AbstractCachedStringFormattedConverter<String, Date> {
+public class StringToJavaSqlDateConverter implements FormattedConverter<String, Date> {
 
     /**
      * {@inheritDoc}
@@ -58,11 +58,11 @@ public class StringToJavaSqlDateConverter extends AbstractCachedStringFormattedC
             }
         } else {
             if (source.length() <= 10) {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, LocalDate::from);
             } else if (source.length() <= 30) {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, LocalDateTime::from);
             } else {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, ZonedDateTime::from);
             }
         }
         if (temporal instanceof LocalDate localDate) {

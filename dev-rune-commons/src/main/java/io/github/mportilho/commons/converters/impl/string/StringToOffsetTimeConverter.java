@@ -25,7 +25,8 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.OffsetTime;
@@ -37,7 +38,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToOffsetTimeConverter extends AbstractCachedStringFormattedConverter<String, OffsetTime> {
+public class StringToOffsetTimeConverter implements FormattedConverter<String, OffsetTime> {
 
     /**
      * {@inheritDoc}
@@ -48,7 +49,7 @@ public class StringToOffsetTimeConverter extends AbstractCachedStringFormattedCo
         if (isNullOrBlank(format)) {
             return DateUtils.TIME_FORMATTER.parse(source, OffsetTime::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, OffsetTime::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, OffsetTime::from);
     }
 
 }

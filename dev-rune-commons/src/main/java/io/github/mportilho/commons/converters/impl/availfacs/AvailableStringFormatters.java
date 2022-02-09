@@ -38,7 +38,7 @@ import java.util.Map;
 public class AvailableStringFormatters {
 
     public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
+            Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(String.class, BigDecimal.class), new StringToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(String.class, BigInteger.class), new StringToBigIntegerConverter());
         formattedConverters.put(new ConvertMappingKey(String.class, Boolean.class), new StringToBooleanConverter());

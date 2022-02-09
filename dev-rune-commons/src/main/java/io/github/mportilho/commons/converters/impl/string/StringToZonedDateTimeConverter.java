@@ -25,7 +25,8 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.ZonedDateTime;
@@ -37,7 +38,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToZonedDateTimeConverter extends AbstractCachedStringFormattedConverter<String, ZonedDateTime> {
+public class StringToZonedDateTimeConverter implements FormattedConverter<String, ZonedDateTime> {
 
     /**
      * {@inheritDoc}
@@ -48,7 +49,7 @@ public class StringToZonedDateTimeConverter extends AbstractCachedStringFormatte
         if (isNullOrBlank(format)) {
             return DateUtils.DATETIME_FORMATTER.parse(source, ZonedDateTime::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, ZonedDateTime::from);
     }
 
 }

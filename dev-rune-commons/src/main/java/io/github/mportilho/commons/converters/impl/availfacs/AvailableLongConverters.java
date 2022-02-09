@@ -34,7 +34,7 @@ import java.util.Map;
 public class AvailableLongConverters {
 
     public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
+            Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(Long.class, BigDecimal.class), new LongToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(long.class, BigDecimal.class), new LongToBigDecimalConverter());
     }

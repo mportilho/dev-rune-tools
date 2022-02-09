@@ -24,12 +24,12 @@
 
 package io.github.mportilho.commons.converters.impl.bigdecimal;
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-public class BigDecimalToStringConverter extends AbstractCachedStringFormattedConverter<BigDecimal, String> {
+public class BigDecimalToStringConverter implements FormattedConverter<BigDecimal, String> {
 
     @Override
     public String convert(BigDecimal source, String format) {

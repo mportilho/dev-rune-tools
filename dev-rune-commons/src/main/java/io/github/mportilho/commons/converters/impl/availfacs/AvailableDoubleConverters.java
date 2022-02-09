@@ -34,7 +34,7 @@ import java.util.Map;
 public class AvailableDoubleConverters {
 
     public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
+            Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(Double.class, BigDecimal.class), new DoubleToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(double.class, BigDecimal.class), new DoubleToBigDecimalConverter());
     }

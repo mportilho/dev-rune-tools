@@ -29,7 +29,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 import java.time.*;
 import java.time.temporal.Temporal;
 
-public class TemporalToZonedDateTimeConverter implements FormattedConverter<Temporal, ZonedDateTime, String> {
+public class TemporalToZonedDateTimeConverter implements FormattedConverter<Temporal, ZonedDateTime> {
 
     @Override
     public ZonedDateTime convert(Temporal source, String format) {

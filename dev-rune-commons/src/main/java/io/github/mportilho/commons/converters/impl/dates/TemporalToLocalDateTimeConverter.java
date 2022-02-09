@@ -29,7 +29,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 import java.time.*;
 import java.time.temporal.Temporal;
 
-public class TemporalToLocalDateTimeConverter implements FormattedConverter<Temporal, LocalDateTime, String> {
+public class TemporalToLocalDateTimeConverter implements FormattedConverter<Temporal, LocalDateTime> {
 
     @Override
     public LocalDateTime convert(Temporal source, String format) {

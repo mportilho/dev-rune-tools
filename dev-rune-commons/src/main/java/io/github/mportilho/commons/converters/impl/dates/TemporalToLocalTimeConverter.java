@@ -32,7 +32,7 @@ import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 
-public class TemporalToLocalTimeConverter implements FormattedConverter<Temporal, LocalTime, String> {
+public class TemporalToLocalTimeConverter implements FormattedConverter<Temporal, LocalTime> {
 
     @Override
     public LocalTime convert(Temporal source, String format) {

@@ -29,7 +29,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class UtilDateToLocalDateConverter implements FormattedConverter<Date, LocalDate, String> {
+public class UtilDateToLocalDateConverter implements FormattedConverter<Date, LocalDate> {
 
     @Override
     public LocalDate convert(Date source, String format) {

@@ -25,10 +25,8 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,7 +34,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToBooleanConverter extends AbstractCachedStringFormattedConverter<String, Boolean> {
+public class StringToBooleanConverter implements FormattedConverter<String, Boolean> {
 
     /**
      * {@inheritDoc}
@@ -44,10 +42,6 @@ public class StringToBooleanConverter extends AbstractCachedStringFormattedConve
     @Override
     public Boolean convert(String source, String format) {
         Objects.requireNonNull(source);
-        if (!isNullOrBlank(format)
-                && cache(format, f -> new HashSet<>(List.of(f.split(",", 1000)))).contains(source)) {
-            return Boolean.TRUE;
-        }
         return switch (source.toLowerCase()) {
             case "true", "on", "yes", "1" -> Boolean.TRUE;
             default -> Boolean.FALSE;

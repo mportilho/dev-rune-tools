@@ -28,7 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.util.Objects;
 
-public class StringToDoubleConverter implements FormattedConverter<String, Double, String> {
+public class StringToDoubleConverter implements FormattedConverter<String, Double> {
 
     @Override
     public Double convert(String source, String format) {

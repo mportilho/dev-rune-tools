@@ -30,7 +30,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-public class UtilDateToZonedDateTimeConverter implements FormattedConverter<Date, ZonedDateTime, String> {
+public class UtilDateToZonedDateTimeConverter implements FormattedConverter<Date, ZonedDateTime> {
 
     @Override
     public ZonedDateTime convert(Date source, String format) {

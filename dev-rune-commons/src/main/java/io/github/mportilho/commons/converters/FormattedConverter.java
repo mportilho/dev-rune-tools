@@ -37,7 +37,7 @@ package io.github.mportilho.commons.converters;
  * @author Marcelo Portilho
  */
 @FunctionalInterface
-public interface FormattedConverter<S, T, F> {
+public interface FormattedConverter<S, T> {
 
     /**
      * Convert the source object of type {@code S} to target type {@code T}.
@@ -50,7 +50,7 @@ public interface FormattedConverter<S, T, F> {
      * @throws IllegalArgumentException if the source cannot be converted to the
      *                                  desired target type
      */
-    T convert(S source, F format);
+    T convert(S source, String format);
 
     default boolean isNullOrBlank(String value) {
         return value == null || value.isBlank();

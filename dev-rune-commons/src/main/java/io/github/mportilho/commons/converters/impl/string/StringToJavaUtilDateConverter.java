@@ -25,7 +25,7 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.LocalDate;
@@ -35,14 +35,13 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.util.Date;
-import java.util.Objects;
 
 /**
  * Converts a {@link Date} from a {@link String}
  *
  * @author Marcelo Portilho
  */
-public class StringToJavaUtilDateConverter extends AbstractCachedStringFormattedConverter<String, Date> {
+public class StringToJavaUtilDateConverter implements FormattedConverter<String, Date> {
 
     /**
      * {@inheritDoc}
@@ -60,11 +59,11 @@ public class StringToJavaUtilDateConverter extends AbstractCachedStringFormatted
             }
         } else {
             if (source.length() <= 10) {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, LocalDate::from);
             } else if (source.length() <= 30) {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDateTime::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, LocalDateTime::from);
             } else {
-                temporal = cache(format, DateTimeFormatter::ofPattern).parse(source, ZonedDateTime::from);
+                temporal = DateTimeFormatter.ofPattern(format).parse(source, ZonedDateTime::from);
             }
         }
         if (temporal instanceof LocalDate localDate) {

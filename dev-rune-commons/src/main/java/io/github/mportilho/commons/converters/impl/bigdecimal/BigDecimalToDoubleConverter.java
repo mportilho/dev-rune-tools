@@ -24,15 +24,14 @@
 
 package io.github.mportilho.commons.converters.impl.bigdecimal;
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.math.BigDecimal;
 
-public class BigDecimalToDoubleConverter extends AbstractCachedStringFormattedConverter<BigDecimal, Double> {
+public class BigDecimalToDoubleConverter implements FormattedConverter<BigDecimal, Double> {
 
     @Override
     public Double convert(BigDecimal source, String format) {
         return source.doubleValue();
     }
-
 }

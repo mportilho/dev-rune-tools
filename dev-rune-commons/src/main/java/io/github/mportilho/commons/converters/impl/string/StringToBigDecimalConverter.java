@@ -31,7 +31,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-public class StringToBigDecimalConverter implements FormattedConverter<String, BigDecimal, String> {
+public class StringToBigDecimalConverter implements FormattedConverter<String, BigDecimal> {
 
     @Override
     public BigDecimal convert(String source, String format) {

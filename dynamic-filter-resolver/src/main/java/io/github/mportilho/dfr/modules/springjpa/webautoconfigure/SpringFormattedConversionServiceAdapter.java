@@ -40,7 +40,8 @@ public class SpringFormattedConversionServiceAdapter implements FormattedConvers
     private final ConversionService conversionService;
     private final FormattedConversionService delegate;
 
-    public SpringFormattedConversionServiceAdapter(ConversionService conversionService, FormattedConversionService delegate) {
+    public SpringFormattedConversionServiceAdapter(
+            ConversionService conversionService, FormattedConversionService delegate) {
         this.conversionService = Objects.requireNonNull(conversionService, "Spring ConversionService is required");
         this.delegate = delegate;
     }
@@ -55,7 +56,7 @@ public class SpringFormattedConversionServiceAdapter implements FormattedConvers
     }
 
     @Override
-    public <S, T, F> T convert(S source, Class<T> targetType, F format) {
+    public <S, T> T convert(S source, Class<T> targetType, String format) {
         if (conversionService.canConvert(source.getClass(), targetType)) {
             return conversionService.convert(source, targetType);
         }

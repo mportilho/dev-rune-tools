@@ -31,7 +31,7 @@ import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class SqlDateToZonedDateTimeConverter implements FormattedConverter<Date, ZonedDateTime, String> {
+public class SqlDateToZonedDateTimeConverter implements FormattedConverter<Date, ZonedDateTime> {
 
     @Override
     public ZonedDateTime convert(Date source, String format) {

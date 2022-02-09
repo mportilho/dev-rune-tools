@@ -25,7 +25,7 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.Instant;
@@ -37,7 +37,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToInstantConverter extends AbstractCachedStringFormattedConverter<String, Instant> {
+public class StringToInstantConverter implements FormattedConverter<String, Instant> {
 
     /**
      * {@inheritDoc}
@@ -48,7 +48,7 @@ public class StringToInstantConverter extends AbstractCachedStringFormattedConve
         if (isNullOrBlank(format)) {
             return DateUtils.DATETIME_FORMATTER.parse(source, Instant::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, Instant::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, Instant::from);
     }
 
 }

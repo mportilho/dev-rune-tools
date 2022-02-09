@@ -26,7 +26,7 @@ package io.github.mportilho.commons.converters.impl.integer;
 
 import io.github.mportilho.commons.converters.FormattedConverter;
 
-public class IntegerToDoubleConverter implements FormattedConverter<Integer, Double, String> {
+public class IntegerToDoubleConverter implements FormattedConverter<Integer, Double> {
 
     @Override
     public Double convert(Integer source, String format) {

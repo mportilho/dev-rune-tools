@@ -30,7 +30,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalTime;
 
-public class SqlDateToLocalTimeConverter implements FormattedConverter<Date, LocalTime, String> {
+public class SqlDateToLocalTimeConverter implements FormattedConverter<Date, LocalTime> {
 
     @Override
     public LocalTime convert(Date source, String format) {

@@ -28,7 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.util.Objects;
 
-public class StringToShortConverter implements FormattedConverter<String, Short, String> {
+public class StringToShortConverter implements FormattedConverter<String, Short> {
 
     @Override
     public Short convert(String source, String format) {

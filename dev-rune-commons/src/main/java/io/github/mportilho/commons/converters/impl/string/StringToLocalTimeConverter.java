@@ -25,7 +25,8 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.LocalTime;
@@ -37,7 +38,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToLocalTimeConverter extends AbstractCachedStringFormattedConverter<String, LocalTime> {
+public class StringToLocalTimeConverter implements FormattedConverter<String, LocalTime> {
 
     /**
      * {@inheritDoc}
@@ -48,7 +49,7 @@ public class StringToLocalTimeConverter extends AbstractCachedStringFormattedCon
         if (isNullOrBlank(format)) {
             return DateUtils.TIME_FORMATTER.parse(source, LocalTime::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, LocalTime::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, LocalTime::from);
     }
 
 }

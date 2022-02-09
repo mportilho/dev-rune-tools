@@ -35,7 +35,7 @@ import java.util.Map;
 public class AvailableIntegerConverters {
 
     public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
+            Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(Integer.class, BigDecimal.class), new IntegerToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(int.class, BigDecimal.class), new IntegerToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(Integer.class, Double.class), new IntegerToDoubleConverter());

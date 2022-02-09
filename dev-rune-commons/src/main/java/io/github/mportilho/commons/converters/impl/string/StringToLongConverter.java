@@ -28,7 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.util.Objects;
 
-public class StringToLongConverter implements FormattedConverter<String, Long, String> {
+public class StringToLongConverter implements FormattedConverter<String, Long> {
 
     @Override
     public Long convert(String source, String format) {

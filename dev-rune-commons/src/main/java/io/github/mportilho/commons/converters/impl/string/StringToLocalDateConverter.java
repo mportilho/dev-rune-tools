@@ -25,19 +25,18 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  * Converts a {@link LocalDate} from a {@link String}
  *
  * @author Marcelo Portilho
  */
-public class StringToLocalDateConverter extends AbstractCachedStringFormattedConverter<String, LocalDate> {
+public class StringToLocalDateConverter implements FormattedConverter<String, LocalDate> {
 
     /**
      * {@inheritDoc}
@@ -47,7 +46,7 @@ public class StringToLocalDateConverter extends AbstractCachedStringFormattedCon
         if (isNullOrBlank(format)) {
             return DateUtils.DATE_FORMATTER.parse(source, LocalDate::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, LocalDate::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, LocalDate::from);
     }
 
 }

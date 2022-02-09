@@ -29,7 +29,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class SqlDateToLocalDateConverter implements FormattedConverter<Date, LocalDate, String> {
+public class SqlDateToLocalDateConverter implements FormattedConverter<Date, LocalDate> {
 
     @Override
     public LocalDate convert(Date source, String format) {

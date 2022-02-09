@@ -28,7 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConverter;
 
 import java.math.BigDecimal;
 
-public class ShortToBigDecimalConverter implements FormattedConverter<Short, BigDecimal, String> {
+public class ShortToBigDecimalConverter implements FormattedConverter<Short, BigDecimal> {
 
     @Override
     public BigDecimal convert(Short source, String format) {

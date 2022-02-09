@@ -25,7 +25,8 @@
 package io.github.mportilho.commons.converters.impl.string;
 
 
-import io.github.mportilho.commons.converters.impl.AbstractCachedStringFormattedConverter;
+
+import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.utils.DateUtils;
 
 import java.time.YearMonth;
@@ -37,7 +38,7 @@ import java.util.Objects;
  *
  * @author Marcelo Portilho
  */
-public class StringToYearMonthConverter extends AbstractCachedStringFormattedConverter<String, YearMonth> {
+public class StringToYearMonthConverter implements FormattedConverter<String, YearMonth> {
 
     /**
      * {@inheritDoc}
@@ -48,7 +49,7 @@ public class StringToYearMonthConverter extends AbstractCachedStringFormattedCon
         if (isNullOrBlank(format)) {
             return DateUtils.YEAR_MONTH_FORMATTER.parse(source, YearMonth::from);
         }
-        return cache(format, DateTimeFormatter::ofPattern).parse(source, YearMonth::from);
+        return DateTimeFormatter.ofPattern(format).parse(source, YearMonth::from);
     }
 
 }

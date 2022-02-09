@@ -34,7 +34,7 @@ import java.util.Map;
 public class AvailableShortConverters {
 
     public static void loadFormattedValueConverters(
-            Map<ConvertMappingKey, FormattedConverter<?, ?, ?>> formattedConverters) {
+            Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters) {
         formattedConverters.put(new ConvertMappingKey(Short.class, BigDecimal.class), new ShortToBigDecimalConverter());
         formattedConverters.put(new ConvertMappingKey(short.class, BigDecimal.class), new ShortToBigDecimalConverter());
     }

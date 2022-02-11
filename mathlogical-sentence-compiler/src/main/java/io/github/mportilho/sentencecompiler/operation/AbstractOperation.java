@@ -100,9 +100,6 @@ public abstract class AbstractOperation {
         if (isCaching()) {
             if (cache == null) {
                 result = resolve(context); // resolve method can disable cache
-                if (result instanceof Double d && Double.isNaN(d)) {
-                    throw new SyntaxExecutionException("The expression resulted in a NaN value");
-                }
                 cache = isCaching() ? result : null;
             } else {
                 result = cache;

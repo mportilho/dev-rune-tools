@@ -75,7 +75,7 @@ public class TestConstantValueOperations {
 
         operation = new DateTimeConstantValueOperation("2001-04-12T04:12:33");
         assertThat(operation.<ZonedDateTime>evaluate(context))
-                .isEqualTo(ZonedDateTime.of(2001, 4, 12, 4, 12, 33, 0, context.currentDateTime().getZone()));
+                .isEqualTo(ZonedDateTime.of(2001, 4, 12, 4, 12, 33, 0, context.zoneId()));
     }
 
     @Test

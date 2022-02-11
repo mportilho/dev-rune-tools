@@ -55,6 +55,9 @@ public class SyntaxExecutionSite {
     private final FormattedConversionService conversionService;
     private final boolean preciseNumbers;
 
+    // caching
+    private AbstractVariableValueOperation[] varCache;
+
     public SyntaxExecutionSite(
             AbstractOperation operation,
             MathContext mathContext,
@@ -84,8 +87,8 @@ public class SyntaxExecutionSite {
         Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
                 scale, false, ZonedDateTime.now(zoneId), conversionService, operationSupportData,
-                userOperationSupportData, false);
-        for (AbstractVariableValueOperation variableValueOperation : userVariables.values()) {
+                userOperationSupportData, false, zoneId);
+        for (AbstractVariableValueOperation variableValueOperation : getUserVariablesCache()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
             }
@@ -93,10 +96,17 @@ public class SyntaxExecutionSite {
         return operation.evaluate(operationContext);
     }
 
+    private AbstractVariableValueOperation[] getUserVariablesCache() {
+        if (this.varCache == null) {
+            this.varCache = userVariables.values().toArray(new AbstractVariableValueOperation[0]);
+        }
+        return this.varCache;
+    }
+
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
                 scale, true, ZonedDateTime.now(), conversionService, operationSupportData,
-                operationSupportData, preciseNumbers);
+                operationSupportData, preciseNumbers, zoneId);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 

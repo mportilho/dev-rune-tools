@@ -24,32 +24,32 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.precise;
 
-import java.math.BigDecimal;
-
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.math.BigDecimal;
+
 public class PreciseAdditionOperation extends AbstractBinaryOperation {
 
-	public PreciseAdditionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public PreciseAdditionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<BigDecimal>evaluate(context).add(getRightOperand().evaluate(context), context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<BigDecimal>evaluate(context).add(getRightOperand().evaluate(context));
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseAdditionOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PreciseAdditionOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "+";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "+";
+    }
 
 }

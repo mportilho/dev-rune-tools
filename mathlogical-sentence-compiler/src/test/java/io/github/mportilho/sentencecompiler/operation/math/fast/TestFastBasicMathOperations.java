@@ -107,7 +107,7 @@ public class TestFastBasicMathOperations {
     public void testFastSubtraction_DividingByZero() {
         FastDivisionOperation divisionByZeroOperation = new FastDivisionOperation(new GenericValueOperation(0d),
                 new GenericValueOperation(0d));
-        assertThatThrownBy(() -> divisionByZeroOperation.<Double>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThat(divisionByZeroOperation.<Double>evaluate(context)).isEqualByComparingTo(Double.NaN);
     }
 
     @Test

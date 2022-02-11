@@ -29,7 +29,6 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
@@ -46,11 +45,10 @@ public class DateTimeConstantValueOperation extends AbstractConstantValueOperati
 
     @Override
     protected Object resolve(OperationContext context) {
-        try {
+        if (getValue().endsWith("]")) {
             return DateUtils.DATETIME_FORMATTER.parse(getValue(), ZonedDateTime::from);
-        } catch (DateTimeException e) {
-            return ZonedDateTime.of(DateUtils.DATETIME_FORMATTER.parse(getValue(), LocalDateTime::from),
-                    context.currentDateTime().getZone());
+        } else {
+            return ZonedDateTime.of(DateUtils.DATETIME_FORMATTER.parse(getValue(), LocalDateTime::from), context.zoneId());
         }
     }
 

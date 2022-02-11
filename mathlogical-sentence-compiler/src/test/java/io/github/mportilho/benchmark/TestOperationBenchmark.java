@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.benchmark;
+package io.github.mportilho.benchmark;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
@@ -76,7 +76,7 @@ public class TestOperationBenchmark {
     }
 
 
-    //    @Test
+    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

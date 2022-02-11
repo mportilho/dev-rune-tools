@@ -29,18 +29,21 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadata
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 
 import java.math.MathContext;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 
 public record OperationContext(
 
         MathContext mathContext,
         Integer scale,
         boolean allowingNull,
-        ZonedDateTime currentDateTime,
+        Temporal currentDateTime,
         FormattedConversionService formattedConversionService,
         OperationSupportData operationSupportData,
         OperationSupportData userOperationSupportData,
-        boolean preciseNumbers
+        boolean preciseNumbers,
+        ZoneId zoneId
 ) {
 
     public OperationLambdaCaller getFunction(String name, int parameterCount) {

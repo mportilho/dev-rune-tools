@@ -47,9 +47,9 @@ public abstract class AbstractSequencialMathOperation extends AbstractOperation 
         this.startIndex.addParent(this);
         this.endIndex.addParent(this);
         this.operation.addParent(this);
-        if (this.sequenceVariable != null) {
-            this.sequenceVariable.addParent(this);
-        }
+//        if (this.sequenceVariable != null) {
+//            this.sequenceVariable.addParent(this);
+//        }
     }
 
     @Override

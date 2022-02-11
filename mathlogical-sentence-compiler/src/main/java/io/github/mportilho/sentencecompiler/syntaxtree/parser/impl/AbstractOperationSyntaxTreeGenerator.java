@@ -42,7 +42,7 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVar
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
-import io.github.mportilho.sentencecompiler.syntaxtree.visitor.CacheConfigurationOperationVisitor;
+import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
@@ -76,7 +76,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public SyntaxTreeData createOperationSyntaxTree(StartContext startContext) {
         AbstractOperation abstractOperation = visit(startContext);
-        abstractOperation.accept(new CacheConfigurationOperationVisitor());
+        abstractOperation.accept(new InitialConfigurationOperationVisitor());
         return new SyntaxTreeData(abstractOperation, userVariables, assignedVariables);
     }
 

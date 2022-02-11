@@ -29,6 +29,7 @@ import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockup
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -52,24 +53,24 @@ public class TestOperationBenchmark {
     @Setup(Level.Invocation)
     public void setupInvokation() throws Exception {
         // executed before each invocation of the benchmark
-        compiler.setVariable("Param1", random.nextInt());
-        compiler.setVariable("Param2", random.nextInt());
+        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
     }
 
-    @Test
-    public void testest() {
-        compiler = new MathSentence("max(Param1 * 7, <number>Param2)",
-                MathSentenceCompilerMockupFactory.getFastMathSentenceOptions());
-        compiler.setVariable("Param1", random.nextInt());
-        compiler.setVariable("Param2", random.nextInt());
-        compiler.compute();
-    }
+//    @Test
+//    public void testest() {
+//        compiler = new MathSentence("max(Param1 * 7, <number>Param2)",
+//                MathSentenceCompilerMockupFactory.getFastMathSentenceOptions());
+//        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
+//        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
+//        compiler.compute();
+//    }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
     @Fork(warmups = 1, value = 1)
-    @Warmup(batchSize = -1, iterations = 3, time = 10, timeUnit = TimeUnit.SECONDS)
-    @Measurement(batchSize = -1, iterations = 5, time = 10, timeUnit = TimeUnit.SECONDS)
+    @Warmup(batchSize = -1, iterations = 3, time = 50, timeUnit = TimeUnit.SECONDS)
+    @Measurement(batchSize = -1, iterations = 5, time = 100, timeUnit = TimeUnit.SECONDS)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void test() throws Exception {
         compiler.compute();

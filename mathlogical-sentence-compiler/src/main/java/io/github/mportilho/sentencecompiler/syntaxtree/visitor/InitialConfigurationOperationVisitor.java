@@ -35,13 +35,20 @@ import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 
-public class CacheConfigurationOperationVisitor implements OperationVisitor<Object> {
+/**
+ * Prepares the current AST to be used
+ */
+public class InitialConfigurationOperationVisitor implements OperationVisitor<Object> {
 
     private Object disableCaching(AbstractOperation operation) {
         if (operation.checkAndRemoveDisableCacheHint()) {
             operation.setCachingOptions(false);
         }
         return operation;
+    }
+
+    private void createParentArray(AbstractOperation operation) {
+        operation.setParentArray(operation.getAllParents().toArray(AbstractOperation[]::new));
     }
 
     @Override
@@ -51,43 +58,51 @@ public class CacheConfigurationOperationVisitor implements OperationVisitor<Obje
 
     @Override
     public Object visit(AbstractUnaryOperator operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractBinaryOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractDateTimeOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(DecisionOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(FunctionOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractSequencialMathOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(
             AbstractConstantValueOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(
             AbstractVariableValueOperation operation) {
+        createParentArray(operation);
         return disableCaching(operation);
     }
 }

@@ -326,8 +326,11 @@ public class TestGeneralMathSentenceCopy {
 
     @Test
     public void shouldCopyWithAllOperations() {
-        MathSentence original = new MathSentence("S[1,3](S + 1)");
-        MathSentence copiedSentence = original.copy();
+        MathSentence original;
+        MathSentence copiedSentence;
+
+        original = new MathSentence("S[1,3](S + 1)");
+        copiedSentence = original.copy();
         assertThat(original.<BigDecimal>compute()).isEqualByComparingTo(copiedSentence.<BigDecimal>compute());
 
         original = new MathSentence(

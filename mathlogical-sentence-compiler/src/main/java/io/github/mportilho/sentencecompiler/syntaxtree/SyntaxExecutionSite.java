@@ -33,6 +33,7 @@ import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOper
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 
@@ -150,6 +151,7 @@ public class SyntaxExecutionSite {
     public SyntaxExecutionSite copy() {
         CloningContext cloningCtx = new CloningContext();
         AbstractOperation copy = operation.copy(cloningCtx);
+        copy.accept(new InitialConfigurationOperationVisitor());
         return new SyntaxExecutionSite(
                 copy, mathContext, scale, zoneId, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
                 new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), new HashMap<>(operationSupportData.getFunctions())),

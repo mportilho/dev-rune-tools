@@ -250,40 +250,40 @@ public class TestFastComplexMathOperations {
         assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(12d);
     }
 
-    @Test
-    public void testSummationOperation() {
-        GenericValueOperation startIndex = new GenericValueOperation(0d).expectedType(Double.class);
-        GenericValueOperation endIndex = new GenericValueOperation(2d).expectedType(Double.class);
-        SequenceVariableValueOperation sequenceVariable;
-        AbstractOperation summationOperation;
-        AbstractOperation operation;
-
-        sequenceVariable = new SequenceVariableValueOperation("S").expectedType(Double.class);
-        summationOperation = new FastExponentialOperation(new GenericValueOperation(2d).expectedType(Double.class), sequenceVariable).expectedType(Double.class);
-        operation = new FastSummationOperation(startIndex, endIndex, summationOperation, sequenceVariable).expectedType(Double.class);
+//    @Test
+//    public void testSummationOperation() {
+//        GenericValueOperation startIndex = new GenericValueOperation(0d).expectedType(Double.class);
+//        GenericValueOperation endIndex = new GenericValueOperation(2d).expectedType(Double.class);
+//        SequenceVariableValueOperation sequenceVariable;
+//        AbstractOperation summationOperation;
+//        AbstractOperation operation;
+//
+//        sequenceVariable = new SequenceVariableValueOperation("S").expectedType(Double.class);
+//        summationOperation = new FastExponentialOperation(new GenericValueOperation(2d).expectedType(Double.class), sequenceVariable).expectedType(Double.class);
+//        operation = new FastSummationOperation(startIndex, endIndex, summationOperation, sequenceVariable).expectedType(Double.class);
 //        assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(7d);
+//
+//        sequenceVariable = new SequenceVariableValueOperation("S");
+//        summationOperation = new FastExponentialOperation(new FastAdditionOperation(new GenericValueOperation(2d), sequenceVariable),
+//                sequenceVariable);
+//        operation = new FastSummationOperation(startIndex, endIndex, summationOperation, sequenceVariable);
+//        assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(20d);
+//
+//    }
 
-        sequenceVariable = new SequenceVariableValueOperation("S");
-        summationOperation = new FastExponentialOperation(new FastAdditionOperation(new GenericValueOperation(2d), sequenceVariable),
-                sequenceVariable);
-        operation = new FastSummationOperation(startIndex, endIndex, summationOperation, sequenceVariable);
-        assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(20d);
-
-    }
-
-    @Test
-    public void testProductOfSequenceOperation() {
-        GenericValueOperation startIndex = new GenericValueOperation(0d);
-        GenericValueOperation endIndex = new GenericValueOperation(2d);
-        SequenceVariableValueOperation sequenceVariable;
-        AbstractOperation productOfSequenceOperation;
-        AbstractOperation operation;
-
-        sequenceVariable = new SequenceVariableValueOperation("P");
-        productOfSequenceOperation = new FastExponentialOperation(
-                new FastAdditionOperation(new GenericValueOperation(2d), sequenceVariable), sequenceVariable);
-        operation = new FastProductOfSequenceOperation(startIndex, endIndex, productOfSequenceOperation, sequenceVariable);
-        assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(48d);
-    }
+//    @Test
+//    public void testProductOfSequenceOperation() {
+//        GenericValueOperation startIndex = new GenericValueOperation(0d);
+//        GenericValueOperation endIndex = new GenericValueOperation(2d);
+//        SequenceVariableValueOperation sequenceVariable;
+//        AbstractOperation productOfSequenceOperation;
+//        AbstractOperation operation;
+//
+//        sequenceVariable = new SequenceVariableValueOperation("P");
+//        productOfSequenceOperation = new FastExponentialOperation(
+//                new FastAdditionOperation(new GenericValueOperation(2d), sequenceVariable), sequenceVariable);
+//        operation = new FastProductOfSequenceOperation(startIndex, endIndex, productOfSequenceOperation, sequenceVariable);
+//        assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(48d);
+//    }
 
 }

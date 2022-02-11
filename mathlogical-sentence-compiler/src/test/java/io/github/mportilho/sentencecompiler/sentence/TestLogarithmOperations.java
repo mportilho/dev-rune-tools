@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public class TestFastLogarithmOperations {
+public class TestLogarithmOperations {
 
     public void computeMathSentence(String sentence, BigDecimal expectedValue) {
         assertThat(new MathSentence(sentence, new MathSentenceOptions(MathContext.DECIMAL64, 8,

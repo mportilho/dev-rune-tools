@@ -105,8 +105,8 @@ public class TestMathSentence {
     }
 
     @Test
-    public void testProductOfSequenceOperation() {
-        computeMathSentence("P[1,3](P + 2)", valueOf(60));
+    public void testProductOfSequenceOperation() { // 2 * 3 * 4
+        computeMathSentence("P[1,3](P + 1)", valueOf(24));
         computeMathSentence("P[1,3](P + P[1,3](P + 2))", valueOf(238266));
         computeMathSentence("P[1,3](P + P + P[1,3](P + 2))", valueOf(261888));
     }

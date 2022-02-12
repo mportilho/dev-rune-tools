@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.valueOf;
 
 public class MathFormulasExtension {
 
@@ -48,19 +49,42 @@ public class MathFormulasExtension {
         Map<String, LambdaCallSite> extensions = new HashMap<>();
 
         callSite = new LambdaCallSite("max", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> Stream.of(parameters).map(BigDecimal.class::cast).max(BigDecimal::compareTo).orElseThrow());
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) >= 0 ?
+                                parameters[0] : parameters[1];
+                    }
+                    return Stream.of(parameters).map(BigDecimal.class::cast).max(BigDecimal::compareTo).orElseThrow();
+                });
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("min", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> Stream.of(parameters).map(BigDecimal.class::cast).min(BigDecimal::compareTo).orElseThrow());
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) <= 0 ?
+                                parameters[0] : parameters[1];
+                    }
+                    return Stream.of(parameters).map(BigDecimal.class::cast).min(BigDecimal::compareTo).orElseThrow();
+                });
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> Stream.of(parameters)
-                        .map(p -> new BigDecimal[]{(BigDecimal) p, ONE})
-                        .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0]), a[1].add(ONE)})
-                        .map(p -> p[0].divide(p[1], context.mathContext()))
-                        .orElseThrow());
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((BigDecimal) parameters[0]).add((BigDecimal) parameters[1]).divide(valueOf(2), context.mathContext());
+                    }
+                    return Stream.of(parameters)
+                            .map(p -> new BigDecimal[]{(BigDecimal) p, ONE})
+                            .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0]), a[1].add(ONE)})
+                            .map(p -> p[0].divide(p[1], context.mathContext()))
+                            .orElseThrow();
+                });
         extensions.put(callSite.getKeyName(), callSite);
 
         //TODO implementar função para o [valor médio - median]

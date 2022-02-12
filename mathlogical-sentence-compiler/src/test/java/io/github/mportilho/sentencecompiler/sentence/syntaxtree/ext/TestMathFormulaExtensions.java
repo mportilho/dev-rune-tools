@@ -45,6 +45,12 @@ public class TestMathFormulaExtensions {
     public void test_Max_Function() {
         LambdaCallSite max = mathFunctionsFactory().get(keyName("max", VARARGS));
 
+        assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{ONE}))
+                .isEqualByComparingTo("1");
+
+        assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{TEN, valueOf(-50)}))
+                .isEqualByComparingTo("10");
+
         assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("231");
 
@@ -56,6 +62,12 @@ public class TestMathFormulaExtensions {
     public void test_Min_Function() {
         LambdaCallSite min = mathFunctionsFactory().get(keyName("min", VARARGS));
 
+        assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{ONE}))
+                .isEqualByComparingTo("1");
+
+        assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{valueOf(-50), valueOf(231)}))
+                .isEqualByComparingTo("-50");
+
         assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("-50");
 
@@ -66,6 +78,12 @@ public class TestMathFormulaExtensions {
     @Test
     public void test_Avg_Function() {
         LambdaCallSite avg = mathFunctionsFactory().get(keyName("avg", VARARGS));
+
+        assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{valueOf(231)}))
+                .isEqualByComparingTo("231");
+
+        assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{ONE, TEN}))
+                .isEqualByComparingTo("5.5");
 
         assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
                 .isEqualByComparingTo("48");

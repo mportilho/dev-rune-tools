@@ -37,8 +37,10 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
 
 public class WarmUpOperationVisitor implements OperationVisitor<Object> {
@@ -95,8 +97,8 @@ public class WarmUpOperationVisitor implements OperationVisitor<Object> {
 
     @Override
     public Object visit(FunctionOperation operation) {
-        return canEvaluate(operation.getParameters()) &&
-                context.getFunction(operation.getFunctionName(), operation.getParameters().size()) != null ?
+        List<AbstractOperation> list = asList(operation.getParameters());
+        return canEvaluate(list) && context.getFunction(operation.getFunctionName(), list.size()) != null ?
                 operation.evaluate(context) : null;
     }
 

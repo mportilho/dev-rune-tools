@@ -355,10 +355,12 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitFunction(FunctionContext ctx) {
-        List<AbstractOperation> parameters = new ArrayList<>();
-        for (AllEntityTypesContext entityType : ctx.allEntityTypes()) {
-            parameters.add(entityType.accept(this));
+        List<AllEntityTypesContext> entities = ctx.allEntityTypes();
+        AbstractOperation[] parameters = new AbstractOperation[entities.size()];
+        for (int i = 0, entitiesSize = entities.size(); i < entitiesSize; i++) {
+            parameters[i] = entities.get(i).accept(this);
         }
+
         return new FunctionOperation(ctx.IDENTIFIER().getText(), parameters, ctx.CACHE_FUNCTION_PREFIX() != null);
     }
 

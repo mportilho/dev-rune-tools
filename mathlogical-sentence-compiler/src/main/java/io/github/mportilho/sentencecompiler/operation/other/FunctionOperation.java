@@ -32,19 +32,23 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class FunctionOperation extends AbstractOperation {
 
-    private final String functionName;
-    private final List<AbstractOperation> parameters;
+    private static final AbstractOperation[] EMPTY = new AbstractOperation[0];
 
-    public FunctionOperation(String functionName, List<AbstractOperation> parameters, boolean caching) {
+    private final String functionName;
+    private final AbstractOperation[] parameters;
+
+    public FunctionOperation(String functionName, AbstractOperation[] parameters, boolean caching) {
         this.functionName = functionName;
-        this.parameters = parameters != null ? parameters : Collections.emptyList();
-        this.parameters.forEach(parameter -> parameter.addParent(this));
+        if (parameters != null) {
+            this.parameters = parameters;
+            for (AbstractOperation parameter : this.parameters) {
+                parameter.addParent(this);
+            }
+        } else {
+            this.parameters = EMPTY;
+        }
         if (!caching) {
             this.hintDisableCache();
         }
@@ -52,30 +56,33 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        OperationLambdaCaller caller = context.getFunction(functionName, parameters.size());
+        OperationLambdaCaller caller = context.getFunction(functionName, parameters.length);
         if (caller == null) {
-            throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found",
-                    functionName, parameters.size()));
+            throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
-        FunctionContext functionContext =
-                new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
+        FunctionContext functionContext = new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
+
+        Object[] params = new Object[parameters.length];
+        for (int i = 0, paramsLength = params.length; i < paramsLength; i++) {
+            params[i] = parameters[i].evaluate(context);
+        }
+
         try {
-            return caller.call(functionContext, parameters.stream().map(p -> p.evaluate(context)).toArray());
+            return caller.call(functionContext, params);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new SyntaxExecutionException(
-                    String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
-                            functionName, parameters.size()), e);
+            throw new SyntaxExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
+                    functionName, parameters.length), e);
         }
     }
 
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        List<AbstractOperation> newOperationList = new ArrayList<>();
-        for (AbstractOperation param : parameters) {
-            newOperationList.add(param.copy(context));
+        AbstractOperation[] copyParams = new AbstractOperation[parameters.length];
+        for (int i = 0, copyParamsLength = copyParams.length; i < copyParamsLength; i++) {
+            copyParams[i] = parameters[i].copy(context);
         }
-        return new FunctionOperation(functionName, newOperationList, isCaching());
+        return new FunctionOperation(functionName, copyParams, isCaching());
     }
 
     /**
@@ -87,7 +94,7 @@ public class FunctionOperation extends AbstractOperation {
             builder.append("$.");
         }
         builder.append(functionName).append("(");
-        int index = parameters.size();
+        int index = parameters.length;
         for (AbstractOperation parameter : parameters) {
             parameter.toString(builder);
             if (--index != 0) {
@@ -99,11 +106,13 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     public void accept(OperationVisitor<?> visitor) {
-        getParameters().forEach(op -> op.accept(visitor));
+        for (AbstractOperation parameter : this.parameters) {
+            parameter.accept(visitor);
+        }
         visitor.visit(this);
     }
 
-    public List<AbstractOperation> getParameters() {
+    public AbstractOperation[] getParameters() {
         return parameters;
     }
 

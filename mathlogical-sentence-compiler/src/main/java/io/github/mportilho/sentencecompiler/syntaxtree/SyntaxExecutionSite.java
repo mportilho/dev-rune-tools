@@ -32,7 +32,6 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
@@ -163,15 +162,9 @@ public class SyntaxExecutionSite {
     public void setUserVariable(String name, Object value) {
         AssertUtils.notNullOrBlank(name, "Parameter [name] must be provided");
         Objects.requireNonNull(value, "Parameter [value] must be provided");
-
         AbstractVariableValueOperation variableOperation = userVariables.get(name);
         if (variableOperation != null) {
-            if (value instanceof VariableProvider
-                    || !conversionService.canConvert(value.getClass(), variableOperation.getExpectedType())) {
-                variableOperation.setValue(value);
-            } else {
-                variableOperation.setValue(conversionService.convert(value, variableOperation.getExpectedType(), null));
-            }
+            variableOperation.setValue(value);
         }
     }
 

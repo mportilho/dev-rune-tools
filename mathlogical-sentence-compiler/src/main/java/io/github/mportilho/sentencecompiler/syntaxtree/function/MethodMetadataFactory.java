@@ -40,7 +40,7 @@ import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWra
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWrapper.createStaticLambdaCaller;
 import static java.lang.reflect.Modifier.isStatic;
 
-public class FunctionMetadataFactory {
+public class MethodMetadataFactory {
 
     public static final int VARARGS = -1;
     public static final int UNKNOWN = -1;

@@ -153,7 +153,7 @@ public class LambdaWrapper {
                     context.conversionService().convert(p[6], parameterTypes[8], null),
                     context.conversionService().convert(p[6], parameterTypes[9], null));
         }
-        throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda caller", lambda.getClass().getName()));
+        throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda operationSupplier", lambda.getClass().getName()));
     }
 
     public static OperationLambdaCaller createStaticLambdaCaller(Object lambda, Class<?>[] parameterTypes) {
@@ -246,7 +246,7 @@ public class LambdaWrapper {
                     context.conversionService().convert(p[0], parameterTypes[9], null),
                     context.conversionService().convert(p[0], parameterTypes[10], null));
         }
-        throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda caller", lambda.getClass().getName()));
+        throw new IllegalArgumentException(String.format("Class [%s] not illegible as lambda operationSupplier", lambda.getClass().getName()));
     }
 
 }

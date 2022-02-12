@@ -22,41 +22,37 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
+package io.github.mportilho.sentencecompiler.lambda;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
-import java.math.MathContext;
+import java.math.BigDecimal;
+import java.util.Map;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension.stringFunctionsFactory;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
+public class TestMethodMetaFactory {
 
-public class TestStringFormulaExtensions {
-
-    private static final FunctionContext functionContext =
-            new FunctionContext(MathContext.DECIMAL64, null, new DefaultFormattedConversionService());
+    private static final FormattedConversionService service = new DefaultFormattedConversionService();
 
     @Test
-    public void test_concat_Function() {
-        OperationLambdaCaller concat = stringFunctionsFactory().get(keyName("concat", VARARGS));
-
-        assertThat((String) concat.call(functionContext, new Object[]{ONE, TEN, "teste", "123"}))
-                .isEqualTo("110teste123");
+    public void test_addBigDecimal() throws Throwable {
+        Map<String, LambdaCallSite> siteMap = FunctionMetaFactory.extractMethods(PlaceholderMethodUtils.class);
+        Object value = siteMap.get("adder_2").call(service, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
+        Assertions.assertThat(value)
+                .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
+                .isEqualByComparingTo("8");
     }
 
     @Test
-    public void test_trim_Function() {
-        OperationLambdaCaller trim = stringFunctionsFactory().get(keyName("trim", 1));
-
-        assertThat((String) trim.call(functionContext, new Object[]{" a 12  3  "}))
-                .isEqualTo("a 12  3");
+    public void test_concatString() throws Throwable {
+        Map<String, LambdaCallSite> siteMap = FunctionMetaFactory.extractMethods(PlaceholderMethodUtils.class);
+        Object value = siteMap.get("concatOne_1").call(service, new Object[]{"number"});
+        Assertions.assertThat(value)
+                .asInstanceOf(InstanceOfAssertFactories.STRING)
+                .isEqualTo("number_1");
     }
 
 }

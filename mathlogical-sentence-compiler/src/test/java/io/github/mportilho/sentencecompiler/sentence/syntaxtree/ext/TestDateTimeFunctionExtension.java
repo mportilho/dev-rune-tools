@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.DateTimeFunctionExtension.dateTimeFunctionsFactory;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
 
 public class TestDateTimeFunctionExtension {
 

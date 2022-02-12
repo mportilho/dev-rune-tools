@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,40 +22,37 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler.lambda;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 
-import java.math.MathContext;
-import java.time.ZoneId;
-import java.time.temporal.Temporal;
-import java.util.function.Supplier;
+import java.lang.invoke.MethodType;
 
-public record OperationContext(
+public record LambdaCallSite(
 
-        MathContext mathContext,
-        Integer scale,
-        boolean allowingNull,
-        Supplier<Temporal> currentDateTime,
-        FormattedConversionService formattedConversionService,
-        OperationSupportData operationSupportData,
-        OperationSupportData userOperationSupportData,
-        boolean preciseNumbers,
-        ZoneId zoneId
+        String methodName,
+        MethodType methodType,
+        OperationSupplier operationSupplier
+
 ) {
 
-    public OperationLambdaCaller getFunction(String name, int parameterCount) {
-        String functionKey = MethodMetadataFactory.keyName(name, parameterCount);
-        OperationLambdaCaller func = userOperationSupportData.getFunctions().get(functionKey);
-        if (func == null) {
-            func = operationSupportData.getFunctions().get(functionKey);
+    public Object call(FormattedConversionService service, Object[] parameters) {
+        Object[] convertedParams = new Object[parameters.length];
+        Class<?>[] parameterArray = methodType.parameterArray();
+        for (int i = 0, parameterArrayLength = parameterArray.length; i < parameterArrayLength; i++) {
+            Class<?> type = parameterArray[i];
+            if (type.equals(parameters[i].getClass())) {
+                convertedParams[i] = parameters[i];
+            } else {
+                service.convert(parameters[i], type);
+            }
         }
-        if (func == null && parameterCount >= 0) {
-            func = getFunction(name, -1);
+        Object value = operationSupplier.call(convertedParams);
+        if (methodType.returnType().equals(value.getClass())) {
+            return value;
         }
-        return func;
+        return service.convert(operationSupplier.call(convertedParams), methodType.returnType());
     }
+
 
 }

@@ -32,8 +32,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
 
 public class StringFunctionExtension {
 

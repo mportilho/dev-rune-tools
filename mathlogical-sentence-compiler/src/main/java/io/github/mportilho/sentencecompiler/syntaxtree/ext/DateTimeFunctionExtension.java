@@ -31,7 +31,7 @@ import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionMetadataFactory.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
 
 public class DateTimeFunctionExtension {
 

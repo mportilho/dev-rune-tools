@@ -25,6 +25,7 @@
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
@@ -87,7 +88,8 @@ public class SyntaxExecutionSite {
     public Object compute(OperationSupportData userOperationSupportData) {
         Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, false, ZonedDateTime.now(zoneId), conversionService, operationSupportData,
+                scale, false, new MemoizedSupplier<>(() -> ZonedDateTime.now(zoneId)),
+                conversionService, operationSupportData,
                 userOperationSupportData, false, zoneId);
         for (AbstractVariableValueOperation variableValueOperation : getUserVariablesCache()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
@@ -106,7 +108,7 @@ public class SyntaxExecutionSite {
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, ZonedDateTime.now(), conversionService, operationSupportData,
+                scale, true, new MemoizedSupplier<>(() -> ZonedDateTime.now(zoneId)), conversionService, operationSupportData,
                 operationSupportData, preciseNumbers, zoneId);
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }

@@ -500,7 +500,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDateCurrentValue(DateCurrentValueContext ctx) {
         return new InternallyMutableValueOperation("currDate",
-                (op, context) -> LocalDate.from(context.currentDateTime())).expectedType(LocalDate.class);
+                (op, context) -> LocalDate.from(context.currentDateTime().get())).expectedType(LocalDate.class);
     }
 
     @Override
@@ -549,7 +549,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitTimeCurrentValue(TimeCurrentValueContext ctx) {
         return new InternallyMutableValueOperation("currTime",
-                (op, context) -> LocalTime.from(context.currentDateTime())).expectedType(LocalTime.class);
+                (op, context) -> LocalTime.from(context.currentDateTime().get())).expectedType(LocalTime.class);
     }
 
     @Override
@@ -598,7 +598,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDateTimeCurrentValue(DateTimeCurrentValueContext ctx) {
         return new InternallyMutableValueOperation("currDateTime",
-                (op, context) -> context.currentDateTime()).expectedType(ZonedDateTime.class);
+                (op, context) -> context.currentDateTime().get()).expectedType(ZonedDateTime.class);
     }
 
     @Override

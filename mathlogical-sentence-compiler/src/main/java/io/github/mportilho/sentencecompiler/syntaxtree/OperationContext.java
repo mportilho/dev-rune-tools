@@ -30,15 +30,15 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaC
 
 import java.math.MathContext;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.function.Supplier;
 
 public record OperationContext(
 
         MathContext mathContext,
         Integer scale,
         boolean allowingNull,
-        Temporal currentDateTime,
+        Supplier<Temporal> currentDateTime,
         FormattedConversionService formattedConversionService,
         OperationSupportData operationSupportData,
         OperationSupportData userOperationSupportData,

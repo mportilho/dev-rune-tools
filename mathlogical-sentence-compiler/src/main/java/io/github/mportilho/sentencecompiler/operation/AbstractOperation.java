@@ -79,7 +79,16 @@ public abstract class AbstractOperation {
     public final <T> T evaluate(OperationContext context) {
         Object result;
         try {
-            result = readValue(context);
+            if (isCaching()) {
+                if (cache == null) {
+                    result = resolve(context); // resolve method can disable cache
+                    cache = isCaching() ? result : null;
+                } else {
+                    result = cache;
+                }
+            } else {
+                result = resolve(context);
+            }
             result = castOperationResult(result, context);
         } catch (ClassCastException e) {
             throw new SyntaxExecutionException(String.format("Wrong operands type for expression [%s]", this), e);
@@ -99,21 +108,6 @@ public abstract class AbstractOperation {
             }
         }
         return (T) result;
-    }
-
-    private Object readValue(OperationContext context) {
-        Object result;
-        if (isCaching()) {
-            if (cache == null) {
-                result = resolve(context); // resolve method can disable cache
-                cache = isCaching() ? result : null;
-            } else {
-                result = cache;
-            }
-        } else {
-            result = resolve(context);
-        }
-        return result;
     }
 
     private Object castOperationResult(Object result, OperationContext operationContext) {
@@ -274,11 +268,6 @@ public abstract class AbstractOperation {
                 parent.cache = null;
             }
         }
-//        for (AbstractOperation currParent : getParents()) {
-//            if (limitingOperationTypesMap == null || !limitingOperationTypesMap.contains(getClass())) {
-//                currParent.clearCache(limitingOperationTypesMap);
-//            }
-//        }
     }
 
     public List<AbstractOperation> getAllParents() {

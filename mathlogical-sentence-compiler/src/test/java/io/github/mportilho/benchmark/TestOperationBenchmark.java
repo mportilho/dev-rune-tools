@@ -46,7 +46,7 @@ public class TestOperationBenchmark {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
-        compiler = new MathSentence("Param1 * 7 + Param2 * Param1 * 7 + Param2");
+        compiler = new MathSentence("max(Param1, 5) * min(Param2, 4)");
 
     }
 

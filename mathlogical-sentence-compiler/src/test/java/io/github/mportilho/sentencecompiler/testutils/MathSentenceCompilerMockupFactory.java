@@ -25,6 +25,7 @@
 package io.github.mportilho.sentencecompiler.testutils;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.sentencecompiler.MathSentenceOptions;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
@@ -36,19 +37,19 @@ import java.time.ZonedDateTime;
 public class MathSentenceCompilerMockupFactory {
 
     public static OperationContext getPreciseOperationContext() {
-        return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, false, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(),
                 new OperationSupportData(), true, ZoneId.systemDefault());
     }
 
     public static OperationContext getPreciseOperationContext(boolean allowingNull) {
-        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 true, ZoneId.systemDefault());
     }
 
     public static OperationContext getFastOperationContext() {
-        return new OperationContext(MathContext.DECIMAL64, 8, false, ZonedDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, false, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 false, ZoneId.systemDefault());
     }
@@ -59,7 +60,7 @@ public class MathSentenceCompilerMockupFactory {
     }
 
     public static OperationContext getFastOperationContext(boolean allowingNull) {
-        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, ZonedDateTime.now(),
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 false, ZoneId.systemDefault());
     }

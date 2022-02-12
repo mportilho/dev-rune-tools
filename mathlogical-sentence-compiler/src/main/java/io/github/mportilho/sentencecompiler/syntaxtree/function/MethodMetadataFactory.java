@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWrapper.createLambdaCaller;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaWrapper.createStaticLambdaCaller;
 import static java.lang.reflect.Modifier.isStatic;
 
 public class MethodMetadataFactory {
@@ -45,59 +43,50 @@ public class MethodMetadataFactory {
     public static final int VARARGS = -1;
     public static final int UNKNOWN = -1;
 
-    public static Map<String, OperationLambdaCaller> createFunctionCaller(Object functionProvider) throws Throwable {
-        Objects.requireNonNull(functionProvider, "Parameter [functionProvider] must not be null");
-        boolean isClassObject = functionProvider instanceof Class<?>;
-        Class<?> clazz = isClassObject ? (Class<?>) functionProvider : functionProvider.getClass();
+    public static Map<String, LambdaCallSite> createFunctionCaller(Object provider) throws Throwable {
+        Objects.requireNonNull(provider, "Provider object for extracting methods required");
+        boolean isClassObject = provider instanceof Class<?>;
+        Class<?> clazz = isClassObject ? (Class<?>) provider : provider.getClass();
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz, Object.class);
 
-        Map<String, OperationLambdaCaller> dynamicCallerPool = new HashMap<>();
+        Map<String, LambdaCallSite> dynamicCallerPool = new HashMap<>();
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         for (MethodDescriptor methodDescriptor : beanInfo.getMethodDescriptors()) {
             Method method = methodDescriptor.getMethod();
-            if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers())) {
+            if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers()) || hasPrimitives(method)) {
                 continue;
             }
 
             if (findFactoryInterface(method.getParameterCount()) == null) {
-                dynamicCallerPool.put(keyName(method),
-                        createMethodHandleCaller(lookup, method, functionProvider));
+                dynamicCallerPool.put(keyName(method), createMethodHandleCaller(lookup, method, provider));
             } else if (isStatic(method.getModifiers())) {
-                dynamicCallerPool.put(keyName(method),
-                        createStaticCaller(lookup, method));
+                dynamicCallerPool.put(keyName(method), createStaticCaller(lookup, method));
             } else if (!isClassObject) {
-                dynamicCallerPool.put(keyName(method),
-                        createDynamicCaller(lookup, method, functionProvider));
+                dynamicCallerPool.put(keyName(method), createDynamicCaller(lookup, method, provider));
             }
         }
         return dynamicCallerPool;
     }
 
     // slower
-    private static OperationLambdaCaller createMethodHandleCaller(
+    private static LambdaCallSite createMethodHandleCaller(
             MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
 
         MethodHandle methodHandle = instance == null ? lookup.unreflect(method) : lookup.unreflect(method).bindTo(instance);
         MethodHandle callableMethodHandle = methodHandle.asType(methodHandle.type().generic())
                 .asSpreader(Object[].class, methodHandle.type().parameterCount());
-
-        Class<?>[] parameterArray = methodHandle.type().parameterArray();
-        return (context, params) -> {
-            Object[] callingParameters = new Object[params.length];
-            for (int i = 0; i < parameterArray.length; i++) {
-                callingParameters[i] = context.conversionService().convert(params[i], parameterArray[i], null);
-            }
+        OperationSupplier supplier = (context, parameters) -> {
             try {
-                return callableMethodHandle.invokeExact(callingParameters);
+                return callableMethodHandle.invokeExact(parameters);
             } catch (Throwable e) {
                 throw new SyntaxExecutionException("Error calling dynamic function", e);
             }
         };
+        return new LambdaCallSite(method.getName(), methodHandle.type(), supplier);
     }
 
-    private static OperationLambdaCaller createStaticCaller(
+    private static LambdaCallSite createStaticCaller(
             MethodHandles.Lookup lookup, Method method) throws Throwable {
-
         Class<?> clazz = method.getDeclaringClass();
         Class<?> factoryInterface = findFactoryInterface(method.getParameterCount());
         MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
@@ -108,24 +97,38 @@ public class MethodMetadataFactory {
                 functionMethodType.generic(),
                 implementationMethodHandle,
                 functionMethodType);
-        return createStaticLambdaCaller(callSite.getTarget().invoke(), method.getParameterTypes());
+
+        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke()));
     }
 
-    private static OperationLambdaCaller createDynamicCaller(
+    private static LambdaCallSite createDynamicCaller(
             MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
 
         Class<?> clazz = method.getDeclaringClass();
-        Class<?> factoryInterface = findFactoryInterface(method.getParameterCount() + 1);
+        Class<?> factoryInterface = findFactoryInterface(method.getParameterCount());
         MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
         MethodHandle implementationMethodHandle = lookup.findVirtual(clazz, method.getName(), functionMethodType);
 
         CallSite callSite = LambdaMetafactory.metafactory(lookup,
                 "call",
-                MethodType.methodType(factoryInterface), // factoryMethodType
-                MethodType.genericMethodType(method.getParameterCount() + 1), // method params plus instance object
+                MethodType.methodType(factoryInterface, instance.getClass()), // factoryMethodType
+                MethodType.genericMethodType(method.getParameterCount()), // method params plus instance object
                 implementationMethodHandle,
-                functionMethodType.insertParameterTypes(0, clazz)); // method params plus instance object
-        return createLambdaCaller(callSite.getTarget().invoke(), instance, method.getParameterTypes());
+                functionMethodType); // method params plus instance object
+        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke(instance)));
+    }
+
+    private static boolean hasPrimitives(Method method) {
+        if (method.getReturnType().isPrimitive()) {
+            return true;
+        }
+        for (Class<?> parameterType : method.getParameterTypes()) {
+            if (parameterType.isPrimitive()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static String keyName(Method method) {
@@ -134,22 +137,6 @@ public class MethodMetadataFactory {
 
     public static String keyName(String methodName, int parameterCount) {
         return methodName + "_" + parameterCount;
-    }
-
-    private static String generateMethodSignature(String methodName, MethodType type) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(type.returnType().getSimpleName());
-        sb.append(' ').append(methodName).append('(');
-        int count = type.parameterCount();
-        Class<?>[] ptypes = type.parameterArray();
-        for (int i = 0; i < count; i++) {
-            if (i > 0) {
-                sb.append(",");
-            }
-            sb.append(ptypes[i].getSimpleName());
-        }
-        sb.append(')');
-        return sb.toString();
     }
 
     private static Class<?> findFactoryInterface(int parameterNumber) {
@@ -167,6 +154,33 @@ public class MethodMetadataFactory {
             case 11 -> LambdaWrapper.Function11.class;
             default -> null;
         };
+    }
+
+    private static OperationSupplier createLambdaWrapper(Object lambda) {
+        if (lambda instanceof LambdaWrapper.Function1 f) {
+            return (c, p) -> f.call(p[0]);
+        } else if (lambda instanceof LambdaWrapper.Function2 f) {
+            return (c, p) -> f.call(p[0], p[1]);
+        } else if (lambda instanceof LambdaWrapper.Function3 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2]);
+        } else if (lambda instanceof LambdaWrapper.Function4 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3]);
+        } else if (lambda instanceof LambdaWrapper.Function5 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4]);
+        } else if (lambda instanceof LambdaWrapper.Function6 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5]);
+        } else if (lambda instanceof LambdaWrapper.Function7 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5], p[6]);
+        } else if (lambda instanceof LambdaWrapper.Function8 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
+        } else if (lambda instanceof LambdaWrapper.Function9 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8]);
+        } else if (lambda instanceof LambdaWrapper.Function10 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
+        } else if (lambda instanceof LambdaWrapper.Function11 f) {
+            return (c, p) -> f.call(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10]);
+        }
+        return null;
     }
 
 

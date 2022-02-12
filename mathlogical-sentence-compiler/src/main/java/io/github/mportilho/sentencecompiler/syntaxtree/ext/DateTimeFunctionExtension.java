@@ -24,43 +24,49 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
+import java.lang.invoke.MethodType;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
-
 public class DateTimeFunctionExtension {
 
-    private static final Map<String, OperationLambdaCaller> INSTANCE = internalDateTimeFunctionsFactory();
+    private static final Map<String, LambdaCallSite> INSTANCE = internalDateTimeFunctionsFactory();
 
-    public static Map<String, OperationLambdaCaller> dateTimeFunctionsFactory() {
+    public static Map<String, LambdaCallSite> dateTimeFunctionsFactory() {
         return INSTANCE;
     }
 
-    private static Map<String, OperationLambdaCaller> internalDateTimeFunctionsFactory() {
-        Map<String, OperationLambdaCaller> extensions = new HashMap<>();
+    private static Map<String, LambdaCallSite> internalDateTimeFunctionsFactory() {
+        LambdaCallSite callSite;
+        Map<String, LambdaCallSite> extensions = new HashMap<>();
 
-        extensions.put(keyName("secondsBetween", 2), (context, params) ->
-                ChronoUnit.SECONDS.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("secondsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.SECONDS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("minutesBetween", 2), (context, params) ->
-                ChronoUnit.MINUTES.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("minutesBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.MINUTES.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("hoursBetween", 2), (context, params) ->
-                ChronoUnit.HOURS.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("hoursBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.HOURS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("daysBetween", 2), (context, params) ->
-                ChronoUnit.DAYS.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("daysBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.DAYS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("monthsBetween", 2), (context, params) ->
-                ChronoUnit.MONTHS.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("monthsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.MONTHS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("yearsBetween", 2), (context, params) ->
-                ChronoUnit.YEARS.between((Temporal) params[0], (Temporal) params[1]));
+        callSite = new LambdaCallSite("yearsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
+                (context, parameters) -> ChronoUnit.YEARS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;
     }

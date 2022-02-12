@@ -24,87 +24,98 @@
 
 package io.github.mportilho.sentencecompiler.sentence.text;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.Test;
-
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
+
+import java.lang.invoke.MethodType;
+import java.math.BigDecimal;
 
 public class TestOtherOperationsTextualRepresentation {
 
-	@Test
-	public void testAssingedVariablesOnlyBaseOperationTextRepresentation() {
-		MathSentence mathSentence;
+    @Test
+    public void testAssingedVariablesOnlyBaseOperationTextRepresentation() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("a = 3; b = 5;");
-		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
+        mathSentence = new MathSentence("a = 3; b = 5;");
+        assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;");
 
-		mathSentence = new MathSentence("a = 3; b = 5; a + b");
-		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\na + b");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\n3 + 5");
-	}
+        mathSentence = new MathSentence("a = 3; b = 5; a + b");
+        assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\na + b");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("a = 3;\nb = 5;\n3 + 5");
+    }
 
-	@Test
-	public void testFullBaseOperationsTextualRepresentation() {
-		MathSentence mathSentence;
+    @Test
+    public void testFullBaseOperationsTextualRepresentation() {
+        MathSentence mathSentence;
 
-		StringBuilder builder = new StringBuilder();
-		builder.append("a = 3 - 2;");
-		builder.append("b = 5 * 2;");
-		builder.append("a + b");
-		mathSentence = new MathSentence(builder.toString());
-		assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\na + b");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\n1 + 10");
-	}
+        StringBuilder builder = new StringBuilder();
+        builder.append("a = 3 - 2;");
+        builder.append("b = 5 * 2;");
+        builder.append("a + b");
+        mathSentence = new MathSentence(builder.toString());
+        assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\na + b");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\n1 + 10");
+    }
 
-	@Test
-	public void testDecisionOperationTextRepresentation() {
-		MathSentence mathSentence;
+    @Test
+    public void testDecisionOperationTextRepresentation() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("if true then 1 else 0 endif");
-		assertThat(mathSentence.toString()).isEqualTo("if true then 1 else 0 endif");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("if true then 1 else 0 endif");
+        mathSentence = new MathSentence("if true then 1 else 0 endif");
+        assertThat(mathSentence.toString()).isEqualTo("if true then 1 else 0 endif");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("if true then 1 else 0 endif");
 
-		mathSentence = new MathSentence("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
-		assertThat(mathSentence.toString()).isEqualTo("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
-	}
+        mathSentence = new MathSentence("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
+        assertThat(mathSentence.toString()).isEqualTo("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("if true then 0 elsif false then 1 else if true then 1 else 0 endif endif");
+    }
 
-	@Test
-	public void testFunctionOperationWithOneParameterTextRepresentation() {
-		MathSentence mathSentence;
+    @Test
+    public void testFunctionOperationWithOneParameterTextRepresentation() {
+        MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
-		mathSentence.addFunction("function1", (context, params) -> 5);
-		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
+        LambdaCallSite callSite1 = new LambdaCallSite("function1",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
+        LambdaCallSite callSite2 = new LambdaCallSite("function1",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
 
-		mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
-		mathSentence.addFunction("function1", (context, params) -> 5);
-		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
-	}
+        mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
+        mathSentence.addFunction("function1", callSite1);
+        mathSentence.addFunction("function2", callSite2);
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
 
-	@Test
-	public void testFunctionOperationWithMultipleParametersTextRepresentation() {
-		MathSentence mathSentence;
+        mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
+        mathSentence.addFunction("function1", callSite1);
+        mathSentence.addFunction("function2", callSite2);
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
+    }
 
-		mathSentence = new MathSentence("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
-		mathSentence.addFunction("function1", (context, params) -> 5);
-		mathSentence.addFunction("function2", (context, params) -> 6);
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
-		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
-	}
+    @Test
+    public void testFunctionOperationWithMultipleParametersTextRepresentation() {
+        MathSentence mathSentence;
+        LambdaCallSite callSite1 = new LambdaCallSite("function1",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
+        LambdaCallSite callSite2 = new LambdaCallSite("function1",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
+
+        mathSentence = new MathSentence("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        mathSentence.addFunction("function1", callSite1);
+        mathSentence.addFunction("function2", callSite2);
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+    }
 
 }

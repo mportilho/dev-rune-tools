@@ -24,34 +24,33 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
+import java.lang.invoke.MethodType;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
-
 public class StringFunctionExtension {
 
-    private static final Map<String, OperationLambdaCaller> INSTANCE = internalStringFunctionsFactory();
+    private static final Map<String, LambdaCallSite> INSTANCE = internalStringFunctionsFactory();
 
-    public static Map<String, OperationLambdaCaller> stringFunctionsFactory() {
+    public static Map<String, LambdaCallSite> stringFunctionsFactory() {
         return INSTANCE;
     }
 
-    private static Map<String, OperationLambdaCaller> internalStringFunctionsFactory() {
-        Map<String, OperationLambdaCaller> extensions = new HashMap<>();
+    private static Map<String, LambdaCallSite> internalStringFunctionsFactory() {
+        Map<String, LambdaCallSite> extensions = new HashMap<>();
+        LambdaCallSite callSite;
 
-        extensions.put(keyName("concat", VARARGS), (context, params) -> Stream.of(params)
-                .filter(Objects::nonNull)
-                .map(p -> context.conversionService().convert(p, String.class)).collect(Collectors.joining()));
+        callSite = new LambdaCallSite("concat", MethodType.methodType(String.class, String[].class),
+                (context, parameters) -> Stream.of(parameters).map(Object::toString).collect(Collectors.joining("")));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("trim", 1), (context, params) ->
-                context.conversionService().convert(params[0], String.class).trim());
+        callSite = new LambdaCallSite("trim", MethodType.methodType(String.class, String.class),
+                (context, parameters) -> ((String) parameters[0]).trim());
+        extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;
     }

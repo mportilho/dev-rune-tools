@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class OperationSupportData {
     public static final OperationSupportData EMPTY_DATA = new OperationSupportData(emptyMap(), emptyMap());
 
     private final Map<String, Object> dictionary;
-    private final Map<String, OperationLambdaCaller> functions;
+    private final Map<String, LambdaCallSite> functions;
 
     public OperationSupportData() {
         this.dictionary = new HashMap<>();
@@ -45,7 +45,7 @@ public class OperationSupportData {
 
     public OperationSupportData(
             Map<String, Object> dictionary,
-            Map<String, OperationLambdaCaller> functions) {
+            Map<String, LambdaCallSite> functions) {
         this.dictionary = dictionary;
         this.functions = functions;
     }
@@ -54,7 +54,7 @@ public class OperationSupportData {
         return dictionary;
     }
 
-    public Map<String, OperationLambdaCaller> getFunctions() {
+    public Map<String, LambdaCallSite> getFunctions() {
         return functions;
     }
 
@@ -63,7 +63,7 @@ public class OperationSupportData {
         return this;
     }
 
-    public OperationSupportData putFunction(String key, OperationLambdaCaller function) {
+    public OperationSupportData putFunction(String key, LambdaCallSite function) {
         functions.put(key, function);
         return this;
     }

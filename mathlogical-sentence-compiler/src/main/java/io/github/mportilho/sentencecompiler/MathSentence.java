@@ -26,6 +26,7 @@ package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
@@ -33,7 +34,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.ext.DateTimeFunctionExten
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.FinancialFormulasExtension;
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension;
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -130,7 +130,7 @@ public class MathSentence {
         return this;
     }
 
-    public void addFunction(String name, OperationLambdaCaller function) {
+    public void addFunction(String name, LambdaCallSite function) {
         checkUpdateLock();
         syntaxExecutionSite.addFunction(name, function);
     }

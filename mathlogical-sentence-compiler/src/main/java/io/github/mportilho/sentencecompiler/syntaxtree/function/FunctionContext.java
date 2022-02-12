@@ -24,11 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-import io.github.mportilho.commons.converters.FormattedConversionService;
-
 import java.math.MathContext;
 
-public record FunctionContext(MathContext mathContext, Integer scale,
-                              FormattedConversionService conversionService) {
+public record FunctionContext(MathContext mathContext, Integer scale) {
 
 }

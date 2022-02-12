@@ -28,11 +28,11 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
@@ -123,7 +123,7 @@ public class SyntaxExecutionSite {
         operationSupportData.getDictionary().putAll(dictionary);
     }
 
-    public void addFunction(String name, OperationLambdaCaller function) {
+    public void addFunction(String name, LambdaCallSite function) {
         AssertUtils.notNullOrBlank(name, "Function name must be provided");
         Objects.requireNonNull(function, "A function implementation must be provided");
         String keyName = keyName(name, UNKNOWN);
@@ -135,7 +135,7 @@ public class SyntaxExecutionSite {
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
-            Map<String, OperationLambdaCaller> callerMap = createFunctionCaller(functionProvider);
+            Map<String, LambdaCallSite> callerMap = createFunctionCaller(functionProvider);
 
             List<String> overridingFunctions = callerMap.keySet().stream().filter(key ->
                     operationSupportData.getFunctions().containsKey(key)).toList();

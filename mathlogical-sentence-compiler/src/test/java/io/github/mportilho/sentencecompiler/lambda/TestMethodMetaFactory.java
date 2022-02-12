@@ -24,23 +24,25 @@
 
 package io.github.mportilho.sentencecompiler.lambda;
 
-import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Map;
 
 public class TestMethodMetaFactory {
 
-    private static final FormattedConversionService service = new DefaultFormattedConversionService();
+    private static final FunctionContext CONTEXT = new FunctionContext(MathContext.DECIMAL64, null);
 
     @Test
     public void test_addBigDecimal() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = FunctionMetaFactory.extractMethods(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("adder_2").call(service, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
+        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createFunctionCaller(PlaceholderMethodUtils.class);
+        Object value = siteMap.get("adder_2").call(CONTEXT, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
                 .isEqualByComparingTo("8");
@@ -48,8 +50,8 @@ public class TestMethodMetaFactory {
 
     @Test
     public void test_concatString() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = FunctionMetaFactory.extractMethods(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("concatOne_1").call(service, new Object[]{"number"});
+        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createFunctionCaller(PlaceholderMethodUtils.class);
+        Object value = siteMap.get("concatOne_1").call(CONTEXT, new Object[]{"number"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)
                 .isEqualTo("number_1");

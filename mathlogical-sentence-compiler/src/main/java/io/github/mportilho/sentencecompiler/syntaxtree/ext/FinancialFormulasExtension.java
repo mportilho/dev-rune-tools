@@ -25,8 +25,9 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
 import io.github.mportilho.sentencecompiler.formulas.ExcelFinancialFunction;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
+import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,152 +35,224 @@ import java.util.Map;
 
 public class FinancialFormulasExtension {
 
-    private static final Map<String, OperationLambdaCaller> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
+    private static final Map<String, LambdaCallSite> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
 
-    public static Map<String, OperationLambdaCaller> financialFunctionsFactory() {
+    public static Map<String, LambdaCallSite> financialFunctionsFactory() {
         return FORMULA_MAP;
     }
 
-    private static Map<String, OperationLambdaCaller> internalFinancialFunctionsFactory() {
-        Map<String, OperationLambdaCaller> extensions = new HashMap<>();
+    private static Map<String, LambdaCallSite> internalFinancialFunctionsFactory() {
+        LambdaCallSite callSite;
+        Map<String, LambdaCallSite> extensions = new HashMap<>();
 
-        extensions.put("eir_3", (context, params) -> ExcelFinancialFunction.eir(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("eir",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.eir(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("pv_4", (context, params) -> ExcelFinancialFunction.pv(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("pv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.pv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("r_4", (context, params) -> ExcelFinancialFunction.r(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("r",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.r(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("nper_4", (context, params) -> ExcelFinancialFunction.nper(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("nper",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.nper(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("fv_6", (context, params) -> ExcelFinancialFunction.fv(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("fv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.fv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        (BigDecimal) parameters[5],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("fv_5", (context, params) -> ExcelFinancialFunction.fv(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("fv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.fv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("fv_4", (context, params) -> ExcelFinancialFunction.fv(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("fv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.fv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("fvs_5", (context, params) -> ExcelFinancialFunction.fvs(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("fvs",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.fvs(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("fvs_6", (context, params) -> ExcelFinancialFunction.fvs(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("fvs",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.fvs(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        (BigDecimal) parameters[5],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("pmt_5", (context, params) -> ExcelFinancialFunction.pmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("pmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.pmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("pmt_4", (context, params) -> ExcelFinancialFunction.pmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("pmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.pmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("pmt_3", (context, params) -> ExcelFinancialFunction.pmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("pmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.pmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("ipmt_6", (context, params) -> ExcelFinancialFunction.ipmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("ipmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ipmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        (BigDecimal) parameters[5],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("ipmt_5", (context, params) -> ExcelFinancialFunction.ipmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("ipmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ipmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("ipmt_4", (context, params) -> ExcelFinancialFunction.ipmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("ipmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ipmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
+        callSite = new LambdaCallSite("ppmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ppmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        (BigDecimal) parameters[5],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("ppmt_6", (context, params) -> ExcelFinancialFunction.ppmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.conversionService().convert(params[5], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("ppmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ppmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put("ppmt_5", (context, params) -> ExcelFinancialFunction.ppmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.conversionService().convert(params[4], BigDecimal.class),
-                context.mathContext()));
-
-        extensions.put("ppmt_4", (context, params) -> ExcelFinancialFunction.ppmt(
-                context.conversionService().convert(params[0], BigDecimal.class),
-                context.conversionService().convert(params[1], BigDecimal.class),
-                context.conversionService().convert(params[2], BigDecimal.class),
-                context.conversionService().convert(params[3], BigDecimal.class),
-                context.mathContext()));
+        callSite = new LambdaCallSite("ppmt",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.ppmt(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;
     }

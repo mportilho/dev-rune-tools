@@ -25,8 +25,8 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
 @FunctionalInterface
-public interface OperationLambdaCaller {
+public interface OperationSupplier {
 
-    Object call(FunctionContext functionContext, Object[] parameters);
+    Object call(FunctionContext context, Object[] parameters);
 
 }

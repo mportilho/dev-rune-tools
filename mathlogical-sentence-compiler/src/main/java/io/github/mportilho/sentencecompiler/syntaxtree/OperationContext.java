@@ -25,8 +25,8 @@
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
 
 import java.math.MathContext;
 import java.time.ZoneId;
@@ -46,9 +46,9 @@ public record OperationContext(
         ZoneId zoneId
 ) {
 
-    public OperationLambdaCaller getFunction(String name, int parameterCount) {
+    public LambdaCallSite getFunction(String name, int parameterCount) {
         String functionKey = MethodMetadataFactory.keyName(name, parameterCount);
-        OperationLambdaCaller func = userOperationSupportData.getFunctions().get(functionKey);
+        LambdaCallSite func = userOperationSupportData.getFunctions().get(functionKey);
         if (func == null) {
             func = operationSupportData.getFunctions().get(functionKey);
         }

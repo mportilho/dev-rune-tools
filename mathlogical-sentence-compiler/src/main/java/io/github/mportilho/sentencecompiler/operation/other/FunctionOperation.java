@@ -29,7 +29,7 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public class FunctionOperation extends AbstractOperation {
@@ -56,19 +56,16 @@ public class FunctionOperation extends AbstractOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        OperationLambdaCaller caller = context.getFunction(functionName, parameters.length);
+        LambdaCallSite caller = context.getFunction(functionName, parameters.length);
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
-        FunctionContext functionContext = new FunctionContext(context.mathContext(), context.scale(), context.formattedConversionService());
-
         Object[] params = new Object[parameters.length];
         for (int i = 0, paramsLength = params.length; i < paramsLength; i++) {
             params[i] = parameters[i].evaluate(context);
         }
-
         try {
-            return caller.call(functionContext, params);
+            return caller.call(new FunctionContext(context.mathContext(), context.scale()), params);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new SyntaxExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
                     functionName, parameters.length), e);

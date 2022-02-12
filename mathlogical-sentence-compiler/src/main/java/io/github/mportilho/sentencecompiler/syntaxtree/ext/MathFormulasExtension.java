@@ -24,61 +24,66 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.OperationLambdaCaller;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
+import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
+import static java.math.BigDecimal.ONE;
 
 public class MathFormulasExtension {
 
-    private static final Map<String, OperationLambdaCaller> INSTANCE = internalMathFunctionsFactory();
+    private static final Map<String, LambdaCallSite> INSTANCE = internalMathFunctionsFactory();
 
-    public static Map<String, OperationLambdaCaller> mathFunctionsFactory() {
+    public static Map<String, LambdaCallSite> mathFunctionsFactory() {
         return INSTANCE;
     }
 
-    private static Map<String, OperationLambdaCaller> internalMathFunctionsFactory() {
-        Map<String, OperationLambdaCaller> extensions = new HashMap<>();
+    private static Map<String, LambdaCallSite> internalMathFunctionsFactory() {
+        LambdaCallSite callSite;
+        Map<String, LambdaCallSite> extensions = new HashMap<>();
 
-        extensions.put(keyName("max", VARARGS), (context, params) -> Stream.of(params)
-                .filter(Objects::nonNull)
-                .map(p -> context.conversionService().convert(p, BigDecimal.class)).max(BigDecimal::compareTo)
-                .orElse(null));
+        callSite = new LambdaCallSite("max", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
+                (context, parameters) -> Stream.of(parameters).map(BigDecimal.class::cast).max(BigDecimal::compareTo).orElseThrow());
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("min", VARARGS), (context, params) -> Stream.of(params)
-                .filter(Objects::nonNull)
-                .map(p -> context.conversionService().convert(p, BigDecimal.class)).min(BigDecimal::compareTo)
-                .orElse(null));
+        callSite = new LambdaCallSite("min", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
+                (context, parameters) -> Stream.of(parameters).map(BigDecimal.class::cast).min(BigDecimal::compareTo).orElseThrow());
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("avg", VARARGS), (context, params) -> {
-            BigDecimal[] totalWithCount = Stream.of(params).filter(Objects::nonNull)
-                    .map(p -> new BigDecimal[]{context.conversionService().convert(p, BigDecimal.class), BigDecimal.ONE})
-                    .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0], context.mathContext()), a[1].add(BigDecimal.ONE)})
-                    .orElseThrow();
-            return totalWithCount[0].divide(totalWithCount[1], context.mathContext());
-        });
+        callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
+                (context, parameters) -> Stream.of(parameters)
+                        .map(p -> new BigDecimal[]{(BigDecimal) p, ONE})
+                        .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0]), a[1].add(ONE)})
+                        .map(p -> p[0].divide(p[1], context.mathContext()))
+                        .orElseThrow());
+        extensions.put(callSite.getKeyName(), callSite);
 
         //TODO implementar função para o [valor médio - median]
 
-        extensions.put(keyName("rule3d", 3), (context, params) -> {
-            BigDecimal p1 = context.conversionService().convert(params[0], BigDecimal.class);
-            BigDecimal p2 = context.conversionService().convert(params[1], BigDecimal.class);
-            BigDecimal px = context.conversionService().convert(params[2], BigDecimal.class);
-            return px.multiply(p2, context.mathContext()).divide(p1, context.mathContext());
-        });
+        callSite = new LambdaCallSite("rule3d", MethodType.methodType(
+                BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> {
+                    BigDecimal p1 = (BigDecimal) parameters[0];
+                    BigDecimal p2 = (BigDecimal) parameters[1];
+                    BigDecimal px = (BigDecimal) parameters[2];
+                    return px.multiply(p2, MathContext.DECIMAL128).divide(p1, MathContext.DECIMAL128);
+                });
+        extensions.put(callSite.getKeyName(), callSite);
 
-        extensions.put(keyName("rule3i", 3), (context, params) -> {
-            BigDecimal p1 = context.conversionService().convert(params[0], BigDecimal.class);
-            BigDecimal p2 = context.conversionService().convert(params[1], BigDecimal.class);
-            BigDecimal px = context.conversionService().convert(params[2], BigDecimal.class);
-            return p1.multiply(p2, context.mathContext()).divide(px, context.mathContext());
-        });
+        callSite = new LambdaCallSite("rule3i", MethodType.methodType(
+                BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> {
+                    BigDecimal p1 = (BigDecimal) parameters[0];
+                    BigDecimal p2 = (BigDecimal) parameters[1];
+                    BigDecimal px = (BigDecimal) parameters[2];
+                    return p1.multiply(p2, MathContext.DECIMAL128).divide(px, MathContext.DECIMAL128);
+                });
+        extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;
     }

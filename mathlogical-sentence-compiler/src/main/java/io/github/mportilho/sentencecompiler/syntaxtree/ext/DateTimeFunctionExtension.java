@@ -27,10 +27,15 @@ package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class DateTimeFunctionExtension {
 
@@ -66,6 +71,90 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("yearsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
                 (context, parameters) -> ChronoUnit.YEARS.between((Temporal) parameters[0], (Temporal) parameters[1]));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("maxDate", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
+                                parameters[0] : parameters[1];
+                    }
+                    return Stream.of(parameters).map(LocalDate.class::cast)
+                            .max(Comparator.comparing(LocalDate::toEpochDay))
+                            .orElseThrow();
+                });
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("minDate", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
+                                parameters[1] : parameters[0];
+                    }
+                    return Stream.of(parameters).map(LocalDate.class::cast)
+                            .min(Comparator.comparing(LocalDate::toEpochDay))
+                            .orElseThrow();
+                });
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("maxTime", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
+                                parameters[0] : parameters[1];
+                    }
+                    return Stream.of(parameters).map(LocalTime.class::cast)
+                            .max(Comparator.comparing(LocalTime::toNanoOfDay))
+                            .orElseThrow();
+                });
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("minTime", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
+                                parameters[1] : parameters[0];
+                    }
+                    return Stream.of(parameters).map(LocalTime.class::cast)
+                            .min(Comparator.comparing(LocalTime::toNanoOfDay))
+                            .orElseThrow();
+                });
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("maxDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
+                                parameters[0] : parameters[1];
+                    }
+                    return Stream.of(parameters).map(ZonedDateTime.class::cast)
+                            .max(Comparator.comparing(ZonedDateTime::toInstant))
+                            .orElseThrow();
+                });
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("minDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
+                (context, parameters) -> {
+                    if (parameters.length == 1) {
+                        return parameters[0];
+                    } else if (parameters.length == 2) {
+                        return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
+                                parameters[1] : parameters[0];
+                    }
+                    return Stream.of(parameters).map(ZonedDateTime.class::cast)
+                            .min(Comparator.comparing(ZonedDateTime::toInstant))
+                            .orElseThrow();
+                });
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

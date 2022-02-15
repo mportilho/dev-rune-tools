@@ -28,11 +28,11 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
@@ -42,7 +42,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.*;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.UNKNOWN;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.createFunctionCaller;
 
 public class SyntaxExecutionSite {
 

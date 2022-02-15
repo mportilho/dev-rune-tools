@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.DateTimeFunctionExtension.dateTimeFunctionsFactory;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 
 public class TestDateTimeFunctionExtension {
 
@@ -93,4 +93,15 @@ public class TestDateTimeFunctionExtension {
         assertThat((long) between.call(CONTEXT, new Temporal[]{d1, d1.plusYears(2)}))
                 .isEqualByComparingTo(2L);
     }
+
+    /*
+        maxDate
+        maxTime
+        maxDateTime
+        minDate
+        minTime
+        minDateTime
+     */
+
+    //FIXME produzir o teste unitário
 }

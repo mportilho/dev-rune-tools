@@ -32,8 +32,8 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension.stringFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 

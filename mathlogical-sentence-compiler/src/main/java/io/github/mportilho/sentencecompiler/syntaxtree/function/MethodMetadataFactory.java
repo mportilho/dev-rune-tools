@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 import static java.lang.reflect.Modifier.isStatic;
 
 public class MethodMetadataFactory {
@@ -131,13 +132,6 @@ public class MethodMetadataFactory {
         return false;
     }
 
-    public static String keyName(Method method) {
-        return keyName(method.getName(), method.getParameterCount());
-    }
-
-    public static String keyName(String methodName, int parameterCount) {
-        return methodName + "_" + parameterCount;
-    }
 
     private static Class<?> findFactoryInterface(int parameterNumber) {
         return switch (parameterNumber) {

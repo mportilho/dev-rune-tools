@@ -33,8 +33,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension.mathFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.keyName;
 import static java.math.BigDecimal.*;
 
 public class TestMathFormulaExtensions {

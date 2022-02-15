@@ -28,7 +28,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -95,7 +94,7 @@ public class MathFormulasExtension {
                     BigDecimal p1 = (BigDecimal) parameters[0];
                     BigDecimal p2 = (BigDecimal) parameters[1];
                     BigDecimal px = (BigDecimal) parameters[2];
-                    return px.multiply(p2, MathContext.DECIMAL128).divide(p1, MathContext.DECIMAL128);
+                    return px.multiply(p2, context.mathContext()).divide(p1, context.mathContext());
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -105,7 +104,7 @@ public class MathFormulasExtension {
                     BigDecimal p1 = (BigDecimal) parameters[0];
                     BigDecimal p2 = (BigDecimal) parameters[1];
                     BigDecimal px = (BigDecimal) parameters[2];
-                    return p1.multiply(p2, MathContext.DECIMAL128).divide(px, MathContext.DECIMAL128);
+                    return p1.multiply(p2, context.mathContext()).divide(px, context.mathContext());
                 });
         extensions.put(callSite.getKeyName(), callSite);
 

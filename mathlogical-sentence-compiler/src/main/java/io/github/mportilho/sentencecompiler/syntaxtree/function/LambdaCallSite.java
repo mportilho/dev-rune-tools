@@ -28,6 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
 
@@ -84,14 +85,21 @@ public class LambdaCallSite {
 
     public String getKeyName() {
         if (this.methodType.lastParameterType().getComponentType() == null) {
-            return MethodMetadataFactory.keyName(this.methodName, this.methodType.parameterCount());
+            return keyName(this.methodName, this.methodType.parameterCount());
         }
-        return MethodMetadataFactory.keyName(this.methodName, VARARGS);
+        return keyName(this.methodName, VARARGS);
     }
 
     private boolean isArrayParameter() {
         return this.methodType.lastParameterType().isArray();
     }
 
+    public static String keyName(Method method) {
+        return keyName(method.getName(), method.getParameterCount());
+    }
+
+    public static String keyName(String methodName, int parameterCount) {
+        return methodName + "_" + parameterCount;
+    }
 
 }

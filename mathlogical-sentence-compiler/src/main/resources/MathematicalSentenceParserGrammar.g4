@@ -162,7 +162,7 @@ NUMBER: Decimal | OctalDigits | HexDigits;
 POSITIVE: PositiveNumber ;
 DATE: NumberPart NumberPart NumberPart NumberPart MINUS MONTH_PART MINUS DAY_PART ;
 TIME: HOUR_PART Colon MINUTE_SECOND_PART (Colon MINUTE_SECOND_PART)? ;
-DATETIME: DATE 'T' TIME ;
+DATETIME: DATE 'T' TIME TIME_OFFSET? ;
 
 // TYPE CASTING
 BOOLEAN_TYPE: '<bool>';
@@ -172,9 +172,6 @@ DATE_TYPE: '<date>' ;
 TIME_TYPE: '<time>' ;
 DATETIME_TYPE: '<datetime>' ;
 LIST_TYPE: '<list>' ;
-
-ASSIGNABLE_TYPES: STRING | DATE | TIME | DATETIME
-  ;
 
 // Small lexer parts
 DAY_PART
@@ -190,7 +187,13 @@ HOUR_PART
   : '0'..'1' NumberPart
   | '2' '0'..'3'
   ;
-MINUTE_SECOND_PART: '0'..'5' NumberPart ;
+MINUTE_SECOND_PART
+  : '0'..'5' NumberPart
+  ;
+
+TIME_OFFSET
+  : ('+' | '-') '0'..'2' NumberPart ':' NumberPart NumberPart
+  ;
 
 // Fragments
 fragment IdentifierText: [a-zA-Z_][a-zA-Z_0-9]* ;

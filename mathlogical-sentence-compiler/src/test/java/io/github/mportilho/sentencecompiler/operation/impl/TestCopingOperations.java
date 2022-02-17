@@ -136,7 +136,7 @@ public class TestCopingOperations {
         assertThat(copyOperation).isNotEqualTo(operation);
         assertThat(copyOperation.<LocalDate>evaluate(context)).isNotNull().isEqualTo(LocalDate.now().plusDays(2));
 
-        operation = new DateTimeAdditionOperation(new DateTimeConstantValueOperation(LocalDateTime.now().toString()),
+        operation = new DateTimeAdditionOperation(new DateTimeConstantValueOperation(LocalDateTime.now().toString(), null),
                 new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         copyOperation = (AbstractDateTimeOperation) operation.copy(new CloningContext());

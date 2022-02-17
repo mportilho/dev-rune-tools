@@ -1,27 +1,3 @@
-/*******************************************************************************
- * MIT License
- *
- * Copyright (c) 2022. Marcelo Silva Portilho
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- ******************************************************************************/
-
 // Generated from D:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.9.2
 
     package io.github.mportilho.sentencecompiler.grammar;
@@ -63,8 +39,8 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		JSON_PATH=98, CACHE_FUNCTION_PREFIX=99, IDENTIFIER=100, NEGATIVE_IDENTIFIER=101, 
 		STRING=102, NUMBER=103, POSITIVE=104, DATE=105, TIME=106, DATETIME=107, 
 		BOOLEAN_TYPE=108, NUMBER_TYPE=109, STRING_TYPE=110, DATE_TYPE=111, TIME_TYPE=112, 
-		DATETIME_TYPE=113, LIST_TYPE=114, ASSIGNABLE_TYPES=115, DAY_PART=116, 
-		MONTH_PART=117, HOUR_PART=118, MINUTE_SECOND_PART=119, COMMENT=120, WS=121;
+		DATETIME_TYPE=113, LIST_TYPE=114, DAY_PART=115, MONTH_PART=116, HOUR_PART=117, 
+		MINUTE_SECOND_PART=118, TIME_OFFSET=119, COMMENT=120, WS=121;
 	public static final int
 		RULE_start = 0, RULE_mathStart = 1, RULE_logicalStart = 2, RULE_assignmentExpression = 3, 
 		RULE_logicalExpression = 4, RULE_mathExpression = 5, RULE_mathSpecificFunction = 6, 
@@ -130,8 +106,8 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 			"SEMI", "PERIOD", "CONTAINS", "JSON_PATH", "CACHE_FUNCTION_PREFIX", "IDENTIFIER", 
 			"NEGATIVE_IDENTIFIER", "STRING", "NUMBER", "POSITIVE", "DATE", "TIME", 
 			"DATETIME", "BOOLEAN_TYPE", "NUMBER_TYPE", "STRING_TYPE", "DATE_TYPE", 
-			"TIME_TYPE", "DATETIME_TYPE", "LIST_TYPE", "ASSIGNABLE_TYPES", "DAY_PART", 
-			"MONTH_PART", "HOUR_PART", "MINUTE_SECOND_PART", "COMMENT", "WS"
+			"TIME_TYPE", "DATETIME_TYPE", "LIST_TYPE", "DAY_PART", "MONTH_PART", 
+			"HOUR_PART", "MINUTE_SECOND_PART", "TIME_OFFSET", "COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();

@@ -24,32 +24,33 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
-import io.github.mportilho.commons.utils.DateUtils;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class DateTimeConstantValueOperation extends AbstractConstantValueOperation {
 
-    public DateTimeConstantValueOperation(String value) {
+    private String offset;
+
+    public DateTimeConstantValueOperation(String value, String offset) {
         super(value);
+        this.offset = offset;
     }
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new DateTimeConstantValueOperation(getValue());
+        return new DateTimeConstantValueOperation(getValue(), offset);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        if (getValue().endsWith("]")) {
-            return DateUtils.DATETIME_FORMATTER.parse(getValue(), ZonedDateTime::from);
-        } else {
-            return ZonedDateTime.of(DateUtils.DATETIME_FORMATTER.parse(getValue(), LocalDateTime::from), context.zoneId());
-        }
+        ZoneId zoneId = offset != null && !offset.isBlank() ? ZoneOffset.of(offset) : context.zoneId();
+        return ZonedDateTime.of(LocalDateTime.parse(getValue()), zoneId);
     }
 
 }

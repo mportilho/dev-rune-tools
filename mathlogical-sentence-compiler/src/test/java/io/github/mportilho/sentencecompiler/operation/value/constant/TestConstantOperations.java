@@ -26,8 +26,8 @@ package io.github.mportilho.sentencecompiler.operation.value.constant;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseEulerNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PrecisePiNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PrecisePiNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class TestConstantOperations {
@@ -56,17 +56,25 @@ public class TestConstantOperations {
 
     @Test
     public void testDateTimeConstantValueOperation() {
-        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44").
+        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44", null).
                 <ZonedDateTime>evaluate(context).toLocalDateTime())
                 .isEqualTo("2000-03-04T23:33:44");
     }
 
     @Test
-    public void testDateTimeConstantValueOperation_FullZonedDateTimeText() {
-        String zoneName = "Europe/Paris";
-        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44-03:00[" + zoneName + "]")
+    public void testDateTimeConstantValueOperation_FullZonedDateTimeText_ErrorOndifferentOffset() {
+        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44", "-02:00")
                 .<ZonedDateTime>evaluate(context))
-                .isEqualTo(ZonedDateTime.of(2000, 3, 4, 23, 33, 44, 0, ZoneId.of(zoneName)));
+                .isNotEqualTo(ZonedDateTime.of(2000, 3, 4, 23, 33,
+                        44, 0, ZoneOffset.of("-03:00")));
+    }
+
+    @Test
+    public void testDateTimeConstantValueOperation_FullZonedDateTimeText() {
+        assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44", "-03:00")
+                .<ZonedDateTime>evaluate(context))
+                .isEqualTo(ZonedDateTime.of(2000, 3, 4, 23, 33,
+                        44, 0, ZoneOffset.of("-03:00")));
     }
 
     @Test

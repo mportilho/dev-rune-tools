@@ -594,7 +594,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitDateTimeConstant(DateTimeConstantContext ctx) {
-        return new DateTimeConstantValueOperation(ctx.getText()).expectedType(ZonedDateTime.class);
+        return new DateTimeConstantValueOperation(ctx.getText(), null).expectedType(ZonedDateTime.class);
     }
 
     @Override

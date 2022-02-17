@@ -32,7 +32,6 @@ import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.Pre
 import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseCommonLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseNaturalLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.trigonometry.*;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseEulerNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
@@ -54,26 +53,11 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
     }
 
     @Override
-    public AbstractOperation visitInverseHyperbolicSineExpression(InverseHyperbolicSineExpressionContext ctx) {
-        return new PreciseInverseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
     public AbstractOperation visitSequenceExpression(SequenceExpressionContext ctx) {
         if (sequenceVariableStack == null) {
             sequenceVariableStack = new Stack<>();
         }
         return super.visitSequenceExpression(ctx).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicSineExpression(HyperbolicSineExpressionContext ctx) {
-        return new PreciseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitInverseHyperbolicCosineExpression(InverseHyperbolicCosineExpressionContext ctx) {
-        return new PreciseInverseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -89,16 +73,6 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
     }
 
     @Override
-    public AbstractOperation visitTangentExpression(TangentExpressionContext ctx) {
-        return new PreciseTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangent2Expression(Arctangent2ExpressionContext ctx) {
-        return new PreciseArctangent2Operation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
     public AbstractOperation visitSquareRootExpression(SquareRootExpressionContext ctx) {
         return new PreciseSquareRootOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
@@ -106,16 +80,6 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
     @Override
     public AbstractOperation visitRootExpression(RootExpressionContext ctx) {
         return new PreciseRootOperation(ctx.mathExpression(1).accept(this), ctx.mathExpression(0).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicTangentExpression(HyperbolicTangentExpressionContext ctx) {
-        return new PreciseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicCosineExpression(HyperbolicCosineExpressionContext ctx) {
-        return new PreciseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -148,21 +112,6 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
     }
 
     @Override
-    public AbstractOperation visitSineExpression(SineExpressionContext ctx) {
-        return new PreciseSineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitCosineExpression(CosineExpressionContext ctx) {
-        return new PreciseCosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangentExpression(ArctangentExpressionContext ctx) {
-        return new PreciseArctangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
     public AbstractOperation visitSumExpression(SumExpressionContext ctx) {
         if (ctx.PLUS() != null) {
             return new PreciseAdditionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
@@ -173,28 +122,8 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
     }
 
     @Override
-    public AbstractOperation visitInverseHyperbolicTangentExpression(InverseHyperbolicTangentExpressionContext ctx) {
-        return new PreciseInverseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
-        return new PreciseDeggreOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
     public AbstractOperation visitExponentiationExpression(ExponentiationExpressionContext ctx) {
         return new PreciseExponentialOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArccosineExpression(ArccosineExpressionContext ctx) {
-        return new PreciseArccosineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
-    }
-
-    @Override
-    public AbstractOperation visitArcsineExpression(ArcsineExpressionContext ctx) {
-        return new PreciseArcsineOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
     }
 
     @Override

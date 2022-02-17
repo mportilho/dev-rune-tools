@@ -32,6 +32,7 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
 import io.github.mportilho.sentencecompiler.operation.logic.*;
+import io.github.mportilho.sentencecompiler.operation.math.DeggreOperation;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
@@ -611,6 +612,11 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDateTimeFunctionResult(DateTimeFunctionResultContext ctx) {
         return ctx.function().accept(this).expectedType(ZonedDateTime.class);
+    }
+
+    @Override
+    public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
+        return new DeggreOperation(ctx.mathExpression().accept(this));
     }
 
     protected AbstractOperation createNewUserVariable(ParserRuleContext context) {

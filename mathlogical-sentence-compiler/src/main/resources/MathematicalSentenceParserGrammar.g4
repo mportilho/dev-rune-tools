@@ -68,20 +68,6 @@ SUMMATION_VARIABLE : 'S' ;
 PRODUCT_SEQUENCE_VARIABLE : 'P' ;
 MINUS_PARENTHESIS : MinusParenthesisOperator;
 
-SINE : 'sin';
-COSINE : 'cos';
-TANGENT : 'tan';
-ARCSINE : 'asin';
-ARCCOSINE : 'acos';
-ARCTANGENT : 'atan';
-ARCTANGENT2 : 'atan2';
-HYPERBOLIC_SINE : 'sinh';
-HYPERBOLIC_COSINE : 'cosh';
-HYPERBOLIC_TANGENT : 'tanh';
-INVERSE_HYPERBOLIC_SINE : 'asinh';
-INVERSE_HYPERBOLIC_COSINE : 'acosh';
-INVERSE_HYPERBOLIC_TANGENT : 'atanh';
-
 PI : MINUS? ('pi' | 'PI') ;
 EULER : MINUS? 'E' ;
 DEGREE : '\u00B0' | 'deggre' | 'deggres' ;
@@ -271,28 +257,10 @@ mathExpression
   ;
 
 mathSpecificFunction
-  : trigonometryFunction # trigonometryExpression
-  | logarithmFunction # logarithmExpression
+  : logarithmFunction # logarithmExpression
   | roundingFunction # roundingExpression
   | sequenceFunction # sequenceExpression
   ;
-
-trigonometryFunction
-  : SINE LPAREN mathExpression RPAREN #sineExpression
-  | COSINE LPAREN mathExpression RPAREN #cosineExpression
-  | TANGENT LPAREN mathExpression RPAREN #tangentExpression
-  | ARCSINE LPAREN mathExpression RPAREN #arcsineExpression
-  | ARCCOSINE LPAREN mathExpression RPAREN #arccosineExpression
-  | ARCTANGENT LPAREN mathExpression RPAREN #arctangentExpression
-  | ARCTANGENT2 LPAREN mathExpression COMMA mathExpression RPAREN #arctangent2Expression
-  | HYPERBOLIC_SINE LPAREN mathExpression RPAREN #hyperbolicSineExpression
-  | HYPERBOLIC_COSINE LPAREN mathExpression RPAREN #hyperbolicCosineExpression
-  | HYPERBOLIC_TANGENT LPAREN mathExpression RPAREN #hyperbolicTangentExpression
-  | INVERSE_HYPERBOLIC_SINE LPAREN mathExpression RPAREN #inverseHyperbolicSineExpression
-  | INVERSE_HYPERBOLIC_COSINE LPAREN mathExpression RPAREN #inverseHyperbolicCosineExpression
-  | INVERSE_HYPERBOLIC_TANGENT LPAREN mathExpression RPAREN #inverseHyperbolicTangentExpression
-  ;
-
 
 logarithmFunction
   : (BINARY_LOGARITHM | NATURAL_LOGARITHM | COMMOM_LOGARITHM) LPAREN mathExpression RPAREN #fixedLogarithm

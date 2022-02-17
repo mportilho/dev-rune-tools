@@ -26,14 +26,11 @@ package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.ext.DateTimeFunctionExtension;
-import io.github.mportilho.sentencecompiler.syntaxtree.ext.FinancialFormulasExtension;
-import io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension;
-import io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension;
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.*;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -92,6 +89,7 @@ public class MathSentence {
         operationSupportData.getFunctions().putAll(FinancialFormulasExtension.financialFunctionsFactory());
         operationSupportData.getFunctions().putAll(MathFormulasExtension.mathFunctionsFactory());
         operationSupportData.getFunctions().putAll(StringFunctionExtension.stringFunctionsFactory());
+        operationSupportData.getFunctions().putAll(TrigonometryFunctionExtension.trigonometryFunctionFactory());
         return operationSupportData;
     }
 

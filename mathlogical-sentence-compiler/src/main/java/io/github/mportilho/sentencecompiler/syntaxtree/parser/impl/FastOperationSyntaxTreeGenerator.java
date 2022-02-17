@@ -26,13 +26,13 @@ package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.*;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.math.DeggreOperation;
 import io.github.mportilho.sentencecompiler.operation.math.fast.*;
 import io.github.mportilho.sentencecompiler.operation.math.fast.FastNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.operation.math.fast.logarithm.FastBinaryLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.math.fast.logarithm.FastCommonLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.math.fast.logarithm.FastLogarithmOperation;
 import io.github.mportilho.sentencecompiler.operation.math.fast.logarithm.FastNaturalLogarithmOperation;
-import io.github.mportilho.sentencecompiler.operation.math.fast.trigonometry.*;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.fast.FastEulerNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.fast.FastNumberConstantValueOperation;
@@ -53,26 +53,11 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
     }
 
     @Override
-    public AbstractOperation visitInverseHyperbolicSineExpression(InverseHyperbolicSineExpressionContext ctx) {
-        return new FastInverseHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
     public AbstractOperation visitSequenceExpression(SequenceExpressionContext ctx) {
         if (sequenceVariableStack == null) {
             sequenceVariableStack = new Stack<>();
         }
         return super.visitSequenceExpression(ctx).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicSineExpression(HyperbolicSineExpressionContext ctx) {
-        return new FastHyperbolicSineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitInverseHyperbolicCosineExpression(InverseHyperbolicCosineExpressionContext ctx) {
-        return new FastInverseHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
     }
 
     @Override
@@ -88,16 +73,6 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
     }
 
     @Override
-    public AbstractOperation visitTangentExpression(TangentExpressionContext ctx) {
-        return new FastTangentOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangent2Expression(Arctangent2ExpressionContext ctx) {
-        return new FastArctangent2Operation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Double.class);
-    }
-
-    @Override
     public AbstractOperation visitSquareRootExpression(SquareRootExpressionContext ctx) {
         return new FastSquareRootOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
     }
@@ -105,16 +80,6 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
     @Override
     public AbstractOperation visitRootExpression(RootExpressionContext ctx) {
         return new FastRootOperation(ctx.mathExpression(1).accept(this), ctx.mathExpression(0).accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicTangentExpression(HyperbolicTangentExpressionContext ctx) {
-        return new FastHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitHyperbolicCosineExpression(HyperbolicCosineExpressionContext ctx) {
-        return new FastHyperbolicCosineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
     }
 
     @Override
@@ -147,21 +112,6 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
     }
 
     @Override
-    public AbstractOperation visitSineExpression(SineExpressionContext ctx) {
-        return new FastSineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitCosineExpression(CosineExpressionContext ctx) {
-        return new FastCosineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitArctangentExpression(ArctangentExpressionContext ctx) {
-        return new FastArctangentOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
     public AbstractOperation visitSumExpression(SumExpressionContext ctx) {
         if (ctx.PLUS() != null) {
             return new FastAdditionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Double.class);
@@ -172,28 +122,13 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
     }
 
     @Override
-    public AbstractOperation visitInverseHyperbolicTangentExpression(InverseHyperbolicTangentExpressionContext ctx) {
-        return new FastInverseHyperbolicTangentOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
     public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
-        return new FastDeggreOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
+        return new DeggreOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
     }
 
     @Override
     public AbstractOperation visitExponentiationExpression(ExponentiationExpressionContext ctx) {
         return new FastExponentialOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitArccosineExpression(ArccosineExpressionContext ctx) {
-        return new FastArccosineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
-    }
-
-    @Override
-    public AbstractOperation visitArcsineExpression(ArcsineExpressionContext ctx) {
-        return new FastArcsineOperation(ctx.mathExpression().accept(this)).expectedType(Double.class);
     }
 
     @Override

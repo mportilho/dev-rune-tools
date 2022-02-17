@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.math.fast.trigonometry;
+package io.github.mportilho.sentencecompiler.operation.math;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
@@ -30,25 +30,30 @@ import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-public class FastTangentOperation extends AbstractUnaryOperator {
+import java.math.BigDecimal;
 
-	public FastTangentOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.FUNCTION);
+public class DeggreOperation extends AbstractUnaryOperator {
+
+	private static final BigDecimal HALF_RADIUS = BigDecimal.valueOf(180L);
+
+	public DeggreOperation(AbstractOperation operand) {
+		super(operand, OperatorPosition.RIGHT);
 	}
 
 	@Override
 	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.tan(getOperand().evaluate(context), context.mathContext());
+		return getOperand().<BigDecimal>evaluate(context).multiply(BigDecimalMath.pi(context.mathContext())).divide(HALF_RADIUS,
+				context.mathContext());
 	}
 
 	@Override
 	protected AbstractOperation createClone(CloningContext context) {
-		return new FastTangentOperation(getOperand().copy(context));
+		return new DeggreOperation(getOperand().copy(context));
 	}
 
 	@Override
 	protected String getOperationToken() {
-		return "tan";
+		return "°";
 	}
 
 }

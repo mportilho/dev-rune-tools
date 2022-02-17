@@ -38,19 +38,6 @@ public class NoFormattedConverterFoundException extends RuntimeException {
         this.targetType = Objects.requireNonNull(targetType);
     }
 
-    public NoFormattedConverterFoundException(String message, Class<?> sourceType, Class<?> targetType) {
-        super(message);
-        this.sourceType = Objects.requireNonNull(sourceType);
-        this.targetType = Objects.requireNonNull(targetType);
-    }
-
-    public NoFormattedConverterFoundException(
-            String message, Throwable cause, Class<?> sourceType, Class<?> targetType) {
-        super(message, cause);
-        this.sourceType = Objects.requireNonNull(sourceType);
-        this.targetType = Objects.requireNonNull(targetType);
-    }
-
     public Class<?> getSourceType() {
         return sourceType;
     }

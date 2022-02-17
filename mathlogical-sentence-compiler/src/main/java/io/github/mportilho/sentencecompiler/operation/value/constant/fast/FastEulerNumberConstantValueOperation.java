@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.constant.fast;
 
-import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
@@ -32,27 +31,23 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class FastEulerNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public FastEulerNumberConstantValueOperation() {
-		this("E");
-	}
+    public FastEulerNumberConstantValueOperation() {
+        super("E");
+    }
 
-	private FastEulerNumberConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(getValue());
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append(getValue());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return 2.718281828459045235360287471352662497757247093d;
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return 2.718281828459045235360287471352662497757247093d;
-	}
-
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastEulerNumberConstantValueOperation();
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastEulerNumberConstantValueOperation();
+    }
 
 }

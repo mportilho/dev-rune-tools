@@ -31,8 +31,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * It's the representation of a set of logic clauses and a optional set of
- * correlated sub-statements
+ * It's the representation of a set of logic clauses and optional set of correlated sub-statements
  *
  * @author Marcelo Portilho
  */
@@ -52,36 +51,6 @@ public record ConditionalStatement(
     public Optional<FilterData> findClauseByPath(String path) {
         return clauses.stream().filter(c -> path.equals(c.path())).findFirst();
     }
-
-    public Optional<ConditionalStatement> findStatementsById(String id) {
-        return findStatementsById(id, this);
-    }
-
-    private Optional<ConditionalStatement> findStatementsById(String id, ConditionalStatement stmt) {
-        if (stmt.id.equals(id)) {
-            return Optional.of(stmt);
-        }
-        if (stmt.oppositeStatements != null) {
-            for (ConditionalStatement subStatement : stmt.oppositeStatements) {
-                Optional<ConditionalStatement> optStatement = findStatementsById(id, subStatement);
-                if (optStatement.isPresent()) {
-                    return optStatement;
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
-//    private void findStatementsById(String id, ConditionalStatement stmt, List<ConditionalStatement> statementList) {
-//        if (stmt.id.equals(id)) {
-//            statementList.add(stmt);
-//        }
-//        if (stmt.oppositeStatements != null) {
-//            for (ConditionalStatement subStatement : stmt.oppositeStatements) {
-//                findStatementsById(id, subStatement, statementList);
-//            }
-//        }
-//    }
 
     /**
      * @return An indication that this statement has no clauses nor sub-statements

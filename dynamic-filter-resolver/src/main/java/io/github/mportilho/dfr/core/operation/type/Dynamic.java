@@ -28,7 +28,7 @@ import io.github.mportilho.dfr.core.operation.FilterOperationFactory;
 
 
 /**
- * Represents a dynamic comparison operation. It must be receive two parameters,
+ * Represents a dynamic comparison operation. Must receive two parameters,
  * the comparison value and the ComparisonOperator value
  *
  * @param <T> Return type of the query object created from this dynamic filter

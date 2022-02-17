@@ -22,9 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.dfr.modules.spring;
-
-import io.github.mportilho.dfr.modules.springjpa.annotations.Fetches;
+package io.github.mportilho.dfr.modules.springjpa.annotations;
 
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.JoinType;

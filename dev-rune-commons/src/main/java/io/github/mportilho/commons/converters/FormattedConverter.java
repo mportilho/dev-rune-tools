@@ -33,7 +33,6 @@ package io.github.mportilho.commons.converters;
  *
  * @param <S> The type of the object to be converter
  * @param <T> The target type
- * @param <F> The optional formatter
  * @author Marcelo Portilho
  */
 @FunctionalInterface

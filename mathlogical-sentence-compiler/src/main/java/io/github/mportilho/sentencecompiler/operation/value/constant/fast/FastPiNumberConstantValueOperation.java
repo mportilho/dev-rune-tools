@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.constant.fast;
 
-import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
@@ -32,27 +31,23 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class FastPiNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public FastPiNumberConstantValueOperation() {
-		this("pi");
-	}
+    public FastPiNumberConstantValueOperation() {
+        super("pi");
+    }
 
-	private FastPiNumberConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(getValue());
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append(getValue());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastPiNumberConstantValueOperation();
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastPiNumberConstantValueOperation();
-	}
-
-	@Override
-	protected Object resolve(OperationContext context) {
-		return 3.141592653589793238462643383279502884197169399d;
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return 3.141592653589793238462643383279502884197169399d;
+    }
 
 }

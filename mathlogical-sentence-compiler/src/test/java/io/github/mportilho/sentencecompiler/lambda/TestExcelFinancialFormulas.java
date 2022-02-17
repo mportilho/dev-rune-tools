@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.sentence.formulas;
+package io.github.mportilho.sentencecompiler.lambda;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;

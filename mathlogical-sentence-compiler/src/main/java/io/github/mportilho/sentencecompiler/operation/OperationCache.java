@@ -24,8 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.operation;
 
-public interface OperationCache {
+public interface OperationCache<T> {
 
-    <T> T getValue();
+    T getValue();
 
 }

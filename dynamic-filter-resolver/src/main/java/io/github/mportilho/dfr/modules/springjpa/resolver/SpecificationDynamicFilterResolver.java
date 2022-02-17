@@ -29,7 +29,7 @@ import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
 import io.github.mportilho.dfr.core.resolver.AbstractDynamicFilterResolver;
-import io.github.mportilho.dfr.modules.spring.Fetching;
+import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.mapping.PropertyPath;
 
@@ -89,8 +89,9 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public <R extends Specification<?>> R composePredicatesFromSubStatements(LogicType logicType, R predicate, List<R> subStatementPredicates,
-                                                                             Map<String, Object> context) {
+    public <R extends Specification<?>> R composePredicatesFromSubStatements(
+            LogicType logicType, R predicate, List<R> subStatementPredicates,
+            Map<String, Object> context) {
         Specification currentPredicate = predicate;
         for (Specification subPredicate : subStatementPredicates) {
             if (currentPredicate == null) {

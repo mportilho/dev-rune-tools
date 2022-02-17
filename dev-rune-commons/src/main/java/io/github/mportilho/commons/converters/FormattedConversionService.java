@@ -25,9 +25,9 @@
 package io.github.mportilho.commons.converters;
 
 /**
- * It's a conversion service that encapsulate additional converting capabilities
- * to the FilterValueConverter component. For example, it can help
- * encapsulating the SpringFramework's ConversionService or similar components.
+ * Encapsules converting capabilities for the FormattedConverter component.
+ * <p/>
+ * For example, helps to delegate the SpringFramework's ConversionService or similar components.
  *
  * @author Marcelo Portilho
  */
@@ -45,9 +45,9 @@ public interface FormattedConversionService {
     /**
      * Converts an object to a target type
      *
-     * @param <T>        The source's target type to be converted to
      * @param source     The value to be converted
-     * @param targetType The source's target type to be converted to
+     * @param targetType Target types for conversion
+     * @param <T>        Target type
      * @return The converted object
      */
     <S, T> T convert(S source, Class<T> targetType, String format);
@@ -55,11 +55,11 @@ public interface FormattedConversionService {
     /**
      * Converts an object to a target type
      *
-     * @param source
-     * @param targetType
-     * @param <S>
-     * @param <T>
-     * @return
+     * @param source     The value to be converted
+     * @param targetType Target types for conversion
+     * @param <S>        Source Type
+     * @param <T>        Target type
+     * @return the converted value
      */
     default <S, T> T convert(S source, Class<T> targetType) {
         return convert(source, targetType, null);

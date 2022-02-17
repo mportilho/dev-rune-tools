@@ -34,7 +34,7 @@ import java.time.*;
 
 public class TestDefaultFilterValueConverter {
 
-    FormattedConversionService filterValueConverter = new DefaultFormattedConversionService();
+    private final FormattedConversionService filterValueConverter = new DefaultFormattedConversionService();
 
     static class NotConfiguredForConversionClass {
 

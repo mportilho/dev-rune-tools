@@ -76,7 +76,7 @@ public class PreciseMultiplicationOperation extends AbstractBinaryOperation {
                             && getRightOperand().getCache() != null;
             boolean isRightOperationNotApplyingParenthesis =
                     !AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
-                            && !getRightOperand().isApplyingParenthesis();
+                            && getRightOperand().isNotApplyingParenthesis();
             boolean applyParenthesis = isVariableWithCache || isRightOperationNotApplyingParenthesis;
 
             getLeftOperand().toString(builder);

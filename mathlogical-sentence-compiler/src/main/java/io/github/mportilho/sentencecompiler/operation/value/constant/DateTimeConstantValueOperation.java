@@ -35,7 +35,7 @@ import java.time.ZonedDateTime;
 
 public class DateTimeConstantValueOperation extends AbstractConstantValueOperation {
 
-    private String offset;
+    private final String offset;
 
     public DateTimeConstantValueOperation(String value, String offset) {
         super(value);

@@ -45,6 +45,7 @@ class SpecLike<T> implements Like<Specification<T>> {
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings({"unchecked"})
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
             Path<String> path = JpaPredicateUtils.computeAttributePath(filterData, root);

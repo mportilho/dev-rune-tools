@@ -28,14 +28,13 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 public class DateTimeFunctionExtension {
 
@@ -81,9 +80,14 @@ public class DateTimeFunctionExtension {
                         return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
                                 parameters[0] : parameters[1];
                     }
-                    return Stream.of(parameters).map(LocalDate.class::cast)
-                            .max(Comparator.comparing(LocalDate::toEpochDay))
-                            .orElseThrow();
+                    LocalDate maxOne = (LocalDate) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalDate parameter = (LocalDate) parameters[i];
+                        if (maxOne.compareTo(parameter) < 0) {
+                            maxOne = parameter;
+                        }
+                    }
+                    return maxOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -95,9 +99,14 @@ public class DateTimeFunctionExtension {
                         return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
                                 parameters[1] : parameters[0];
                     }
-                    return Stream.of(parameters).map(LocalDate.class::cast)
-                            .min(Comparator.comparing(LocalDate::toEpochDay))
-                            .orElseThrow();
+                    LocalDate minOne = (LocalDate) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalDate parameter = (LocalDate) parameters[i];
+                        if (minOne.compareTo(parameter) > 0) {
+                            minOne = parameter;
+                        }
+                    }
+                    return minOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -109,9 +118,14 @@ public class DateTimeFunctionExtension {
                         return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
                                 parameters[0] : parameters[1];
                     }
-                    return Stream.of(parameters).map(LocalTime.class::cast)
-                            .max(Comparator.comparing(LocalTime::toNanoOfDay))
-                            .orElseThrow();
+                    LocalTime maxOne = (LocalTime) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalTime parameter = (LocalTime) parameters[i];
+                        if (maxOne.compareTo(parameter) < 0) {
+                            maxOne = parameter;
+                        }
+                    }
+                    return maxOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -123,9 +137,14 @@ public class DateTimeFunctionExtension {
                         return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
                                 parameters[1] : parameters[0];
                     }
-                    return Stream.of(parameters).map(LocalTime.class::cast)
-                            .min(Comparator.comparing(LocalTime::toNanoOfDay))
-                            .orElseThrow();
+                    LocalTime minOne = (LocalTime) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalTime parameter = (LocalTime) parameters[i];
+                        if (minOne.compareTo(parameter) > 0) {
+                            minOne = parameter;
+                        }
+                    }
+                    return minOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -137,9 +156,14 @@ public class DateTimeFunctionExtension {
                         return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
                                 parameters[0] : parameters[1];
                     }
-                    return Stream.of(parameters).map(ZonedDateTime.class::cast)
-                            .max(Comparator.comparing(ZonedDateTime::toInstant))
-                            .orElseThrow();
+                    LocalDateTime maxOne = (LocalDateTime) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalDateTime parameter = (LocalDateTime) parameters[i];
+                        if (maxOne.compareTo(parameter) < 0) {
+                            maxOne = parameter;
+                        }
+                    }
+                    return maxOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -151,9 +175,14 @@ public class DateTimeFunctionExtension {
                         return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
                                 parameters[1] : parameters[0];
                     }
-                    return Stream.of(parameters).map(ZonedDateTime.class::cast)
-                            .min(Comparator.comparing(ZonedDateTime::toInstant))
-                            .orElseThrow();
+                    LocalDateTime minOne = (LocalDateTime) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        LocalDateTime parameter = (LocalDateTime) parameters[i];
+                        if (minOne.compareTo(parameter) > 0) {
+                            minOne = parameter;
+                        }
+                    }
+                    return minOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 

@@ -29,27 +29,25 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastModuloOperation extends AbstractBinaryOperation {
 
-	public FastModuloOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public FastModuloOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<Double>evaluate(context) % getRightOperand().<Double>evaluate(context);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<Double>evaluate(context) % getRightOperand().<Double>evaluate(context);
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastModuloOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastModuloOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "mod";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "mod";
+    }
 
 }

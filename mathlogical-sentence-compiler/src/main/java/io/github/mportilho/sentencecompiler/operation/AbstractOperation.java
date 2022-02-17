@@ -308,8 +308,8 @@ public abstract class AbstractOperation {
     /**
      *
      */
-    public boolean isApplyingParenthesis() {
-        return applyingParenthesis;
+    public boolean isNotApplyingParenthesis() {
+        return !applyingParenthesis;
     }
 
     /**

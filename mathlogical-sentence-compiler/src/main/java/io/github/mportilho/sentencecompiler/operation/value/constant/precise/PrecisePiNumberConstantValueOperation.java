@@ -32,27 +32,23 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class PrecisePiNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public PrecisePiNumberConstantValueOperation() {
-		this("pi");
-	}
+    public PrecisePiNumberConstantValueOperation() {
+        super("pi");
+    }
 
-	private PrecisePiNumberConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(getValue());
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append(getValue());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PrecisePiNumberConstantValueOperation();
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PrecisePiNumberConstantValueOperation();
-	}
-
-	@Override
-	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.pi(context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return BigDecimalMath.pi(context.mathContext());
+    }
 
 }

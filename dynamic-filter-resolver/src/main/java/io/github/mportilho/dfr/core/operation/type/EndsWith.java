@@ -28,7 +28,7 @@ package io.github.mportilho.dfr.core.operation.type;
 import io.github.mportilho.dfr.core.operation.FilterOperationFactory;
 
 /**
- * Represents a Ends With operation
+ * Represents 'Ends With' operation
  *
  * @param <T> Return type of the query object created from this dynamic filter
  *            resolver

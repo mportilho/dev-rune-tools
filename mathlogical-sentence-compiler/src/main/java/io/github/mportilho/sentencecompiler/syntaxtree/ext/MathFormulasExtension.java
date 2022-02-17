@@ -30,9 +30,7 @@ import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
-import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 
 public class MathFormulasExtension {
@@ -55,7 +53,14 @@ public class MathFormulasExtension {
                         return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) >= 0 ?
                                 parameters[0] : parameters[1];
                     }
-                    return Stream.of(parameters).map(BigDecimal.class::cast).max(BigDecimal::compareTo).orElseThrow();
+                    BigDecimal maxOne = (BigDecimal) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        BigDecimal parameter = (BigDecimal) parameters[i];
+                        if (maxOne.compareTo(parameter) < 0) {
+                            maxOne = parameter;
+                        }
+                    }
+                    return maxOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -67,7 +72,14 @@ public class MathFormulasExtension {
                         return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) <= 0 ?
                                 parameters[0] : parameters[1];
                     }
-                    return Stream.of(parameters).map(BigDecimal.class::cast).min(BigDecimal::compareTo).orElseThrow();
+                    BigDecimal minOne = (BigDecimal) parameters[0];
+                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
+                        BigDecimal parameter = (BigDecimal) parameters[i];
+                        if (minOne.compareTo(parameter) > 0) {
+                            minOne = parameter;
+                        }
+                    }
+                    return minOne;
                 });
         extensions.put(callSite.getKeyName(), callSite);
 
@@ -78,11 +90,11 @@ public class MathFormulasExtension {
                     } else if (parameters.length == 2) {
                         return ((BigDecimal) parameters[0]).add((BigDecimal) parameters[1]).divide(valueOf(2), context.mathContext());
                     }
-                    return Stream.of(parameters)
-                            .map(p -> new BigDecimal[]{(BigDecimal) p, ONE})
-                            .reduce((a, b) -> new BigDecimal[]{a[0].add(b[0]), a[1].add(ONE)})
-                            .map(p -> p[0].divide(p[1], context.mathContext()))
-                            .orElseThrow();
+                    BigDecimal sum = BigDecimal.ZERO;
+                    for (Object parameter : parameters) {
+                        sum = sum.add((BigDecimal) parameter);
+                    }
+                    return sum.divide(BigDecimal.valueOf(parameters.length), context.mathContext());
                 });
         extensions.put(callSite.getKeyName(), callSite);
 

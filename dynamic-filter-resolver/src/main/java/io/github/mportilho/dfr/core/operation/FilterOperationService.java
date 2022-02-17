@@ -25,8 +25,7 @@
 package io.github.mportilho.dfr.core.operation;
 
 /**
- * Contains a set of {@link FilterOperator} implementations for a specific query
- * framework.
+ * Contains a set of filtering operations for a specific target query library.
  *
  * @param <T> Return type of the query object created from this dynamic filter
  *            resolver

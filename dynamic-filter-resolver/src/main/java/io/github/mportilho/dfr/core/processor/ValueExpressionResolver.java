@@ -28,7 +28,7 @@ package io.github.mportilho.dfr.core.processor;
 /**
  * Resolves a variable representation (or expression language value) to a
  * dynamic provided value. Useful for configuring default values for the
- * {@link Filter}'s parameters. It can encapsulate others converters like the
+ * filter's parameters. It can encapsulate others converters like the
  * Spring Framework's expression language converter
  *
  * @author Marcelo Portilho

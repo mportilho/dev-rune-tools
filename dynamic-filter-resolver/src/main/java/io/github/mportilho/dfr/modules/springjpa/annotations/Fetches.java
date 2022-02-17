@@ -24,8 +24,6 @@
 
 package io.github.mportilho.dfr.modules.springjpa.annotations;
 
-import io.github.mportilho.dfr.modules.spring.Fetching;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

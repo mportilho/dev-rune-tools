@@ -28,7 +28,7 @@ package io.github.mportilho.dfr.core.operation.type;
 import io.github.mportilho.dfr.core.operation.FilterOperationFactory;
 
 /**
- * Represents a Is Null operation
+ * Representation of 'Is Null' operation
  *
  * @param <T> Return type of the query object created from this dynamic filter
  *            resolver

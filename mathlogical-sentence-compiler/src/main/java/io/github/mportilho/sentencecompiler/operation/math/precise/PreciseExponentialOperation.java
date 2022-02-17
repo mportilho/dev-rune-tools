@@ -24,45 +24,45 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.precise;
 
-import java.math.BigDecimal;
-
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.math.BigDecimal;
+
 public class PreciseExponentialOperation extends AbstractBinaryOperation {
 
-	public PreciseExponentialOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public PreciseExponentialOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		BigDecimal rightValue = getRightOperand().evaluate(context);
-		if (rightValue.compareTo(BigDecimal.ZERO) == 0) {
-			return BigDecimal.ONE;
-		}
-		BigDecimal leftValue = getLeftOperand().evaluate(context);
-		return BigDecimalMath.pow(leftValue, rightValue, context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        BigDecimal y = getRightOperand().evaluate(context);
+        if (y.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ONE;
+        }
+        BigDecimal leftValue = getLeftOperand().evaluate(context);
+        return BigDecimalMath.pow(leftValue, y, context.mathContext());
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		getLeftOperand().toString(builder);
-		builder.append(getOperationToken());
-		getRightOperand().toString(builder);
-	}
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        getLeftOperand().toString(builder);
+        builder.append(getOperationToken());
+        getRightOperand().toString(builder);
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseExponentialOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PreciseExponentialOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "^";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "^";
+    }
 
 }

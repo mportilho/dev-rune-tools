@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.fast;
 
-import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
@@ -32,31 +31,31 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class FastSquareRootOperation extends AbstractUnaryOperator {
 
-	public FastSquareRootOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.FUNCTION);
-	}
+    public FastSquareRootOperation(AbstractOperation operand) {
+        super(operand, OperatorPosition.FUNCTION);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return Math.sqrt(getOperand().evaluate(context));
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return Math.sqrt(getOperand().evaluate(context));
+    }
 
-	@Override
-	public void formatRepresentation(StringBuilder builder) {
-		builder.append(2);
-		builder.append(getOperationToken()).append('(');
-		getOperand().toString(builder);
-		builder.append(')');
-	}
+    @Override
+    public void formatRepresentation(StringBuilder builder) {
+        builder.append(2);
+        builder.append(getOperationToken()).append('(');
+        getOperand().toString(builder);
+        builder.append(')');
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastSquareRootOperation(getOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastSquareRootOperation(getOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "\u221A";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "\u221A";
+    }
 
 }

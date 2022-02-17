@@ -27,7 +27,7 @@ package io.github.mportilho.sentencecompiler.operation;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 
-public class SoftOperationCache<T> extends SoftReference<T> implements OperationCache {
+public class SoftOperationCache<T> extends SoftReference<T> implements OperationCache<T> {
 
     public SoftOperationCache(T referent) {
         super(referent);
@@ -37,9 +37,9 @@ public class SoftOperationCache<T> extends SoftReference<T> implements Operation
         super(referent, q);
     }
 
+
     @Override
     public T getValue() {
-        return this.get();
+        return null;
     }
-
 }

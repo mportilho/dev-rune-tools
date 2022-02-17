@@ -28,7 +28,7 @@ import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.ConditionalStatementProcessor;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
 import io.github.mportilho.dfr.core.resolver.DynamicFilterResolver;
-import io.github.mportilho.dfr.modules.spring.Fetching;
+import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ClassUtils;
@@ -80,8 +80,9 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
      * {@link Inherited}
      */
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
-                                  WebDataBinderFactory binderFactory) {
+    public Object resolveArgument(
+            MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory) {
         Map<String, Object[]> providedParameterValuesMap = createProvidedValuesMap(webRequest);
         Map<String, Object> contextMap = createContextMap(parameter);
 
@@ -119,7 +120,7 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
         Map<String, Object> contextMap = new HashMap<>();
         List<Annotation> list = new ArrayList<>();
         for (Annotation annotation : parameter.getParameterAnnotations()) {
-            if (annotation.annotationType().equals(io.github.mportilho.dfr.modules.spring.Fetching.class)) {
+            if (annotation.annotationType().equals(Fetching.class)) {
                 list.add(annotation);
             }
         }

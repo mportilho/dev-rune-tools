@@ -34,25 +34,25 @@ public class TemporalToLocalDateTimeConverter implements FormattedConverter<Temp
     @Override
     public LocalDateTime convert(Temporal source, String format) {
         if (source instanceof ZonedDateTime src) {
-            return zonedDateTimeToLocalDateTime(src, format);
+            return zonedDateTimeToLocalDateTime(src);
         } else if (source instanceof LocalDate src) {
-            return localDateToLocalDateTime(src, format);
+            return localDateToLocalDateTime(src);
         } else if (source instanceof OffsetDateTime src) {
-            return offsetDateTimeToLocalDateTime(src, format);
+            return offsetDateTimeToLocalDateTime(src);
         }
         throw new IllegalArgumentException(String.format("Converter from [%s] to [%s] not available",
                 source.getClass(), LocalDateTime.class));
     }
 
-    public LocalDateTime zonedDateTimeToLocalDateTime(ZonedDateTime source, String format) {
+    public LocalDateTime zonedDateTimeToLocalDateTime(ZonedDateTime source) {
         return source.toLocalDateTime();
     }
 
-    public LocalDateTime localDateToLocalDateTime(LocalDate source, String format) {
+    public LocalDateTime localDateToLocalDateTime(LocalDate source) {
         return LocalDateTime.of(source, LocalTime.MIDNIGHT);
     }
 
-    public LocalDateTime offsetDateTimeToLocalDateTime(OffsetDateTime source, String format) {
+    public LocalDateTime offsetDateTimeToLocalDateTime(OffsetDateTime source) {
         return source.toLocalDateTime();
     }
 }

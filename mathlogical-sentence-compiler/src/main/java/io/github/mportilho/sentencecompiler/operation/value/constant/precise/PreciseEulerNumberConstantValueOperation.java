@@ -32,27 +32,23 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class PreciseEulerNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public PreciseEulerNumberConstantValueOperation() {
-		this("E");
-	}
+    public PreciseEulerNumberConstantValueOperation() {
+        super("E");
+    }
 
-	private PreciseEulerNumberConstantValueOperation(String value) {
-		super(value);
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append(getValue());
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append(getValue());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return BigDecimalMath.e(context.mathContext());
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.e(context.mathContext());
-	}
-
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseEulerNumberConstantValueOperation();
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PreciseEulerNumberConstantValueOperation();
+    }
 
 }

@@ -29,27 +29,25 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastDivisionOperation extends AbstractBinaryOperation {
 
-	public FastDivisionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-	}
+    public FastDivisionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getLeftOperand().<Double>evaluate(context) / getRightOperand().<Double>evaluate(context);
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getLeftOperand().<Double>evaluate(context) / getRightOperand().<Double>evaluate(context);
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new FastDivisionOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new FastDivisionOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "/";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "/";
+    }
 
 }

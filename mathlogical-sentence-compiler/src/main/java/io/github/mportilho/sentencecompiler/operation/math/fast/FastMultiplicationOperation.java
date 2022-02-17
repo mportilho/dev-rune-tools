@@ -30,8 +30,6 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.math.BigDecimal;
-
 public class FastMultiplicationOperation extends AbstractBinaryOperation {
 
     private boolean implicit = false;
@@ -76,7 +74,7 @@ public class FastMultiplicationOperation extends AbstractBinaryOperation {
                             && getRightOperand().getCache() != null;
             boolean isRightOperationNotApplyingParenthesis =
                     !AbstractVariableValueOperation.class.isAssignableFrom(getRightOperand().getClass())
-                            && !getRightOperand().isApplyingParenthesis();
+                            && getRightOperand().isNotApplyingParenthesis();
             boolean applyParenthesis = isVariableWithCache || isRightOperationNotApplyingParenthesis;
 
             getLeftOperand().toString(builder);

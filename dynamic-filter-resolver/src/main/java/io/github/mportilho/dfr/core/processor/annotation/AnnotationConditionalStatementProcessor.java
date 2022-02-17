@@ -43,10 +43,6 @@ import static io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnot
  */
 public class AnnotationConditionalStatementProcessor extends AbstractConditionalStatementProcessor<AnnotationProcessorParameter> {
 
-    public AnnotationConditionalStatementProcessor() {
-        super();
-    }
-
     public AnnotationConditionalStatementProcessor(ValueExpressionResolver<?> valueExpressionResolver) {
         super(valueExpressionResolver);
     }

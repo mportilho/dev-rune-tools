@@ -32,8 +32,7 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Defines a logic clause, indicating it's parameters and operation to be
- * applied
+ * Defines a logic clause, indicating parameters and operation to be applied
  *
  * @author Marcelo Portilho
  */
@@ -46,9 +45,8 @@ public @interface Filter {
      * parameter type.
      *
      * <p>
-     * For example: In a controller, the developer can reference to the DTO class
-     * and it's properties with <code>parameterField</code> and indicate the target
-     * JPA entity's attribute with <code>path</code>.
+     * For example: In a controller, the developer can reference the DTO class and indicate the target JPA entity's
+     * attribute with <code>path</code>.
      *
      * @return Optional path for another type's attribute
      */
@@ -69,7 +67,7 @@ public @interface Filter {
     String[] parameters();
 
     /**
-     * @return Target attribute type for convertion
+     * @return Target attribute type for conversion
      */
     Class<?> targetType() default Object.class;
 
@@ -80,8 +78,7 @@ public @interface Filter {
     Class<? extends FilterOperationFactory> operation();
 
     /**
-     * Indicates that the logic of this filter must be negated. Can be parsed by the
-     * Spring Expression Language
+     * Negate the filter's logic. Can be parsed by the Spring Expression Language
      *
      * <p>
      * Normal Logic: <b>A &amp; B</b>
@@ -89,7 +86,7 @@ public @interface Filter {
      * <p>
      * Negated Logic: <b>!(A &amp; B)</b>
      *
-     * @return Indication if resulting clause must have it's result negated
+     * @return Indication of negating logic result
      */
     String negate() default "false";
 
@@ -120,7 +117,7 @@ public @interface Filter {
     String format() default "";
 
     /**
-     * @return Indicates this filter must always be used and it's value must be provided
+     * @return Indicates this filter is required
      */
     boolean required() default false;
 

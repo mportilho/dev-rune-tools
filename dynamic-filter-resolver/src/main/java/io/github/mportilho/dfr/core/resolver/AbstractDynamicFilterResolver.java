@@ -64,10 +64,11 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      *                             conversion
      * @return The query object created from this dynamic filter resolver
      */
-    public abstract <R extends T> R createPredicateFromStatement(ConditionalStatement conditionalStatement, Map<String, Object> context);
+    public abstract <R extends T> R createPredicateFromStatement(
+            ConditionalStatement conditionalStatement, Map<String, Object> context);
 
     /**
-     * Compose, when necessary, a converted statement and it's raw sub-statements to
+     * Composes a converted statement, and it's raw sub-statements to
      * a new object representation. The sub-statements have opposite logic type of its wrapper statement
      *
      * @param <R>                    Return type of the target query object for this
@@ -82,8 +83,9 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      *                               statement conversion
      * @return The query object created from this dynamic filter resolver
      */
-    public abstract <R extends T> R composePredicatesFromSubStatements(LogicType logicType, R predicate, List<R> subStatementPredicates,
-                                                                       Map<String, Object> context);
+    public abstract <R extends T> R composePredicatesFromSubStatements(
+            LogicType logicType, R predicate, List<R> subStatementPredicates,
+            Map<String, Object> context);
 
     /**
      * {@inheritDoc}

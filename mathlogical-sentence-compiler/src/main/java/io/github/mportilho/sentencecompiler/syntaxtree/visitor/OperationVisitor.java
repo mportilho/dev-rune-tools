@@ -31,8 +31,6 @@ import io.github.mportilho.sentencecompiler.operation.datetime.AbstractDateTimeO
 import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMathOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseProductOfSequenceOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 

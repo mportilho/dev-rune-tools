@@ -32,20 +32,20 @@ import javax.persistence.metamodel.Attribute;
 import java.util.function.BiFunction;
 
 /**
- * Helper class for manipulating JPA Criteria's objects
+ * Helper class for manipulating JPA Criteria objects
  *
  * @author Marcelo Portilho
  */
 class JpaPredicateUtils {
 
     /**
-     * Helps calling comparison methods of {@link CriteriaBuilder} on generic type
-     * objects
+     * Calls comparison methods of {@link CriteriaBuilder} on generic type objects
      */
     @SuppressWarnings({"unchecked"})
-    public static Predicate toComparablePredicate(Expression<?> path, Object value,
-                                                  BiFunction<Expression<? extends Comparable<Object>>, Comparable<Object>, Predicate> comparablePredicateFunction,
-                                                  BiFunction<Expression<Number>, Number, Predicate> numberPredicateFunction) {
+    public static Predicate toComparablePredicate(
+            Expression<?> path, Object value,
+            BiFunction<Expression<? extends Comparable<Object>>, Comparable<Object>, Predicate> comparablePredicateFunction,
+            BiFunction<Expression<Number>, Number, Predicate> numberPredicateFunction) {
         if (value instanceof Number) {
             return numberPredicateFunction.apply((Expression<Number>) path, (Number) value);
         }
@@ -53,9 +53,8 @@ class JpaPredicateUtils {
     }
 
     /**
-     * Obtains the actual JPA Critetia's {@link Path} object to the desired path
-     * defined on {@link FilterData} object. Creates joins automatically when
-     * navigating through entities.
+     * Obtains the actual JPA Criteria {@link Path} object to the desired path
+     * defined on {@link FilterData} object. Joins automatically when navigating through entities.
      */
     public static <T> Path<T> computeAttributePath(FilterData filterData, Root<?> root) {
         PropertyPath propertyPath = PropertyPath.from(filterData.path(), root.getJavaType());

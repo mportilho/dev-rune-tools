@@ -342,12 +342,12 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("sin(90)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 
 		mathSentence = new MathSentence("sin(90 * pi / 180)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(5);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
 	}
 
 	@Test
@@ -357,7 +357,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("cos(90)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -367,12 +367,12 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("tan(10)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 
 		mathSentence = new MathSentence("tan(10 * pi / 180)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(5);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
 	}
 
 	@Test
@@ -382,7 +382,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("asin(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -392,7 +392,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("acos(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -402,7 +402,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("atan(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -412,7 +412,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("atan2(0.7, 3)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(2);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
 	}
 
 	@Test
@@ -422,7 +422,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("sinh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -432,7 +432,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("cosh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -442,7 +442,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("tanh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -452,7 +452,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("asinh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -462,7 +462,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("acosh(50)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 	@Test
@@ -472,7 +472,7 @@ public class TestMathOperationCaches {
 		mathSentence = new MathSentence("atanh(0.5)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 	}
 
 }

@@ -60,6 +60,11 @@ public class FunctionOperation extends AbstractOperation {
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
+
+        if (caller.isCacheHint()) {
+            this.setCachingOptions(true);
+        }
+
         Object[] params = new Object[parameters.length];
         for (int i = 0, paramsLength = params.length; i < paramsLength; i++) {
             params[i] = parameters[i].evaluate(context);
@@ -87,9 +92,6 @@ public class FunctionOperation extends AbstractOperation {
      */
     @Override
     protected void formatRepresentation(StringBuilder builder) {
-        if (isCaching()) {
-            builder.append("$.");
-        }
         builder.append(functionName).append("(");
         int index = parameters.length;
         for (AbstractOperation parameter : parameters) {

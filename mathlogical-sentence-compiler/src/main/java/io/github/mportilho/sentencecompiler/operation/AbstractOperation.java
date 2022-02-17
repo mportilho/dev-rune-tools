@@ -88,6 +88,7 @@ public abstract class AbstractOperation {
                 }
             } else {
                 result = resolve(context);
+                cache = isCaching() ? result : null;
             }
             result = castOperationResult(result, context);
         } catch (ClassCastException e) {
@@ -217,11 +218,14 @@ public abstract class AbstractOperation {
     }
 
     private void enableCaching() {
+        if (this.cacheBlockingSemaphores != null) {
+            this.cacheBlockingSemaphores.remove(this);
+        }
         for (AbstractOperation parent : this.parentArray) {
             if (parent.cacheBlockingSemaphores == null) {
                 return;
             }
-            parent.cacheBlockingSemaphores.remove(parent);
+            parent.cacheBlockingSemaphores.remove(this);
         }
     }
 
@@ -236,7 +240,7 @@ public abstract class AbstractOperation {
                 if (parent.cacheBlockingSemaphores == null) {
                     parent.cacheBlockingSemaphores = new HashSet<>(3);
                 }
-                parent.cacheBlockingSemaphores.add(parent);
+                parent.cacheBlockingSemaphores.add(this);
             }
         }
     }

@@ -90,16 +90,16 @@ public class TestOtherOperationsTextualRepresentation {
         mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
         mathSentence.addFunction("function1", callSite1);
         mathSentence.addFunction("function2", callSite2);
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
         mathSentence.compute();
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + $.function2(3 / 4)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
 
         mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
         mathSentence.addFunction("function1", callSite1);
         mathSentence.addFunction("function2", callSite2);
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
         mathSentence.compute();
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2) + function2(3 / 4, 7)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
     }
 
     @Test
@@ -113,9 +113,9 @@ public class TestOtherOperationsTextualRepresentation {
         mathSentence = new MathSentence("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
         mathSentence.addFunction("function1", callSite1);
         mathSentence.addFunction("function2", callSite2);
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
         mathSentence.compute();
-        assertThat(mathSentence.toString()).isEqualTo("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
     }
 
 }

@@ -38,6 +38,7 @@ public class LambdaCallSite {
     private final MethodType methodType;
     private final OperationSupplier operationSupplier;
     private final FormattedConversionService service;
+    private boolean cacheHint = false;
 
     public LambdaCallSite(
             String methodName, MethodType methodType,
@@ -102,4 +103,12 @@ public class LambdaCallSite {
         return methodName + "_" + parameterCount;
     }
 
+    public LambdaCallSite hintCache() {
+        this.cacheHint = true;
+        return this;
+    }
+
+    public boolean isCacheHint() {
+        return cacheHint;
+    }
 }

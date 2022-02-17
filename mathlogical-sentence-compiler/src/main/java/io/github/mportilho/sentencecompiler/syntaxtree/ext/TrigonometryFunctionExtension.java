@@ -46,55 +46,55 @@ public class TrigonometryFunctionExtension {
 
         callSite = new LambdaCallSite("sin", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.sin(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("cos", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.cos(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("tan", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.tan(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("asin", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.asin(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("acos", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.acos(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("atan", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.atan(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("atan2", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.atan2(((BigDecimal) parameters[0]), ((BigDecimal) parameters[1]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("sinh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.sinh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("cosh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.cosh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("tanh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.tanh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("asinh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.asinh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("acosh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.acosh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         callSite = new LambdaCallSite("atanh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> BigDecimalMath.atanh(((BigDecimal) parameters[0]), context.mathContext()));
-        extensions.put(callSite.getKeyName(), callSite);
+        extensions.put(callSite.getKeyName(), callSite.hintCache());
 
         return extensions;
     }

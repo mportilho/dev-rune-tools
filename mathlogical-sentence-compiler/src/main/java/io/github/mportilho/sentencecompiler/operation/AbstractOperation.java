@@ -126,11 +126,15 @@ public abstract class AbstractOperation {
      * Possible ambiguity located on root expression. Ex.: "f.someFunction()" doesn't have a predictable return type
      */
     private Object castOperationFromDetectedAmbiguity(Object result, NoFormattedConverterFoundException e) {
-        if (parents != null && parents.size() == 1
-                && parents.get(0) instanceof BaseOperation baseOperation
-                && Boolean.class.equals(e.getSourceType()) && Number.class.isAssignableFrom(e.getTargetType())) {
+        AbstractOperation operation = null;
+        if (parents != null && parents.size() == 1 && parents.get(0) instanceof BaseOperation) {
+            operation = parents.get(0);
+        } else if (this instanceof BaseOperation) {
+            operation = this;
+        }
+        if (operation != null && Boolean.class.equals(e.getSourceType()) && Number.class.isAssignableFrom(e.getTargetType())) {
             expectedType(Boolean.class);
-            baseOperation.expectedType(Boolean.class);
+            operation.expectedType(Boolean.class);
             return result;
         } else {
             throw new SyntaxExecutionException(

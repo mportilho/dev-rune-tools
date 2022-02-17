@@ -111,4 +111,8 @@ public class LambdaCallSite {
     public boolean isCacheHint() {
         return cacheHint;
     }
+
+    public Class<?> getReturnType() {
+        return this.methodType.returnType();
+    }
 }

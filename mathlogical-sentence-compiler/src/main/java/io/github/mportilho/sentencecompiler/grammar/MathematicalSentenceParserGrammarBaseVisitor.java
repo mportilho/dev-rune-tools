@@ -663,6 +663,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitListOfNumbers(MathematicalSentenceParserGrammarParser.ListOfNumbersContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

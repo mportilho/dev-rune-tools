@@ -648,6 +648,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code listFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code listOfNumbers}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
 	 * @param ctx the parse tree

@@ -290,7 +290,7 @@ dateTimeOperation
     ;
 
 function
-  : CACHE_FUNCTION_PREFIX? IDENTIFIER LPAREN (allEntityTypes (COMMA  allEntityTypes)*)* RPAREN
+  : CACHE_FUNCTION_PREFIX? IDENTIFIER LPAREN (allEntityTypes ((COMMA | SEMI)  allEntityTypes)*)* RPAREN
   ;
 
 listFunction
@@ -319,7 +319,7 @@ allEntityTypes
 logicalEntity
   : (TRUE | FALSE) # logicalConstant
   | IF logicalExpression THEN logicalExpression (ELSEIF logicalExpression THEN logicalExpression)? ELSE logicalExpression ENDIF # logicalDecisionExpression
-  | IF LPAREN logicalExpression COMMA logicalExpression (COMMA logicalExpression COMMA logicalExpression)* COMMA logicalExpression RPAREN  # logicalFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) logicalExpression ((COMMA | SEMI) logicalExpression (COMMA | SEMI) logicalExpression)* (COMMA | SEMI) logicalExpression RPAREN  # logicalFunctionDecisionExpression
   | BOOLEAN_TYPE? jsonPathExpression # logicalJsonPath
   | BOOLEAN_TYPE? function # logicalFunctionResult
   | BOOLEAN_TYPE? IDENTIFIER # logicalVariable
@@ -327,7 +327,7 @@ logicalEntity
 
 numericEntity
   : IF logicalExpression THEN mathExpression (ELSEIF logicalExpression THEN mathExpression)? ELSE mathExpression ENDIF # mathDecisionExpression
-  | IF LPAREN logicalExpression COMMA mathExpression (COMMA logicalExpression COMMA mathExpression)* COMMA mathExpression RPAREN  # mathFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) mathExpression ((COMMA | SEMI) logicalExpression (COMMA | SEMI) mathExpression)* (COMMA | SEMI) mathExpression RPAREN  # mathFunctionDecisionExpression
   | EULER # eulerConstant
   | PI # piConstant
   | SUMMATION_VARIABLE # summationVariable
@@ -340,7 +340,7 @@ numericEntity
 
 stringEntity
   : IF logicalExpression THEN stringEntity (ELSEIF logicalExpression THEN stringEntity)? ELSE stringEntity ENDIF # stringDecisionExpression
-  | IF LPAREN logicalExpression COMMA stringEntity (COMMA logicalExpression COMMA stringEntity)* COMMA stringEntity RPAREN  # stringFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) stringEntity ((COMMA | SEMI) logicalExpression (COMMA | SEMI) stringEntity)* (COMMA | SEMI) stringEntity RPAREN  # stringFunctionDecisionExpression
   | STRING # stringConstant
   | STRING_TYPE? jsonPathExpression # stringJsonPath
   | STRING_TYPE? function # stringFunctionResult
@@ -349,7 +349,7 @@ stringEntity
 
 dateEntity
   : IF logicalExpression THEN dateOperation (ELSEIF logicalExpression THEN dateOperation)? ELSE dateOperation ENDIF # dateDecisionExpression
-  | IF LPAREN logicalExpression COMMA dateOperation (COMMA logicalExpression COMMA dateOperation)* COMMA dateOperation RPAREN  # dateFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) dateOperation ((COMMA | SEMI) logicalExpression (COMMA | SEMI) dateOperation)* (COMMA | SEMI) dateOperation RPAREN  # dateFunctionDecisionExpression
   | DATE # dateConstant
   | NOW_DATE # dateCurrentValue
   | DATE_TYPE? IDENTIFIER # dateVariable
@@ -359,7 +359,7 @@ dateEntity
 
 timeEntity
   : IF logicalExpression THEN timeOperation (ELSEIF logicalExpression THEN timeOperation)? ELSE timeOperation ENDIF # timeDecisionExpression
-  | IF LPAREN logicalExpression COMMA timeOperation (COMMA logicalExpression COMMA timeOperation)* COMMA timeOperation RPAREN  # timeFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) timeOperation ((COMMA | SEMI) logicalExpression (COMMA | SEMI) timeOperation)* (COMMA | SEMI) timeOperation RPAREN  # timeFunctionDecisionExpression
   | TIME # timeConstant
   | NOW_TIME # timeCurrentValue
   | TIME_TYPE? IDENTIFIER # timeVariable
@@ -369,7 +369,7 @@ timeEntity
 
 dateTimeEntity
   : IF logicalExpression THEN dateTimeOperation (ELSEIF logicalExpression THEN dateTimeOperation)? ELSE dateTimeOperation ENDIF # dateTimeDecisionExpression
-  | IF LPAREN logicalExpression COMMA dateTimeOperation (COMMA logicalExpression COMMA dateTimeOperation)* COMMA dateTimeOperation RPAREN  # dateTimeFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) dateTimeOperation ((COMMA | SEMI) logicalExpression (COMMA | SEMI) dateTimeOperation)* (COMMA | SEMI) dateTimeOperation RPAREN  # dateTimeFunctionDecisionExpression
   | DATETIME # dateTimeConstant
   | NOW_DATETIME # dateTimeCurrentValue
   | DATETIME_TYPE? IDENTIFIER # dateTimeVariable
@@ -379,12 +379,13 @@ dateTimeEntity
 
 jsonPathExpression
   : IF logicalExpression THEN jsonPathExpression (ELSEIF logicalExpression THEN jsonPathExpression)? ELSE jsonPathExpression ENDIF # jsonPathDecisionExpression
-  | IF LPAREN logicalExpression COMMA jsonPathExpression (COMMA logicalExpression COMMA jsonPathExpression)* COMMA jsonPathExpression RPAREN  # jsonPathFunctionDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) jsonPathExpression ((COMMA | SEMI) logicalExpression (COMMA | SEMI) jsonPathExpression)* (COMMA | SEMI) jsonPathExpression RPAREN  # jsonPathFunctionDecisionExpression
   | IDENTIFIER JSON_PATH # jsonPathValue
   ;
 
 listEntity
   : IF logicalExpression THEN listFunction (ELSEIF logicalExpression THEN listFunction)? ELSE listFunction ENDIF # listDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) listFunction ((COMMA | SEMI) logicalExpression (COMMA | SEMI) listFunction)* (COMMA | SEMI) listFunction RPAREN  # listFunctionDecisionExpression
   | LBLACKET NUMBER (COMMA NUMBER)* RBLACKET # listOfNumbers
   | LBLACKET (TRUE | FALSE) (COMMA (TRUE | FALSE))* RBLACKET # listOfBooleans
   | LBLACKET STRING (COMMA STRING)* RBLACKET # listOfStrings

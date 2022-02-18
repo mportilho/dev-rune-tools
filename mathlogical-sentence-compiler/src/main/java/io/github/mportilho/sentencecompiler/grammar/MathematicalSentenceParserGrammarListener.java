@@ -1096,6 +1096,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code listFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code listFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code listOfNumbers}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
 	 * @param ctx the parse tree

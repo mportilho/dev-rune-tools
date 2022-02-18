@@ -355,13 +355,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalJsonPath(MathematicalSentenceParserGrammarParser.LogicalJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitLogicalFunctionResult(MathematicalSentenceParserGrammarParser.LogicalFunctionResultContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -425,13 +418,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNumericJsonPath(MathematicalSentenceParserGrammarParser.NumericJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitNumericFunctionResult(MathematicalSentenceParserGrammarParser.NumericFunctionResultContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -461,13 +447,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStringConstant(MathematicalSentenceParserGrammarParser.StringConstantContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitStringJsonPath(MathematicalSentenceParserGrammarParser.StringJsonPathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -530,13 +509,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDateJsonPath(MathematicalSentenceParserGrammarParser.DateJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitTimeDecisionExpression(MathematicalSentenceParserGrammarParser.TimeDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -579,13 +551,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTimeJsonPath(MathematicalSentenceParserGrammarParser.TimeJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitDateTimeDecisionExpression(MathematicalSentenceParserGrammarParser.DateTimeDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -622,34 +587,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitDateTimeFunctionResult(MathematicalSentenceParserGrammarParser.DateTimeFunctionResultContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitDateTimeJsonPath(MathematicalSentenceParserGrammarParser.DateTimeJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitJsonPathValue(MathematicalSentenceParserGrammarParser.JsonPathValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -719,13 +656,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfJsonPath(MathematicalSentenceParserGrammarParser.ListOfJsonPathContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitListOfFunctionResult(MathematicalSentenceParserGrammarParser.ListOfFunctionResultContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -734,13 +664,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitListFromJsonPath(MathematicalSentenceParserGrammarParser.ListFromJsonPathContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

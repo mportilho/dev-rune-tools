@@ -137,7 +137,6 @@ COMMA : ',';
 SEMI : ';' ;
 PERIOD : '.';
 CONTAINS: 'contains' ;
-JSON_PATH:  '.$.' RawTextNoWhiteSpace;
 CACHE_FUNCTION_PREFIX: '$.' ;
 
 // DECIMAL, IDENTIFIER, and OTHER TYPES
@@ -313,14 +312,12 @@ allEntityTypes
   | logicalExpression
   | mathExpression
   | listEntity
-  | jsonPathExpression
   ;
 
 logicalEntity
   : (TRUE | FALSE) # logicalConstant
   | IF logicalExpression THEN logicalExpression (ELSEIF logicalExpression THEN logicalExpression)? ELSE logicalExpression ENDIF # logicalDecisionExpression
   | IF LPAREN logicalExpression (COMMA | SEMI) logicalExpression ((COMMA | SEMI) logicalExpression (COMMA | SEMI) logicalExpression)* (COMMA | SEMI) logicalExpression RPAREN  # logicalFunctionDecisionExpression
-  | BOOLEAN_TYPE? jsonPathExpression # logicalJsonPath
   | BOOLEAN_TYPE? function # logicalFunctionResult
   | BOOLEAN_TYPE? IDENTIFIER # logicalVariable
   ;
@@ -333,7 +330,6 @@ numericEntity
   | SUMMATION_VARIABLE # summationVariable
   | PRODUCT_SEQUENCE_VARIABLE # productSequenceVariable
   | NUMBER # numericConstant
-  | NUMBER_TYPE? jsonPathExpression # numericJsonPath
   | NUMBER_TYPE? function # numericFunctionResult
   | (NUMBER_TYPE? IDENTIFIER | NEGATIVE_IDENTIFIER) # numericVariable
   ;
@@ -342,7 +338,6 @@ stringEntity
   : IF logicalExpression THEN stringEntity (ELSEIF logicalExpression THEN stringEntity)? ELSE stringEntity ENDIF # stringDecisionExpression
   | IF LPAREN logicalExpression (COMMA | SEMI) stringEntity ((COMMA | SEMI) logicalExpression (COMMA | SEMI) stringEntity)* (COMMA | SEMI) stringEntity RPAREN  # stringFunctionDecisionExpression
   | STRING # stringConstant
-  | STRING_TYPE? jsonPathExpression # stringJsonPath
   | STRING_TYPE? function # stringFunctionResult
   | STRING_TYPE? IDENTIFIER # stringVariable
   ;
@@ -354,7 +349,6 @@ dateEntity
   | NOW_DATE # dateCurrentValue
   | DATE_TYPE? IDENTIFIER # dateVariable
   | DATE_TYPE? function # dateFunctionResult
-  | DATE_TYPE? jsonPathExpression # dateJsonPath
   ;
 
 timeEntity
@@ -364,7 +358,6 @@ timeEntity
   | NOW_TIME # timeCurrentValue
   | TIME_TYPE? IDENTIFIER # timeVariable
   | TIME_TYPE? function # timeFunctionResult
-  | TIME_TYPE? jsonPathExpression # timeJsonPath
   ;
 
 dateTimeEntity
@@ -374,13 +367,6 @@ dateTimeEntity
   | NOW_DATETIME # dateTimeCurrentValue
   | DATETIME_TYPE? IDENTIFIER # dateTimeVariable
   | DATETIME_TYPE? function # dateTimeFunctionResult
-  | DATETIME_TYPE? jsonPathExpression # dateTimeJsonPath
-  ;
-
-jsonPathExpression
-  : IF logicalExpression THEN jsonPathExpression (ELSEIF logicalExpression THEN jsonPathExpression)? ELSE jsonPathExpression ENDIF # jsonPathDecisionExpression
-  | IF LPAREN logicalExpression (COMMA | SEMI) jsonPathExpression ((COMMA | SEMI) logicalExpression (COMMA | SEMI) jsonPathExpression)* (COMMA | SEMI) jsonPathExpression RPAREN  # jsonPathFunctionDecisionExpression
-  | IDENTIFIER JSON_PATH # jsonPathValue
   ;
 
 listEntity
@@ -393,9 +379,7 @@ listEntity
   | LBLACKET TIME (COMMA TIME)* RBLACKET # listOfTimes
   | LBLACKET DATETIME (COMMA DATETIME)* RBLACKET # listOfDateTimes
   | LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET # listOfVariables
-  | LBLACKET jsonPathExpression (COMMA jsonPathExpression)* RBLACKET # listOfJsonPath
   | LBLACKET function RBLACKET # listOfFunctionResult
   | LIST_TYPE function # listFromFunction
-  | LIST_TYPE jsonPathExpression # listFromJsonPath
   | LIST_TYPE IDENTIFIER # listVariable
   ;

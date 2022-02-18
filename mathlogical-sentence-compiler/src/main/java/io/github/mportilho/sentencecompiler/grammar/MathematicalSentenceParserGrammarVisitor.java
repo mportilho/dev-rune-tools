@@ -340,13 +340,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitLogicalFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.LogicalFunctionDecisionExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code logicalJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicalJsonPath(MathematicalSentenceParserGrammarParser.LogicalJsonPathContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code logicalFunctionResult}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
 	 * @param ctx the parse tree
@@ -410,13 +403,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitNumericConstant(MathematicalSentenceParserGrammarParser.NumericConstantContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code numericJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNumericJsonPath(MathematicalSentenceParserGrammarParser.NumericJsonPathContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code numericFunctionResult}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#numericEntity}.
 	 * @param ctx the parse tree
@@ -451,13 +437,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitStringConstant(MathematicalSentenceParserGrammarParser.StringConstantContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code stringJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStringJsonPath(MathematicalSentenceParserGrammarParser.StringJsonPathContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code stringFunctionResult}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#stringEntity}.
@@ -515,13 +494,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitDateFunctionResult(MathematicalSentenceParserGrammarParser.DateFunctionResultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code dateJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDateJsonPath(MathematicalSentenceParserGrammarParser.DateJsonPathContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code timeDecisionExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
 	 * @param ctx the parse tree
@@ -564,13 +536,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitTimeFunctionResult(MathematicalSentenceParserGrammarParser.TimeFunctionResultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code timeJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#timeEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTimeJsonPath(MathematicalSentenceParserGrammarParser.TimeJsonPathContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code dateTimeDecisionExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
 	 * @param ctx the parse tree
@@ -612,34 +577,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitDateTimeFunctionResult(MathematicalSentenceParserGrammarParser.DateTimeFunctionResultContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code dateTimeJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#dateTimeEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDateTimeJsonPath(MathematicalSentenceParserGrammarParser.DateTimeJsonPathContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code jsonPathDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJsonPathDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathDecisionExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code jsonPathFunctionDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJsonPathFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.JsonPathFunctionDecisionExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code jsonPathValue}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#jsonPathExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitJsonPathValue(MathematicalSentenceParserGrammarParser.JsonPathValueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code listDecisionExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
@@ -704,13 +641,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitListOfVariables(MathematicalSentenceParserGrammarParser.ListOfVariablesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListOfJsonPath(MathematicalSentenceParserGrammarParser.ListOfJsonPathContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code listOfFunctionResult}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
 	 * @param ctx the parse tree
@@ -724,13 +654,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code listFromJsonPath}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListFromJsonPath(MathematicalSentenceParserGrammarParser.ListFromJsonPathContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code listVariable}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.

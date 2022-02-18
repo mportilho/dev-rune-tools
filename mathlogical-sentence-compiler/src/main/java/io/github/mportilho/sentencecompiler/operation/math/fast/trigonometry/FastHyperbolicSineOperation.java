@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
+ * Copyright (c) 2021-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,33 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.exceptions;
+package io.github.mportilho.sentencecompiler.operation.math.fast.trigonometry;
 
-public class MathSentenceLockingException extends RuntimeException {
+import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
+import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-    public MathSentenceLockingException(String message) {
-        super(message);
-    }
+public class FastHyperbolicSineOperation extends AbstractUnaryOperator {
+
+	public FastHyperbolicSineOperation(AbstractOperation operand) {
+		super(operand, OperatorPosition.FUNCTION);
+	}
+
+	@Override
+	protected Object resolve(OperationContext context) {
+		return BigDecimalMath.sinh(getOperand().evaluate(context), context.mathContext());
+	}
+
+	@Override
+	protected AbstractOperation createClone(CloningContext context) {
+		return new FastHyperbolicSineOperation(getOperand().copy(context));
+	}
+
+	@Override
+	protected String getOperationToken() {
+		return "sinh";
+	}
 
 }

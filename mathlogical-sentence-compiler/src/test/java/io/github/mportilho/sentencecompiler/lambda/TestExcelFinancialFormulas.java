@@ -78,11 +78,15 @@ public class TestExcelFinancialFormulas {
         assertThat(fv(r, ONE, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-9402.262387442087");
 
+        assertThat(fv(r, nper, pmt, pv, MathContext.DECIMAL64))
+                .isEqualByComparingTo("-9402.262387442087");
+
         assertThat(fv(r, per, nper, ZERO, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-8235.047488451745");
 
         assertThat(fv(r, per, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-23763.27543302012");
+
     }
 
     @Test

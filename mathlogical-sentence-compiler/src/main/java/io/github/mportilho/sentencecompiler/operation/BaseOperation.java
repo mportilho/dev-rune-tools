@@ -76,7 +76,7 @@ public class BaseOperation extends AbstractOperation {
         } else if (Boolean.class.equals(this.getExpectedType())) {
             return Boolean.FALSE;
         }
-        throw new SyntaxExecutionException(String.format("Current expected type [%s] is incorrect for base operation", this.getExpectedType()));
+        throw new SyntaxExecutionException(String.format("Type [%s] not expected for base operation. Must be number or boolean.", this.getExpectedType()));
     }
 
     @Override

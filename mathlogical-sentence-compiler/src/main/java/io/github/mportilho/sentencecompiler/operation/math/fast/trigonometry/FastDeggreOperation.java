@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
+ * Copyright (c) 2021-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,38 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.exceptions;
+package io.github.mportilho.sentencecompiler.operation.math.fast.trigonometry;
 
-public class MathSentenceLockingException extends RuntimeException {
+import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
+import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-    public MathSentenceLockingException(String message) {
-        super(message);
-    }
+import java.math.BigDecimal;
+
+public class FastDeggreOperation extends AbstractUnaryOperator {
+
+	private static final BigDecimal HALF_RADIUS = BigDecimal.valueOf(180L);
+
+	public FastDeggreOperation(AbstractOperation operand) {
+		super(operand, OperatorPosition.RIGHT);
+	}
+
+	@Override
+	protected Object resolve(OperationContext context) {
+		return getOperand().<BigDecimal>evaluate(context).multiply(BigDecimalMath.pi(context.mathContext())).divide(HALF_RADIUS,
+				context.mathContext());
+	}
+
+	@Override
+	protected AbstractOperation createClone(CloningContext context) {
+		return new FastDeggreOperation(getOperand().copy(context));
+	}
+
+	@Override
+	protected String getOperationToken() {
+		return "°";
+	}
 
 }

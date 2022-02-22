@@ -128,9 +128,9 @@ public class MathSentence {
         return this;
     }
 
-    public void addFunction(String name, LambdaCallSite function) {
+    public void addFunction(LambdaCallSite function) {
         checkUpdateLock();
-        syntaxExecutionSite.addFunction(name, function);
+        syntaxExecutionSite.addFunction(function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {

@@ -42,8 +42,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.UNKNOWN;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.createFunctionCaller;
 
 public class SyntaxExecutionSite {
@@ -125,14 +123,13 @@ public class SyntaxExecutionSite {
         operationSupportData.getDictionary().putAll(dictionary);
     }
 
-    public void addFunction(String name, LambdaCallSite function) {
-        AssertUtils.notNullOrBlank(name, "Function name must be provided");
-        Objects.requireNonNull(function, "A function implementation must be provided");
-        String keyName = keyName(name, UNKNOWN);
+    public void addFunction(LambdaCallSite function) {
+        Objects.requireNonNull(function, "Function implementation is required");
+        String keyName = function.getKeyName();
         if (operationSupportData.getFunctions().containsKey(keyName)) {
-            throw new SentenceConfigurationException(String.format("Cannot override predefined function [%s]", name));
+            throw new SentenceConfigurationException(String.format("Cannot override predefined function [%s]", function.getMethodName()));
         }
-        operationSupportData.getFunctions().put(keyName, function);
+        operationSupportData.putFunction(keyName, function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {

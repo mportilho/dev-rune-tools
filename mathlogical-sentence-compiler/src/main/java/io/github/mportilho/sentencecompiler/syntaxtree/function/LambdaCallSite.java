@@ -115,4 +115,8 @@ public class LambdaCallSite {
     public Class<?> getReturnType() {
         return this.methodType.returnType();
     }
+
+    public String getMethodName() {
+        return methodName;
+    }
 }

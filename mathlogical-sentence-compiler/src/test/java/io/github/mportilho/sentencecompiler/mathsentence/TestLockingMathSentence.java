@@ -46,7 +46,7 @@ public class TestLockingMathSentence {
         assertThatThrownBy(compiler::warmUp)
                 .isInstanceOf(MathSentenceLockingException.class);
 
-        assertThatThrownBy(() -> compiler.addFunction("", new LambdaCallSite("", null, null)))
+        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, null)))
                 .isInstanceOf(MathSentenceLockingException.class);
 
         assertThatThrownBy(() -> compiler.setVariable("", ""))

@@ -53,11 +53,10 @@ public class TestOtherOperationsTextualRepresentation {
     public void testFullBaseOperationsTextualRepresentation() {
         MathSentence mathSentence;
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("a = 3 - 2;");
-        builder.append("b = 5 * 2;");
-        builder.append("a + b");
-        mathSentence = new MathSentence(builder.toString());
+        String builder = "a = 3 - 2;" +
+                "b = 5 * 2;" +
+                "a + b";
+        mathSentence = new MathSentence(builder);
         assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\na + b");
         mathSentence.compute();
         assertThat(mathSentence.toString()).isEqualTo("a = 3 - 2;\nb = 5 * 2;\n1 + 10");
@@ -84,22 +83,22 @@ public class TestOtherOperationsTextualRepresentation {
 
         LambdaCallSite callSite1 = new LambdaCallSite("function1",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
-        LambdaCallSite callSite2 = new LambdaCallSite("function1",
+        LambdaCallSite callSite2 = new LambdaCallSite("function2",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
 
         mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
-        mathSentence.addFunction("function1", callSite1);
-        mathSentence.addFunction("function2", callSite2);
+        mathSentence.addFunction(callSite1);
+        mathSentence.addFunction(callSite2);
         assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
         mathSentence.compute();
         assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
 
-        mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
-        mathSentence.addFunction("function1", callSite1);
-        mathSentence.addFunction("function2", callSite2);
-        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
+        mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4)");
+        mathSentence.addFunction(callSite1);
+        mathSentence.addFunction(callSite2);
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
         mathSentence.compute();
-        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4)");
     }
 
     @Test
@@ -107,15 +106,15 @@ public class TestOtherOperationsTextualRepresentation {
         MathSentence mathSentence;
         LambdaCallSite callSite1 = new LambdaCallSite("function1",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
-        LambdaCallSite callSite2 = new LambdaCallSite("function1",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
+        LambdaCallSite callSite2 = new LambdaCallSite("function2",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
 
-        mathSentence = new MathSentence("$.function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
-        mathSentence.addFunction("function1", callSite1);
-        mathSentence.addFunction("function2", callSite2);
-        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
+        mathSentence.addFunction(callSite1);
+        mathSentence.addFunction(callSite2);
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
         mathSentence.compute();
-        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2, 9) + function2(3 / 4, 7, 11)");
+        assertThat(mathSentence.toString()).isEqualTo("function1(1 * 2) + function2(3 / 4, 7)");
     }
 
 }

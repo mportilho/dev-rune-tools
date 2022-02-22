@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.sentence.opsupport;
+package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;

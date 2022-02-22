@@ -52,6 +52,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitStringExpression(MathematicalSentenceParserGrammarParser.StringExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code vectorExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code logicalValue}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
 	 * @param ctx the parse tree
@@ -79,13 +86,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitNotExpression(MathematicalSentenceParserGrammarParser.NotExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code listExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListExpression(MathematicalSentenceParserGrammarParser.ListExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code comparisonMathExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
@@ -294,12 +294,12 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitFunction(MathematicalSentenceParserGrammarParser.FunctionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listContainsOperation}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listFunction}.
+	 * Visit a parse tree produced by the {@code vectorContainsOperation}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListContainsOperation(MathematicalSentenceParserGrammarParser.ListContainsOperationContext ctx);
+	T visitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree
@@ -578,87 +578,87 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitDateTimeFunctionResult(MathematicalSentenceParserGrammarParser.DateTimeFunctionResultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx);
+	T visitVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listFunctionDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorFunctionDecisionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx);
+	T visitVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfNumbers}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfNumbers}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfNumbers(MathematicalSentenceParserGrammarParser.ListOfNumbersContext ctx);
+	T visitVectorOfNumbers(MathematicalSentenceParserGrammarParser.VectorOfNumbersContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfBooleans}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfBooleans}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfBooleans(MathematicalSentenceParserGrammarParser.ListOfBooleansContext ctx);
+	T visitVectorOfBooleans(MathematicalSentenceParserGrammarParser.VectorOfBooleansContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfStrings}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfStrings}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfStrings(MathematicalSentenceParserGrammarParser.ListOfStringsContext ctx);
+	T visitVectorOfStrings(MathematicalSentenceParserGrammarParser.VectorOfStringsContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfDates}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfDates}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfDates(MathematicalSentenceParserGrammarParser.ListOfDatesContext ctx);
+	T visitVectorOfDates(MathematicalSentenceParserGrammarParser.VectorOfDatesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfTimes}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfTimes}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfTimes(MathematicalSentenceParserGrammarParser.ListOfTimesContext ctx);
+	T visitVectorOfTimes(MathematicalSentenceParserGrammarParser.VectorOfTimesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfDateTimes}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfDateTimes}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfDateTimes(MathematicalSentenceParserGrammarParser.ListOfDateTimesContext ctx);
+	T visitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfVariables}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfVariables}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfVariables(MathematicalSentenceParserGrammarParser.ListOfVariablesContext ctx);
+	T visitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listOfFunctionResult}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorOfFunctionResult}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListOfFunctionResult(MathematicalSentenceParserGrammarParser.ListOfFunctionResultContext ctx);
+	T visitVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listFromFunction}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorFromFunction}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx);
+	T visitVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code listVariable}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#listEntity}.
+	 * Visit a parse tree produced by the {@code vectorVariable}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitListVariable(MathematicalSentenceParserGrammarParser.ListVariableContext ctx);
+	T visitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx);
 }

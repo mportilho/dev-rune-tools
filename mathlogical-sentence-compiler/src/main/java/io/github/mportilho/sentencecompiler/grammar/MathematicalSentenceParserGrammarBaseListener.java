@@ -90,6 +90,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogicalValue(MathematicalSentenceParserGrammarParser.LogicalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -133,18 +145,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNotExpression(MathematicalSentenceParserGrammarParser.NotExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterListExpression(MathematicalSentenceParserGrammarParser.ListExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitListExpression(MathematicalSentenceParserGrammarParser.ListExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -510,13 +510,13 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListContainsOperation(MathematicalSentenceParserGrammarParser.ListContainsOperationContext ctx) { }
+	@Override public void enterVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListContainsOperation(MathematicalSentenceParserGrammarParser.ListContainsOperationContext ctx) { }
+	@Override public void exitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1002,145 +1002,145 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx) { }
+	@Override public void enterVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx) { }
+	@Override public void exitVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx) { }
+	@Override public void enterVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx) { }
+	@Override public void exitVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfNumbers(MathematicalSentenceParserGrammarParser.ListOfNumbersContext ctx) { }
+	@Override public void enterVectorOfNumbers(MathematicalSentenceParserGrammarParser.VectorOfNumbersContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfNumbers(MathematicalSentenceParserGrammarParser.ListOfNumbersContext ctx) { }
+	@Override public void exitVectorOfNumbers(MathematicalSentenceParserGrammarParser.VectorOfNumbersContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfBooleans(MathematicalSentenceParserGrammarParser.ListOfBooleansContext ctx) { }
+	@Override public void enterVectorOfBooleans(MathematicalSentenceParserGrammarParser.VectorOfBooleansContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfBooleans(MathematicalSentenceParserGrammarParser.ListOfBooleansContext ctx) { }
+	@Override public void exitVectorOfBooleans(MathematicalSentenceParserGrammarParser.VectorOfBooleansContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfStrings(MathematicalSentenceParserGrammarParser.ListOfStringsContext ctx) { }
+	@Override public void enterVectorOfStrings(MathematicalSentenceParserGrammarParser.VectorOfStringsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfStrings(MathematicalSentenceParserGrammarParser.ListOfStringsContext ctx) { }
+	@Override public void exitVectorOfStrings(MathematicalSentenceParserGrammarParser.VectorOfStringsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfDates(MathematicalSentenceParserGrammarParser.ListOfDatesContext ctx) { }
+	@Override public void enterVectorOfDates(MathematicalSentenceParserGrammarParser.VectorOfDatesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfDates(MathematicalSentenceParserGrammarParser.ListOfDatesContext ctx) { }
+	@Override public void exitVectorOfDates(MathematicalSentenceParserGrammarParser.VectorOfDatesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfTimes(MathematicalSentenceParserGrammarParser.ListOfTimesContext ctx) { }
+	@Override public void enterVectorOfTimes(MathematicalSentenceParserGrammarParser.VectorOfTimesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfTimes(MathematicalSentenceParserGrammarParser.ListOfTimesContext ctx) { }
+	@Override public void exitVectorOfTimes(MathematicalSentenceParserGrammarParser.VectorOfTimesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfDateTimes(MathematicalSentenceParserGrammarParser.ListOfDateTimesContext ctx) { }
+	@Override public void enterVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfDateTimes(MathematicalSentenceParserGrammarParser.ListOfDateTimesContext ctx) { }
+	@Override public void exitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfVariables(MathematicalSentenceParserGrammarParser.ListOfVariablesContext ctx) { }
+	@Override public void enterVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfVariables(MathematicalSentenceParserGrammarParser.ListOfVariablesContext ctx) { }
+	@Override public void exitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListOfFunctionResult(MathematicalSentenceParserGrammarParser.ListOfFunctionResultContext ctx) { }
+	@Override public void enterVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListOfFunctionResult(MathematicalSentenceParserGrammarParser.ListOfFunctionResultContext ctx) { }
+	@Override public void exitVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx) { }
+	@Override public void enterVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx) { }
+	@Override public void exitVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListVariable(MathematicalSentenceParserGrammarParser.ListVariableContext ctx) { }
+	@Override public void enterVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitListVariable(MathematicalSentenceParserGrammarParser.ListVariableContext ctx) { }
+	@Override public void exitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -43,18 +43,18 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		RULE_logicalExpression = 4, RULE_mathExpression = 5, RULE_mathSpecificFunction = 6, 
 		RULE_logarithmFunction = 7, RULE_roundingFunction = 8, RULE_sequenceFunction = 9, 
 		RULE_dateOperation = 10, RULE_timeOperation = 11, RULE_dateTimeOperation = 12, 
-		RULE_function = 13, RULE_listFunction = 14, RULE_comparisonOperator = 15, 
+		RULE_function = 13, RULE_vectorFunction = 14, RULE_comparisonOperator = 15, 
 		RULE_logicalOperator = 16, RULE_allEntityTypes = 17, RULE_logicalEntity = 18, 
 		RULE_numericEntity = 19, RULE_stringEntity = 20, RULE_dateEntity = 21, 
-		RULE_timeEntity = 22, RULE_dateTimeEntity = 23, RULE_listEntity = 24;
+		RULE_timeEntity = 22, RULE_dateTimeEntity = 23, RULE_vectorEntity = 24;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"start", "mathStart", "logicalStart", "assignmentExpression", "logicalExpression", 
 			"mathExpression", "mathSpecificFunction", "logarithmFunction", "roundingFunction", 
 			"sequenceFunction", "dateOperation", "timeOperation", "dateTimeOperation", 
-			"function", "listFunction", "comparisonOperator", "logicalOperator", 
+			"function", "vectorFunction", "comparisonOperator", "logicalOperator", 
 			"allEntityTypes", "logicalEntity", "numericEntity", "stringEntity", "dateEntity", 
-			"timeEntity", "dateTimeEntity", "listEntity"
+			"timeEntity", "dateTimeEntity", "vectorEntity"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -74,7 +74,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 			"'setHours'", "'setMinutes'", "'setSeconds'", "'('", "')'", "'['", "']'", 
 			"'''", "':='", "','", "';'", "'.'", "'contains'", "'$.'", null, null, 
 			null, null, null, null, null, null, "'<bool>'", "'<number>'", "'<text>'", 
-			"'<date>'", "'<time>'", "'<datetime>'", "'<list>'"
+			"'<date>'", "'<time>'", "'<datetime>'", "'<vector>'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -483,6 +483,25 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class VectorExpressionContext extends LogicalExpressionContext {
+		public VectorFunctionContext vectorFunction() {
+			return getRuleContext(VectorFunctionContext.class,0);
+		}
+		public VectorExpressionContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class LogicalValueContext extends LogicalExpressionContext {
 		public LogicalEntityContext logicalEntity() {
 			return getRuleContext(LogicalEntityContext.class,0);
@@ -570,25 +589,6 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitNotExpression(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListExpressionContext extends LogicalExpressionContext {
-		public ListFunctionContext listFunction() {
-			return getRuleContext(ListFunctionContext.class,0);
-		}
-		public ListExpressionContext(LogicalExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -770,11 +770,11 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				break;
 			case 7:
 				{
-				_localctx = new ListExpressionContext(_localctx);
+				_localctx = new VectorExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(102);
-				listFunction();
+				vectorFunction();
 				}
 				break;
 			case 8:
@@ -2332,50 +2332,50 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ListFunctionContext extends ParserRuleContext {
-		public ListFunctionContext(ParserRuleContext parent, int invokingState) {
+	public static class VectorFunctionContext extends ParserRuleContext {
+		public VectorFunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_listFunction; }
+		@Override public int getRuleIndex() { return RULE_vectorFunction; }
 	 
-		public ListFunctionContext() { }
-		public void copyFrom(ListFunctionContext ctx) {
+		public VectorFunctionContext() { }
+		public void copyFrom(VectorFunctionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ListContainsOperationContext extends ListFunctionContext {
-		public ListEntityContext listEntity() {
-			return getRuleContext(ListEntityContext.class,0);
+	public static class VectorContainsOperationContext extends VectorFunctionContext {
+		public VectorEntityContext vectorEntity() {
+			return getRuleContext(VectorEntityContext.class,0);
 		}
 		public TerminalNode CONTAINS() { return getToken(MathematicalSentenceParserGrammarParser.CONTAINS, 0); }
 		public AllEntityTypesContext allEntityTypes() {
 			return getRuleContext(AllEntityTypesContext.class,0);
 		}
-		public ListContainsOperationContext(ListFunctionContext ctx) { copyFrom(ctx); }
+		public VectorContainsOperationContext(VectorFunctionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListContainsOperation(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorContainsOperation(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListContainsOperation(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorContainsOperation(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListContainsOperation(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorContainsOperation(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ListFunctionContext listFunction() throws RecognitionException {
-		ListFunctionContext _localctx = new ListFunctionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_listFunction);
+	public final VectorFunctionContext vectorFunction() throws RecognitionException {
+		VectorFunctionContext _localctx = new VectorFunctionContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_vectorFunction);
 		try {
-			_localctx = new ListContainsOperationContext(_localctx);
+			_localctx = new VectorContainsOperationContext(_localctx);
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(273);
-			listEntity();
+			vectorEntity();
 			setState(274);
 			match(CONTAINS);
 			setState(275);
@@ -2567,8 +2567,8 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public MathExpressionContext mathExpression() {
 			return getRuleContext(MathExpressionContext.class,0);
 		}
-		public ListEntityContext listEntity() {
-			return getRuleContext(ListEntityContext.class,0);
+		public VectorEntityContext vectorEntity() {
+			return getRuleContext(VectorEntityContext.class,0);
 		}
 		public AllEntityTypesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2642,7 +2642,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(291);
-				listEntity();
+				vectorEntity();
 				}
 				break;
 			}
@@ -4768,18 +4768,109 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class ListEntityContext extends ParserRuleContext {
-		public ListEntityContext(ParserRuleContext parent, int invokingState) {
+	public static class VectorEntityContext extends ParserRuleContext {
+		public VectorEntityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_listEntity; }
+		@Override public int getRuleIndex() { return RULE_vectorEntity; }
 	 
-		public ListEntityContext() { }
-		public void copyFrom(ListEntityContext ctx) {
+		public VectorEntityContext() { }
+		public void copyFrom(VectorEntityContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class ListDecisionExpressionContext extends ListEntityContext {
+	public static class VectorFunctionDecisionExpressionContext extends VectorEntityContext {
+		public TerminalNode IF() { return getToken(MathematicalSentenceParserGrammarParser.IF, 0); }
+		public TerminalNode LPAREN() { return getToken(MathematicalSentenceParserGrammarParser.LPAREN, 0); }
+		public List<LogicalExpressionContext> logicalExpression() {
+			return getRuleContexts(LogicalExpressionContext.class);
+		}
+		public LogicalExpressionContext logicalExpression(int i) {
+			return getRuleContext(LogicalExpressionContext.class,i);
+		}
+		public List<VectorFunctionContext> vectorFunction() {
+			return getRuleContexts(VectorFunctionContext.class);
+		}
+		public VectorFunctionContext vectorFunction(int i) {
+			return getRuleContext(VectorFunctionContext.class,i);
+		}
+		public TerminalNode RPAREN() { return getToken(MathematicalSentenceParserGrammarParser.RPAREN, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
+		}
+		public List<TerminalNode> SEMI() { return getTokens(MathematicalSentenceParserGrammarParser.SEMI); }
+		public TerminalNode SEMI(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.SEMI, i);
+		}
+		public VectorFunctionDecisionExpressionContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorFunctionDecisionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorFunctionDecisionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorFunctionDecisionExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorOfVariablesContext extends VectorEntityContext {
+		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
+		public List<TerminalNode> IDENTIFIER() { return getTokens(MathematicalSentenceParserGrammarParser.IDENTIFIER); }
+		public TerminalNode IDENTIFIER(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.IDENTIFIER, i);
+		}
+		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
+		}
+		public VectorOfVariablesContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfVariables(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfVariables(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfVariables(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorOfDatesContext extends VectorEntityContext {
+		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
+		public List<TerminalNode> DATE() { return getTokens(MathematicalSentenceParserGrammarParser.DATE); }
+		public TerminalNode DATE(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.DATE, i);
+		}
+		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
+		}
+		public VectorOfDatesContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfDates(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfDates(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfDates(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorDecisionExpressionContext extends VectorEntityContext {
 		public TerminalNode IF() { return getToken(MathematicalSentenceParserGrammarParser.IF, 0); }
 		public List<LogicalExpressionContext> logicalExpression() {
 			return getRuleContexts(LogicalExpressionContext.class);
@@ -4791,31 +4882,31 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public TerminalNode THEN(int i) {
 			return getToken(MathematicalSentenceParserGrammarParser.THEN, i);
 		}
-		public List<ListFunctionContext> listFunction() {
-			return getRuleContexts(ListFunctionContext.class);
+		public List<VectorFunctionContext> vectorFunction() {
+			return getRuleContexts(VectorFunctionContext.class);
 		}
-		public ListFunctionContext listFunction(int i) {
-			return getRuleContext(ListFunctionContext.class,i);
+		public VectorFunctionContext vectorFunction(int i) {
+			return getRuleContext(VectorFunctionContext.class,i);
 		}
 		public TerminalNode ELSE() { return getToken(MathematicalSentenceParserGrammarParser.ELSE, 0); }
 		public TerminalNode ENDIF() { return getToken(MathematicalSentenceParserGrammarParser.ENDIF, 0); }
 		public TerminalNode ELSEIF() { return getToken(MathematicalSentenceParserGrammarParser.ELSEIF, 0); }
-		public ListDecisionExpressionContext(ListEntityContext ctx) { copyFrom(ctx); }
+		public VectorDecisionExpressionContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListDecisionExpression(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorDecisionExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListDecisionExpression(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorDecisionExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListDecisionExpression(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorDecisionExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ListOfStringsContext extends ListEntityContext {
+	public static class VectorOfStringsContext extends VectorEntityContext {
 		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
 		public List<TerminalNode> STRING() { return getTokens(MathematicalSentenceParserGrammarParser.STRING); }
 		public TerminalNode STRING(int i) {
@@ -4826,66 +4917,95 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public TerminalNode COMMA(int i) {
 			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
 		}
-		public ListOfStringsContext(ListEntityContext ctx) { copyFrom(ctx); }
+		public VectorOfStringsContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfStrings(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfStrings(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfStrings(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfStrings(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfStrings(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfStrings(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ListOfVariablesContext extends ListEntityContext {
+	public static class VectorOfFunctionResultContext extends VectorEntityContext {
 		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
-		public List<TerminalNode> IDENTIFIER() { return getTokens(MathematicalSentenceParserGrammarParser.IDENTIFIER); }
-		public TerminalNode IDENTIFIER(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.IDENTIFIER, i);
+		public FunctionContext function() {
+			return getRuleContext(FunctionContext.class,0);
+		}
+		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
+		public VectorOfFunctionResultContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfFunctionResult(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfFunctionResult(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfFunctionResult(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorOfNumbersContext extends VectorEntityContext {
+		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(MathematicalSentenceParserGrammarParser.NUMBER); }
+		public TerminalNode NUMBER(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.NUMBER, i);
 		}
 		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
 		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
 		}
-		public ListOfVariablesContext(ListEntityContext ctx) { copyFrom(ctx); }
+		public VectorOfNumbersContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfVariables(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfNumbers(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfVariables(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfNumbers(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfVariables(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfNumbers(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ListVariableContext extends ListEntityContext {
-		public TerminalNode LIST_TYPE() { return getToken(MathematicalSentenceParserGrammarParser.LIST_TYPE, 0); }
-		public TerminalNode IDENTIFIER() { return getToken(MathematicalSentenceParserGrammarParser.IDENTIFIER, 0); }
-		public ListVariableContext(ListEntityContext ctx) { copyFrom(ctx); }
+	public static class VectorOfTimesContext extends VectorEntityContext {
+		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
+		public List<TerminalNode> TIME() { return getTokens(MathematicalSentenceParserGrammarParser.TIME); }
+		public TerminalNode TIME(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.TIME, i);
+		}
+		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
+		public TerminalNode COMMA(int i) {
+			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
+		}
+		public VectorOfTimesContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListVariable(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfTimes(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListVariable(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfTimes(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListVariable(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfTimes(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ListOfDateTimesContext extends ListEntityContext {
+	public static class VectorOfDateTimesContext extends VectorEntityContext {
 		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
 		public List<TerminalNode> DATETIME() { return getTokens(MathematicalSentenceParserGrammarParser.DATETIME); }
 		public TerminalNode DATETIME(int i) {
@@ -4896,22 +5016,60 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public TerminalNode COMMA(int i) {
 			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
 		}
-		public ListOfDateTimesContext(ListEntityContext ctx) { copyFrom(ctx); }
+		public VectorOfDateTimesContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfDateTimes(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfDateTimes(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfDateTimes(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfDateTimes(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfDateTimes(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfDateTimes(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ListOfBooleansContext extends ListEntityContext {
+	public static class VectorFromFunctionContext extends VectorEntityContext {
+		public TerminalNode LIST_TYPE() { return getToken(MathematicalSentenceParserGrammarParser.LIST_TYPE, 0); }
+		public FunctionContext function() {
+			return getRuleContext(FunctionContext.class,0);
+		}
+		public VectorFromFunctionContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorFromFunction(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorFromFunction(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorFromFunction(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorVariableContext extends VectorEntityContext {
+		public TerminalNode LIST_TYPE() { return getToken(MathematicalSentenceParserGrammarParser.LIST_TYPE, 0); }
+		public TerminalNode IDENTIFIER() { return getToken(MathematicalSentenceParserGrammarParser.IDENTIFIER, 0); }
+		public VectorVariableContext(VectorEntityContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorVariable(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VectorOfBooleansContext extends VectorEntityContext {
 		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
 		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
 		public List<TerminalNode> TRUE() { return getTokens(MathematicalSentenceParserGrammarParser.TRUE); }
@@ -4926,183 +5084,25 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public TerminalNode COMMA(int i) {
 			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
 		}
-		public ListOfBooleansContext(ListEntityContext ctx) { copyFrom(ctx); }
+		public VectorOfBooleansContext(VectorEntityContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfBooleans(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterVectorOfBooleans(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfBooleans(this);
+			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitVectorOfBooleans(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfBooleans(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListOfDatesContext extends ListEntityContext {
-		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
-		public List<TerminalNode> DATE() { return getTokens(MathematicalSentenceParserGrammarParser.DATE); }
-		public TerminalNode DATE(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.DATE, i);
-		}
-		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
-		}
-		public ListOfDatesContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfDates(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfDates(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfDates(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListOfFunctionResultContext extends ListEntityContext {
-		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
-		public FunctionContext function() {
-			return getRuleContext(FunctionContext.class,0);
-		}
-		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
-		public ListOfFunctionResultContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfFunctionResult(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfFunctionResult(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfFunctionResult(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListFromFunctionContext extends ListEntityContext {
-		public TerminalNode LIST_TYPE() { return getToken(MathematicalSentenceParserGrammarParser.LIST_TYPE, 0); }
-		public FunctionContext function() {
-			return getRuleContext(FunctionContext.class,0);
-		}
-		public ListFromFunctionContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListFromFunction(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListFromFunction(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListFromFunction(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListOfNumbersContext extends ListEntityContext {
-		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
-		public List<TerminalNode> NUMBER() { return getTokens(MathematicalSentenceParserGrammarParser.NUMBER); }
-		public TerminalNode NUMBER(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.NUMBER, i);
-		}
-		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
-		}
-		public ListOfNumbersContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfNumbers(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfNumbers(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfNumbers(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListOfTimesContext extends ListEntityContext {
-		public TerminalNode LBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.LBLACKET, 0); }
-		public List<TerminalNode> TIME() { return getTokens(MathematicalSentenceParserGrammarParser.TIME); }
-		public TerminalNode TIME(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.TIME, i);
-		}
-		public TerminalNode RBLACKET() { return getToken(MathematicalSentenceParserGrammarParser.RBLACKET, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
-		}
-		public ListOfTimesContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListOfTimes(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListOfTimes(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListOfTimes(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ListFunctionDecisionExpressionContext extends ListEntityContext {
-		public TerminalNode IF() { return getToken(MathematicalSentenceParserGrammarParser.IF, 0); }
-		public TerminalNode LPAREN() { return getToken(MathematicalSentenceParserGrammarParser.LPAREN, 0); }
-		public List<LogicalExpressionContext> logicalExpression() {
-			return getRuleContexts(LogicalExpressionContext.class);
-		}
-		public LogicalExpressionContext logicalExpression(int i) {
-			return getRuleContext(LogicalExpressionContext.class,i);
-		}
-		public List<ListFunctionContext> listFunction() {
-			return getRuleContexts(ListFunctionContext.class);
-		}
-		public ListFunctionContext listFunction(int i) {
-			return getRuleContext(ListFunctionContext.class,i);
-		}
-		public TerminalNode RPAREN() { return getToken(MathematicalSentenceParserGrammarParser.RPAREN, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(MathematicalSentenceParserGrammarParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.COMMA, i);
-		}
-		public List<TerminalNode> SEMI() { return getTokens(MathematicalSentenceParserGrammarParser.SEMI); }
-		public TerminalNode SEMI(int i) {
-			return getToken(MathematicalSentenceParserGrammarParser.SEMI, i);
-		}
-		public ListFunctionDecisionExpressionContext(ListEntityContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).enterListFunctionDecisionExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MathematicalSentenceParserGrammarListener ) ((MathematicalSentenceParserGrammarListener)listener).exitListFunctionDecisionExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitListFunctionDecisionExpression(this);
+			if ( visitor instanceof MathematicalSentenceParserGrammarVisitor ) return ((MathematicalSentenceParserGrammarVisitor<? extends T>)visitor).visitVectorOfBooleans(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final ListEntityContext listEntity() throws RecognitionException {
-		ListEntityContext _localctx = new ListEntityContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_listEntity);
+	public final VectorEntityContext vectorEntity() throws RecognitionException {
+		VectorEntityContext _localctx = new VectorEntityContext(_ctx, getState());
+		enterRule(_localctx, 48, RULE_vectorEntity);
 		int _la;
 		try {
 			int _alt;
@@ -5110,7 +5110,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,65,_ctx) ) {
 			case 1:
-				_localctx = new ListDecisionExpressionContext(_localctx);
+				_localctx = new VectorDecisionExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(574);
@@ -5120,7 +5120,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				setState(576);
 				match(THEN);
 				setState(577);
-				listFunction();
+				vectorFunction();
 				setState(583);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
@@ -5133,20 +5133,20 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 					setState(580);
 					match(THEN);
 					setState(581);
-					listFunction();
+					vectorFunction();
 					}
 				}
 
 				setState(585);
 				match(ELSE);
 				setState(586);
-				listFunction();
+				vectorFunction();
 				setState(587);
 				match(ENDIF);
 				}
 				break;
 			case 2:
-				_localctx = new ListFunctionDecisionExpressionContext(_localctx);
+				_localctx = new VectorFunctionDecisionExpressionContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(589);
@@ -5166,7 +5166,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 					consume();
 				}
 				setState(593);
-				listFunction();
+				vectorFunction();
 				setState(601);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,57,_ctx);
@@ -5197,7 +5197,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 							consume();
 						}
 						setState(597);
-						listFunction();
+						vectorFunction();
 						}
 						} 
 					}
@@ -5216,13 +5216,13 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 					consume();
 				}
 				setState(605);
-				listFunction();
+				vectorFunction();
 				setState(606);
 				match(RPAREN);
 				}
 				break;
 			case 3:
-				_localctx = new ListOfNumbersContext(_localctx);
+				_localctx = new VectorOfNumbersContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(608);
@@ -5250,7 +5250,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 4:
-				_localctx = new ListOfBooleansContext(_localctx);
+				_localctx = new VectorOfBooleansContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(618);
@@ -5294,7 +5294,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 5:
-				_localctx = new ListOfStringsContext(_localctx);
+				_localctx = new VectorOfStringsContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(628);
@@ -5322,7 +5322,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 6:
-				_localctx = new ListOfDatesContext(_localctx);
+				_localctx = new VectorOfDatesContext(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(638);
@@ -5350,7 +5350,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 7:
-				_localctx = new ListOfTimesContext(_localctx);
+				_localctx = new VectorOfTimesContext(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(648);
@@ -5378,7 +5378,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 8:
-				_localctx = new ListOfDateTimesContext(_localctx);
+				_localctx = new VectorOfDateTimesContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(658);
@@ -5406,7 +5406,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 9:
-				_localctx = new ListOfVariablesContext(_localctx);
+				_localctx = new VectorOfVariablesContext(_localctx);
 				enterOuterAlt(_localctx, 9);
 				{
 				setState(668);
@@ -5434,7 +5434,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 10:
-				_localctx = new ListOfFunctionResultContext(_localctx);
+				_localctx = new VectorOfFunctionResultContext(_localctx);
 				enterOuterAlt(_localctx, 10);
 				{
 				setState(678);
@@ -5446,7 +5446,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 11:
-				_localctx = new ListFromFunctionContext(_localctx);
+				_localctx = new VectorFromFunctionContext(_localctx);
 				enterOuterAlt(_localctx, 11);
 				{
 				setState(682);
@@ -5456,7 +5456,7 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				}
 				break;
 			case 12:
-				_localctx = new ListVariableContext(_localctx);
+				_localctx = new VectorVariableContext(_localctx);
 				enterOuterAlt(_localctx, 12);
 				{
 				setState(684);

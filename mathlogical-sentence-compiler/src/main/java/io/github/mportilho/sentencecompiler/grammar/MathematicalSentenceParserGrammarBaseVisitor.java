@@ -61,6 +61,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLogicalValue(MathematicalSentenceParserGrammarParser.LogicalValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -83,13 +90,6 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitNotExpression(MathematicalSentenceParserGrammarParser.NotExpressionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitListExpression(MathematicalSentenceParserGrammarParser.ListExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -306,7 +306,7 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListContainsOperation(MathematicalSentenceParserGrammarParser.ListContainsOperationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -593,82 +593,82 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListDecisionExpression(MathematicalSentenceParserGrammarParser.ListDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.ListFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfNumbers(MathematicalSentenceParserGrammarParser.ListOfNumbersContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfNumbers(MathematicalSentenceParserGrammarParser.VectorOfNumbersContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfBooleans(MathematicalSentenceParserGrammarParser.ListOfBooleansContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfBooleans(MathematicalSentenceParserGrammarParser.VectorOfBooleansContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfStrings(MathematicalSentenceParserGrammarParser.ListOfStringsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfStrings(MathematicalSentenceParserGrammarParser.VectorOfStringsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfDates(MathematicalSentenceParserGrammarParser.ListOfDatesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfDates(MathematicalSentenceParserGrammarParser.VectorOfDatesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfTimes(MathematicalSentenceParserGrammarParser.ListOfTimesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfTimes(MathematicalSentenceParserGrammarParser.VectorOfTimesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfDateTimes(MathematicalSentenceParserGrammarParser.ListOfDateTimesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfVariables(MathematicalSentenceParserGrammarParser.ListOfVariablesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListOfFunctionResult(MathematicalSentenceParserGrammarParser.ListOfFunctionResultContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListFromFunction(MathematicalSentenceParserGrammarParser.ListFromFunctionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListVariable(MathematicalSentenceParserGrammarParser.ListVariableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx) { return visitChildren(ctx); }
 }

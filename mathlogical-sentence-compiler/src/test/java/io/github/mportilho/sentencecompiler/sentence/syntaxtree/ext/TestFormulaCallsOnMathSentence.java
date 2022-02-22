@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.sentence.formulas;
+package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import org.junit.jupiter.api.Test;

@@ -22,14 +22,13 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.lambda;
+package io.github.mportilho.sentencecompiler.formula;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.Arrays;
 
 import static io.github.mportilho.sentencecompiler.formulas.ExcelFinancialFunction.*;
 import static java.math.BigDecimal.*;
@@ -100,8 +99,8 @@ public class TestExcelFinancialFormulas {
 
     @Test
     public void test_pv() {
-        assertThat(pv(valueOf(0.08), valueOf(12), valueOf(5), valueOf(10000), MathContext.DECIMAL64))
-                .isEqualByComparingTo("6712.104444291458");
+        assertThat(pv(valueOf(0.08), valueOf(12), valueOf(5), ZERO, valueOf(10000), ZERO, MathContext.DECIMAL64))
+                .isEqualByComparingTo("-6712.104444291458");
     }
 
     @Test
@@ -149,13 +148,13 @@ public class TestExcelFinancialFormulas {
 
     @Test
     public void test_npv() {
-        assertThat(npv(valueOf(0.1), valueOf(100), Arrays.asList(valueOf(60), valueOf(60)), MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.1), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
                 .isEqualByComparingTo("4.1322314049587");
 
-        assertThat(npv(valueOf(0.15), valueOf(100), Arrays.asList(valueOf(60), valueOf(60)), MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.15), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-2.45746691871456");
 
-        assertThat(npv(valueOf(0.131), valueOf(100), Arrays.asList(valueOf(60), valueOf(60)), MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.131), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
                 .isEqualByComparingTo("-0.04385687180895");
     }
 

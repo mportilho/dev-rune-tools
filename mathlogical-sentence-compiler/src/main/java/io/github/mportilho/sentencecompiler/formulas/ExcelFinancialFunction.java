@@ -43,6 +43,7 @@ public class ExcelFinancialFunction {
 
     /**
      * Equivalent Interest Rate => ((1+r/per)^(per*nper)) - 1
+     * Can be simplified to => ((1 + r) ^ nper) - 1
      *
      * @param r    Rate value for the period
      * @param per  period (payment number) to check value at. Number of compounding periods
@@ -60,12 +61,77 @@ public class ExcelFinancialFunction {
      * @param r    Periodic interest rate represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
+     * @param pmt  periodic payment amount.
      * @param fv   future value of loan or annuity.
+     * @param type when payment is made: beginning of period is 1; end, 0.
      * @param mc   provided math context
      * @return present value
      */
-    public static BigDecimal pv(BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal fv, MathContext mc) {
-        return fv.divide(eir(r, per, nper, mc).add(ONE, mc), mc);
+    public static BigDecimal pv(
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal fv, BigDecimal type,
+            MathContext mc) {
+        BigDecimal pvByPmt;
+        if (pmt.compareTo(ZERO) == 0) {
+            pvByPmt = ZERO;
+        } else {
+            pvByPmt = pmt.multiply(ONE.subtract(ONE.divide(eir(r, per, nper, mc).add(ONE), mc)).divide(r, mc), mc);
+            if (type.compareTo(ONE) == 0) {
+                pvByPmt = pvByPmt.multiply(ONE.add(r), mc);
+            }
+        }
+
+        BigDecimal pvByFv;
+        if (fv.compareTo(ZERO) == 0) {
+            pvByFv = ZERO;
+        } else {
+            pvByFv = fv.divide(eir(r, per, nper, mc).add(ONE, mc), mc);
+        }
+        return pvByPmt.add(pvByFv).negate();
+    }
+
+    /**
+     * Calculate present value from future one
+     *
+     * @param r    Periodic interest rate represented as a decimal.
+     * @param per  period (payment number) to check value at. Number of compounding periods
+     * @param nper number of total payments / periods.
+     * @param pmt  periodic payment amount.
+     * @param type when payment is made: beginning of period is 1; end, 0.
+     * @param mc   provided math context
+     * @return present value
+     */
+    public static BigDecimal pv(
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal type, MathContext mc) {
+        return pv(r, per, nper, pmt, ZERO, type, mc);
+    }
+
+    /**
+     * Calculate present value from future one
+     *
+     * @param r    Periodic interest rate represented as a decimal.
+     * @param per  period (payment number) to check value at. Number of compounding periods
+     * @param nper number of total payments / periods.
+     * @param pmt  periodic payment amount.
+     * @param mc   provided math context
+     * @return present value
+     */
+    public static BigDecimal pv(
+            BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, MathContext mc) {
+        return pv(r, per, nper, pmt, ZERO, ZERO, mc);
+    }
+
+    /**
+     * Calculate present value from future one
+     *
+     * @param r    Periodic interest rate represented as a decimal.
+     * @param nper number of total payments / periods.
+     * @param pmt  periodic payment amount.
+     * @param mc   provided math context
+     * @return present value
+     */
+    public static BigDecimal pv(
+            BigDecimal r, BigDecimal nper, BigDecimal pmt, MathContext mc) {
+        return pv(r, ONE, nper, pmt, ZERO, ZERO, mc);
     }
 
     /**
@@ -179,12 +245,15 @@ public class ExcelFinancialFunction {
      * @param mc   provided math context
      * @return Net present values
      */
-    public static BigDecimal npv(BigDecimal r, BigDecimal pv, List<BigDecimal> pmts, MathContext mc) {
-        BigDecimal sum = ZERO;
-        for (int i = 0, pmtsSize = pmts.size(); i < pmtsSize; i++) {
-            sum = sum.add(pmts.get(i).divide(pow(ONE.add(r, mc), valueOf(i + 1), mc), mc), mc);
+    public static BigDecimal npv(BigDecimal r, BigDecimal pv, BigDecimal[] pmts, MathContext mc) {
+        BigDecimal nvp = ZERO;
+        BigDecimal r1 = r.add(ONE);
+        BigDecimal trate = r1;
+        for (BigDecimal pmt : pmts) {
+            nvp = nvp.add(pmt.divide(trate, mc), mc);
+            trate = trate.multiply(r1, mc);
         }
-        return sum.subtract(pv, mc);
+        return nvp.add(pv);
     }
 
     /**
@@ -280,6 +349,10 @@ public class ExcelFinancialFunction {
 
     public static BigDecimal ppmt(BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pv, MathContext mc) {
         return pmt(r, nper, pv, mc).subtract(ipmt(r, per, nper, pv, mc), mc);
+    }
+
+    public static BigDecimal ppmt(BigDecimal r, BigDecimal nper, BigDecimal pv, MathContext mc) {
+        return pmt(r, nper, pv, mc).subtract(ipmt(r, ONE, nper, pv, mc), mc);
     }
 
 

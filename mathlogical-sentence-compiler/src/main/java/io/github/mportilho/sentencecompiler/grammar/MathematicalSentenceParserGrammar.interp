@@ -99,7 +99,7 @@ null
 '<date>'
 '<time>'
 '<datetime>'
-'<list>'
+'<vector>'
 null
 null
 null
@@ -233,7 +233,7 @@ dateOperation
 timeOperation
 dateTimeOperation
 function
-listFunction
+vectorFunction
 comparisonOperator
 logicalOperator
 allEntityTypes
@@ -243,7 +243,7 @@ stringEntity
 dateEntity
 timeEntity
 dateTimeEntity
-listEntity
+vectorEntity
 
 
 atn:

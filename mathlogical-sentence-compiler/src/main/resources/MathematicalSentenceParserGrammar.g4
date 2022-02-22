@@ -156,7 +156,7 @@ STRING_TYPE: '<text>';
 DATE_TYPE: '<date>' ;
 TIME_TYPE: '<time>' ;
 DATETIME_TYPE: '<datetime>' ;
-LIST_TYPE: '<list>' ;
+LIST_TYPE: '<vector>' ;
 
 // Small lexer parts
 DAY_PART
@@ -234,7 +234,7 @@ logicalExpression
   | dateOperation comparisonOperator dateOperation # dateExpression
   | timeOperation comparisonOperator timeOperation # timeExpression
   | dateTimeOperation comparisonOperator dateTimeOperation # dateTimeExpression
-  | listFunction # listExpression
+  | vectorFunction # vectorExpression
   | LPAREN logicalExpression RPAREN # logicalParenthesis
   | logicalEntity # logicalValue
   ;
@@ -292,8 +292,8 @@ function
   : CACHE_FUNCTION_PREFIX? IDENTIFIER LPAREN (allEntityTypes ((COMMA | SEMI)  allEntityTypes)*)* RPAREN
   ;
 
-listFunction
-  : listEntity CONTAINS allEntityTypes # listContainsOperation
+vectorFunction
+  : vectorEntity CONTAINS allEntityTypes # vectorContainsOperation
   ;
 
 comparisonOperator
@@ -311,7 +311,7 @@ allEntityTypes
   | dateTimeOperation
   | logicalExpression
   | mathExpression
-  | listEntity
+  | vectorEntity
   ;
 
 logicalEntity
@@ -369,17 +369,17 @@ dateTimeEntity
   | DATETIME_TYPE? function # dateTimeFunctionResult
   ;
 
-listEntity
-  : IF logicalExpression THEN listFunction (ELSEIF logicalExpression THEN listFunction)? ELSE listFunction ENDIF # listDecisionExpression
-  | IF LPAREN logicalExpression (COMMA | SEMI) listFunction ((COMMA | SEMI) logicalExpression (COMMA | SEMI) listFunction)* (COMMA | SEMI) listFunction RPAREN  # listFunctionDecisionExpression
-  | LBLACKET NUMBER (COMMA NUMBER)* RBLACKET # listOfNumbers
-  | LBLACKET (TRUE | FALSE) (COMMA (TRUE | FALSE))* RBLACKET # listOfBooleans
-  | LBLACKET STRING (COMMA STRING)* RBLACKET # listOfStrings
-  | LBLACKET DATE (COMMA DATE)* RBLACKET # listOfDates
-  | LBLACKET TIME (COMMA TIME)* RBLACKET # listOfTimes
-  | LBLACKET DATETIME (COMMA DATETIME)* RBLACKET # listOfDateTimes
-  | LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET # listOfVariables
-  | LBLACKET function RBLACKET # listOfFunctionResult
-  | LIST_TYPE function # listFromFunction
-  | LIST_TYPE IDENTIFIER # listVariable
+vectorEntity
+  : IF logicalExpression THEN vectorFunction (ELSEIF logicalExpression THEN vectorFunction)? ELSE vectorFunction ENDIF # vectorDecisionExpression
+  | IF LPAREN logicalExpression (COMMA | SEMI) vectorFunction ((COMMA | SEMI) logicalExpression (COMMA | SEMI) vectorFunction)* (COMMA | SEMI) vectorFunction RPAREN  # vectorFunctionDecisionExpression
+  | LBLACKET NUMBER (COMMA NUMBER)* RBLACKET # vectorOfNumbers
+  | LBLACKET (TRUE | FALSE) (COMMA (TRUE | FALSE))* RBLACKET # vectorOfBooleans
+  | LBLACKET STRING (COMMA STRING)* RBLACKET # vectorOfStrings
+  | LBLACKET DATE (COMMA DATE)* RBLACKET # vectorOfDates
+  | LBLACKET TIME (COMMA TIME)* RBLACKET # vectorOfTimes
+  | LBLACKET DATETIME (COMMA DATETIME)* RBLACKET # vectorOfDateTimes
+  | LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET # vectorOfVariables
+  | LBLACKET function RBLACKET # vectorOfFunctionResult
+  | LIST_TYPE function # vectorFromFunction
+  | LIST_TYPE IDENTIFIER # vectorVariable
   ;

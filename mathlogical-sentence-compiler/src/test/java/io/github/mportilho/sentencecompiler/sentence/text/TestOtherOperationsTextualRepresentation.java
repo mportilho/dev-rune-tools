@@ -78,6 +78,21 @@ public class TestOtherOperationsTextualRepresentation {
     }
 
     @Test
+    public void testDecisionOperation_FunctionLikeTextRepresentation() {
+        MathSentence mathSentence;
+
+        mathSentence = new MathSentence("if(true, 1, 0)");
+        assertThat(mathSentence.toString()).isEqualTo("if(true, 1, 0)");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("if(true, 1, 0)");
+
+        mathSentence = new MathSentence("if(true, 0, false, 1, if(true, 1, 0))");
+        assertThat(mathSentence.toString()).isEqualTo("if(true, 0, false, 1, if(true, 1, 0))");
+        mathSentence.compute();
+        assertThat(mathSentence.toString()).isEqualTo("if(true, 0, false, 1, if(true, 1, 0))");
+    }
+
+    @Test
     public void testFunctionOperationWithOneParameterTextRepresentation() {
         MathSentence mathSentence;
 

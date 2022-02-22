@@ -24,8 +24,10 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
+import io.github.mportilho.sentencecompiler.syntaxtree.ext.*;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +36,20 @@ import static java.util.Collections.emptyMap;
 public class OperationSupportData {
 
     public static final OperationSupportData EMPTY_DATA = new OperationSupportData(emptyMap(), emptyMap());
+    private static final Map<String, LambdaCallSite> INTERNAL_FUNCTIONS;
 
     private final Map<String, Object> dictionary;
     private final Map<String, LambdaCallSite> functions;
+
+    static {
+        Map<String, LambdaCallSite> temp = new HashMap<>();
+        temp.putAll(DateTimeFunctionExtension.dateTimeFunctionsFactory());
+        temp.putAll(FinancialFormulasExtension.financialFunctionsFactory());
+        temp.putAll(MathFormulasExtension.mathFunctionsFactory());
+        temp.putAll(StringFunctionExtension.stringFunctionsFactory());
+        temp.putAll(TrigonometryFunctionExtension.trigonometryFunctionFactory());
+        INTERNAL_FUNCTIONS = Collections.unmodifiableMap(temp);
+    }
 
     public OperationSupportData() {
         this.dictionary = new HashMap<>();
@@ -54,8 +67,8 @@ public class OperationSupportData {
         return dictionary;
     }
 
-    public Map<String, LambdaCallSite> getFunctions() {
-        return functions;
+    public LambdaCallSite getFunction(String key) {
+        return functions.getOrDefault(key, INTERNAL_FUNCTIONS.get(key));
     }
 
     public OperationSupportData putDictionary(String key, Object value) {
@@ -66,6 +79,10 @@ public class OperationSupportData {
     public OperationSupportData putFunction(String key, LambdaCallSite function) {
         functions.put(key, function);
         return this;
+    }
+
+    public Map<String, LambdaCallSite> copyFunctions() {
+        return Collections.unmodifiableMap(functions);
     }
 
 }

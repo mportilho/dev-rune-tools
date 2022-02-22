@@ -36,15 +36,19 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.MathContext;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.createFunctionCaller;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.createLambdaCallSites;
 
 public class SyntaxExecutionSite {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SyntaxExecutionSite.class);
 
     private final AbstractOperation operation;
     private final MathContext mathContext;
@@ -126,23 +130,22 @@ public class SyntaxExecutionSite {
     public void addFunction(LambdaCallSite function) {
         Objects.requireNonNull(function, "Function implementation is required");
         String keyName = function.getKeyName();
-        if (operationSupportData.getFunctions().containsKey(keyName)) {
-            throw new SentenceConfigurationException(String.format("Cannot override predefined function [%s]", function.getMethodName()));
+        if (operationSupportData.getFunction(keyName) != null) {
+            LOGGER.warn("Overriding already present function [{}]", function.getMethodName());
         }
         operationSupportData.putFunction(keyName, function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
-            Map<String, LambdaCallSite> callerMap = createFunctionCaller(functionProvider);
+            Map<String, LambdaCallSite> callSiteMap = createLambdaCallSites(functionProvider);
 
-            List<String> overridingFunctions = callerMap.keySet().stream().filter(key ->
-                    operationSupportData.getFunctions().containsKey(key)).toList();
+            List<String> overridingFunctions = callSiteMap.keySet().stream().filter(key ->
+                    operationSupportData.getFunction(key) != null).toList();
             if (!overridingFunctions.isEmpty()) {
-                throw new SentenceConfigurationException(String.format("Cannot override predefined functions [%s]",
-                        String.join(", ", overridingFunctions)));
+                LOGGER.warn("Overriding already present function(s) [{}]", String.join(", ", overridingFunctions));
             }
-            operationSupportData.getFunctions().putAll(callerMap);
+            callSiteMap.forEach(operationSupportData::putFunction);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);
         }
@@ -154,7 +157,7 @@ public class SyntaxExecutionSite {
         copy.accept(new InitialConfigurationOperationVisitor());
         return new SyntaxExecutionSite(
                 copy, mathContext, scale, zoneId, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
-                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), new HashMap<>(operationSupportData.getFunctions())),
+                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.copyFunctions()),
                 conversionService, preciseNumbers);
     }
 

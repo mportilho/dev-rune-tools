@@ -49,9 +49,9 @@ public record OperationContext(
 
     public LambdaCallSite getFunction(String name, int parameterCount) {
         String functionKey = keyName(name, parameterCount);
-        LambdaCallSite func = userOperationSupportData.getFunctions().get(functionKey);
+        LambdaCallSite func = userOperationSupportData.getFunction(functionKey);
         if (func == null) {
-            func = operationSupportData.getFunctions().get(functionKey);
+            func = operationSupportData.getFunction(functionKey);
         }
         if (func == null && parameterCount >= 0) {
             func = getFunction(name, -1);

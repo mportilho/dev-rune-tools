@@ -24,243 +24,241 @@
 
 package io.github.mportilho.sentencecompiler.operation.others;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.BooleanConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
-import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.BooleanConstantValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
-
 public class TestDecisionOperations {
 
-	private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
-	private AbstractOperation trueOperation;
-	private AbstractOperation falseOperation;
+    private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
+    private AbstractOperation trueOperation;
+    private AbstractOperation falseOperation;
 
-	private AbstractOperation number_1;
-	private AbstractOperation number_2;
-	private AbstractOperation number_3;
-	private AbstractOperation number_4;
+    private AbstractOperation number_1;
+    private AbstractOperation number_2;
+    private AbstractOperation number_3;
+    private AbstractOperation number_4;
 
-	@BeforeEach
-	public void beforeEach() {
-		trueOperation = new BooleanConstantValueOperation("true");
-		falseOperation = new BooleanConstantValueOperation("false");
+    @BeforeEach
+    public void beforeEach() {
+        trueOperation = new BooleanConstantValueOperation("true");
+        falseOperation = new BooleanConstantValueOperation("false");
 
-		number_1 = new PreciseNumberConstantValueOperation("1");
-		number_2 = new PreciseNumberConstantValueOperation("2");
-		number_3 = new PreciseNumberConstantValueOperation("3");
-		number_4 = new PreciseNumberConstantValueOperation("4");
-	}
+        number_1 = new PreciseNumberConstantValueOperation("1");
+        number_2 = new PreciseNumberConstantValueOperation("2");
+        number_3 = new PreciseNumberConstantValueOperation("3");
+        number_4 = new PreciseNumberConstantValueOperation("4");
+    }
 
-	@Test
-	public void testSimpleTrueDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(trueOperation);
-		ops.add(number_2);
-		ops.add(number_3);
+    @Test
+    public void testSimpleTrueDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(trueOperation);
+        ops.add(number_2);
+        ops.add(number_3);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+    }
 
-	@Test
-	public void testSimpleFalseDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(number_3);
+    @Test
+    public void testSimpleFalseDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(number_3);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+    }
 
-	@Test
-	public void testChainedToFirstValueDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(trueOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testChainedToFirstValueDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(trueOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
+    }
 
-	@Test
-	public void testChainedToSecondValueDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(trueOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testChainedToSecondValueDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(trueOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+    }
 
-	@Test
-	public void testChainedToThirdValueDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(trueOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testChainedToThirdValueDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(trueOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+    }
 
-	@Test
-	public void testChainedToDefaultValueDecisions() {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testChainedToDefaultValueDecisions() {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
+    }
 
-	@Test
-	public void testCopingSimpleTrueDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(trueOperation);
-		ops.add(number_2);
-		ops.add(number_3);
+    @Test
+    public void testCopingSimpleTrueDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(trueOperation);
+        ops.add(number_2);
+        ops.add(number_3);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+    }
 
-	@Test
-	public void testCopingSimpleFalseDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(number_3);
+    @Test
+    public void testCopingSimpleFalseDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(number_3);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+    }
 
-	@Test
-	public void testCopingChainedToFirstValueDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(trueOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testCopingChainedToFirstValueDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(trueOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
+    }
 
-	@Test
-	public void testCopingChainedToSecondValueDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(trueOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testCopingChainedToSecondValueDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(trueOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
+    }
 
-	@Test
-	public void testCopingChainedToThirdValueDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(trueOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testCopingChainedToThirdValueDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(trueOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
+    }
 
-	@Test
-	public void testCopingChainedToDefaultValueDecisions() throws Throwable {
-		List<AbstractOperation> ops = new ArrayList<>();
-		ops.add(falseOperation);
-		ops.add(number_1);
-		ops.add(falseOperation);
-		ops.add(number_2);
-		ops.add(falseOperation);
-		ops.add(number_3);
-		ops.add(number_4);
+    @Test
+    public void testCopingChainedToDefaultValueDecisions() throws Throwable {
+        List<AbstractOperation> ops = new ArrayList<>();
+        ops.add(falseOperation);
+        ops.add(number_1);
+        ops.add(falseOperation);
+        ops.add(number_2);
+        ops.add(falseOperation);
+        ops.add(number_3);
+        ops.add(number_4);
 
-		DecisionOperation decisionOperation = new DecisionOperation(ops);
-		DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
-		assertThat(decisionOperation).isNotEqualTo(copyOperation);
-		for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-			assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
-		}
-		assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
-		assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
-	}
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
+        assertThat(decisionOperation).isNotEqualTo(copyOperation);
+        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
+            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        }
+        assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
+        assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
+    }
 
 }

@@ -44,7 +44,7 @@ public class MethodMetadataFactory {
     public static final int VARARGS = -1;
     public static final int UNKNOWN = -1;
 
-    public static Map<String, LambdaCallSite> createFunctionCaller(Object provider) throws Throwable {
+    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
         Objects.requireNonNull(provider, "Provider object for extracting methods required");
         boolean isClassObject = provider instanceof Class<?>;
         Class<?> clazz = isClassObject ? (Class<?>) provider : provider.getClass();

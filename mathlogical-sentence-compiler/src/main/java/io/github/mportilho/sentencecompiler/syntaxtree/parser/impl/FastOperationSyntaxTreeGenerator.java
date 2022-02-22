@@ -206,7 +206,7 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
             operations.add(mathExpressions.get(i).accept(this));
         }
         operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(Double.class);
+        return new DecisionOperation(true, operations).expectedType(Double.class);
     }
 
     @Override
@@ -220,7 +220,7 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
             operations.add(mathExpressions.get(i).accept(this));
         }
         operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(operations).expectedType(Double.class);
+        return new DecisionOperation(false, operations).expectedType(Double.class);
     }
 
     @Override

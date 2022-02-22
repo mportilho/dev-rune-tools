@@ -34,9 +34,11 @@ import java.util.List;
 
 public class DecisionOperation extends AbstractOperation {
 
+    private final boolean expressionLike;
     private final List<AbstractOperation> operations;
 
-    public DecisionOperation(List<AbstractOperation> operations) {
+    public DecisionOperation(boolean expressionLike, List<AbstractOperation> operations) {
+        this.expressionLike = expressionLike;
         if (operations == null || operations.size() < 2) {
             throw new IllegalStateException(
                     "Decision operation must have at least two conditionals (if ... then ... [elsif then ...] else ... endif)");
@@ -65,11 +67,32 @@ public class DecisionOperation extends AbstractOperation {
         for (AbstractOperation op : operations) {
             clonedOperations.add(op.copy(context));
         }
-        return new DecisionOperation(clonedOperations);
+        return new DecisionOperation(expressionLike, clonedOperations);
     }
 
     @Override
     protected void formatRepresentation(StringBuilder builder) {
+        if (expressionLike) {
+            expressionRepresentation(builder);
+        } else {
+            functionRepresentation(builder);
+        }
+    }
+
+    private void functionRepresentation(StringBuilder builder) {
+        int count = operations.size();
+        for (int i = 0; i < count - 1; i += 2) {
+            if (i == 0) {
+                builder.append("if(");
+            } else {
+                builder.append(", ");
+            }
+            builder.append(operations.get(i)).append(", ").append(operations.get(i + 1));
+        }
+        builder.append(", ").append(operations.get(operations.size() - 1)).append(")");
+    }
+
+    private void expressionRepresentation(StringBuilder builder) {
         int count = operations.size();
         for (int i = 0; i < count - 1; i += 2) {
             if (i == 0) {

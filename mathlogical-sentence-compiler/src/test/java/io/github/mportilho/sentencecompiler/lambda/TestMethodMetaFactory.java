@@ -41,7 +41,7 @@ public class TestMethodMetaFactory {
 
     @Test
     public void test_addBigDecimal() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createFunctionCaller(PlaceholderMethodUtils.class);
+        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
         Object value = siteMap.get("adder_2").call(CONTEXT, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
@@ -50,7 +50,7 @@ public class TestMethodMetaFactory {
 
     @Test
     public void test_concatString() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createFunctionCaller(PlaceholderMethodUtils.class);
+        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
         Object value = siteMap.get("concatOne_1").call(CONTEXT, new Object[]{"number"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)

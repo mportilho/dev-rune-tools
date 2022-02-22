@@ -29,7 +29,6 @@ import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingExcept
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.ext.*;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
@@ -84,12 +83,6 @@ public class MathSentence {
     private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {
         OperationSupportData operationSupportData = mathSentenceOptions.getOperationSupportData() != null ?
                 mathSentenceOptions.getOperationSupportData() : new OperationSupportData();
-
-        operationSupportData.getFunctions().putAll(DateTimeFunctionExtension.dateTimeFunctionsFactory());
-        operationSupportData.getFunctions().putAll(FinancialFormulasExtension.financialFunctionsFactory());
-        operationSupportData.getFunctions().putAll(MathFormulasExtension.mathFunctionsFactory());
-        operationSupportData.getFunctions().putAll(StringFunctionExtension.stringFunctionsFactory());
-        operationSupportData.getFunctions().putAll(TrigonometryFunctionExtension.trigonometryFunctionFactory());
         return operationSupportData;
     }
 

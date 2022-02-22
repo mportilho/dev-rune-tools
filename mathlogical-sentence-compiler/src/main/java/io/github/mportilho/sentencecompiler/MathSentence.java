@@ -81,9 +81,8 @@ public class MathSentence {
     }
 
     private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {
-        OperationSupportData operationSupportData = mathSentenceOptions.getOperationSupportData() != null ?
+        return mathSentenceOptions.getOperationSupportData() != null ?
                 mathSentenceOptions.getOperationSupportData() : new OperationSupportData();
-        return operationSupportData;
     }
 
     @SuppressWarnings("unchecked")

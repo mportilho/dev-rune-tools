@@ -86,4 +86,18 @@ public class TestMoreExcelFinancialFormula {
                 .isEqualByComparingTo("-302.1148036253776");
     }
 
+    @Test
+    public void test_irr() {
+        assertThat(irr(new BigDecimal[]{valueOf(-1000), valueOf(300), valueOf(400), valueOf(400), valueOf(300)},
+                ZERO, MathContext.DECIMAL64)).isEqualByComparingTo("0.1489502812737555");
+    }
+
+    @Test
+    public void test_mirr() {
+        assertThat(mirr(new BigDecimal[]{valueOf(-1000), valueOf(300), valueOf(400), valueOf(400), valueOf(300)},
+                valueOf(0.12), valueOf(0.1),
+                MathContext.DECIMAL64))
+                .isEqualByComparingTo("0.136997740050973");
+    }
+
 }

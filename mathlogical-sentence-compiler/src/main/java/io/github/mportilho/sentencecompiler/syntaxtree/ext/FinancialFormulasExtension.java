@@ -293,6 +293,25 @@ public class FinancialFormulasExtension {
                 ));
         extensions.put(callSite.getKeyName(), callSite);
 
+        callSite = new LambdaCallSite("irr",
+                MethodType.methodType(BigDecimal.class, BigDecimal[].class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.irr(
+                        (BigDecimal[]) parameters[0],
+                        (BigDecimal) parameters[1],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("mirr",
+                MethodType.methodType(BigDecimal.class, BigDecimal[].class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.mirr(
+                        (BigDecimal[]) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
         return extensions;
     }
 

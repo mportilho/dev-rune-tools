@@ -24,9 +24,11 @@
 
 package io.github.mportilho.sentencecompiler.formulas;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.List;
 
 import static ch.obermuhlner.math.big.BigDecimalMath.log;
 import static ch.obermuhlner.math.big.BigDecimalMath.pow;
@@ -40,6 +42,10 @@ import static java.math.BigDecimal.*;
  * total number of periods
  */
 public class ExcelFinancialFunction {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelFinancialFunction.class);
+    private static final int MAX_ITERATION_COUNT = 1000;
+    private static final BigDecimal ABSOLUTE_ACCURACY = valueOf(1E-7);
 
     /**
      * Equivalent Interest Rate => ((1+r/per)^(per*nper)) - 1
@@ -353,6 +359,84 @@ public class ExcelFinancialFunction {
 
     public static BigDecimal ppmt(BigDecimal r, BigDecimal nper, BigDecimal pv, MathContext mc) {
         return pmt(r, nper, pv, mc).subtract(ipmt(r, ONE, nper, pv, mc), mc);
+    }
+
+    /**
+     * Calculates IRR
+     *
+     * @param pmts  the income values
+     * @param guess the initial guess of irr
+     * @return the irr value or null if exceeds maximum iteration count
+     */
+    public static BigDecimal irr(BigDecimal[] pmts, BigDecimal guess, MathContext mc) {
+        double x0 = guess.doubleValue();
+        double[] values = new double[pmts.length];
+        for (int i = 0, pmtsLength = pmts.length; i < pmtsLength; i++) {
+            values[i] = pmts[i].doubleValue();
+        }
+
+        for (int i = 0; i < MAX_ITERATION_COUNT; i++) {
+            final double factor = 1.0 + x0;
+            double denominator = factor;
+            if (denominator == 0) {
+                LOGGER.debug("Returning null (NaN) because IRR has found an denominator of 0");
+                return null;
+            }
+
+            double fValue = values[0];
+            double fDerivative = 0;
+            for (int k = 1; k < values.length; k++) {
+                final double value = values[k];
+                fValue += value / denominator;
+                denominator *= factor;
+                fDerivative -= k * value / denominator;
+            }
+
+            if (fDerivative == 0) {
+                LOGGER.debug("Returning null because IRR found an fDerivative of 0");
+                return null;
+            }
+            double x1 = x0 - fValue / fDerivative;
+
+            if (Math.abs(x1 - x0) <= ABSOLUTE_ACCURACY.doubleValue()) {
+                return valueOf(x1);
+            }
+            x0 = x1;
+        }
+        // maximum number of iterations is exceeded
+        LOGGER.debug("Returning null because IRR reached max number of iterations allowed: {}", MAX_ITERATION_COUNT);
+        return null;
+    }
+
+    /**
+     * @param pmts         the income values
+     * @param financeRate  Interest rate paid for the money used in cash flows
+     * @param reinvestRate Interest rate paid for reinvestment of cash flows
+     * @return the mirr value
+     */
+    public static BigDecimal mirr(BigDecimal[] pmts, BigDecimal financeRate, BigDecimal reinvestRate, MathContext mc) {
+        BigDecimal nper = valueOf(pmts.length - 1);
+        BigDecimal pv = ZERO;
+        BigDecimal fv = ZERO;
+
+        int idxPmt = 0;
+        for (BigDecimal pmt : pmts) {
+            if (pmt.compareTo(ZERO) < 0) {
+                BigDecimal divider = pow(ONE.add(financeRate, mc).add(reinvestRate, mc), valueOf(idxPmt++), mc);
+                pv = pv.add(pmt.divide(divider, mc));
+            }
+        }
+
+        for (BigDecimal pmt : pmts) {
+            if (pmt.compareTo(ZERO) > 0) {
+                fv = fv.add(pmt.multiply(pow(ONE.add(financeRate, mc), nper.subtract(valueOf(idxPmt++), mc), mc), mc), mc);
+            }
+        }
+
+        if (fv.compareTo(ZERO) != 0 && pv.compareTo(ZERO) != 0) {
+            return pow(fv.negate().divide(pv, mc), ONE.divide(nper, mc), mc).subtract(ONE, mc);
+        }
+        return ZERO;
     }
 
 

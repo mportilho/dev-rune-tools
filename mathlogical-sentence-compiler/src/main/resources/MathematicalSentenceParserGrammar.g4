@@ -156,7 +156,7 @@ STRING_TYPE: '<text>';
 DATE_TYPE: '<date>' ;
 TIME_TYPE: '<time>' ;
 DATETIME_TYPE: '<datetime>' ;
-LIST_TYPE: '<vector>' ;
+VECTOR_TYPE: '<vector>' ;
 
 // Small lexer parts
 DAY_PART
@@ -292,10 +292,6 @@ function
   : CACHE_FUNCTION_PREFIX? IDENTIFIER LPAREN (allEntityTypes ((COMMA | SEMI)  allEntityTypes)*)* RPAREN
   ;
 
-vectorFunction
-  : vectorEntity CONTAINS allEntityTypes # vectorContainsOperation
-  ;
-
 comparisonOperator
   : (GT | GE | LT | LE | EQ | NEQ)
   ;
@@ -370,16 +366,11 @@ dateTimeEntity
   ;
 
 vectorEntity
-  : IF logicalExpression THEN vectorFunction (ELSEIF logicalExpression THEN vectorFunction)? ELSE vectorFunction ENDIF # vectorDecisionExpression
-  | IF LPAREN logicalExpression (COMMA | SEMI) vectorFunction ((COMMA | SEMI) logicalExpression (COMMA | SEMI) vectorFunction)* (COMMA | SEMI) vectorFunction RPAREN  # vectorFunctionDecisionExpression
-  | LBLACKET NUMBER (COMMA NUMBER)* RBLACKET # vectorOfNumbers
-  | LBLACKET (TRUE | FALSE) (COMMA (TRUE | FALSE))* RBLACKET # vectorOfBooleans
-  | LBLACKET STRING (COMMA STRING)* RBLACKET # vectorOfStrings
-  | LBLACKET DATE (COMMA DATE)* RBLACKET # vectorOfDates
-  | LBLACKET TIME (COMMA TIME)* RBLACKET # vectorOfTimes
-  | LBLACKET DATETIME (COMMA DATETIME)* RBLACKET # vectorOfDateTimes
-  | LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET # vectorOfVariables
-  | LBLACKET function RBLACKET # vectorOfFunctionResult
-  | LIST_TYPE function # vectorFromFunction
-  | LIST_TYPE IDENTIFIER # vectorVariable
+  : LBLACKET numericEntity (COMMA numericEntity)* RBLACKET # vectorOfNumbers
+  | LBLACKET logicalEntity (COMMA logicalEntity)* RBLACKET # vectorOfBooleans
+  | LBLACKET stringEntity (COMMA stringEntity)* RBLACKET # vectorOfStrings
+  | LBLACKET dateEntity (COMMA dateEntity)* RBLACKET # vectorOfDates
+  | LBLACKET timeEntity (COMMA timeEntity)* RBLACKET # vectorOfTimes
+  | LBLACKET dateTimeEntity (COMMA dateTimeEntity)* RBLACKET # vectorOfDateTimes
+  | VECTOR_TYPE IDENTIFIER # vectorVariable
   ;

@@ -112,7 +112,7 @@ public abstract class AbstractOperation {
     }
 
     private Object castOperationResult(Object result, OperationContext operationContext) {
-        if (result != null && !getExpectedType().equals(result.getClass())) {
+        if (result != null && !getExpectedType().isArray() && !getExpectedType().equals(result.getClass())) {
             try {
                 return operationContext.formattedConversionService().convert(result, getExpectedType(), null);
             } catch (NoFormattedConverterFoundException e) {

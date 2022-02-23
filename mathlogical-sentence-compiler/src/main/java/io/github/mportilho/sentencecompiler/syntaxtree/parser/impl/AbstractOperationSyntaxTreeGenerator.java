@@ -37,16 +37,14 @@ import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOper
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
-import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.InternallyMutableValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.*;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -617,6 +615,51 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDegreeExpression(DegreeExpressionContext ctx) {
         return new DeggreOperation(ctx.mathExpression().accept(this));
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfBooleans(VectorOfBooleansContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.logicalEntity().size()];
+        for (int i = 0, size = ctx.logicalEntity().size(); i < size; i++) {
+            operations[i] = ctx.logicalEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(Boolean[].class);
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfDates(VectorOfDatesContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.dateEntity().size()];
+        for (int i = 0, size = ctx.dateEntity().size(); i < size; i++) {
+            operations[i] = ctx.dateEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(LocalDate[].class);
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfTimes(VectorOfTimesContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.timeEntity().size()];
+        for (int i = 0, size = ctx.timeEntity().size(); i < size; i++) {
+            operations[i] = ctx.timeEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(LocalTime[].class);
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfDateTimes(VectorOfDateTimesContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.dateTimeEntity().size()];
+        for (int i = 0, size = ctx.dateTimeEntity().size(); i < size; i++) {
+            operations[i] = ctx.dateTimeEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(ZonedDateTime[].class);
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfStrings(VectorOfStringsContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.stringEntity().size()];
+        for (int i = 0, size = ctx.stringEntity().size(); i < size; i++) {
+            operations[i] = ctx.stringEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(String[].class);
     }
 
     protected AbstractOperation createNewUserVariable(ParserRuleContext context) {

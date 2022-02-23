@@ -25,19 +25,26 @@
 package io.github.mportilho.sentencecompiler.operation.value.constant;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.VectorValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseEulerNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PrecisePiNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
+import org.apache.commons.math3.analysis.function.Abs;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestConstantOperations {
 
@@ -113,6 +120,36 @@ public class TestConstantOperations {
         assertThat(new TimeConstantValueOperation("13:11:44").<LocalTime>evaluate(context)).isEqualTo("13:11:44");
         assertThat(new TimeConstantValueOperation("02:12:46").<LocalTime>evaluate(context)).isEqualTo("02:12:46");
         assertThat(new TimeConstantValueOperation("23:13:47").<LocalTime>evaluate(context)).isEqualTo("23:13:47");
+    }
+
+    @Test
+    public void testNumericVectorValueOperation() {
+        assertThat(new VectorValueOperation("[1, 2, 3]", new AbstractOperation[]{
+                new PreciseNumberConstantValueOperation("1"),
+                new PreciseNumberConstantValueOperation("2"),
+                new PreciseNumberConstantValueOperation("3")
+        }).expectedType(BigDecimal[].class).<Object[]>evaluate(context))
+                .hasSize(3).containsExactly(valueOf(1), valueOf(2), valueOf(3));
+    }
+
+    @Test
+    public void testLogicalVectorValueOperation() {
+        assertThat(new VectorValueOperation("[true, false, false]", new AbstractOperation[]{
+                new BooleanConstantValueOperation("true"),
+                new BooleanConstantValueOperation("false"),
+                new BooleanConstantValueOperation("false")
+        }).expectedType(Boolean[].class).<Object[]>evaluate(context))
+                .hasSize(3).containsExactly(TRUE, FALSE, FALSE);
+    }
+
+    @Test
+    public void testLocalDateVectorValueOperation() {
+        assertThat(new VectorValueOperation("[2021-01-01, 2021-02-02, 2021-03-04]", new AbstractOperation[]{
+                new DateConstantValueOperation("2021-01-01"),
+                new DateConstantValueOperation("2021-02-02"),
+                new DateConstantValueOperation("2021-03-04")
+        }).expectedType(LocalDate[].class).<Object[]>evaluate(context))
+                .hasSize(3).containsExactly(LocalDate.parse("2021-01-01"), LocalDate.parse("2021-02-02"), LocalDate.parse("2021-03-04"));
     }
 
 }

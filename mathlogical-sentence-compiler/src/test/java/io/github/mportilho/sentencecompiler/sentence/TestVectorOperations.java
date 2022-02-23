@@ -22,25 +22,31 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.value.variable;
+package io.github.mportilho.sentencecompiler.sentence;
 
-import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
-import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.MathSentenceOptions;
+import org.junit.jupiter.api.Test;
 
-public class VectorVariableOperation extends AbstractVariableValueOperation {
+import java.math.BigDecimal;
+import java.math.MathContext;
 
-    public VectorVariableOperation(String variableName) {
-        super(variableName);
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class TestVectorOperations {
+
+    private static final MathSentenceOptions MATH_OPTION = new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService());
+
+    @Test
+    public void test() {
+        MathSentence compiler = new MathSentence("[1, 2, 3]").compute();
     }
 
-    @Override
-    protected Object resolve(OperationContext context) {
-        return null;
+    @Test
+    public void testNumericVectorValueOperation() {
+        assertThat(new MathSentence("<number>mirr([-1000, 300, 400, 400, 300], 10%, 12%)").<BigDecimal>compute())
+                .isEqualByComparingTo("0.13");
     }
 
-    @Override
-    protected AbstractOperation createClone(CloningContext context) {
-        return null;
-    }
 }

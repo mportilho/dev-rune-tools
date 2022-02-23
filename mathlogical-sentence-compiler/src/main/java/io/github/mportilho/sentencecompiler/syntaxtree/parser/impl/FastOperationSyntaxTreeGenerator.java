@@ -39,6 +39,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.fast.FastNu
 import io.github.mportilho.sentencecompiler.operation.value.constant.fast.FastPiNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.VectorValueOperation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -273,6 +274,15 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
                     () -> ctx.getText().substring(1)));
         }
         throw new IllegalStateException("Invalid numeric operation: " + ctx.getText());
+    }
+
+    @Override
+    public AbstractOperation visitVectorOfNumbers(VectorOfNumbersContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.numericEntity().size()];
+        for (int i = 0, size = ctx.numericEntity().size(); i < size; i++) {
+            operations[i] = ctx.numericEntity().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(Double[].class);
     }
 
 }

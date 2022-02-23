@@ -976,30 +976,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitDateTimeFunctionResult(MathematicalSentenceParserGrammarParser.DateTimeFunctionResultContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code vectorDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorDecisionExpression(MathematicalSentenceParserGrammarParser.VectorDecisionExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code vectorFunctionDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorFunctionDecisionExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorFunctionDecisionExpression(MathematicalSentenceParserGrammarParser.VectorFunctionDecisionExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code vectorOfNumbers}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
 	 * @param ctx the parse tree
@@ -1071,42 +1047,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code vectorOfVariables}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorOfVariables}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code vectorOfFunctionResult}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorOfFunctionResult}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorOfFunctionResult(MathematicalSentenceParserGrammarParser.VectorOfFunctionResultContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code vectorFromFunction}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorFromFunction}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorFromFunction(MathematicalSentenceParserGrammarParser.VectorFromFunctionContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code vectorVariable}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.

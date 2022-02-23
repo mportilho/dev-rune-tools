@@ -30,6 +30,7 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 
 import java.math.MathContext;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 public class MathSentenceOptions {
 
@@ -41,15 +42,15 @@ public class MathSentenceOptions {
     private final boolean preciseNumbers;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null,
-                ZoneId.systemDefault(), true);
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService( ), null,
+                ZoneOffset.UTC, true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
         this(mathContext, scale, formattedConversionService, null,
-                ZoneId.systemDefault(), true);
+                ZoneOffset.UTC, true);
     }
 
     public MathSentenceOptions(

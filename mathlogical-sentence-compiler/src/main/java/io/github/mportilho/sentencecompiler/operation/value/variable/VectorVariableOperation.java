@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,25 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.value.constant;
+package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+public class VectorVariableOperation extends AbstractVariableValueOperation {
 
-public class DateTimeConstantValueOperation extends AbstractConstantValueOperation {
-
-    private final String offset;
-
-    public DateTimeConstantValueOperation(String value, String offset) {
-        super(value);
-        this.offset = offset;
-    }
-
-    @Override
-    protected AbstractOperation createClone(CloningContext context) {
-        return new DateTimeConstantValueOperation(getValue( ), offset);
+    public VectorVariableOperation(String variableName) {
+        super(variableName);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        ZoneId zoneId = offset != null && !offset.isBlank( ) ? ZoneOffset.of(offset) : context.zoneId( );
-        return ZonedDateTime.of(LocalDateTime.parse(getValue( )), zoneId);
+        return null;
     }
 
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return null;
+    }
 }

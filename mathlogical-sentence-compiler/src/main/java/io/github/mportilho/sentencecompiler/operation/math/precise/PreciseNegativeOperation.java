@@ -37,6 +37,7 @@ public class PreciseNegativeOperation extends AbstractUnaryOperator {
 
 	public PreciseNegativeOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.LEFT);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

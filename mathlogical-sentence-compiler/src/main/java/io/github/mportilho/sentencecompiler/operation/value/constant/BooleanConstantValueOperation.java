@@ -30,18 +30,19 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class BooleanConstantValueOperation extends AbstractConstantValueOperation {
 
-	public BooleanConstantValueOperation(String value) {
-		super(value);
-	}
+    public BooleanConstantValueOperation(String value) {
+        super(value);
+        expectedType(Boolean.class);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return Boolean.parseBoolean(getValue());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return Boolean.parseBoolean(getValue());
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new BooleanConstantValueOperation(getValue());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new BooleanConstantValueOperation(getValue());
+    }
 
 }

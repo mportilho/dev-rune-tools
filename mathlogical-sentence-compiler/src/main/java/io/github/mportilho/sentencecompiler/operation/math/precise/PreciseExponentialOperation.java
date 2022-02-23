@@ -36,6 +36,7 @@ public class PreciseExponentialOperation extends AbstractBinaryOperation {
 
     public PreciseExponentialOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
         super(leftOperand, rightOperand);
+        expectedType(BigDecimal.class);
     }
 
     @Override

@@ -40,6 +40,7 @@ public class PreciseNumberRoundingOperation extends AbstractBinaryOperation {
             AbstractOperation leftOperand, AbstractOperation rightOperand, RoundingEnum roundingEnum) {
         super(leftOperand, rightOperand);
         this.roundingEnum = roundingEnum;
+        expectedType(BigDecimal.class);
     }
 
     @Override

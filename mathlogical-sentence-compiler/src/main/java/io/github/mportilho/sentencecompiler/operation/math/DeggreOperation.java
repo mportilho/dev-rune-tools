@@ -34,26 +34,27 @@ import java.math.BigDecimal;
 
 public class DeggreOperation extends AbstractUnaryOperator {
 
-	private static final BigDecimal HALF_RADIUS = BigDecimal.valueOf(180L);
+    private static final BigDecimal HALF_RADIUS = BigDecimal.valueOf(180L);
 
-	public DeggreOperation(AbstractOperation operand) {
-		super(operand, OperatorPosition.RIGHT);
-	}
+    public DeggreOperation(AbstractOperation operand) {
+        super(operand, OperatorPosition.RIGHT);
+        expectedType(BigDecimal.class);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getOperand().<BigDecimal>evaluate(context).multiply(BigDecimalMath.pi(context.mathContext())).divide(HALF_RADIUS,
-				context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getOperand().<BigDecimal>evaluate(context).multiply(BigDecimalMath.pi(context.mathContext())).divide(HALF_RADIUS,
+                context.mathContext());
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new DeggreOperation(getOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new DeggreOperation(getOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "°";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "°";
+    }
 
 }

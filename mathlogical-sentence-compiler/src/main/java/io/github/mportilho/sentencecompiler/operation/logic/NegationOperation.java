@@ -33,6 +33,7 @@ public class NegationOperation extends AbstractUnaryOperator {
 
 	public NegationOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.LEFT);
+		expectedType(Boolean.class);
 	}
 
 	@Override

@@ -33,6 +33,7 @@ public class EqualsOperation extends AbstractBinaryOperation {
 
 	public EqualsOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

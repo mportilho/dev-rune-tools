@@ -33,6 +33,7 @@ public class GreaterOrEqualsOperation extends AbstractBinaryOperation {
 
 	public GreaterOrEqualsOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

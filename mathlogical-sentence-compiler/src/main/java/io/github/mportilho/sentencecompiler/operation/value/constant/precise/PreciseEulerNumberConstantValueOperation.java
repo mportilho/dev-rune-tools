@@ -30,10 +30,13 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.math.BigDecimal;
+
 public class PreciseEulerNumberConstantValueOperation extends AbstractConstantValueOperation {
 
     public PreciseEulerNumberConstantValueOperation() {
         super("E");
+        expectedType(BigDecimal.class);
     }
 
     @Override

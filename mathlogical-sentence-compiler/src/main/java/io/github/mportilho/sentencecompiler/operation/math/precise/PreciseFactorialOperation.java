@@ -30,10 +30,13 @@ import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.math.BigDecimal;
+
 public class PreciseFactorialOperation extends AbstractUnaryOperator {
 
 	public PreciseFactorialOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.RIGHT);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

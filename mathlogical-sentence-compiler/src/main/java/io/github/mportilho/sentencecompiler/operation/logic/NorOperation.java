@@ -33,6 +33,7 @@ public class NorOperation extends AbstractBinaryOperation {
 
 	public NorOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

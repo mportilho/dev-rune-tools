@@ -116,17 +116,17 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitStringExpression(StringExpressionContext ctx) {
         if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOrEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new LessOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new LessOrEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.stringEntity(0).accept(this), ctx.stringEntity(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operação não implementada: %s", ctx.getText()));
     }
@@ -134,21 +134,21 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitLogicExpression(LogicExpressionContext ctx) {
         if (nonNull(ctx.logicalOperator().AND())) {
-            return new AndOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new AndOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().OR())) {
-            return new OrOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new OrOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().XOR())) {
-            return new XorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new XorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().XNOR())) {
-            return new XnorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new XnorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().NOR())) {
-            return new NorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new NorOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().NAND())) {
-            return new NandOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new NandOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().EQ())) {
-            return new EqualsOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         } else if (nonNull(ctx.logicalOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.logicalExpression(0).accept(this), ctx.logicalExpression(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
@@ -156,40 +156,40 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDateExpression(DateExpressionContext ctx) {
         if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOrEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOrEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.dateOperation(0).accept(this), ctx.dateOperation(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
     public AbstractOperation visitNotExpression(NotExpressionContext ctx) {
-        return new NegationOperation(ctx.logicalExpression().accept(this)).expectedType(Boolean.class);
+        return new NegationOperation(ctx.logicalExpression().accept(this));
     }
 
     @Override
     public AbstractOperation visitComparisonMathExpression(ComparisonMathExpressionContext ctx) {
         if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOrEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new LessOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new LessOrEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
@@ -197,17 +197,17 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitTimeExpression(TimeExpressionContext ctx) {
         if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOrEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOrEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.timeOperation(0).accept(this), ctx.timeOperation(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
@@ -216,14 +216,14 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     public AbstractOperation visitLogicalParenthesis(LogicalParenthesisContext ctx) {
         AbstractOperation operation = ctx.logicalExpression().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(Boolean.class);
+        return operation;
     }
 
     @Override
     public AbstractOperation visitDateParenthesis(DateParenthesisContext ctx) {
         AbstractOperation operation = ctx.dateOperation().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(LocalDate.class);
+        return operation;
     }
 
     @Override
@@ -255,14 +255,14 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
                 throw new IllegalStateException(String.format("Operation %s not implemented", ctx.DATE_OPERATIONS(i).getText()));
             }//@formatter:on
         }
-        return leftOperand.expectedType(LocalDate.class);
+        return leftOperand;
     }
 
     @Override
     public AbstractOperation visitTimeParenthesis(TimeParenthesisContext ctx) {
         AbstractOperation operation = ctx.timeOperation().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(LocalTime.class);
+        return operation;
     }
 
     @Override
@@ -294,14 +294,14 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
                 throw new IllegalStateException(String.format("Operation %s not implemented", ctx.TIME_OPERATIONS(i).getText()));
             }
         }//@formatter:on
-        return leftOperand.expectedType(LocalTime.class);
+        return leftOperand;
     }
 
     @Override
     public AbstractOperation visitDateTimeParenthesis(DateTimeParenthesisContext ctx) {
         AbstractOperation operation = ctx.dateTimeOperation().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(ZonedDateTime.class);
+        return operation;
     }
 
     @Override
@@ -351,7 +351,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
                 throw new IllegalStateException(String.format("Operation %s not implemented", ctx.DATE_OPERATIONS(i).getText()));
             }//@formatter:on
         }
-        return leftOperand.expectedType(ZonedDateTime.class);
+        return leftOperand;
     }
 
     @Override
@@ -367,7 +367,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitLogicalConstant(LogicalConstantContext ctx) {
-        return new BooleanConstantValueOperation(ctx.getText()).expectedType(Boolean.class);
+        return new BooleanConstantValueOperation(ctx.getText());
     }
 
     @Override
@@ -409,17 +409,17 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitDateTimeExpression(DateTimeExpressionContext ctx) {
         if (nonNull(ctx.comparisonOperator().GT())) {
-            return new GreaterOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().GE())) {
-            return new GreaterOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new GreaterOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LT())) {
-            return new LessOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().LE())) {
-            return new LessOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new LessOrEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().EQ())) {
-            return new EqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new EqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         } else if (nonNull(ctx.comparisonOperator().NEQ())) {
-            return new NotEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this)).expectedType(Boolean.class);
+            return new NotEqualsOperation(ctx.dateTimeOperation(0).accept(this), ctx.dateTimeOperation(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
@@ -454,7 +454,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitStringConstant(StringConstantContext ctx) {
-        return new StringConstantValueOperation(ctx.getText().substring(1, ctx.getText().length() - 1)).expectedType(String.class);
+        return new StringConstantValueOperation(ctx.getText().substring(1, ctx.getText().length() - 1));
     }
 
     @Override
@@ -497,7 +497,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitDateConstant(DateConstantContext ctx) {
-        return new DateConstantValueOperation(ctx.getText()).expectedType(LocalDate.class);
+        return new DateConstantValueOperation(ctx.getText());
     }
 
     @Override
@@ -546,7 +546,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitTimeConstant(TimeConstantContext ctx) {
-        return new TimeConstantValueOperation(ctx.getText()).expectedType(LocalTime.class);
+        return new TimeConstantValueOperation(ctx.getText());
     }
 
     @Override
@@ -595,7 +595,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitDateTimeConstant(DateTimeConstantContext ctx) {
-        return new DateTimeConstantValueOperation(ctx.getText(), null).expectedType(ZonedDateTime.class);
+        return new DateTimeConstantValueOperation(ctx.getText(), null);
     }
 
     @Override

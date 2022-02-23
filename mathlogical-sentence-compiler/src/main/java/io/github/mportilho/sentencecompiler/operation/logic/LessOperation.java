@@ -33,6 +33,7 @@ public class LessOperation extends AbstractBinaryOperation {
 
 	public LessOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

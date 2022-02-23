@@ -30,26 +30,29 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.math.BigDecimal;
+
 public class PreciseNumberConstantValueOperation extends AbstractConstantValueOperation {
 
-	public PreciseNumberConstantValueOperation(String value) {
-		super(value);
-	}
+    public PreciseNumberConstantValueOperation(String value) {
+        super(value);
+        expectedType(BigDecimal.class);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return BigDecimalMath.toBigDecimal(getValue(), context.mathContext());
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return BigDecimalMath.toBigDecimal(getValue(), context.mathContext());
+    }
 
-	public void transformToPositiveValue() {
-		if (getValue() != null && getValue().startsWith("-")) {
-			setValue(getValue().substring(1));
-		}
-	}
+    public void transformToPositiveValue() {
+        if (getValue() != null && getValue().startsWith("-")) {
+            setValue(getValue().substring(1));
+        }
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new PreciseNumberConstantValueOperation(getValue());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new PreciseNumberConstantValueOperation(getValue());
+    }
 
 }

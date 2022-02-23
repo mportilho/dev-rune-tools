@@ -35,6 +35,7 @@ public class PreciseModuloOperation extends AbstractBinaryOperation {
 
 	public PreciseModuloOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

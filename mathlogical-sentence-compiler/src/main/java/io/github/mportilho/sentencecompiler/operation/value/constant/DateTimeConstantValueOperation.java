@@ -40,17 +40,18 @@ public class DateTimeConstantValueOperation extends AbstractConstantValueOperati
     public DateTimeConstantValueOperation(String value, String offset) {
         super(value);
         this.offset = offset;
+        expectedType(ZonedDateTime.class);
     }
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new DateTimeConstantValueOperation(getValue( ), offset);
+        return new DateTimeConstantValueOperation(getValue(), offset);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        ZoneId zoneId = offset != null && !offset.isBlank( ) ? ZoneOffset.of(offset) : context.zoneId( );
-        return ZonedDateTime.of(LocalDateTime.parse(getValue( )), zoneId);
+        ZoneId zoneId = offset != null && !offset.isBlank() ? ZoneOffset.of(offset) : context.zoneId();
+        return ZonedDateTime.of(LocalDateTime.parse(getValue()), zoneId);
     }
 
 }

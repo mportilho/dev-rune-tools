@@ -28,6 +28,7 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 
@@ -36,6 +37,7 @@ public class TimeSubtractionOperation extends AbstractDateTimeOperation {
     public TimeSubtractionOperation(
             AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
         super(leftOperand, rightOperand, dateElement);
+        expectedType(LocalTime.class);
     }
 
     @Override

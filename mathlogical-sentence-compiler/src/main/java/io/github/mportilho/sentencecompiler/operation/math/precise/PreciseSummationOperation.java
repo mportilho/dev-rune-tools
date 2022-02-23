@@ -38,6 +38,7 @@ public class PreciseSummationOperation extends AbstractSequencialMathOperation {
             AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
             SequenceVariableValueOperation sequenceVariable) {
         super(startIndex, endIndex, operation, sequenceVariable);
+        expectedType(BigDecimal.class);
     }
 
     @Override

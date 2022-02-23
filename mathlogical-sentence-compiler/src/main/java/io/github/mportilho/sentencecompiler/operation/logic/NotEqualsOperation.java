@@ -33,6 +33,7 @@ public class NotEqualsOperation extends AbstractBinaryOperation {
 
 	public NotEqualsOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

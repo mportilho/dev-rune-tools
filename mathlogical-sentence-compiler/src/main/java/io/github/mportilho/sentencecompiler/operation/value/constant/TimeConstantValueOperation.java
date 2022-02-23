@@ -35,6 +35,7 @@ public class TimeConstantValueOperation extends AbstractConstantValueOperation {
 
     public TimeConstantValueOperation(String value) {
         super(value);
+        expectedType(LocalTime.class);
     }
 
     @Override

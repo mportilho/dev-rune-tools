@@ -38,6 +38,7 @@ public class PreciseProductOfSequenceOperation extends AbstractSequencialMathOpe
             AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
             SequenceVariableValueOperation sequenceVariable) {
         super(startIndex, endIndex, operation, sequenceVariable);
+        expectedType(BigDecimal.class);
     }
 
     @Override

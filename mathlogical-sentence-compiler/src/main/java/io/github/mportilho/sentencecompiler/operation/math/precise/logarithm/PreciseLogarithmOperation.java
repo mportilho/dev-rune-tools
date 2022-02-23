@@ -36,6 +36,7 @@ public class PreciseLogarithmOperation extends AbstractBinaryOperation {
 
 	public PreciseLogarithmOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

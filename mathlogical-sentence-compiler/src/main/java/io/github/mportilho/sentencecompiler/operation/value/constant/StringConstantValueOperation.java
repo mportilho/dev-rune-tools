@@ -30,25 +30,26 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 public class StringConstantValueOperation extends AbstractConstantValueOperation {
 
-	public StringConstantValueOperation(String value) {
-		super(value);
-	}
+    public StringConstantValueOperation(String value) {
+        super(value);
+        expectedType(String.class);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		return getValue();
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        return getValue();
+    }
 
-	@Override
-	protected void formatRepresentation(StringBuilder builder) {
-		builder.append('\'');
-		super.formatRepresentation(builder);
-		builder.append('\'');
-	}
+    @Override
+    protected void formatRepresentation(StringBuilder builder) {
+        builder.append('\'');
+        super.formatRepresentation(builder);
+        builder.append('\'');
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new StringConstantValueOperation(getValue());
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new StringConstantValueOperation(getValue());
+    }
 
 }

@@ -35,6 +35,7 @@ public class PreciseModulusOperation extends AbstractUnaryOperator {
 
 	public PreciseModulusOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.WRAPPED);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

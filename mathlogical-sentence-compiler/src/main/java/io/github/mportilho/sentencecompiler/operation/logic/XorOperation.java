@@ -33,6 +33,7 @@ public class XorOperation extends AbstractBinaryOperation {
 
 	public XorOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

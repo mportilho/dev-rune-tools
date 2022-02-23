@@ -33,6 +33,7 @@ public class NandOperation extends AbstractBinaryOperation {
 
 	public NandOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

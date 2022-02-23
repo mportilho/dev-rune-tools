@@ -57,110 +57,110 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
         if (sequenceVariableStack == null) {
             sequenceVariableStack = new Stack<>();
         }
-        return super.visitSequenceExpression(ctx).expectedType(BigDecimal.class);
+        return super.visitSequenceExpression(ctx);
     }
 
     @Override
     public AbstractOperation visitModulusExpression(ModulusExpressionContext ctx) {
-        return new PreciseModulusOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseModulusOperation(ctx.mathExpression().accept(this));
     }
 
     @Override
     public AbstractOperation visitMathParenthesis(MathParenthesisContext ctx) {
         AbstractOperation operation = ctx.mathExpression().accept(this);
         operation.applyingParenthesis();
-        return operation.expectedType(BigDecimal.class);
+        return operation;
     }
 
     @Override
     public AbstractOperation visitSquareRootExpression(SquareRootExpressionContext ctx) {
-        return new PreciseSquareRootOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseSquareRootOperation(ctx.mathExpression().accept(this));
     }
 
     @Override
     public AbstractOperation visitRootExpression(RootExpressionContext ctx) {
-        return new PreciseRootOperation(ctx.mathExpression(1).accept(this), ctx.mathExpression(0).accept(this)).expectedType(BigDecimal.class);
+        return new PreciseRootOperation(ctx.mathExpression(1).accept(this), ctx.mathExpression(0).accept(this));
     }
 
     @Override
     public AbstractOperation visitMultiplicationExpression(MultiplicationExpressionContext ctx) {
         if (ctx.MULT() != null) {
-            return new PreciseMultiplicationOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+            return new PreciseMultiplicationOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.DIV())) {
-            return new PreciseDivisionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+            return new PreciseDivisionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.MODULO())) {
-            return new PreciseModuloOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+            return new PreciseModuloOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
     public AbstractOperation visitFactorialExpression(FactorialExpressionContext ctx) {
-        return new PreciseFactorialOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PreciseFactorialOperation(ctx.mathExpression().accept(this));
     }
 
     @Override
     public AbstractOperation visitNegateMathParenthesis(NegateMathParenthesisContext ctx) {
         AbstractOperation operation = ctx.mathExpression().accept(this);
         operation.applyingParenthesis();
-        return new PreciseNegativeOperation(operation).expectedType(BigDecimal.class);
+        return new PreciseNegativeOperation(operation);
     }
 
     @Override
     public AbstractOperation visitPercentExpression(PercentExpressionContext ctx) {
-        return new PrecisePercentualOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+        return new PrecisePercentualOperation(ctx.mathExpression().accept(this));
     }
 
     @Override
     public AbstractOperation visitSumExpression(SumExpressionContext ctx) {
         if (ctx.PLUS() != null) {
-            return new PreciseAdditionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+            return new PreciseAdditionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         } else if (nonNull(ctx.MINUS())) {
-            return new PreciseSubtractionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+            return new PreciseSubtractionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
     public AbstractOperation visitExponentiationExpression(ExponentiationExpressionContext ctx) {
-        return new PreciseExponentialOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+        return new PreciseExponentialOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
     }
 
     @Override
     public AbstractOperation visitFixedLogarithm(FixedLogarithmContext ctx) {
         if (nonNull(ctx.BINARY_LOGARITHM())) {
-            return new PreciseBinaryLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseBinaryLogarithmOperation(ctx.mathExpression().accept(this));
         } else if (nonNull(ctx.COMMOM_LOGARITHM())) {
-            return new PreciseCommonLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseCommonLogarithmOperation(ctx.mathExpression().accept(this));
         } else if (nonNull(ctx.NATURAL_LOGARITHM())) {
-            return new PreciseNaturalLogarithmOperation(ctx.mathExpression().accept(this)).expectedType(BigDecimal.class);
+            return new PreciseNaturalLogarithmOperation(ctx.mathExpression().accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
 
     @Override
     public AbstractOperation visitVariableLogarithm(VariableLogarithmContext ctx) {
-        return new PreciseLogarithmOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this)).expectedType(BigDecimal.class);
+        return new PreciseLogarithmOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
     }
 
     @Override
     public AbstractOperation visitRoundingFunction(RoundingFunctionContext ctx) {
         if (ctx.R_HALF_EVEN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_EVEN).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_EVEN);
         } else if (ctx.R_DOWN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.DOWN).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.DOWN);
         } else if (ctx.R_CEILING() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.CEILING).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.CEILING);
         } else if (ctx.R_FLOOR() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.FLOOR).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.FLOOR);
         } else if (ctx.R_HALF_UP() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_UP).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_UP);
         } else if (ctx.R_UP() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UP).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UP);
         } else if (ctx.R_HALF_DOWN() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_DOWN).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.HALF_DOWN);
         } else if (ctx.R_UNNECESSARY() != null) {
-            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UNNECESSARY).expectedType(BigDecimal.class);
+            return new PreciseNumberRoundingOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this), RoundingEnum.UNNECESSARY);
         } else {
             throw new IllegalStateException("No rounding method defined for operation " + ctx.getText());
         }
@@ -180,11 +180,9 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
         List<SequenceVariableValueOperation> sequenceVariableContainer = sequenceVariableStack.pop();
         SequenceVariableValueOperation sequenceVariable = sequenceVariableContainer.isEmpty() ? null : sequenceVariableContainer.get(0);
         if (ctx.SUMMATION() != null) {
-            return new PreciseSummationOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
-                    .expectedType(BigDecimal.class);
+            return new PreciseSummationOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable);
         } else if (ctx.PRODUCT_SEQUENCE() != null) {
-            return new PreciseProductOfSequenceOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
-                    .expectedType(BigDecimal.class);
+            return new PreciseProductOfSequenceOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable);
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }
@@ -220,12 +218,12 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
 
     @Override
     public AbstractOperation visitEulerConstant(EulerConstantContext ctx) {
-        return new PreciseEulerNumberConstantValueOperation().expectedType(BigDecimal.class);
+        return new PreciseEulerNumberConstantValueOperation();
     }
 
     @Override
     public AbstractOperation visitPiConstant(PiConstantContext ctx) {
-        return new PrecisePiNumberConstantValueOperation().expectedType(BigDecimal.class);
+        return new PrecisePiNumberConstantValueOperation();
     }
 
     @Override
@@ -250,7 +248,7 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
 
     @Override
     public AbstractOperation visitNumericConstant(NumericConstantContext ctx) {
-        return new PreciseNumberConstantValueOperation(ctx.getText()).expectedType(BigDecimal.class);
+        return new PreciseNumberConstantValueOperation(ctx.getText());
     }
 
     @Override

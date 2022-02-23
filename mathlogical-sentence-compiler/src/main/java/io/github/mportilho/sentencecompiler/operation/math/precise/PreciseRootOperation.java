@@ -36,6 +36,7 @@ public class PreciseRootOperation extends AbstractBinaryOperation {
 
 	public PreciseRootOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

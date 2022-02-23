@@ -37,6 +37,7 @@ public class PrecisePercentualOperation extends AbstractUnaryOperator {
 
 	public PrecisePercentualOperation(AbstractOperation operand) {
 		super(operand, OperatorPosition.RIGHT);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

@@ -38,6 +38,7 @@ public class PreciseMultiplicationOperation extends AbstractBinaryOperation {
 
     public PreciseMultiplicationOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
         super(leftOperand, rightOperand);
+        expectedType(BigDecimal.class);
     }
 
     public PreciseMultiplicationOperation(

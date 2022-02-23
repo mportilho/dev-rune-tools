@@ -35,6 +35,7 @@ public class PreciseAdditionOperation extends AbstractBinaryOperation {
 
 	public PreciseAdditionOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(BigDecimal.class);
 	}
 
 	@Override

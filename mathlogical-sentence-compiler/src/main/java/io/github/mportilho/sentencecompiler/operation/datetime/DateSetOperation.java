@@ -28,6 +28,7 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 
@@ -36,6 +37,7 @@ public class DateSetOperation extends AbstractDateTimeOperation {
     public DateSetOperation(
             AbstractOperation leftOperand, AbstractOperation rightOperand, DateElementEnum dateElement) {
         super(leftOperand, rightOperand, dateElement);
+        expectedType(LocalDate.class);
     }
 
     @Override

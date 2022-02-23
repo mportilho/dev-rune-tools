@@ -76,27 +76,27 @@ public class TestDateTimeOperations {
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-02T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-02T23:55:50");
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-02-25T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-02-25T23:55:50");
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2020)), DateElementEnum.YEAR);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2020-03-25T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2020-03-25T23:55:50");
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-25T02:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-25T02:55:50");
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-25T23:02:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-25T23:02:50");
 
         operation = new DateTimeSetOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 25, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-25T23:55:02");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-25T23:55:02");
     }
 
     @Test
@@ -105,27 +105,27 @@ public class TestDateTimeOperations {
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.DAY);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-02-29T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-02-29T23:55:50");
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MONTH);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-01-02T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-01-02T23:55:50");
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.YEAR);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("1998-03-02T23:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("1998-03-02T23:55:50");
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-02T21:55:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-02T21:55:50");
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-02T23:53:50");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-02T23:53:50");
 
         operation = new DateTimeSubtractionOperation(new GenericValueOperation(LocalDateTime.of(2000, 3, 2, 23, 55, 50)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
-        assertThat(operation.<LocalDateTime>evaluate(context)).isEqualTo("2000-03-02T23:55:48");
+        assertThat(operation.<ZonedDateTime>evaluate(context).toLocalDateTime()).isEqualTo("2000-03-02T23:55:48");
     }
 
 }

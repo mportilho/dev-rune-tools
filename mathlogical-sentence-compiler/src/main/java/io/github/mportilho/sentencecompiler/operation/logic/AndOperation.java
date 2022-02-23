@@ -33,6 +33,7 @@ public class AndOperation extends AbstractBinaryOperation {
 
 	public AndOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

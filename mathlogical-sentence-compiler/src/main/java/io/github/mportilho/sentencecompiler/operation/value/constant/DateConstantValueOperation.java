@@ -35,6 +35,7 @@ public class DateConstantValueOperation extends AbstractConstantValueOperation {
 
     public DateConstantValueOperation(String value) {
         super(value);
+        expectedType(LocalDate.class);
     }
 
     @Override

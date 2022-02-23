@@ -33,6 +33,7 @@ public class OrOperation extends AbstractBinaryOperation {
 
 	public OrOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
 		super(leftOperand, rightOperand);
+		expectedType(Boolean.class);
 	}
 
 	@Override

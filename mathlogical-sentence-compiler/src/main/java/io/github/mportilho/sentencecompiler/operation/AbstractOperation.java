@@ -32,6 +32,8 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.*;
 
+import static java.lang.Boolean.TRUE;
+
 /**
  * Default behavior for all operations
  *
@@ -41,7 +43,7 @@ public abstract class AbstractOperation {
 
     private Object cache;
     private Set<AbstractOperation> cacheBlockingSemaphores;
-    private Set<AbstractOperation> cacheDisableHint;
+    private Boolean cacheDisableHint;
 
     private List<AbstractOperation> parents;
     private Class<?> expectedType;
@@ -209,8 +211,7 @@ public abstract class AbstractOperation {
      * The CacheConfigurationVisitor will check if this semaphore is not null to decide to disable caching
      */
     public void hintDisableCache() {
-        this.cacheDisableHint = Collections.emptySet();
-        this.cacheBlockingSemaphores = this.cacheDisableHint;
+        this.cacheDisableHint = TRUE;
     }
 
     public void setCachingOptions(boolean enable) {
@@ -250,7 +251,7 @@ public abstract class AbstractOperation {
     }
 
     public boolean checkAndRemoveDisableCacheHint() {
-        if (this.cacheDisableHint != null && this.cacheBlockingSemaphores == this.cacheDisableHint) {
+        if (TRUE.equals(this.cacheDisableHint)) {
             this.cacheBlockingSemaphores = new HashSet<>(3);
             this.cacheDisableHint = null;
             return true;
@@ -293,10 +294,6 @@ public abstract class AbstractOperation {
             }
         } while (!stack.isEmpty());
         return list;
-    }
-
-    protected List<AbstractOperation> getParents() {
-        return parents != null ? parents : Collections.emptyList();
     }
 
     /**

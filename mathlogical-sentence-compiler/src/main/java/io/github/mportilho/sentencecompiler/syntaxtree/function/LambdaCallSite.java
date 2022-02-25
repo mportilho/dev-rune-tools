@@ -55,7 +55,7 @@ public class LambdaCallSite {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T call(LambdaContext context, Object[] parameters) {
+    public <R> R call(LambdaContext context, Object[] parameters) {
         Object[] convertedParams = new Object[parameters.length];
         Class<?>[] parameterTypes = methodType.parameterArray();
         Object value;
@@ -67,10 +67,10 @@ public class LambdaCallSite {
                 if (!parameter.getClass().isArray()) {
                     throw new IllegalArgumentException(String.format("Parameter on position [%s] of virtual method [%s] should be an array", i, methodName));
                 }
-                Object[] paramArray = (Object[]) parameter;
-                T[] convertedArray = (T[]) Array.newInstance(parameterType.getComponentType(), paramArray.length);
-                for (int j = 0, paramArrayLength = paramArray.length; j < paramArrayLength; j++) {
-                    convertedArray[j] = (T) service.convert(paramArray[j], parameterType.getComponentType());
+                int arrLength = Array.getLength(parameter);
+                R[] convertedArray = (R[]) Array.newInstance(parameterType.getComponentType(), arrLength);
+                for (int j = 0; j < arrLength; j++) {
+                    convertedArray[j] = (R) service.convert(Array.get(parameter, j), parameterType.getComponentType());
                 }
                 convertedParams[i] = convertedArray;
             } else {
@@ -84,9 +84,9 @@ public class LambdaCallSite {
         value = lambdaSupplier.call(context, convertedParams);
 
         if (methodType.returnType().equals(value.getClass())) {
-            return (T) value;
+            return (R) value;
         }
-        return (T) service.convert(value, methodType.returnType());
+        return (R) service.convert(value, methodType.returnType());
     }
 
     public String getKeyName() {

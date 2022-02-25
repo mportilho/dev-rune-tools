@@ -44,4 +44,13 @@ public class TestVectorOperations {
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");
     }
 
+    @Test
+    public void testVectorVariable() {
+        MathSentence compiler = new MathSentence("mirr(pmts, <number>f_rate%, <number>r_rate%)");
+        compiler.setVariable("pmts", new int[]{-1000, 300, 400, 400, 300});
+        compiler.setVariable("f_rate", 12);
+        compiler.setVariable("r_rate", 10);
+        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");
+    }
+
 }

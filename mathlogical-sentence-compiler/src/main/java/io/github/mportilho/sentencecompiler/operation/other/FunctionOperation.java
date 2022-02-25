@@ -64,6 +64,10 @@ public class FunctionOperation extends AbstractOperation {
         for (int i = 0, paramsLength = params.length; i < paramsLength; i++) {
             params[i] = parameters[i].evaluate(context);
         }
+        if (caller.getMethodType().parameterCount() == 1
+                && caller.getMethodType().lastParameterType().getComponentType() != null) {
+            params = new Object[]{params};
+        }
         try {
             Object result = caller.call(new FunctionContext(context.mathContext(), context.scale()), params);
             return convertToInternalTypes(result, context);
@@ -81,7 +85,7 @@ public class FunctionOperation extends AbstractOperation {
         if (caller.isCacheHint()) {
             this.setCachingOptions(true);
         }
-        this.expectedType(getCorrespondingInternalType(caller.getReturnType()));
+        this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
         return caller;
     }
 

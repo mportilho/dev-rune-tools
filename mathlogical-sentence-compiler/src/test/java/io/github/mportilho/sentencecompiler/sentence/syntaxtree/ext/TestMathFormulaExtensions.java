@@ -27,7 +27,6 @@ package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -36,6 +35,7 @@ import static io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasEx
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
 import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMathFormulaExtensions {
 
@@ -45,16 +45,16 @@ public class TestMathFormulaExtensions {
     public void test_Max_Function() {
         LambdaCallSite max = mathFunctionsFactory().get(keyName("max", VARARGS));
 
-        assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{ONE}))
+        assertThat((BigDecimal) max.call(CONTEXT, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
 
-        assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{TEN, valueOf(-50)}))
+        assertThat((BigDecimal) max.call(CONTEXT, new Object[]{new BigDecimal[]{TEN, valueOf(-50)}}))
                 .isEqualByComparingTo("10");
 
-        assertThat((BigDecimal) max.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
+        assertThat((BigDecimal) max.call(CONTEXT, new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("231");
 
-        assertThat((BigDecimal) max.call(CONTEXT, new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}))
+        assertThat((BigDecimal) max.call(CONTEXT, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("99");
     }
 
@@ -62,16 +62,16 @@ public class TestMathFormulaExtensions {
     public void test_Min_Function() {
         LambdaCallSite min = mathFunctionsFactory().get(keyName("min", VARARGS));
 
-        assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{ONE}))
+        assertThat((BigDecimal) min.call(CONTEXT, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
 
-        assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{valueOf(-50), valueOf(231)}))
+        assertThat((BigDecimal) min.call(CONTEXT, new Object[]{new BigDecimal[]{valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("-50");
 
-        assertThat((BigDecimal) min.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
+        assertThat((BigDecimal) min.call(CONTEXT, new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("-50");
 
-        assertThat((BigDecimal) min.call(CONTEXT, new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}))
+        assertThat((BigDecimal) min.call(CONTEXT, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("1");
     }
 
@@ -79,16 +79,16 @@ public class TestMathFormulaExtensions {
     public void test_Avg_Function() {
         LambdaCallSite avg = mathFunctionsFactory().get(keyName("avg", VARARGS));
 
-        assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{valueOf(231)}))
+        assertThat((BigDecimal) avg.call(CONTEXT, new Object[]{new BigDecimal[]{valueOf(231)}}))
                 .isEqualByComparingTo("231");
 
-        assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{ONE, TEN}))
+        assertThat((BigDecimal) avg.call(CONTEXT, new Object[]{new BigDecimal[]{ONE, TEN}}))
                 .isEqualByComparingTo("5.5");
 
-        assertThat((BigDecimal) avg.call(CONTEXT, new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}))
+        assertThat((BigDecimal) avg.call(CONTEXT, new Object[]{new Object[]{ONE, "10", valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("48");
 
-        assertThat((BigDecimal) avg.call(CONTEXT, new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}))
+        assertThat((BigDecimal) avg.call(CONTEXT, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("41.1");
     }
 

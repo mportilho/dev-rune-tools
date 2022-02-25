@@ -27,7 +27,6 @@ package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.MathContext;
 
@@ -36,6 +35,7 @@ import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCal
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestStringFormulaExtensions {
 
@@ -44,7 +44,7 @@ public class TestStringFormulaExtensions {
     @Test
     public void test_concat_Function() {
         LambdaCallSite concat = stringFunctionsFactory().get(keyName("concat", VARARGS));
-        assertThat((String) concat.call(CONTEXT, new Object[]{ONE, TEN, "teste", "123"}))
+        assertThat((String) concat.call(CONTEXT, new Object[]{new Object[]{ONE, TEN, "teste", "123"}}))
                 .isEqualTo("110teste123");
     }
 

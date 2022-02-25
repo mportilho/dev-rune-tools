@@ -28,6 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
@@ -55,33 +56,39 @@ public class LambdaCallSite {
         this.service = service;
     }
 
-    public Object call(FunctionContext context, Object[] parameters) {
+    @SuppressWarnings({"unchecked"})
+    public <T> T call(FunctionContext context, Object[] parameters) {
         Object[] convertedParams = new Object[parameters.length];
-        Class<?>[] parameterArray = methodType.parameterArray();
+        Class<?>[] parameterTypes = methodType.parameterArray();
         Object value;
-        if (isArrayParameter()) {
-            Class<?> arrayType = parameterArray[0].getComponentType();
-            for (int i = 0, parametersLength = parameters.length; i < parametersLength; i++) {
-                Object parameter = parameters[i];
-                convertedParams[i] = service.convert(parameters[i], arrayType);
-            }
-            value = operationSupplier.call(context, convertedParams);
-        } else {
-            for (int i = 0, parameterArrayLength = parameterArray.length; i < parameterArrayLength; i++) {
-                Class<?> type = parameterArray[i];
-                if (type.equals(parameters[i].getClass())) {
-                    convertedParams[i] = parameters[i];
+
+        for (int i = 0, parametersLength = parameters.length; i < parametersLength; i++) {
+            Object parameter = parameters[i];
+            Class<?> parameterType = parameterTypes[i];
+            if (parameterType.isArray()) {
+                if (!parameter.getClass().isArray()) {
+                    throw new IllegalArgumentException(String.format("Parameter on position [%s] of virtual method [%s] should be an array", i, methodName));
+                }
+                Object[] paramArray = (Object[]) parameter;
+                T[] convertedArray = (T[]) Array.newInstance(parameterType.getComponentType(), paramArray.length);
+                for (int j = 0, paramArrayLength = paramArray.length; j < paramArrayLength; j++) {
+                    convertedArray[j] = (T) service.convert(paramArray[j], parameterType.getComponentType());
+                }
+                convertedParams[i] = convertedArray;
+            } else {
+                if (parameterType.equals(parameter.getClass())) {
+                    convertedParams[i] = parameter;
                 } else {
-                    convertedParams[i] = service.convert(parameters[i], type);
+                    convertedParams[i] = service.convert(parameter, parameterType);
                 }
             }
-            value = operationSupplier.call(context, convertedParams);
         }
+        value = operationSupplier.call(context, convertedParams);
 
         if (methodType.returnType().equals(value.getClass())) {
-            return value;
+            return (T) value;
         }
-        return service.convert(value, methodType.returnType());
+        return (T) service.convert(value, methodType.returnType());
     }
 
     public String getKeyName() {
@@ -89,10 +96,6 @@ public class LambdaCallSite {
             return keyName(this.methodName, this.methodType.parameterCount());
         }
         return keyName(this.methodName, VARARGS);
-    }
-
-    private boolean isArrayParameter() {
-        return this.methodType.lastParameterType().isArray();
     }
 
     public static String keyName(Method method) {
@@ -112,11 +115,11 @@ public class LambdaCallSite {
         return cacheHint;
     }
 
-    public Class<?> getReturnType() {
-        return this.methodType.returnType();
-    }
-
     public String getMethodName() {
         return methodName;
+    }
+
+    public MethodType getMethodType() {
+        return methodType;
     }
 }

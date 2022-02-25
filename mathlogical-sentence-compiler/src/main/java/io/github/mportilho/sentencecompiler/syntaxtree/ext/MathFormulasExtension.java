@@ -47,17 +47,17 @@ public class MathFormulasExtension {
 
         callSite = new LambdaCallSite("max", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) >= 0 ?
-                                parameters[0] : parameters[1];
+                    Object[] p = (Object[]) parameters[0];
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return ((BigDecimal) p[0]).compareTo((BigDecimal) p[1]) >= 0 ? p[0] : p[1];
                     }
-                    BigDecimal maxOne = (BigDecimal) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        BigDecimal parameter = (BigDecimal) parameters[i];
-                        if (maxOne.compareTo(parameter) < 0) {
-                            maxOne = parameter;
+                    BigDecimal maxOne = (BigDecimal) p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        BigDecimal param = (BigDecimal) p[i];
+                        if (maxOne.compareTo(param) < 0) {
+                            maxOne = param;
                         }
                     }
                     return maxOne;
@@ -66,15 +66,16 @@ public class MathFormulasExtension {
 
         callSite = new LambdaCallSite("min", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((BigDecimal) parameters[0]).compareTo((BigDecimal) parameters[1]) <= 0 ?
-                                parameters[0] : parameters[1];
+                    Object[] p = (Object[]) parameters[0];
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return ((BigDecimal) p[0]).compareTo((BigDecimal) p[1]) <= 0 ?
+                                p[0] : p[1];
                     }
-                    BigDecimal minOne = (BigDecimal) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        BigDecimal parameter = (BigDecimal) parameters[i];
+                    BigDecimal minOne = (BigDecimal) p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        BigDecimal parameter = (BigDecimal) p[i];
                         if (minOne.compareTo(parameter) > 0) {
                             minOne = parameter;
                         }
@@ -85,16 +86,17 @@ public class MathFormulasExtension {
 
         callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((BigDecimal) parameters[0]).add((BigDecimal) parameters[1]).divide(valueOf(2), context.mathContext());
+                    Object[] p = (Object[]) parameters[0];
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return ((BigDecimal) p[0]).add((BigDecimal) p[1]).divide(valueOf(2), context.mathContext());
                     }
                     BigDecimal sum = BigDecimal.ZERO;
-                    for (Object parameter : parameters) {
-                        sum = sum.add((BigDecimal) parameter);
+                    for (Object param : p) {
+                        sum = sum.add((BigDecimal) param);
                     }
-                    return sum.divide(BigDecimal.valueOf(parameters.length), context.mathContext());
+                    return sum.divide(BigDecimal.valueOf(p.length), context.mathContext());
                 });
         extensions.put(callSite.getKeyName(), callSite);
 

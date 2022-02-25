@@ -29,8 +29,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import java.lang.invoke.MethodType;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StringFunctionExtension {
 
@@ -45,7 +43,7 @@ public class StringFunctionExtension {
         LambdaCallSite callSite;
 
         callSite = new LambdaCallSite("concat", MethodType.methodType(String.class, String[].class),
-                (context, parameters) -> Stream.of(parameters).map(Object::toString).collect(Collectors.joining("")));
+                (context, parameters) -> String.join("", (String[]) parameters[0]));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("trim", MethodType.methodType(String.class, String.class),

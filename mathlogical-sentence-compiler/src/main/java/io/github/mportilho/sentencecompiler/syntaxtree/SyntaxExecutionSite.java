@@ -44,7 +44,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.createLambdaCallSites;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.createLambdaCallSites;
 
 public class SyntaxExecutionSite {
 

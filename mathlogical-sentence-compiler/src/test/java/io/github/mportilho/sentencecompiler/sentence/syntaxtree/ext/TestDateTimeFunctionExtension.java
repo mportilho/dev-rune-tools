@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -38,7 +38,7 @@ import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCal
 
 public class TestDateTimeFunctionExtension {
 
-    private static final FunctionContext CONTEXT = new FunctionContext(MathContext.DECIMAL64, null);
+    private static final LambdaContext CONTEXT = new LambdaContext(MathContext.DECIMAL64, null);
 
     @Test
     public void test_secondsBetween_Function() {

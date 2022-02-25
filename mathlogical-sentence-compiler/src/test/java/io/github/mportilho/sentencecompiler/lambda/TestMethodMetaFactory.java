@@ -24,9 +24,9 @@
 
 package io.github.mportilho.sentencecompiler.lambda;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
@@ -37,11 +37,11 @@ import java.util.Map;
 
 public class TestMethodMetaFactory {
 
-    private static final FunctionContext CONTEXT = new FunctionContext(MathContext.DECIMAL64, null);
+    private static final LambdaContext CONTEXT = new LambdaContext(MathContext.DECIMAL64, null);
 
     @Test
     public void test_addBigDecimal() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
+        Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
         Object value = siteMap.get("adder_2").call(CONTEXT, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
@@ -50,7 +50,7 @@ public class TestMethodMetaFactory {
 
     @Test
     public void test_concatString() throws Throwable {
-        Map<String, LambdaCallSite> siteMap = MethodMetadataFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
+        Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
         Object value = siteMap.get("concatOne_1").call(CONTEXT, new Object[]{"number"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)

@@ -26,6 +26,6 @@ package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
 import java.math.MathContext;
 
-public record FunctionContext(MathContext mathContext, Integer scale) {
+public record LambdaContext(MathContext mathContext, Integer scale) {
 
 }

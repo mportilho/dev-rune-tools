@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 
@@ -32,14 +32,14 @@ import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension.stringFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.VARARGS;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestStringFormulaExtensions {
 
-    private static final FunctionContext CONTEXT = new FunctionContext(MathContext.DECIMAL64, null);
+    private static final LambdaContext CONTEXT = new LambdaContext(MathContext.DECIMAL64, null);
 
     @Test
     public void test_concat_Function() {

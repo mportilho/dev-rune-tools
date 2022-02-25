@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.lambda;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.FunctionContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ import static java.math.BigDecimal.*;
 
 public class TestLambdaCallSite {
 
-    private static final FunctionContext context = new FunctionContext(MathContext.DECIMAL64, null);
+    private static final LambdaContext context = new LambdaContext(MathContext.DECIMAL64, null);
 
     @Test
     public void testCallingSimpleMethod() {

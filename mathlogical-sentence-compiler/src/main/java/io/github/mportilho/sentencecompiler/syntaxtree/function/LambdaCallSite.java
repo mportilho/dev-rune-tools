@@ -31,33 +31,33 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.MethodMetadataFactory.VARARGS;
+import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.VARARGS;
 
 public class LambdaCallSite {
 
     private final String methodName;
     private final MethodType methodType;
-    private final OperationSupplier operationSupplier;
+    private final LambdaSupplier lambdaSupplier;
     private final FormattedConversionService service;
     private boolean cacheHint = false;
 
     public LambdaCallSite(
             String methodName, MethodType methodType,
-            OperationSupplier operationSupplier) {
-        this(methodName, methodType, operationSupplier, new DefaultFormattedConversionService());
+            LambdaSupplier lambdaSupplier) {
+        this(methodName, methodType, lambdaSupplier, new DefaultFormattedConversionService());
     }
 
     public LambdaCallSite(
             String methodName, MethodType methodType,
-            OperationSupplier operationSupplier, FormattedConversionService service) {
+            LambdaSupplier lambdaSupplier, FormattedConversionService service) {
         this.methodName = methodName;
         this.methodType = methodType;
-        this.operationSupplier = operationSupplier;
+        this.lambdaSupplier = lambdaSupplier;
         this.service = service;
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T call(FunctionContext context, Object[] parameters) {
+    public <T> T call(LambdaContext context, Object[] parameters) {
         Object[] convertedParams = new Object[parameters.length];
         Class<?>[] parameterTypes = methodType.parameterArray();
         Object value;
@@ -83,7 +83,7 @@ public class LambdaCallSite {
                 }
             }
         }
-        value = operationSupplier.call(context, convertedParams);
+        value = lambdaSupplier.call(context, convertedParams);
 
         if (methodType.returnType().equals(value.getClass())) {
             return (T) value;

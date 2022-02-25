@@ -39,7 +39,7 @@ import java.util.Objects;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
 import static java.lang.reflect.Modifier.isStatic;
 
-public class MethodMetadataFactory {
+public class LambdaCallSiteFactory {
 
     public static final int VARARGS = -1;
     public static final int UNKNOWN = -1;
@@ -76,7 +76,7 @@ public class MethodMetadataFactory {
         MethodHandle methodHandle = instance == null ? lookup.unreflect(method) : lookup.unreflect(method).bindTo(instance);
         MethodHandle callableMethodHandle = methodHandle.asType(methodHandle.type().generic())
                 .asSpreader(Object[].class, methodHandle.type().parameterCount());
-        OperationSupplier supplier = (context, parameters) -> {
+        LambdaSupplier supplier = (context, parameters) -> {
             try {
                 return callableMethodHandle.invokeExact(parameters);
             } catch (Throwable e) {
@@ -150,7 +150,7 @@ public class MethodMetadataFactory {
         };
     }
 
-    private static OperationSupplier createLambdaWrapper(Object lambda) {
+    private static LambdaSupplier createLambdaWrapper(Object lambda) {
         if (lambda instanceof LambdaWrapper.Function1 f) {
             return (c, p) -> f.call(p[0]);
         } else if (lambda instanceof LambdaWrapper.Function2 f) {

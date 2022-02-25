@@ -24,8 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.function;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
@@ -42,7 +40,6 @@ import static java.lang.reflect.Modifier.isStatic;
 public class LambdaCallSiteFactory {
 
     public static final int VARARGS = -1;
-    public static final int UNKNOWN = -1;
 
     public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
         Objects.requireNonNull(provider, "Provider object for extracting methods required");
@@ -54,12 +51,12 @@ public class LambdaCallSiteFactory {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         for (MethodDescriptor methodDescriptor : beanInfo.getMethodDescriptors()) {
             Method method = methodDescriptor.getMethod();
-            if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers()) || hasPrimitives(method)) {
+            if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers())) {
                 continue;
             }
 
-            if (findFactoryInterface(method.getParameterCount()) == null) {
-                dynamicCallerPool.put(keyName(method), createMethodHandleCaller(lookup, method, provider));
+            if (findFactoryInterface(method.getParameterCount()) == null || hasPrimitives(method)) {
+                dynamicCallerPool.put(keyName(method), createMethodHandleCaller(lookup, method, isClassObject ? null : provider));
             } else if (isStatic(method.getModifiers())) {
                 dynamicCallerPool.put(keyName(method), createStaticCaller(lookup, method));
             } else if (!isClassObject) {
@@ -80,7 +77,7 @@ public class LambdaCallSiteFactory {
             try {
                 return callableMethodHandle.invokeExact(parameters);
             } catch (Throwable e) {
-                throw new SyntaxExecutionException("Error calling dynamic function", e);
+                throw new IllegalStateException("Error calling dynamic function", e);
             }
         };
         return new LambdaCallSite(method.getName(), methodHandle.type(), supplier);
@@ -128,7 +125,6 @@ public class LambdaCallSiteFactory {
                 return true;
             }
         }
-
         return false;
     }
 

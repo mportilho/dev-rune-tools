@@ -24,9 +24,9 @@
 
 package io.github.mportilho.sentencecompiler.lambda;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
@@ -55,6 +55,15 @@ public class TestMethodMetaFactory {
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)
                 .isEqualTo("number_1");
+    }
+
+    @Test
+    public void test_callingMethod_withPrimitives() throws Throwable {
+        Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
+        Object value = siteMap.get("adderLong_2").call(CONTEXT, new Object[]{"3", "4"});
+        Assertions.assertThat(value)
+                .asInstanceOf(InstanceOfAssertFactories.LONG)
+                .isEqualTo(7L);
     }
 
 }

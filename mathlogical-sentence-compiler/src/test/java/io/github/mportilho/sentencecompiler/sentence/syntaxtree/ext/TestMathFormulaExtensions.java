@@ -24,8 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -33,7 +33,6 @@ import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension.mathFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.VARARGS;
 import static java.math.BigDecimal.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +42,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Max_Function() {
-        LambdaCallSite max = mathFunctionsFactory().get(keyName("max", VARARGS));
+        LambdaCallSite max = mathFunctionsFactory().get(keyName("max", 1));
 
         assertThat((BigDecimal) max.call(CONTEXT, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
@@ -60,7 +59,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Min_Function() {
-        LambdaCallSite min = mathFunctionsFactory().get(keyName("min", VARARGS));
+        LambdaCallSite min = mathFunctionsFactory().get(keyName("min", 1));
 
         assertThat((BigDecimal) min.call(CONTEXT, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
@@ -77,7 +76,7 @@ public class TestMathFormulaExtensions {
 
     @Test
     public void test_Avg_Function() {
-        LambdaCallSite avg = mathFunctionsFactory().get(keyName("avg", VARARGS));
+        LambdaCallSite avg = mathFunctionsFactory().get(keyName("avg", 1));
 
         assertThat((BigDecimal) avg.call(CONTEXT, new Object[]{new BigDecimal[]{valueOf(231)}}))
                 .isEqualByComparingTo("231");

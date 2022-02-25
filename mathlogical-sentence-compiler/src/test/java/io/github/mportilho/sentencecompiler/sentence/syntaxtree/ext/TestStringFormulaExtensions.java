@@ -32,7 +32,6 @@ import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.syntaxtree.ext.StringFunctionExtension.stringFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.VARARGS;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +42,7 @@ public class TestStringFormulaExtensions {
 
     @Test
     public void test_concat_Function() {
-        LambdaCallSite concat = stringFunctionsFactory().get(keyName("concat", VARARGS));
+        LambdaCallSite concat = stringFunctionsFactory().get(keyName("concat", 1));
         assertThat((String) concat.call(CONTEXT, new Object[]{new Object[]{ONE, TEN, "teste", "123"}}))
                 .isEqualTo("110teste123");
     }

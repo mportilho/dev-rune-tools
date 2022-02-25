@@ -31,8 +31,6 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory.VARARGS;
-
 public class LambdaCallSite {
 
     private final String methodName;
@@ -92,10 +90,7 @@ public class LambdaCallSite {
     }
 
     public String getKeyName() {
-        if (this.methodType.lastParameterType().getComponentType() == null) {
-            return keyName(this.methodName, this.methodType.parameterCount());
-        }
-        return keyName(this.methodName, VARARGS);
+        return keyName(this.methodName, this.methodType.parameterCount());
     }
 
     public static String keyName(Method method) {

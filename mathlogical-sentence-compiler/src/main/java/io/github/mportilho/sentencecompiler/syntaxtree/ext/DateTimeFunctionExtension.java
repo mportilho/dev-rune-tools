@@ -28,7 +28,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -74,15 +73,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("maxDate", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
-                                parameters[0] : parameters[1];
+                    LocalDate[] p = (LocalDate[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
                     }
-                    LocalDate maxOne = (LocalDate) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalDate parameter = (LocalDate) parameters[i];
+                    LocalDate maxOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        LocalDate parameter = p[i];
                         if (maxOne.compareTo(parameter) < 0) {
                             maxOne = parameter;
                         }
@@ -93,15 +92,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("minDate", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((LocalDate) parameters[0]).compareTo((LocalDate) parameters[1]) >= 0 ?
-                                parameters[1] : parameters[0];
+                    LocalDate[] p = (LocalDate[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
                     }
-                    LocalDate minOne = (LocalDate) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalDate parameter = (LocalDate) parameters[i];
+                    LocalDate minOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        LocalDate parameter = p[i];
                         if (minOne.compareTo(parameter) > 0) {
                             minOne = parameter;
                         }
@@ -112,15 +111,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("maxTime", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
-                                parameters[0] : parameters[1];
+                    LocalTime[] p = (LocalTime[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
                     }
-                    LocalTime maxOne = (LocalTime) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalTime parameter = (LocalTime) parameters[i];
+                    LocalTime maxOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        LocalTime parameter = p[i];
                         if (maxOne.compareTo(parameter) < 0) {
                             maxOne = parameter;
                         }
@@ -131,15 +130,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("minTime", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((LocalTime) parameters[0]).compareTo((LocalTime) parameters[1]) >= 0 ?
-                                parameters[1] : parameters[0];
+                    LocalTime[] p = (LocalTime[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
                     }
-                    LocalTime minOne = (LocalTime) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalTime parameter = (LocalTime) parameters[i];
+                    LocalTime minOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        LocalTime parameter = p[i];
                         if (minOne.compareTo(parameter) > 0) {
                             minOne = parameter;
                         }
@@ -150,15 +149,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("maxDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
-                                parameters[0] : parameters[1];
+                    ZonedDateTime[] p = (ZonedDateTime[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
                     }
-                    LocalDateTime maxOne = (LocalDateTime) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalDateTime parameter = (LocalDateTime) parameters[i];
+                    ZonedDateTime maxOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        ZonedDateTime parameter = p[i];
                         if (maxOne.compareTo(parameter) < 0) {
                             maxOne = parameter;
                         }
@@ -169,15 +168,15 @@ public class DateTimeFunctionExtension {
 
         callSite = new LambdaCallSite("minDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
                 (context, parameters) -> {
-                    if (parameters.length == 1) {
-                        return parameters[0];
-                    } else if (parameters.length == 2) {
-                        return ((ZonedDateTime) parameters[0]).compareTo((ZonedDateTime) parameters[1]) >= 0 ?
-                                parameters[1] : parameters[0];
+                    ZonedDateTime[] p = (ZonedDateTime[]) parameters;
+                    if (p.length == 1) {
+                        return p[0];
+                    } else if (p.length == 2) {
+                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
                     }
-                    LocalDateTime minOne = (LocalDateTime) parameters[0];
-                    for (int i = 1, parametersLength = parameters.length; i < parametersLength; i++) {
-                        LocalDateTime parameter = (LocalDateTime) parameters[i];
+                    ZonedDateTime minOne = p[0];
+                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+                        ZonedDateTime parameter = p[i];
                         if (minOne.compareTo(parameter) > 0) {
                             minOne = parameter;
                         }

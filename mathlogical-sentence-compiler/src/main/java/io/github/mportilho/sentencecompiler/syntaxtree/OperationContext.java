@@ -53,8 +53,8 @@ public record OperationContext(
         if (func == null) {
             func = operationSupportData.getFunction(functionKey);
         }
-        if (func == null && parameterCount >= 0) {
-            func = getFunction(name, -1);
+        if (func == null && parameterCount > 0) {
+            func = getFunction(name, 1);
         }
         return func;
     }

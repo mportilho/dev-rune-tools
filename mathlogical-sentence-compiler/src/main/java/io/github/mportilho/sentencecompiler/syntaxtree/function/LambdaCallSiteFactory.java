@@ -39,8 +39,6 @@ import static java.lang.reflect.Modifier.isStatic;
 
 public class LambdaCallSiteFactory {
 
-    public static final int VARARGS = -1;
-
     public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
         Objects.requireNonNull(provider, "Provider object for extracting methods required");
         boolean isClassObject = provider instanceof Class<?>;

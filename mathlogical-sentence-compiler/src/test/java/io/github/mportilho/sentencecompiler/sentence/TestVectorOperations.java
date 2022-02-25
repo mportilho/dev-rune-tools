@@ -38,14 +38,10 @@ public class TestVectorOperations {
 
     private static final MathSentenceOptions MATH_OPTION = new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService());
 
-    public void test() {
-        MathSentence compiler = new MathSentence("[1, 2, 3]").compute();
-    }
-
     @Test
     public void testNumericVectorValueOperation() {
-        MathSentence compiler = new MathSentence("mirr([-1000, 300, 400, 400, 300], 10%, 12%)");
-        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.128755026148253");
+        MathSentence compiler = new MathSentence("mirr([-1000, 300, 400, 400, 300], 12%, 10%)");
+        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");
     }
 
 }

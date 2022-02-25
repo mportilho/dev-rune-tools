@@ -25,11 +25,18 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
 import io.github.mportilho.sentencecompiler.formulas.ExcelFinancialFunction;
+import io.github.mportilho.sentencecompiler.formulas.xirr.Transaction;
+import io.github.mportilho.sentencecompiler.formulas.xirr.Xirr;
 import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -310,6 +317,28 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         context.mathContext()
                 ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("xirr",
+                MethodType.methodType(BigDecimal.class, BigDecimal[].class, Temporal[].class, BigDecimal.class),
+                (context, parameters) -> {
+                    BigDecimal[] values = (BigDecimal[]) parameters[0];
+                    Object[] dates = (Temporal[]) parameters[1];
+                    Transaction[] transactions = new Transaction[values.length];
+                    for (int i = 0; i < transactions.length; i++) {
+                        if (dates[i] instanceof LocalDate l) {
+                            transactions[i] = new Transaction(values[i].doubleValue(), l);
+                        } else if (dates[i] instanceof String l) {
+                            transactions[i] = new Transaction(values[i].doubleValue(), l);
+                        } else if (dates[i] instanceof Date l) {
+                            transactions[i] = new Transaction(values[i].doubleValue(), l);
+                        } else {
+                            transactions[i] = new Transaction(values[i].doubleValue(), Instant.from((TemporalAccessor) dates[i]));
+                        }
+                    }
+                    return Xirr.builder().withTransactions(transactions)
+                            .withGuess(((BigDecimal) parameters[2]).doubleValue()).xirr();
+                });
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

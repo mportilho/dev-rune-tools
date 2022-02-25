@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,6 +52,21 @@ public class TestVectorOperations {
         compiler.setVariable("f_rate", 12);
         compiler.setVariable("r_rate", 10);
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");
+    }
+
+    @Test
+    public void testFunctionCall_withTwoVectorVariables() {
+        MathSentence compiler = new MathSentence("xirr(pmts, dates, guess)");
+        compiler.setVariable("pmts", new int[]{-1000, 300, 400, 400, 300});
+        compiler.setVariable("dates", new LocalDate[]{
+                LocalDate.of(2011, 12, 1),
+                LocalDate.of(2012, 1, 1),
+                LocalDate.of(2013, 2, 1),
+                LocalDate.of(2014, 3, 1),
+                LocalDate.of(2015, 4, 1)
+        });
+        compiler.setVariable("guess", 0.2);
+        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.23860325587217024");
     }
 
 }

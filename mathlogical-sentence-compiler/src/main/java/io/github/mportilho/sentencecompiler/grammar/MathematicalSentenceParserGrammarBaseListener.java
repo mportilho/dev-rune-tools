@@ -90,18 +90,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterLogicalValue(MathematicalSentenceParserGrammarParser.LogicalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -505,18 +493,6 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunction(MathematicalSentenceParserGrammarParser.FunctionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -234,7 +234,6 @@ logicalExpression
   | dateOperation comparisonOperator dateOperation # dateExpression
   | timeOperation comparisonOperator timeOperation # timeExpression
   | dateTimeOperation comparisonOperator dateTimeOperation # dateTimeExpression
-  | vectorFunction # vectorExpression
   | LPAREN logicalExpression RPAREN # logicalParenthesis
   | logicalEntity # logicalValue
   ;

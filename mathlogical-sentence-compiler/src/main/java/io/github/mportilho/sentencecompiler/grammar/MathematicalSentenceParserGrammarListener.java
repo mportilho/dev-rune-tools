@@ -76,18 +76,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitStringExpression(MathematicalSentenceParserGrammarParser.StringExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code vectorExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code logicalValue}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
 	 * @param ctx the parse tree
@@ -489,18 +477,6 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitFunction(MathematicalSentenceParserGrammarParser.FunctionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code vectorContainsOperation}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorFunction}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code vectorContainsOperation}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorFunction}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MathematicalSentenceParserGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree

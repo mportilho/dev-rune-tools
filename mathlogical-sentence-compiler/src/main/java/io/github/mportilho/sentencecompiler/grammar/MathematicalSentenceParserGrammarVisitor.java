@@ -52,13 +52,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitStringExpression(MathematicalSentenceParserGrammarParser.StringExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code vectorExpression}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVectorExpression(MathematicalSentenceParserGrammarParser.VectorExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code logicalValue}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
 	 * @param ctx the parse tree
@@ -293,13 +286,6 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitFunction(MathematicalSentenceParserGrammarParser.FunctionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code vectorContainsOperation}
-	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorFunction}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVectorContainsOperation(MathematicalSentenceParserGrammarParser.VectorContainsOperationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#comparisonOperator}.
 	 * @param ctx the parse tree

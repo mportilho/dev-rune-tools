@@ -129,8 +129,8 @@ public abstract class AbstractOperation {
      */
     private Object castOperationFromDetectedAmbiguity(Object result, NoFormattedConverterFoundException e) {
         AbstractOperation operation = null;
-        if (parents != null && parents.size() == 1 && parents.get(0) instanceof BaseOperation) {
-            operation = parents.get(0);
+        if (parentArray != null && parentArray.length == 1 && parentArray[0] instanceof BaseOperation) {
+            operation = parentArray[0];
         } else if (this instanceof BaseOperation) {
             operation = this;
         }

@@ -32,10 +32,10 @@ import org.junit.jupiter.api.Test;
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.stream.Stream;
 
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.ZERO;
+import static java.math.BigDecimal.*;
 
 public class TestLambdaCallSite {
 
@@ -66,6 +66,26 @@ public class TestLambdaCallSite {
                 MethodType.methodType(BigDecimal.class, BigDecimal[].class),
                 (context, parameters) -> Stream.of(((BigDecimal[]) parameters[0])).reduce(ZERO, BigDecimal::add));
         Assertions.assertThat(site.<BigDecimal>call(context, new Object[]{new Object[]{ONE, 2, "3"}})).isEqualByComparingTo("6");
+    }
+
+    @Test
+    public void testCallingMethod_addingTwoArrays() {
+        LambdaCallSite site = new LambdaCallSite(
+                "sumArrays",
+                MethodType.methodType(BigDecimal[].class, BigDecimal[].class, BigDecimal[].class),
+                (context, parameters) -> {
+                    BigDecimal[] a1 = (BigDecimal[]) parameters[0];
+                    BigDecimal[] a2 = (BigDecimal[]) parameters[1];
+                    BigDecimal[] r = new BigDecimal[a1.length];
+                    for (int i = 0, a1Length = a1.length; i < a1Length; i++) {
+                        r[i] = a1[i].add(a2[i]).setScale(0, RoundingMode.HALF_EVEN);
+                    }
+                    return r;
+                });
+        Assertions.assertThat(site.<BigDecimal[]>call(context, new Object[]{
+                new Object[]{ONE, 2, "3"},
+                new Object[]{4d, 5f, (short) 4}
+        })).containsExactly(valueOf(5), valueOf(7), valueOf(7));
     }
 
 }

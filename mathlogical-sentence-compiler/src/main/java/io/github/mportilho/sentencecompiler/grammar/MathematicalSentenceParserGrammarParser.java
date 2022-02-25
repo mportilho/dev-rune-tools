@@ -2460,8 +2460,11 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 	}
 
 	public static class AllEntityTypesContext extends ParserRuleContext {
-		public StringEntityContext stringEntity() {
-			return getRuleContext(StringEntityContext.class,0);
+		public MathExpressionContext mathExpression() {
+			return getRuleContext(MathExpressionContext.class,0);
+		}
+		public LogicalExpressionContext logicalExpression() {
+			return getRuleContext(LogicalExpressionContext.class,0);
 		}
 		public DateOperationContext dateOperation() {
 			return getRuleContext(DateOperationContext.class,0);
@@ -2472,11 +2475,8 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		public DateTimeOperationContext dateTimeOperation() {
 			return getRuleContext(DateTimeOperationContext.class,0);
 		}
-		public LogicalExpressionContext logicalExpression() {
-			return getRuleContext(LogicalExpressionContext.class,0);
-		}
-		public MathExpressionContext mathExpression() {
-			return getRuleContext(MathExpressionContext.class,0);
+		public StringEntityContext stringEntity() {
+			return getRuleContext(StringEntityContext.class,0);
 		}
 		public VectorEntityContext vectorEntity() {
 			return getRuleContext(VectorEntityContext.class,0);
@@ -2511,42 +2511,42 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(278);
-				stringEntity();
+				mathExpression(0);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(279);
-				dateOperation();
+				logicalExpression(0);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(280);
-				timeOperation();
+				dateOperation();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(281);
-				dateTimeOperation();
+				timeOperation();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(282);
-				logicalExpression(0);
+				dateTimeOperation();
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(283);
-				mathExpression(0);
+				stringEntity();
 				}
 				break;
 			case 7:
@@ -5236,9 +5236,9 @@ public class MathematicalSentenceParserGrammarParser extends Parser {
 		"\2\2\u010f\35\3\2\2\2\u0110\u0111\t\n\2\2\u0111\37\3\2\2\2\u0112\u0117"+
 		"\7\b\2\2\u0113\u0117\7\t\2\2\u0114\u0117\t\13\2\2\u0115\u0117\t\f\2\2"+
 		"\u0116\u0112\3\2\2\2\u0116\u0113\3\2\2\2\u0116\u0114\3\2\2\2\u0116\u0115"+
-		"\3\2\2\2\u0117!\3\2\2\2\u0118\u0120\5(\25\2\u0119\u0120\5\26\f\2\u011a"+
-		"\u0120\5\30\r\2\u011b\u0120\5\32\16\2\u011c\u0120\5\n\6\2\u011d\u0120"+
-		"\5\f\7\2\u011e\u0120\5\60\31\2\u011f\u0118\3\2\2\2\u011f\u0119\3\2\2\2"+
+		"\3\2\2\2\u0117!\3\2\2\2\u0118\u0120\5\f\7\2\u0119\u0120\5\n\6\2\u011a"+
+		"\u0120\5\26\f\2\u011b\u0120\5\30\r\2\u011c\u0120\5\32\16\2\u011d\u0120"+
+		"\5(\25\2\u011e\u0120\5\60\31\2\u011f\u0118\3\2\2\2\u011f\u0119\3\2\2\2"+
 		"\u011f\u011a\3\2\2\2\u011f\u011b\3\2\2\2\u011f\u011c\3\2\2\2\u011f\u011d"+
 		"\3\2\2\2\u011f\u011e\3\2\2\2\u0120#\3\2\2\2\u0121\u014d\t\r\2\2\u0122"+
 		"\u0123\7\3\2\2\u0123\u0124\5\n\6\2\u0124\u0125\7\4\2\2\u0125\u012b\5\n"+

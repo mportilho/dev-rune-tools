@@ -300,12 +300,12 @@ logicalOperator
   ;
 
 allEntityTypes
-  : stringEntity
+  : mathExpression
+  | logicalExpression
   | dateOperation
   | timeOperation
   | dateTimeOperation
-  | logicalExpression
-  | mathExpression
+  | stringEntity
   | vectorEntity
   ;
 

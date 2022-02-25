@@ -46,7 +46,7 @@ public class TestVectorOperations {
 
     @Test
     public void testVectorVariable() {
-        MathSentence compiler = new MathSentence("mirr(pmts, <number>f_rate%, <number>r_rate%)");
+        MathSentence compiler = new MathSentence("mirr(pmts, f_rate%, r_rate%)");
         compiler.setVariable("pmts", new int[]{-1000, 300, 400, 400, 300});
         compiler.setVariable("f_rate", 12);
         compiler.setVariable("r_rate", 10);

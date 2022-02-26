@@ -69,52 +69,6 @@ public class FinancialFormulasExtension {
                 ));
         extensions.put(callSite.getKeyName(), callSite);
 
-        callSite = new LambdaCallSite("rate",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ExcelFinancialFunction.rate(
-                        (BigDecimal) parameters[0],
-                        (BigDecimal) parameters[1],
-                        (BigDecimal) parameters[2],
-                        (BigDecimal) parameters[3],
-                        (BigDecimal) parameters[4],
-                        (BigDecimal) parameters[5],
-                        context.mathContext()
-                ));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("rate",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ExcelFinancialFunction.rate(
-                        (BigDecimal) parameters[0],
-                        (BigDecimal) parameters[1],
-                        (BigDecimal) parameters[2],
-                        (BigDecimal) parameters[3],
-                        (BigDecimal) parameters[4],
-                        context.mathContext()
-                ));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("rate",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ExcelFinancialFunction.rate(
-                        (BigDecimal) parameters[0],
-                        (BigDecimal) parameters[1],
-                        (BigDecimal) parameters[2],
-                        (BigDecimal) parameters[3],
-                        context.mathContext()
-                ));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("rate",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ExcelFinancialFunction.rate(
-                        (BigDecimal) parameters[0],
-                        (BigDecimal) parameters[1],
-                        (BigDecimal) parameters[2],
-                        context.mathContext()
-                ));
-        extensions.put(callSite.getKeyName(), callSite);
-
         callSite = new LambdaCallSite("pv",
                 MethodType.methodType(BigDecimal.class,
                         BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),

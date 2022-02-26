@@ -384,39 +384,39 @@ public class ExcelFinancialFunction {
      * @return the irr value or null if exceeds maximum iteration count
      */
     public static BigDecimal irr(BigDecimal[] pmts, BigDecimal guess, MathContext mc) {
-        double x0 = guess.doubleValue();
-        double[] values = new double[pmts.length];
+        double irr = guess.doubleValue();
+        double[] payments = new double[pmts.length];
         for (int i = 0, pmtsLength = pmts.length; i < pmtsLength; i++) {
-            values[i] = pmts[i].doubleValue();
+            payments[i] = pmts[i].doubleValue();
         }
 
         for (int i = 0; i < MAX_ITERATION_COUNT; i++) {
-            final double factor = 1.0 + x0;
-            double denominator = factor;
-            if (denominator == 0) {
-                LOGGER.debug("Returning null (NaN) because IRR has found an denominator of 0");
+            final double rateDivisor = 1.0 + irr;
+            double divisor = rateDivisor;
+            if (divisor == 0) {
+                LOGGER.debug("Returning null because IRR has found an divisor of 0");
                 return null;
             }
 
-            double fValue = values[0];
-            double fDerivative = 0;
-            for (int k = 1; k < values.length; k++) {
-                final double value = values[k];
-                fValue += value / denominator;
-                denominator *= factor;
-                fDerivative -= k * value / denominator;
+            double pmt = payments[0];
+            double derivate = 0;
+            for (int k = 1; k < payments.length; k++) {
+                final double value = payments[k];
+                pmt += value / divisor;
+                divisor *= rateDivisor;
+                derivate -= k * value / divisor;
             }
 
-            if (fDerivative == 0) {
-                LOGGER.debug("Returning null because IRR found an fDerivative of 0");
+            if (derivate == 0) {
+                LOGGER.debug("Returning null because IRR found an derivate of 0");
                 return null;
             }
-            double x1 = x0 - fValue / fDerivative;
+            double irrIteration = irr - pmt / derivate;
 
-            if (Math.abs(x1 - x0) <= ABSOLUTE_ACCURACY.doubleValue()) {
-                return valueOf(x1);
+            if (Math.abs(irrIteration - irr) <= ABSOLUTE_ACCURACY.doubleValue()) {
+                return valueOf(irrIteration);
             }
-            x0 = x1;
+            irr = irrIteration;
         }
         // maximum number of iterations is exceeded
         LOGGER.debug("Returning null because IRR reached max number of iterations allowed: {}", MAX_ITERATION_COUNT);
@@ -452,63 +452,6 @@ public class ExcelFinancialFunction {
             return pow(fv.negate().divide(pv, mc), ONE.divide(nper, mc), mc).subtract(ONE, mc);
         }
         return ZERO;
-    }
-
-    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, MathContext mc) {
-        return  rate(nperP, pmtP, pvP, ZERO, mc);
-    }
-
-    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, MathContext mc) {
-        return  rate(nperP, pmtP, pvP, fvP, ZERO, mc);
-    }
-
-    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, BigDecimal typeP, MathContext mc) {
-        return rate(nperP, pmtP, pvP, fvP, typeP, valueOf(0.1), mc);
-    }
-
-    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, BigDecimal typeP, BigDecimal guessP, MathContext mc) {
-
-        double nper = nperP.doubleValue();
-        double pmt = pmtP.doubleValue();
-        double pv = pvP.doubleValue();
-        double fv = fvP.doubleValue();
-        double type = typeP.doubleValue();
-        double guess = guessP.doubleValue();
-
-        int FINANCIAL_MAX_ITERATIONS = 20;//Bet accuracy with 128
-        double FINANCIAL_PRECISION = 0.0000001;//1.0e-8
-
-        double y, y0, y1, x0, x1 = 0, f = 0, i = 0;
-        double rate = guess;
-        if (Math.abs(rate) < FINANCIAL_PRECISION) {
-            y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
-        } else {
-            f = Math.exp(nper * Math.log(1 + rate));
-            y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
-        }
-        y0 = pv + pmt * nper + fv;
-        y1 = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
-
-        // find root by Newton secant method
-        i = x0 = 0.0;
-        x1 = rate;
-        while ((Math.abs(y0 - y1) > FINANCIAL_PRECISION) && (i < FINANCIAL_MAX_ITERATIONS)) {
-            rate = (y1 * x0 - y0 * x1) / (y1 - y0);
-            x0 = x1;
-            x1 = rate;
-
-            if (Math.abs(rate) < FINANCIAL_PRECISION) {
-                y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
-            } else {
-                f = Math.exp(nper * Math.log(1 + rate));
-                y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
-            }
-
-            y0 = y1;
-            y1 = y;
-            ++i;
-        }
-        return BigDecimal.valueOf(rate);
     }
 
 }

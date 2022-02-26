@@ -129,12 +129,4 @@ public class TestFinancialFunctionOperations {
         assertThat((BigDecimal) compiler.compute()).isEqualByComparingTo("7.27");
     }
 
-    @Test
-    public void test_RATE() {
-        MathSentence compiler;
-
-        compiler = new MathSentence("rate(6, -200, 1000)");
-        assertThat((BigDecimal) compiler.compute()).isEqualByComparingTo("0.05471792502353718");
-    }
-
 }

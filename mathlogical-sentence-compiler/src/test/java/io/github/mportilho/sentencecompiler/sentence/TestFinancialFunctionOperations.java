@@ -114,14 +114,6 @@ public class TestFinancialFunctionOperations {
     }
 
     @Test
-    public void test_() {
-        MathSentence compiler;
-
-        compiler = new MathSentence("5");
-        assertThat((BigDecimal) compiler.compute()).isEqualByComparingTo("5");
-    }
-
-    @Test
     public void test_NPER() {
         MathSentence compiler;
 

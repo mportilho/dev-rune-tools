@@ -24,9 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.support.formulas;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.ZonedDateTime;
@@ -45,7 +42,6 @@ import static java.math.BigDecimal.*;
  */
 public class ExcelFinancialFunction {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExcelFinancialFunction.class);
     private static final int MAX_ITERATION_COUNT = 1000;
     private static final BigDecimal ABSOLUTE_ACCURACY = valueOf(1E-7);
 
@@ -394,7 +390,6 @@ public class ExcelFinancialFunction {
             final double rateDivisor = 1.0 + irr;
             double divisor = rateDivisor;
             if (divisor == 0) {
-                LOGGER.debug("Returning null because IRR has found an divisor of 0");
                 return null;
             }
 
@@ -408,7 +403,6 @@ public class ExcelFinancialFunction {
             }
 
             if (derivate == 0) {
-                LOGGER.debug("Returning null because IRR found an derivate of 0");
                 return null;
             }
             double irrIteration = irr - pmt / derivate;
@@ -419,7 +413,6 @@ public class ExcelFinancialFunction {
             irr = irrIteration;
         }
         // maximum number of iterations is exceeded
-        LOGGER.debug("Returning null because IRR reached max number of iterations allowed: {}", MAX_ITERATION_COUNT);
         return null;
     }
 

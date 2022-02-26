@@ -113,12 +113,12 @@ public class TestFinancialFunctionOperations {
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.23860325588720818");
     }
 
-    @Test
-    public void test_NPER() {
-        MathSentence compiler;
-
-        compiler = new MathSentence("nper(10, 12, 200, -1000)");
-        assertThat((BigDecimal) compiler.compute()).isEqualByComparingTo("7.27");
-    }
+//    @Test
+//    public void test_NPER() {
+//        MathSentence compiler;
+//
+//        compiler = new MathSentence("nper(10, 12, 200, -1000)");
+//        assertThat((BigDecimal) compiler.compute()).isEqualByComparingTo("7.27");
+//    }
 
 }

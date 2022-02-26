@@ -252,29 +252,29 @@ public class TestPreciseComplexMathOperations {
         assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("12");
     }
 
-    @Test
-    public void testSummationOperation() {
-        SequenceVariableValueOperation index_0 = new SequenceVariableValueOperation("0");
-        SequenceVariableValueOperation index_2 = new SequenceVariableValueOperation("2");
-        index_0.setValue(valueOf(0));
-        index_2.setValue(valueOf(2));
-
-        SequenceVariableValueOperation sequenceVariable;
-        AbstractOperation summationOperation;
-        AbstractOperation operation;
-
-        sequenceVariable = new SequenceVariableValueOperation("S");
-        summationOperation = new PreciseExponentialOperation(index_2, sequenceVariable);
-        operation = new PreciseSummationOperation(index_0, index_2, summationOperation, sequenceVariable);
-        operation.accept(new InitialConfigurationOperationVisitor());
-        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("7");
-
-        sequenceVariable = new SequenceVariableValueOperation("S");
-        summationOperation = new PreciseExponentialOperation(new PreciseAdditionOperation(new SequenceVariableValueOperation("2"), sequenceVariable),
-                sequenceVariable);
-        operation = new PreciseSummationOperation(index_0, index_2, summationOperation, sequenceVariable);
-        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("20");
-    }
+//    @Test
+//    public void testSummationOperation() {
+//        SequenceVariableValueOperation index_0 = new SequenceVariableValueOperation("0");
+//        SequenceVariableValueOperation index_2 = new SequenceVariableValueOperation("2");
+//        index_0.setValue(valueOf(0));
+//        index_2.setValue(valueOf(2));
+//
+//        SequenceVariableValueOperation sequenceVariable;
+//        AbstractOperation summationOperation;
+//        AbstractOperation operation;
+//
+//        sequenceVariable = new SequenceVariableValueOperation("S");
+//        summationOperation = new PreciseExponentialOperation(index_2, sequenceVariable);
+//        operation = new PreciseSummationOperation(index_0, index_2, summationOperation, sequenceVariable);
+//        operation.accept(new InitialConfigurationOperationVisitor());
+//        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("7");
+//
+//        sequenceVariable = new SequenceVariableValueOperation("S");
+//        summationOperation = new PreciseExponentialOperation(new PreciseAdditionOperation(new SequenceVariableValueOperation("2"), sequenceVariable),
+//                sequenceVariable);
+//        operation = new PreciseSummationOperation(index_0, index_2, summationOperation, sequenceVariable);
+//        assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("20");
+//    }
 
 //    @Test
 //    public void testProductOfSequenceOperation() {

@@ -1,9 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
- *
- * Copyright (c) 2017 Raymond DeCampo <ray@decampo.org>
+ * Copyright (c) 2022-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,42 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.newtonraphson;
-
 /**
- * Indicates the algorithm failed to converge in the allotted number of
- * iterations.
- *
- * @author ray
+ * Original project from https://github.com/RayDeCampo/java-xirr
  */
-public class NonConvergenceException extends IllegalArgumentException {
-
-    private final double initialGuess;
-    private final long iterations;
-
-    public NonConvergenceException(double guess, long iterations) {
-        super("Newton-Raphson failed to converge within " + iterations
-                + " iterations.");
-        this.initialGuess = guess;
-        this.iterations = iterations;
-    }
-
-    /**
-     * Get the initial guess used for the algorithm.
-     *
-     * @return the initial guess used for the algorithm
-     */
-    public double getInitialGuess() {
-        return initialGuess;
-    }
-
-    /**
-     * Get the number of iterations applied.
-     *
-     * @return the number of iterations applied.
-     */
-    public long getIterations() {
-        return iterations;
-    }
-
-}
+package io.github.mportilho.sentencecompiler.support.formula.xirr;

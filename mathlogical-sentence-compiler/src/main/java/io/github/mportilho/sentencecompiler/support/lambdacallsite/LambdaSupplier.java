@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.function;
+package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
-import java.math.MathContext;
+@FunctionalInterface
+public interface LambdaSupplier {
 
-public record LambdaContext(MathContext mathContext, Integer scale) {
+    Object call(LambdaContext context, Object[] parameters);
 
 }

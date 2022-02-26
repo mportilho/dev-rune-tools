@@ -83,7 +83,7 @@
 //
 //    @Test
 //    public void xirr_total_loss_one_year() {
-//        // computes a rate of return of -100% on a total loss
+//        // computes a r of return of -100% on a total loss
 //        final double xirr = new Xirr(Arrays.asList(
 //                new Transaction(-1000, "2010-01-01"),
 //                new Transaction(    0, "2011-01-01")
@@ -93,7 +93,7 @@
 //
 //    @Test
 //    public void xirr_total_loss_two_years() {
-//        // computes a rate of return of -100% on a total loss
+//        // computes a r of return of -100% on a total loss
 //        final double xirr = new Xirr(Arrays.asList(
 //                new Transaction(-1000, "2010-01-01"),
 //                new Transaction(    0, "2012-01-01")
@@ -103,7 +103,7 @@
 //
 //    @Test
 //    public void xirr_total_loss_half_year() {
-//        // computes a rate of return of -100% on a total loss
+//        // computes a r of return of -100% on a total loss
 //        final double xirr = new Xirr(Arrays.asList(
 //                new Transaction(-1000, "2010-01-01"),
 //                new Transaction(    0, "2010-07-01")
@@ -113,18 +113,18 @@
 //
 //    @Test
 //    public void xirr_readme_example() {
-//        double rate = new Xirr(
+//        double r = new Xirr(
 //                new Transaction(-1000, "2016-01-15"),
 //                new Transaction(-2500, "2016-02-08"),
 //                new Transaction(-1000, "2016-04-17"),
 //                new Transaction( 5050, "2016-08-24")
 //            ).xirr();
-//        assertEquals(0.2504234710540838, rate, TOLERANCE);
+//        assertEquals(0.2504234710540838, r, TOLERANCE);
 //    }
 //
 //    @Test
 //    public void xirr_issue_from_node_js_version() {
-//        double rate = new Xirr(
+//        double r = new Xirr(
 //                new Transaction(-10000, "2000-05-24"),
 //                new Transaction(3027.25, "2000-06-05"),
 //                new Transaction(630.68, "2001-04-09"),
@@ -144,12 +144,12 @@
 //                new Transaction(1765.89, "2017-01-20"),
 //                new Transaction(22421.55, "2017-06-05")
 //            ).xirr();
-//        assertEquals(0.2126861, rate, TOLERANCE);
+//        assertEquals(0.2126861, r, TOLERANCE);
 //    }
 //
 //    @Test
 //    public void xirr_issue5a() {
-//        double rate = new Xirr(
+//        double r = new Xirr(
 //            new Transaction(-2610, "2001-06-22"),
 //            new Transaction(-2589, "2001-07-03"),
 //            new Transaction(-5110, "2001-07-05"),
@@ -161,12 +161,12 @@
 //            new Transaction(-2530, "2001-07-16"),
 //            new Transaction(29520, "2001-07-17")
 //        ).xirr();
-//        assertEquals(-0.7640294, rate, TOLERANCE);
+//        assertEquals(-0.7640294, r, TOLERANCE);
 //    }
 //
 //    @Test
 //    public void xirr_issue5b() {
-//        double rate = new Xirr(
+//        double r = new Xirr(
 //            new Transaction(-2610, "2001-06-22"),
 //            new Transaction(-2589, "2001-07-03"),
 //            new Transaction(-5110, "2001-07-05"),
@@ -179,7 +179,7 @@
 //            new Transaction(-9840, "2001-07-17"),
 //            new Transaction(38900, "2001-07-18")
 //        ).xirr();
-//        assertEquals(-0.8353404, rate, TOLERANCE);
+//        assertEquals(-0.8353404, r, TOLERANCE);
 //    }
 //
 //    @Test(expected = IllegalArgumentException.class)

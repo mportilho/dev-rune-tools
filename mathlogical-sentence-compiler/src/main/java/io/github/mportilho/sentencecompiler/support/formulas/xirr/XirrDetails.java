@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.xirr;
+package io.github.mportilho.sentencecompiler.support.formulas.xirr;
 
 import java.time.Instant;
 import java.util.stream.Collector;

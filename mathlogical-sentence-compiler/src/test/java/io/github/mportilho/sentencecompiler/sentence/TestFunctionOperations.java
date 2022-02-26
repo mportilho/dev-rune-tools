@@ -26,38 +26,15 @@ package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class TestFunctionOperations {
-
-//	@Test
-//	public void testDynamicFunction() {
-//		DynamicFunction function = (context, params) -> 5;
-//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(null, null), parameters);
-//		OperationContext operationContext = new OperationContext();
-//		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
-//
-//		FunctionOperation operation = new FunctionOperation("teste", null, true);
-//		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
-//	}
-
-//	@Test
-//	public void testDynamicFunctionContext() {
-//		DynamicFunction function = (context, params) -> {
-//			return new BigDecimal("5", context.getMathContext()).setScale(context.getScale());
-//		};
-//		Function<Object[], Object> dynamicFunction = parameters -> function.call(new DynamicFunctionContext(MathContext.DECIMAL64, 8), parameters);
-//		OperationContext operationContext = new OperationContext();
-//		operationContext.addExternalFunctions(Collections.singletonMap("teste", dynamicFunction));
-//
-//		FunctionOperation operation = new FunctionOperation("teste", null, true);
-//		assertThat(operation.<BigDecimal>evaluate(operationContext)).isEqualByComparingTo("5");
-//	}
 
     @Test
     public void testFunctionOperationsWithExternalNumberMethods() {

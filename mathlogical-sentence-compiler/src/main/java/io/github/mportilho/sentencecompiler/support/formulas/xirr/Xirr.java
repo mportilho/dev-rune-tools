@@ -24,11 +24,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.xirr;
+package io.github.mportilho.sentencecompiler.support.formulas.xirr;
 
-import io.github.mportilho.sentencecompiler.formulas.newtonraphson.NewtonRaphson;
-import io.github.mportilho.sentencecompiler.formulas.newtonraphson.NonConvergenceException;
-import io.github.mportilho.sentencecompiler.formulas.newtonraphson.ZeroValuedDerivativeException;
+import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.ZeroValuedDerivativeException;
+import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.NewtonRaphson;
+import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.NonConvergenceException;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -39,9 +39,9 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
- * Calculates the irregular rate of return on a series of transactions.  The
- * irregular rate of return is the constant rate for which, if the transactions
- * had been applied to an investment with that rate, the same resulting returns
+ * Calculates the irregular r of return on a series of transactions.  The
+ * irregular r of return is the constant r for which, if the transactions
+ * had been applied to an investment with that r, the same resulting returns
  * would be realized.
  * <p>
  * When creating the list of {@link Transaction} instances to feed Xirr, be
@@ -50,7 +50,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * <p>
  * Example usage:
  * <code>
- *     double rate = new Xirr(
+ *     double r = new Xirr(
  *             new Transaction(-1000, "2016-01-15"),
  *             new Transaction(-2500, "2016-02-08"),
  *             new Transaction(-1000, "2016-04-17"),
@@ -60,7 +60,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * <p>
  * Example using the builder to gain more control:
  * <code>
- *     double rate = Xirr.builder()
+ *     double r = Xirr.builder()
  *         .withNewtonRaphsonBuilder(
  *             NewtonRaphson.builder()
  *                 .withIterations(1000)
@@ -150,10 +150,10 @@ public class Xirr {
 
     /**
      * Calculates the present value of the investment if it had been subject to
-     * the given rate of return.
-     * @param rate the rate of return
+     * the given r of return.
+     * @param rate the r of return
      * @return the present value of the investment if it had been subject to the
-     *         given rate of return
+     *         given r of return
      */
     public double presentValue(final double rate) {
         return investments.stream()
@@ -162,9 +162,9 @@ public class Xirr {
     }
 
     /**
-     * The derivative of the present value under the given rate.
-     * @param rate the rate of return
-     * @return derivative of the present value under the given rate
+     * The derivative of the present value under the given r.
+     * @param rate the r of return
+     * @return derivative of the present value under the given r
      */
     public double derivative(final double rate) {
         return investments.stream()
@@ -173,9 +173,9 @@ public class Xirr {
     }
 
     /**
-     * Calculates the irregular rate of return of the transactions for this
+     * Calculates the irregular r of return of the transactions for this
      * instance of Xirr.
-     * @return the irregular rate of return of the transactions
+     * @return the irregular r of return of the transactions
      * @throws ZeroValuedDerivativeException if the derivative is 0 while executing the Newton-Raphson method
      * @throws NonConvergenceException if the Newton-Raphson method fails to converge in the
      */
@@ -202,29 +202,29 @@ public class Xirr {
         double years;
 
         /**
-         * Present value of the investment at the given rate.
-         * @param rate the rate of return
-         * @return present value of the investment at the given rate
+         * Present value of the investment at the given r.
+         * @param rate the r of return
+         * @return present value of the investment at the given r
          */
         private double presentValue(final double rate) {
             if (-1 < rate) {
                 return amount * Math.pow(1 + rate, years);
             } else if (rate < -1) {
-                // Extend the function into the range where the rate is less
+                // Extend the function into the range where the r is less
                 // than -100%.  Even though this does not make practical sense,
                 // it allows the algorithm to converge in the cases where the
                 // candidate values enter this range
 
                 // We cannot use the same formula as before, since the base of
-                // the exponent (1+rate) is negative, this yields imaginary
+                // the exponent (1+r) is negative, this yields imaginary
                 // values for fractional years.
-                // E.g. if rate=-1.5 and years=.5, it would be (-.5)^.5,
+                // E.g. if r=-1.5 and years=.5, it would be (-.5)^.5,
                 // i.e. the square root of negative one half.
 
                 // Ensure the values are always negative so there can never
                 // be a zero (as long as some amount is non-zero).
                 // This formula also ensures that the derivative is positive
-                // (when rate < -1) so that Newton's method is encouraged to
+                // (when r < -1) so that Newton's method is encouraged to
                 // move the candidate values towards the proper range
 
                 return -Math.abs(amount) * Math.pow(-1 - rate, years);
@@ -236,9 +236,9 @@ public class Xirr {
         }
 
         /**
-         * Derivative of the present value of the investment at the given rate.
-         * @param rate the rate of return
-         * @return derivative of the present value at the given rate
+         * Derivative of the present value of the investment at the given r.
+         * @param rate the r of return
+         * @return derivative of the present value at the given r
          */
         private double derivative(final double rate) {
             if (years == 0) {
@@ -303,7 +303,7 @@ public class Xirr {
          * Convenience method for building the Xirr instance and invoking
          * {@link Xirr#xirr()}.  See the documentation for that method for
          * details.
-         * @return the irregular rate of return of the transactions
+         * @return the irregular r of return of the transactions
          */
         public double xirr() {
             return build().xirr();

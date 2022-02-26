@@ -22,15 +22,20 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.mathsentence;
+package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestMathSentenceBasicUsage {
 
@@ -62,6 +67,37 @@ public class TestMathSentenceBasicUsage {
     @Test
     public void testDefaultVisitorValue() {
         assertThat(new WarmUpOperationVisitor(null).getFinalResult()).isNull();
+    }
+
+    @Test
+    public void testLockingMathSentence() {
+        MathSentence compiler = new MathSentence("1 + 2");
+        compiler.lock();
+
+        assertThat(compiler.isLocked()).isTrue();
+        assertThatThrownBy(compiler::compute)
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(compiler::warmUp)
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, null)))
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.setVariable("", ""))
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.setVariableProvider("", c -> null))
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.addDictionary(Collections.emptyMap()))
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.addDictionaryEntry("", ""))
+                .isInstanceOf(MathSentenceLockingException.class);
+
+        assertThatThrownBy(() -> compiler.addFunctionFromObject(Object.class))
+                .isInstanceOf(MathSentenceLockingException.class);
     }
 
 }

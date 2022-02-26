@@ -25,14 +25,14 @@
 package io.github.mportilho.sentencecompiler.syntaxtree;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.math.MathContext;
 import java.time.ZoneId;
 import java.time.temporal.Temporal;
 import java.util.function.Supplier;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
+import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 
 public record OperationContext(
 

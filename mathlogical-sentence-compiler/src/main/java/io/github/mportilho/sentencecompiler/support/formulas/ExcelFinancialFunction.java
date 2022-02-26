@@ -22,13 +22,15 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas;
+package io.github.mportilho.sentencecompiler.support.formulas;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static ch.obermuhlner.math.big.BigDecimalMath.log;
 import static ch.obermuhlner.math.big.BigDecimalMath.pow;
@@ -55,7 +57,7 @@ public class ExcelFinancialFunction {
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods
      * @param mc   provided math context
-     * @return Equivalient interest rate
+     * @return Equivalient interest r
      */
     public static BigDecimal eir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
         return pow(ONE.add(r.divide(per, mc), mc), per.multiply(nper, mc), mc).subtract(ONE, mc);
@@ -64,7 +66,7 @@ public class ExcelFinancialFunction {
     /**
      * Calculate present value from future one
      *
-     * @param r    Periodic interest rate represented as a decimal.
+     * @param r    Periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
@@ -98,7 +100,7 @@ public class ExcelFinancialFunction {
     /**
      * Calculate present value from future one
      *
-     * @param r    Periodic interest rate represented as a decimal.
+     * @param r    Periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
@@ -114,7 +116,7 @@ public class ExcelFinancialFunction {
     /**
      * Calculate present value from future one
      *
-     * @param r    Periodic interest rate represented as a decimal.
+     * @param r    Periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
@@ -129,7 +131,7 @@ public class ExcelFinancialFunction {
     /**
      * Calculate present value from future one
      *
-     * @param r    Periodic interest rate represented as a decimal.
+     * @param r    Periodic interest r represented as a decimal.
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
      * @param mc   provided math context
@@ -146,16 +148,17 @@ public class ExcelFinancialFunction {
      * @param pv   present value -- borrowed or invested principal.
      * @param fv   future value of loan or annuity.
      * @param mc   provided math context
-     * @return interest rate
+     * @return interest r
      */
-    public static BigDecimal r(BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, MathContext mc) {
+    public static BigDecimal r(
+            BigDecimal per, BigDecimal nper, BigDecimal pv, BigDecimal fv, MathContext mc) {
         return per.multiply(pow(fv.divide(pv, mc), ONE.divide(per.multiply(nper, mc), mc), mc).subtract(ONE, mc));
     }
 
     /**
      * Find invest time number
      *
-     * @param r   periodic interest rate represented as a decimal.
+     * @param r   periodic interest r represented as a decimal.
      * @param per period (payment number) to check value at. Number of compounding periods
      * @param pv  present value -- borrowed or invested principal.
      * @param fv  future value of loan or annuity.
@@ -163,7 +166,8 @@ public class ExcelFinancialFunction {
      * @return number of total periods.
      */
     // ln(A/P) / n[ln(1 + r/n)]
-    public static BigDecimal nper(BigDecimal r, BigDecimal per, BigDecimal pv, BigDecimal fv, MathContext mc) {
+    public static BigDecimal nper(
+            BigDecimal r, BigDecimal per, BigDecimal pv, BigDecimal fv, MathContext mc) {
         return log(fv.divide(pv, mc), mc).divide(per.multiply(log(ONE.add(r.divide(per, mc), mc), mc), mc), mc);
     }
 
@@ -178,7 +182,7 @@ public class ExcelFinancialFunction {
      * Emulates Excel/Calc's FV(interest_rate, number_payments, payment, PV,
      * Type) function, which calculates future value or principal at period N.
      *
-     * @param r    periodic interest rate represented as a decimal.
+     * @param r    periodic interest r represented as a decimal.
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
      * @param pv   present value -- borrowed or invested principal.
@@ -195,14 +199,15 @@ public class ExcelFinancialFunction {
     /**
      * Overloaded fv() call omitting type, which defaults to 0.
      */
-    public static BigDecimal fv(BigDecimal r, BigDecimal nper, BigDecimal pmt, BigDecimal pv, MathContext mc) {
+    public static BigDecimal fv(
+            BigDecimal r, BigDecimal nper, BigDecimal pmt, BigDecimal pv, MathContext mc) {
         return fv(r, nper, pmt, pv, ZERO, mc);
     }
 
     /**
      * Future value of a series
      *
-     * @param r    periodic interest rate represented as a decimal.
+     * @param r    periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
@@ -219,10 +224,10 @@ public class ExcelFinancialFunction {
     /**
      * Different periodic payments and compounding
      * <p>
-     * An amount of $100 is deposited quarterly into a savings account at an annual interest rate of 10%,
+     * An amount of $100 is deposited quarterly into a savings account at an annual interest r of 10%,
      * compounded monthly. The value of the investment after 12 months can be calculated as follows...
      *
-     * @param r    periodic interest rate represented as a decimal.
+     * @param r    periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
@@ -245,7 +250,7 @@ public class ExcelFinancialFunction {
     /**
      * Net Present Value
      *
-     * @param r    internal rate of return
+     * @param r    internal r of return
      * @param pv   Total initial investment costs
      * @param pmts cash flow
      * @param mc   provided math context
@@ -262,11 +267,21 @@ public class ExcelFinancialFunction {
         return nvp.add(pv);
     }
 
+    public static BigDecimal xnpv(BigDecimal r, BigDecimal[] pmts, ZonedDateTime[] dates, MathContext mc) {
+        BigDecimal xnpv = ZERO;
+        for (int i = 0; i < pmts.length; i++) {
+            long days = ChronoUnit.DAYS.between(dates[0], dates[i]);
+            BigDecimal divisor = pow(ONE.add(r), valueOf(days).divide(valueOf(365), mc), mc);
+            xnpv = xnpv.add(pmts[i].divide(divisor, mc));
+        }
+        return xnpv;
+    }
+
     /**
      * Emulates Excel/Calc's PMT(interest_rate, number_payments, PV, FV, Type)
      * function, which calculates the payments for a loan or the future value of an investment
      *
-     * @param r    - periodic interest rate represented as a decimal.
+     * @param r    - periodic interest r represented as a decimal.
      * @param nper - number of total payments / periods.
      * @param pv   - present value -- borrowed or invested principal.
      * @param fv   - future value of loan or annuity.
@@ -301,7 +316,7 @@ public class ExcelFinancialFunction {
      * FV, Type) function, which calculates the portion of the payment at a
      * given period that is the interest on previous balance.
      *
-     * @param r    - periodic interest rate represented as a decimal.
+     * @param r    - periodic interest r represented as a decimal.
      * @param per  - period (payment number) to check value at.
      * @param nper - number of total payments / periods.
      * @param pv   - present value -- borrowed or invested principal.
@@ -334,7 +349,7 @@ public class ExcelFinancialFunction {
      * FV, Type) function, which calculates the portion of the payment at a
      * given period that will call to principal.
      *
-     * @param r    periodic interest rate represented as a decimal.
+     * @param r    periodic interest r represented as a decimal.
      * @param per  period (payment number) to check value at (capitalização).
      * @param nper number of total payments / periods.
      * @param pv   present value -- borrowed or invested principal.
@@ -410,8 +425,8 @@ public class ExcelFinancialFunction {
 
     /**
      * @param pmts         the income values
-     * @param financeRate  Interest rate paid for the money used in cash flows
-     * @param reinvestRate Interest rate paid for reinvestment of cash flows
+     * @param financeRate  Interest r paid for the money used in cash flows
+     * @param reinvestRate Interest r paid for reinvestment of cash flows
      * @return the mirr value
      */
     public static BigDecimal mirr(BigDecimal[] pmts, BigDecimal financeRate, BigDecimal reinvestRate, MathContext mc) {
@@ -439,5 +454,61 @@ public class ExcelFinancialFunction {
         return ZERO;
     }
 
+    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, MathContext mc) {
+        return  rate(nperP, pmtP, pvP, ZERO, mc);
+    }
+
+    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, MathContext mc) {
+        return  rate(nperP, pmtP, pvP, fvP, ZERO, mc);
+    }
+
+    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, BigDecimal typeP, MathContext mc) {
+        return rate(nperP, pmtP, pvP, fvP, typeP, valueOf(0.1), mc);
+    }
+
+    public static BigDecimal rate(BigDecimal nperP, BigDecimal pmtP, BigDecimal pvP, BigDecimal fvP, BigDecimal typeP, BigDecimal guessP, MathContext mc) {
+
+        double nper = nperP.doubleValue();
+        double pmt = pmtP.doubleValue();
+        double pv = pvP.doubleValue();
+        double fv = fvP.doubleValue();
+        double type = typeP.doubleValue();
+        double guess = guessP.doubleValue();
+
+        int FINANCIAL_MAX_ITERATIONS = 20;//Bet accuracy with 128
+        double FINANCIAL_PRECISION = 0.0000001;//1.0e-8
+
+        double y, y0, y1, x0, x1 = 0, f = 0, i = 0;
+        double rate = guess;
+        if (Math.abs(rate) < FINANCIAL_PRECISION) {
+            y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
+        } else {
+            f = Math.exp(nper * Math.log(1 + rate));
+            y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+        }
+        y0 = pv + pmt * nper + fv;
+        y1 = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+
+        // find root by Newton secant method
+        i = x0 = 0.0;
+        x1 = rate;
+        while ((Math.abs(y0 - y1) > FINANCIAL_PRECISION) && (i < FINANCIAL_MAX_ITERATIONS)) {
+            rate = (y1 * x0 - y0 * x1) / (y1 - y0);
+            x0 = x1;
+            x1 = rate;
+
+            if (Math.abs(rate) < FINANCIAL_PRECISION) {
+                y = pv * (1 + nper * rate) + pmt * (1 + rate * type) * nper + fv;
+            } else {
+                f = Math.exp(nper * Math.log(1 + rate));
+                y = pv * f + pmt * (1 / rate + type) * (f - 1) + fv;
+            }
+
+            y0 = y1;
+            y1 = y;
+            ++i;
+        }
+        return BigDecimal.valueOf(rate);
+    }
 
 }

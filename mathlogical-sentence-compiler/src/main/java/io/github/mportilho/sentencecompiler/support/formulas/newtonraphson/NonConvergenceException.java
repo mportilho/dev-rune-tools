@@ -3,6 +3,8 @@
  *
  * Copyright (c) 2022. Marcelo Silva Portilho
  *
+ * Copyright (c) 2017 Raymond DeCampo <ray@decampo.org>
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,22 +24,42 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.lambda;
+package io.github.mportilho.sentencecompiler.support.formulas.newtonraphson;
 
-import java.math.BigDecimal;
+/**
+ * Indicates the algorithm failed to converge in the allotted number of
+ * iterations.
+ *
+ * @author ray
+ */
+public class NonConvergenceException extends IllegalArgumentException {
 
-public class PlaceholderMethodUtils {
+    private final double initialGuess;
+    private final long iterations;
 
-    public static BigDecimal adder(BigDecimal a, BigDecimal b) {
-        return a.add(b);
+    public NonConvergenceException(double guess, long iterations) {
+        super("Newton-Raphson failed to converge within " + iterations
+                + " iterations.");
+        this.initialGuess = guess;
+        this.iterations = iterations;
     }
 
-    public static Long adderLong(int a, long b) {
-        return a + b;
+    /**
+     * Get the initial guess used for the algorithm.
+     *
+     * @return the initial guess used for the algorithm
+     */
+    public double getInitialGuess() {
+        return initialGuess;
     }
 
-    public static String concatOne(String str) {
-        return str + "_1";
+    /**
+     * Get the number of iterations applied.
+     *
+     * @return the number of iterations applied.
+     */
+    public long getIterations() {
+        return iterations;
     }
 
 }

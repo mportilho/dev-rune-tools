@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.formulas.newtonraphson;
 
 import java.util.function.DoubleUnaryOperator;
 

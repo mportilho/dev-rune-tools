@@ -24,19 +24,15 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.formulas.ExcelFinancialFunction;
-import io.github.mportilho.sentencecompiler.formulas.xirr.Transaction;
-import io.github.mportilho.sentencecompiler.formulas.xirr.Xirr;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.formulas.ExcelFinancialFunction;
+import io.github.mportilho.sentencecompiler.support.formulas.xirr.Transaction;
+import io.github.mportilho.sentencecompiler.support.formulas.xirr.Xirr;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
+import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +51,63 @@ public class FinancialFormulasExtension {
         callSite = new LambdaCallSite("eir",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> ExcelFinancialFunction.eir(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("r",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.r(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("rate",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.rate(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        (BigDecimal) parameters[5],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("rate",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.rate(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        (BigDecimal) parameters[4],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("rate",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.rate(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal) parameters[2],
+                        (BigDecimal) parameters[3],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("rate",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                (context, parameters) -> ExcelFinancialFunction.rate(
                         (BigDecimal) parameters[0],
                         (BigDecimal) parameters[1],
                         (BigDecimal) parameters[2],
@@ -300,6 +353,26 @@ public class FinancialFormulasExtension {
                 ));
         extensions.put(callSite.getKeyName(), callSite);
 
+        callSite = new LambdaCallSite("npv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal[].class),
+                (context, parameters) -> ExcelFinancialFunction.npv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal) parameters[1],
+                        (BigDecimal[]) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("xnpv",
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal[].class, ZonedDateTime[].class),
+                (context, parameters) -> ExcelFinancialFunction.xnpv(
+                        (BigDecimal) parameters[0],
+                        (BigDecimal[]) parameters[1],
+                        (ZonedDateTime[]) parameters[2],
+                        context.mathContext()
+                ));
+        extensions.put(callSite.getKeyName(), callSite);
+
         callSite = new LambdaCallSite("irr",
                 MethodType.methodType(BigDecimal.class, BigDecimal[].class, BigDecimal.class),
                 (context, parameters) -> ExcelFinancialFunction.irr(
@@ -320,21 +393,13 @@ public class FinancialFormulasExtension {
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("xirr",
-                MethodType.methodType(BigDecimal.class, BigDecimal[].class, Temporal[].class, BigDecimal.class),
+                MethodType.methodType(BigDecimal.class, BigDecimal[].class, ZonedDateTime[].class, BigDecimal.class),
                 (context, parameters) -> {
                     BigDecimal[] values = (BigDecimal[]) parameters[0];
-                    Object[] dates = (Temporal[]) parameters[1];
+                    ZonedDateTime[] dates = (ZonedDateTime[]) parameters[1];
                     Transaction[] transactions = new Transaction[values.length];
                     for (int i = 0; i < transactions.length; i++) {
-                        if (dates[i] instanceof LocalDate l) {
-                            transactions[i] = new Transaction(values[i].doubleValue(), l);
-                        } else if (dates[i] instanceof String l) {
-                            transactions[i] = new Transaction(values[i].doubleValue(), l);
-                        } else if (dates[i] instanceof Date l) {
-                            transactions[i] = new Transaction(values[i].doubleValue(), l);
-                        } else {
-                            transactions[i] = new Transaction(values[i].doubleValue(), Instant.from((TemporalAccessor) dates[i]));
-                        }
+                        transactions[i] = new Transaction(values[i].doubleValue(), dates[i].toInstant());
                     }
                     return Xirr.builder().withTransactions(transactions)
                             .withGuess(((BigDecimal) parameters[2]).doubleValue()).xirr();

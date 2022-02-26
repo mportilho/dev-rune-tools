@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;

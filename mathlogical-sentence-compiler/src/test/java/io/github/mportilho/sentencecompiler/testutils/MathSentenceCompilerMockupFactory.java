@@ -29,9 +29,11 @@ import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.sentencecompiler.MathSentenceOptions;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
 
 import java.math.MathContext;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 public class MathSentenceCompilerMockupFactory {
@@ -52,6 +54,10 @@ public class MathSentenceCompilerMockupFactory {
         return new OperationContext(MathContext.DECIMAL64, 8, false, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 false, ZoneId.systemDefault());
+    }
+
+    public static LambdaContext getLambdaContext() {
+        return new LambdaContext(MathContext.DECIMAL64, null, ZoneOffset.UTC);
     }
 
     public static MathSentenceOptions getFastMathSentenceOptions() {

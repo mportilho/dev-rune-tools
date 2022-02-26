@@ -1,9 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022. Marcelo Silva Portilho
- *
- * Copyright (c) 2017 Raymond DeCampo <ray@decampo.org>
+ * Copyright (c) 2021-2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,20 +22,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
-/**
- * Indicates that the numerical method employed encountered a zero-valued
- * derivative, terminating the algorithm unsuccessfully.
- * <p>
- * The state of the algorithm is available via the getters, to allow the caller
- * to adjust the guess and try again.
- *
- * @author ray
- */
-public class ZeroValuedDerivativeException extends OverflowException {
+import java.math.MathContext;
+import java.time.ZoneId;
 
-    ZeroValuedDerivativeException(NewtonRaphson.Calculation state) {
-        super("Newton-Raphson failed due to zero-valued derivative.", state);
-    }
+public record LambdaContext(MathContext mathContext, Integer scale, ZoneId zoneId) {
+
 }

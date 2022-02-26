@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formula;
+package io.github.mportilho.sentencecompiler.support.formula;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import static io.github.mportilho.sentencecompiler.formulas.ExcelFinancialFunction.*;
+import static io.github.mportilho.sentencecompiler.support.formulas.ExcelFinancialFunction.*;
 import static java.math.BigDecimal.*;
 
 public class TestMoreExcelFinancialFormula {

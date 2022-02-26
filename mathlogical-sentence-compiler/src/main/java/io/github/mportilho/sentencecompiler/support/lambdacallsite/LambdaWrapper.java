@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.function;
+package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
 public class LambdaWrapper {
 

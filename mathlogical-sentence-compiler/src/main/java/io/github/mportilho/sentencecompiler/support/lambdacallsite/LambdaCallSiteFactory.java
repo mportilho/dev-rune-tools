@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.function;
+package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite.keyName;
+import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 import static java.lang.reflect.Modifier.isStatic;
 
 public class LambdaCallSiteFactory {
@@ -54,11 +54,11 @@ public class LambdaCallSiteFactory {
             }
 
             if (findFactoryInterface(method.getParameterCount()) == null || hasPrimitives(method)) {
-                dynamicCallerPool.put(keyName(method), createMethodHandleCaller(lookup, method, isClassObject ? null : provider));
+                dynamicCallerPool.put(LambdaCallSite.keyName(method), createMethodHandleCaller(lookup, method, isClassObject ? null : provider));
             } else if (isStatic(method.getModifiers())) {
-                dynamicCallerPool.put(keyName(method), createStaticCaller(lookup, method));
+                dynamicCallerPool.put(LambdaCallSite.keyName(method), createStaticCaller(lookup, method));
             } else if (!isClassObject) {
-                dynamicCallerPool.put(keyName(method), createDynamicCaller(lookup, method, provider));
+                dynamicCallerPool.put(LambdaCallSite.keyName(method), createDynamicCaller(lookup, method, provider));
             }
         }
         return dynamicCallerPool;

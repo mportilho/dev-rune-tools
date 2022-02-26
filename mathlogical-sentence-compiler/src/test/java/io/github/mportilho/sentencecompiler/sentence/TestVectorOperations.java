@@ -24,31 +24,20 @@
 
 package io.github.mportilho.sentencecompiler.sentence;
 
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.MathSentenceOptions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVectorOperations {
 
-    private static final MathSentenceOptions MATH_OPTION = new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService());
-
-    @Test
-    public void testNumericVectorValueOperation() {
-        MathSentence compiler = new MathSentence("mirr([-1000, 300, 400, 400, 300], 12%, 10%)");
-        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");
-    }
-
     @Test
     public void testVectorVariable() {
         MathSentence compiler = new MathSentence("mirr(pmts, f_rate%, r_rate%)");
-        compiler.setVariable("pmts", new int[]{-1000, 300, 400, 400, 300});
+        compiler.setVariable("pmts", new float[]{-1000, 300, 400, 400, 300});
         compiler.setVariable("f_rate", 12);
         compiler.setVariable("r_rate", 10);
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("0.136997740050973");

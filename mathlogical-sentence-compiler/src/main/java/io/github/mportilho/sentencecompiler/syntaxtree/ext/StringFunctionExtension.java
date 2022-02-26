@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.ext;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
 import java.util.HashMap;

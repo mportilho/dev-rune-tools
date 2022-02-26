@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler.sentence.text;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 

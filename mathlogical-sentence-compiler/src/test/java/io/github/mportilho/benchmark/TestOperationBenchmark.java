@@ -45,24 +45,24 @@ public class TestOperationBenchmark {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
-        compiler = new MathSentence("max(<number>Param1, 5) * min(<number>Param2, 4)");
+        compiler = new MathSentence("a * b + a");
 
     }
 
     @Setup(Level.Invocation)
     public void setupInvokation() throws Exception {
         // executed before each invocation of the benchmark
-        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
-        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
     }
 
-    @Test
-    public void testest() {
-        compiler = new MathSentence("max(<number>Param1, 5) * min(<number>Param2, 4)");
-        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
-        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
-        compiler.compute();
-    }
+//    @Test
+//    public void testest() {
+//        compiler = new MathSentence("max(Param1, 5) * min(Param2, 4)");
+//        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
+//        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
+//        compiler.compute();
+//    }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
@@ -75,7 +75,7 @@ public class TestOperationBenchmark {
     }
 
 
-//    @Test
+    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

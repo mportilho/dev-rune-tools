@@ -28,8 +28,8 @@ import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public class FunctionOperation extends AbstractOperation {
             params = new Object[]{params};
         }
         try {
-            Object result = caller.call(new LambdaContext(context.mathContext(), context.scale()), params);
+            Object result = caller.call(new LambdaContext(context.mathContext(), context.scale(), context.zoneId()), params);
             return convertToInternalTypes(result, context);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new SyntaxExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",

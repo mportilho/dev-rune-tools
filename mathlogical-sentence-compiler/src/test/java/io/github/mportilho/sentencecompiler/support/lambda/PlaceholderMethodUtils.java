@@ -22,11 +22,22 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.function;
+package io.github.mportilho.sentencecompiler.support.lambda;
 
-@FunctionalInterface
-public interface LambdaSupplier {
+import java.math.BigDecimal;
 
-    Object call(LambdaContext context, Object[] parameters);
+public class PlaceholderMethodUtils {
+
+    public static BigDecimal adder(BigDecimal a, BigDecimal b) {
+        return a.add(b);
+    }
+
+    public static Long adderLong(int a, long b) {
+        return a + b;
+    }
+
+    public static String concatOne(String str) {
+        return str + "_1";
+    }
 
 }

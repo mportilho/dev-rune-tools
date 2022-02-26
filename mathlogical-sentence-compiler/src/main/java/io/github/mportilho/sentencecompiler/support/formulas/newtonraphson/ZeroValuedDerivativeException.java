@@ -1,7 +1,9 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2022-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
+ *
+ * Copyright (c) 2017 Raymond DeCampo <ray@decampo.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +24,20 @@
  * SOFTWARE.
  ******************************************************************************/
 
+package io.github.mportilho.sentencecompiler.support.formulas.newtonraphson;
+
 /**
- * Original project from https://github.com/RayDeCampo/java-xirr
+ * Indicates that the numerical method employed encountered a zero-valued
+ * derivative, terminating the algorithm unsuccessfully.
+ * <p>
+ * The state of the algorithm is available via the getters, to allow the caller
+ * to adjust the guess and try again.
+ *
+ * @author ray
  */
-package io.github.mportilho.sentencecompiler.formula.xirr;
+public class ZeroValuedDerivativeException extends OverflowException {
+
+    ZeroValuedDerivativeException(NewtonRaphson.Calculation state) {
+        super("Newton-Raphson failed due to zero-valued derivative.", state);
+    }
+}

@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.formulas.xirr;
+package io.github.mportilho.sentencecompiler.support.formulas.xirr;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,7 +33,7 @@ import java.util.Date;
 import static java.time.ZoneOffset.UTC;
 
 /**
- * Represents a transaction for the purposes of computing the irregular rate
+ * Represents a transaction for the purposes of computing the irregular r
  * of return.
  * <p>
  * Note that negative amounts represent deposits into the investment (and so

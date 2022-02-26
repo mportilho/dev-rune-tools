@@ -22,27 +22,25 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.lambda;
+package io.github.mportilho.sentencecompiler.support.lambda;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSiteFactory;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Map;
 
-public class TestMethodMetaFactory {
+import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
 
-    private static final LambdaContext CONTEXT = new LambdaContext(MathContext.DECIMAL64, null);
+public class TestMethodMetaFactory {
 
     @Test
     public void test_addBigDecimal() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("adder_2").call(CONTEXT, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
+        Object value = siteMap.get("adder_2").call(getLambdaContext(), new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
                 .isEqualByComparingTo("8");
@@ -51,7 +49,7 @@ public class TestMethodMetaFactory {
     @Test
     public void test_concatString() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("concatOne_1").call(CONTEXT, new Object[]{"number"});
+        Object value = siteMap.get("concatOne_1").call(getLambdaContext(), new Object[]{"number"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)
                 .isEqualTo("number_1");
@@ -60,7 +58,7 @@ public class TestMethodMetaFactory {
     @Test
     public void test_callingMethod_withPrimitives() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("adderLong_2").call(CONTEXT, new Object[]{"3", "4"});
+        Object value = siteMap.get("adderLong_2").call(getLambdaContext(), new Object[]{"3", "4"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.LONG)
                 .isEqualTo(7L);

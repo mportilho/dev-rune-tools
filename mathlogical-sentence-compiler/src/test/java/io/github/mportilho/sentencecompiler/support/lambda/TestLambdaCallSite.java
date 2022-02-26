@@ -22,24 +22,22 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.lambda;
+package io.github.mportilho.sentencecompiler.support.lambda;
 
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.function.LambdaContext;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.stream.Stream;
 
+import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
 import static java.math.BigDecimal.*;
 
 public class TestLambdaCallSite {
 
-    private static final LambdaContext context = new LambdaContext(MathContext.DECIMAL64, null);
 
     @Test
     public void testCallingSimpleMethod() {
@@ -47,7 +45,7 @@ public class TestLambdaCallSite {
                 "addOne",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> ((BigDecimal) parameters[0]).add(ONE));
-        Assertions.assertThat((BigDecimal) site.call(context, new BigDecimal[]{ONE})).isEqualByComparingTo("2");
+        Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new BigDecimal[]{ONE})).isEqualByComparingTo("2");
     }
 
     @Test
@@ -56,7 +54,7 @@ public class TestLambdaCallSite {
                 "addThreeNumbers",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> ((BigDecimal) parameters[0]).add(((BigDecimal) parameters[1])).add(((BigDecimal) parameters[2])));
-        Assertions.assertThat((BigDecimal) site.call(context, new Object[]{ONE, 2, "3"})).isEqualByComparingTo("6");
+        Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new Object[]{ONE, 2, "3"})).isEqualByComparingTo("6");
     }
 
     @Test
@@ -65,7 +63,7 @@ public class TestLambdaCallSite {
                 "sumArray",
                 MethodType.methodType(BigDecimal.class, BigDecimal[].class),
                 (context, parameters) -> Stream.of(((BigDecimal[]) parameters[0])).reduce(ZERO, BigDecimal::add));
-        Assertions.assertThat((BigDecimal) site.call(context, new Object[]{new Object[]{ONE, 2, "3"}})).isEqualByComparingTo("6");
+        Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new Object[]{new Object[]{ONE, 2, "3"}})).isEqualByComparingTo("6");
     }
 
     @Test
@@ -82,7 +80,7 @@ public class TestLambdaCallSite {
                     }
                     return r;
                 });
-        Assertions.assertThat((BigDecimal[]) site.call(context, new Object[]{
+        Assertions.assertThat((BigDecimal[]) site.call(getLambdaContext(), new Object[]{
                 new Object[]{ONE, 2, "3"},
                 new Object[]{4d, 5f, (short) 4}
         })).containsExactly(valueOf(5), valueOf(7), valueOf(7));

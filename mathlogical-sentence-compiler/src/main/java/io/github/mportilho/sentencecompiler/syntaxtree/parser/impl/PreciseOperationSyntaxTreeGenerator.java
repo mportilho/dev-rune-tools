@@ -174,16 +174,15 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
         }
         sequenceVariableStack.add(new ArrayList<>());
 
-        AbstractOperation startIndexOperation = ctx.mathExpression(0).accept(this);
-        AbstractOperation endIndexOperation = ctx.mathExpression(1).accept(this);
-        AbstractOperation mathExpression = ctx.mathExpression(2).accept(this);
+        AbstractOperation input = ctx.vectorEntity().accept(this);
+        AbstractOperation mathExpression = ctx.mathExpression().accept(this);
 
         List<SequenceVariableValueOperation> sequenceVariableContainer = sequenceVariableStack.pop();
         SequenceVariableValueOperation sequenceVariable = sequenceVariableContainer.isEmpty() ? null : sequenceVariableContainer.get(0);
         if (ctx.SUMMATION() != null) {
-            return new PreciseSummationOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable);
+            return new PreciseSummationOperation(input, mathExpression, sequenceVariable);
         } else if (ctx.PRODUCT_SEQUENCE() != null) {
-            return new PreciseProductOfSequenceOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable);
+            return new PreciseProductOfSequenceOperation(input, mathExpression, sequenceVariable);
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
     }

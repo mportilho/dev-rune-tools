@@ -35,20 +35,18 @@ import java.math.BigDecimal;
 public class PreciseSummationOperation extends AbstractSequencialMathOperation {
 
     public PreciseSummationOperation(
-            AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
-            SequenceVariableValueOperation sequenceVariable) {
-        super(startIndex, endIndex, operation, sequenceVariable);
+            AbstractOperation input, AbstractOperation operation, SequenceVariableValueOperation sequenceVariable) {
+        super(input, operation, sequenceVariable);
         expectedType(BigDecimal.class);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        int startIndexResult = getStartIndex().<BigDecimal>evaluate(context).intValue();
-        int endIndexResult = getEndIndex().<BigDecimal>evaluate(context).intValue();
+        Object[] inputData = getInput().evaluate(context);
         BigDecimal result = BigDecimal.ZERO;
-        for (int i = startIndexResult; i <= endIndexResult; i++) {
+        for (Object inputDatum : inputData) {
             if (this.getSequenceVariable() != null) {
-                this.getSequenceVariable().setSequenceIndex(BigDecimal.valueOf(i));
+                this.getSequenceVariable().setSequenceIndex(inputDatum);
             }
             result = result.add(getOperation().evaluate(context));
         }
@@ -57,7 +55,7 @@ public class PreciseSummationOperation extends AbstractSequencialMathOperation {
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new PreciseSummationOperation(getStartIndex().copy(context), getEndIndex().copy(context),
+        return new PreciseSummationOperation(getInput().copy(context),
                 getOperation().copy(context), (SequenceVariableValueOperation) getSequenceVariable().copy(context));
     }
 

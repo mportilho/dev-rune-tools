@@ -34,19 +34,17 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 public class FastSummationOperation extends AbstractSequencialMathOperation {
 
     public FastSummationOperation(
-            AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
-            SequenceVariableValueOperation sequenceVariable) {
-        super(startIndex, endIndex, operation, sequenceVariable);
+            AbstractOperation input, AbstractOperation operation, SequenceVariableValueOperation sequenceVariable) {
+        super(input, operation, sequenceVariable);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        int startIndexResult = getStartIndex().<Double>evaluate(context).intValue();
-        int endIndexResult = getEndIndex().<Double>evaluate(context).intValue();
+        Object[] inputData = getInput().evaluate(context);
         double result = 0d;
-        for (double i = startIndexResult; i <= endIndexResult; i++) {
+        for (Object inputDatum : inputData) {
             if (this.getSequenceVariable() != null) {
-                this.getSequenceVariable().setSequenceIndex(i);
+                this.getSequenceVariable().setSequenceIndex(inputDatum);
             }
             result = result + getOperation().<Double>evaluate(context);
         }
@@ -55,7 +53,7 @@ public class FastSummationOperation extends AbstractSequencialMathOperation {
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new FastSummationOperation(getStartIndex().copy(context), getEndIndex().copy(context),
+        return new FastSummationOperation(getInput().copy(context),
                 getOperation().copy(context), (SequenceVariableValueOperation) getSequenceVariable().copy(context));
     }
 

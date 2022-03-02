@@ -269,7 +269,7 @@ roundingFunction
   : (R_UP | R_DOWN | R_CEILING | R_FLOOR | R_HALF_UP | R_HALF_DOWN | R_HALF_EVEN | R_UNNECESSARY) LPAREN mathExpression COMMA mathExpression RPAREN;
 
 sequenceFunction
-  : (SUMMATION | PRODUCT_SEQUENCE) mathExpression COMMA mathExpression RBLACKET LPAREN mathExpression RPAREN
+  : (SUMMATION | PRODUCT_SEQUENCE) vectorEntity RBLACKET LPAREN mathExpression RPAREN
   ;
 
 dateOperation

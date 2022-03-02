@@ -105,8 +105,7 @@ public class WarmUpOperationVisitor implements OperationVisitor<Object> {
     @Override
     public Object visit(AbstractSequencialMathOperation operation) {
         try {
-            return canEvaluate(operation.getStartIndex()) && canEvaluate(operation.getEndIndex()) ?
-                    operation.evaluate(context) : null;
+            return canEvaluate(operation.getInput()) ? operation.evaluate(context) : null;
         } catch (NullPointerException e) {
             return null;
         }

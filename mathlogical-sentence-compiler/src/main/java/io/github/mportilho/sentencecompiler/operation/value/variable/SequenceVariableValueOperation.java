@@ -41,7 +41,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
         return operation;
     }
 
-    public void setSequenceIndex(Number newValue) {
+    public void setSequenceIndex(Object newValue) {
         super.setValue(newValue);
     }
 

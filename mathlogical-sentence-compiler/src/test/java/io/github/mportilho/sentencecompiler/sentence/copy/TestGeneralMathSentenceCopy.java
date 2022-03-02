@@ -317,10 +317,10 @@ public class TestGeneralMathSentenceCopy {
         MathSentence copiedSentence = original.copy();
         assertThat(original.<BigDecimal>compute()).isEqualByComparingTo(copiedSentence.<BigDecimal>compute());
 
-        original = new MathSentence("S[1,3](S ^ 2)");
+        original = new MathSentence("S[[1,2,3]](S ^ 2)");
         copiedSentence = original.copy();
-        BigDecimal resultCopy = copiedSentence.<BigDecimal>compute();
-        BigDecimal resultOriginal = original.<BigDecimal>compute();
+        BigDecimal resultCopy = copiedSentence.compute();
+        BigDecimal resultOriginal = original.compute();
         assertThat(resultOriginal).isEqualByComparingTo(resultCopy);
     }
 
@@ -329,12 +329,12 @@ public class TestGeneralMathSentenceCopy {
         MathSentence original;
         MathSentence copiedSentence;
 
-        original = new MathSentence("S[1,3](S + 1)");
+        original = new MathSentence("S[[1,3]](S + 1)");
         copiedSentence = original.copy();
         assertThat(original.<BigDecimal>compute()).isEqualByComparingTo(copiedSentence.<BigDecimal>compute());
 
         original = new MathSentence(
-                "1 + 2 * 3 - 4 / 5 ^ 6 mod 7 + S[1,3](S ^ 2) + P[1,3](P + 2 ^ 4) + log(3.4322, 50) + lb(5) + log10(11) + ln(4) + 4! + |-1| + sqrt(16)");
+                "1 + 2 * 3 - 4 / 5 ^ 6 mod 7 + S[[1,3]](S ^ 2) + P[[1,3]](P + 2 ^ 4) + log(3.4322, 50) + lb(5) + log10(11) + ln(4) + 4! + |-1| + sqrt(16)");
         copiedSentence = original.copy();
         assertThat(original.<BigDecimal>compute()).isEqualByComparingTo(copiedSentence.<BigDecimal>compute());
 

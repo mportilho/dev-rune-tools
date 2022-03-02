@@ -179,17 +179,16 @@ public class FastOperationSyntaxTreeGenerator extends AbstractOperationSyntaxTre
         }
         sequenceVariableStack.add(new ArrayList<>());
 
-        AbstractOperation startIndexOperation = ctx.mathExpression(0).accept(this);
-        AbstractOperation endIndexOperation = ctx.mathExpression(1).accept(this);
-        AbstractOperation mathExpression = ctx.mathExpression(2).accept(this);
+        AbstractOperation input = ctx.vectorEntity().accept(this);
+        AbstractOperation mathExpression = ctx.mathExpression().accept(this);
 
         List<SequenceVariableValueOperation> sequenceVariableContainer = sequenceVariableStack.pop();
         SequenceVariableValueOperation sequenceVariable = sequenceVariableContainer.isEmpty() ? null : sequenceVariableContainer.get(0);
         if (ctx.SUMMATION() != null) {
-            return new FastSummationOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
+            return new FastSummationOperation(input, mathExpression, sequenceVariable)
                     .expectedType(Double.class);
         } else if (ctx.PRODUCT_SEQUENCE() != null) {
-            return new FastProductOfSequenceOperation(startIndexOperation, endIndexOperation, mathExpression, sequenceVariable)
+            return new FastProductOfSequenceOperation(input, mathExpression, sequenceVariable)
                     .expectedType(Double.class);
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));

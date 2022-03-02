@@ -30,50 +30,35 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public abstract class AbstractSequencialMathOperation extends AbstractOperation {
 
-    private final AbstractOperation startIndex;
-    private final AbstractOperation endIndex;
+    private final AbstractOperation input;
     private final AbstractOperation operation;
     private final SequenceVariableValueOperation sequenceVariable;
 
     public AbstractSequencialMathOperation(
-            AbstractOperation startIndex, AbstractOperation endIndex,
-            AbstractOperation operation,
-            SequenceVariableValueOperation sequenceVariable) {
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
+            AbstractOperation input, AbstractOperation operation, SequenceVariableValueOperation sequenceVariable) {
+        this.input = input;
         this.operation = operation;
         this.sequenceVariable = sequenceVariable;
-
-        this.startIndex.addParent(this);
-        this.endIndex.addParent(this);
+        this.input.addParent(this);
         this.operation.addParent(this);
     }
 
     @Override
     public void accept(OperationVisitor<?> visitor) {
-        getStartIndex().accept(visitor);
-        getEndIndex().accept(visitor);
-        getOperation().accept(visitor);
+        input.accept(visitor);
+        operation.accept(visitor);
         visitor.visit(this);
     }
 
     @Override
     protected void formatRepresentation(StringBuilder builder) {
-        builder.append(getOperationToken()).append("[");
-        startIndex.toString(builder);
-        builder.append(',');
-        endIndex.toString(builder);
-        builder.append("](");
+        builder.append(getOperationToken()).append("[x](");
         operation.toString(builder);
         builder.append(')');
     }
 
-    public AbstractOperation getStartIndex() {
-        return startIndex;
-    }
-
-    public AbstractOperation getEndIndex() {
-        return endIndex;
+    public AbstractOperation getInput() {
+        return input;
     }
 
     public AbstractOperation getOperation() {

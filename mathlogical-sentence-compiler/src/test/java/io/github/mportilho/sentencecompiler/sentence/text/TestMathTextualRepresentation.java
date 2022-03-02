@@ -213,20 +213,20 @@ public class TestMathTextualRepresentation {
 	public void testProductOfSequenceOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("P[1,3](P + 2)");
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + 2)");
+		mathSentence = new MathSentence("P[[1,3]](P + 2)");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + 2)");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + 2)");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + 2)");
 
-		mathSentence = new MathSentence("P[1,3](P + P[1,3](P + 2))");
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + P[1,3](P + 2))");
+		mathSentence = new MathSentence("P[[1,3]](P + P[[1,3]](P + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + P[x](P + 2))");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + P[1,3](P + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + P[x](P + 2))");
 
-		mathSentence = new MathSentence("P[1,3](P + P + P[1,3](P + 2))");
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + P + P[1,3](P + 2))");
+		mathSentence = new MathSentence("P[[1,3]](P + P + P[[1,3]](P + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + P + P[x](P + 2))");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("P[1,3](P + P + P[1,3](P + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("P[x](P + P + P[x](P + 2))");
 	}
 
 	@Test
@@ -278,20 +278,20 @@ public class TestMathTextualRepresentation {
 	public void testSummationOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("S[1,3](S + 2)");
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + 2)");
+		mathSentence = new MathSentence("S[[1,3]](S + 2)");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + 2)");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + 2)");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + 2)");
 
-		mathSentence = new MathSentence("S[1,3](S + S[1,3](S + 2))");
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + S[1,3](S + 2))");
+		mathSentence = new MathSentence("S[[1,3]](S + S[[1,3]](S + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + S[x](S + 2))");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + S[1,3](S + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + S[x](S + 2))");
 
-		mathSentence = new MathSentence("S[1,3](S + S + S[1,3](S + 2))");
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + S + S[1,3](S + 2))");
+		mathSentence = new MathSentence("S[[1,3]](S + S + S[[1,3]](S + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + S + S[x](S + 2))");
 		mathSentence.compute();
-		assertThat(mathSentence.toString()).isEqualTo("S[1,3](S + S + S[1,3](S + 2))");
+		assertThat(mathSentence.toString()).isEqualTo("S[x](S + S + S[x](S + 2))");
 	}
 
 }

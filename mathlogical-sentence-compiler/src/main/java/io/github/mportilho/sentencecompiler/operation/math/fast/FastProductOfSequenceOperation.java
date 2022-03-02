@@ -33,19 +33,18 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 public class FastProductOfSequenceOperation extends AbstractSequencialMathOperation {
 
     public FastProductOfSequenceOperation(
-            AbstractOperation startIndex, AbstractOperation endIndex, AbstractOperation operation,
+            AbstractOperation input, AbstractOperation operation,
             SequenceVariableValueOperation sequenceVariable) {
-        super(startIndex, endIndex, operation, sequenceVariable);
+        super(input, operation, sequenceVariable);
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        int startIndexResult = getStartIndex().<Double>evaluate(context).intValue();
-        int endIndexResult = getEndIndex().<Double>evaluate(context).intValue();
+        Object[] inputData = getInput().evaluate(context);
         double result = 1d;
-        for (double i = startIndexResult; i <= endIndexResult; i++) {
+        for (Object inputDatum : inputData) {
             if (this.getSequenceVariable() != null) {
-                this.getSequenceVariable().setValue(i);
+                this.getSequenceVariable().setSequenceIndex(inputDatum);
             }
             result = result * getOperation().<Double>evaluate(context);
         }
@@ -54,7 +53,7 @@ public class FastProductOfSequenceOperation extends AbstractSequencialMathOperat
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new FastProductOfSequenceOperation(getStartIndex().copy(context), getEndIndex().copy(context),
+        return new FastProductOfSequenceOperation(getInput().copy(context),
                 getOperation().copy(context), (SequenceVariableValueOperation) getSequenceVariable().copy(context));
     }
 

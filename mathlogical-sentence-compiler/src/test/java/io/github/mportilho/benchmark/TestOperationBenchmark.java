@@ -45,15 +45,19 @@ public class TestOperationBenchmark {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
-        compiler = new MathSentence("a * b + a");
+        compiler = new MathSentence("a * b + a ^ 3");
+        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
+        compiler.compute();
 
     }
 
     @Setup(Level.Invocation)
     public void setupInvokation() throws Exception {
         // executed before each invocation of the benchmark
-        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
-        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
+//        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
+//        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
+//        compiler.compute();
     }
 
 //    @Test
@@ -71,7 +75,7 @@ public class TestOperationBenchmark {
     @Measurement(batchSize = -1, iterations = 5, time = 100, timeUnit = TimeUnit.SECONDS)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void test() throws Exception {
-        compiler.compute();
+        compiler.copy();
     }
 
 

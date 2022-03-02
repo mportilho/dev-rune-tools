@@ -235,13 +235,13 @@ public abstract class AbstractOperation {
     }
 
     private void disableCaching() {
-        this.cache = null;
-        if (this.cacheBlockingSemaphores == null) {
-            this.cacheBlockingSemaphores = new HashSet<>(3);
+        cache = null;
+        if (cacheBlockingSemaphores == null) {
+            cacheBlockingSemaphores = new HashSet<>(3);
         }
-        this.cacheBlockingSemaphores.add(this);
-        if (this.parentArray != null) {
-            for (AbstractOperation parent : this.parentArray) {
+        cacheBlockingSemaphores.add(this);
+        if (parentArray != null) {
+            for (AbstractOperation parent : parentArray) {
                 if (parent.cacheBlockingSemaphores == null) {
                     parent.cacheBlockingSemaphores = new HashSet<>(3);
                 }
@@ -251,16 +251,16 @@ public abstract class AbstractOperation {
     }
 
     public boolean checkAndRemoveDisableCacheHint() {
-        if (TRUE.equals(this.cacheDisableHint)) {
-            this.cacheBlockingSemaphores = new HashSet<>(3);
-            this.cacheDisableHint = null;
+        if (TRUE.equals(cacheDisableHint)) {
+            cacheBlockingSemaphores = new HashSet<>(3);
+            cacheDisableHint = null;
             return true;
         }
         return false;
     }
 
     protected boolean isCaching() {
-        return this.cacheBlockingSemaphores == null || this.cacheBlockingSemaphores.isEmpty();
+        return cacheBlockingSemaphores == null || cacheBlockingSemaphores.isEmpty();
     }
 
     public void clearCache() {
@@ -268,9 +268,9 @@ public abstract class AbstractOperation {
     }
 
     protected final void clearCache(Set<Class<? extends AbstractOperation>> limitingOperationTypesMap) {
-        this.cache = null;
-        if (this.parentArray != null) {
-            for (AbstractOperation parent : this.parentArray) {
+        cache = null;
+        if (parentArray != null) {
+            for (AbstractOperation parent : parentArray) {
                 if (limitingOperationTypesMap != null && limitingOperationTypesMap.contains(parent.getClass())) {
                     break;
                 }
@@ -279,7 +279,7 @@ public abstract class AbstractOperation {
         }
     }
 
-    public List<AbstractOperation> getAllParents() {
+    public AbstractOperation[] getAllParents() {
         List<AbstractOperation> list = new ArrayList<>();
         Stack<AbstractOperation> stack = new Stack<>();
 
@@ -293,7 +293,7 @@ public abstract class AbstractOperation {
                 }
             }
         } while (!stack.isEmpty());
-        return list;
+        return list.toArray(AbstractOperation[]::new);
     }
 
     /**
@@ -324,7 +324,7 @@ public abstract class AbstractOperation {
      *                be placed
      */
     public final void toString(StringBuilder builder) {
-        if (this.applyingParenthesis) {
+        if (applyingParenthesis) {
             builder.append('(');
             formatRepresentation(builder);
             builder.append(')');

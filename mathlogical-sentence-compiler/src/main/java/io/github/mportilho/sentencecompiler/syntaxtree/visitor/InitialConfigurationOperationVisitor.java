@@ -48,7 +48,7 @@ public class InitialConfigurationOperationVisitor implements OperationVisitor<Ob
     }
 
     private void createParentArray(AbstractOperation operation) {
-        operation.setParentArray(operation.getAllParents().toArray(AbstractOperation[]::new));
+        operation.setParentArray(operation.getAllParents());
     }
 
     @Override

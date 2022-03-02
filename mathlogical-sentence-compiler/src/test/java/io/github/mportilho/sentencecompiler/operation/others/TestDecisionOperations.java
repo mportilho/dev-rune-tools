@@ -33,11 +33,12 @@ import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDecisionOperations {
 
@@ -68,7 +69,7 @@ public class TestDecisionOperations {
         ops.add(number_2);
         ops.add(number_3);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
     }
 
@@ -79,7 +80,7 @@ public class TestDecisionOperations {
         ops.add(number_2);
         ops.add(number_3);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
     }
 
@@ -94,7 +95,7 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
     }
 
@@ -109,7 +110,7 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
     }
 
@@ -124,7 +125,7 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
     }
 
@@ -139,46 +140,46 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
     }
 
     @Test
-    public void testCopingSimpleTrueDecisions() throws Throwable {
+    public void testCopingSimpleTrueDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(trueOperation);
         ops.add(number_2);
         ops.add(number_3);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
     }
 
     @Test
-    public void testCopingSimpleFalseDecisions() throws Throwable {
+    public void testCopingSimpleFalseDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(falseOperation);
         ops.add(number_2);
         ops.add(number_3);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
     }
 
     @Test
-    public void testCopingChainedToFirstValueDecisions() throws Throwable {
+    public void testCopingChainedToFirstValueDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(trueOperation);
         ops.add(number_1);
@@ -188,18 +189,18 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
     }
 
     @Test
-    public void testCopingChainedToSecondValueDecisions() throws Throwable {
+    public void testCopingChainedToSecondValueDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(falseOperation);
         ops.add(number_1);
@@ -209,18 +210,18 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("2");
     }
 
     @Test
-    public void testCopingChainedToThirdValueDecisions() throws Throwable {
+    public void testCopingChainedToThirdValueDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(falseOperation);
         ops.add(number_1);
@@ -230,18 +231,18 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("3");
     }
 
     @Test
-    public void testCopingChainedToDefaultValueDecisions() throws Throwable {
+    public void testCopingChainedToDefaultValueDecisions() {
         List<AbstractOperation> ops = new ArrayList<>();
         ops.add(falseOperation);
         ops.add(number_1);
@@ -251,11 +252,11 @@ public class TestDecisionOperations {
         ops.add(number_3);
         ops.add(number_4);
 
-        DecisionOperation decisionOperation = new DecisionOperation(true, ops);
+        DecisionOperation decisionOperation = new DecisionOperation(true, ops.toArray(AbstractOperation[]::new));
         DecisionOperation copyOperation = (DecisionOperation) decisionOperation.copy(new CloningContext());
         assertThat(decisionOperation).isNotEqualTo(copyOperation);
-        for (int i = 0; i < decisionOperation.getOperations().size(); i++) {
-            assertThat(decisionOperation.getOperations().get(i)).isNotEqualTo(copyOperation.getOperations().get(i));
+        for (int i = 0; i < decisionOperation.getOperations().length; i++) {
+            assertThat(decisionOperation.getOperations()[i]).isNotEqualTo(copyOperation.getOperations()[i]);
         }
         assertThat(decisionOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");
         assertThat(copyOperation.<BigDecimal>evaluate(context)).isEqualByComparingTo("4");

@@ -44,7 +44,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurat
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -378,7 +377,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(logicalExpressions.get(i + 1).accept(this));
         }
         operations.add(logicalExpressions.get(logicalExpressions.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(Boolean.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(Boolean.class);
     }
 
     @Override
@@ -391,7 +390,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(logicalExpressions.get(i + 1).accept(this));
         }
         operations.add(logicalExpressions.get(logicalExpressions.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(Boolean.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(Boolean.class);
     }
 
     @Override
@@ -433,7 +432,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(stringEntities.get(i).accept(this));
         }
         operations.add(stringEntities.get(stringEntities.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(String.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(String.class);
     }
 
     @Override
@@ -447,7 +446,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(stringEntities.get(i).accept(this));
         }
         operations.add(stringEntities.get(stringEntities.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(String.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(String.class);
     }
 
     @Override
@@ -476,7 +475,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(dateOperations.get(i).accept(this));
         }
         operations.add(dateOperations.get(dateOperations.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(LocalDate.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(LocalDate.class);
     }
 
     @Override
@@ -490,7 +489,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(dateOperations.get(i).accept(this));
         }
         operations.add(dateOperations.get(dateOperations.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(LocalDate.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(LocalDate.class);
     }
 
     @Override
@@ -525,7 +524,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(timeOperations.get(i).accept(this));
         }
         operations.add(timeOperations.get(timeOperations.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(LocalTime.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(LocalTime.class);
     }
 
     @Override
@@ -539,7 +538,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(timeOperations.get(i).accept(this));
         }
         operations.add(timeOperations.get(timeOperations.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(LocalTime.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(LocalTime.class);
     }
 
     @Override
@@ -574,7 +573,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(dateTimeOperations.get(i).accept(this));
         }
         operations.add(dateTimeOperations.get(dateTimeOperations.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(ZonedDateTime.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(ZonedDateTime.class);
     }
 
     @Override
@@ -588,7 +587,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             operations.add(dateTimeOperations.get(i).accept(this));
         }
         operations.add(dateTimeOperations.get(dateTimeOperations.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(ZonedDateTime.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(ZonedDateTime.class);
     }
 
     @Override

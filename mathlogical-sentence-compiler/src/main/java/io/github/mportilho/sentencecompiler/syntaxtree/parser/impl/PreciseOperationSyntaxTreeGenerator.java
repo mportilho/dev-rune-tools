@@ -200,7 +200,7 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
             operations.add(mathExpressions.get(i).accept(this));
         }
         operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(true, operations).expectedType(BigDecimal.class);
+        return new DecisionOperation(true, operations.toArray(AbstractOperation[]::new)).expectedType(BigDecimal.class);
     }
 
     @Override
@@ -214,7 +214,7 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
             operations.add(mathExpressions.get(i).accept(this));
         }
         operations.add(mathExpressions.get(mathExpressions.size() - 1).accept(this));
-        return new DecisionOperation(false, operations).expectedType(BigDecimal.class);
+        return new DecisionOperation(false, operations.toArray(AbstractOperation[]::new)).expectedType(BigDecimal.class);
     }
 
     @Override

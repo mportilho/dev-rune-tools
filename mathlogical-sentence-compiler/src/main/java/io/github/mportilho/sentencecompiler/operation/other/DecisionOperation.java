@@ -29,43 +29,40 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DecisionOperation extends AbstractOperation {
 
     private final boolean expressionLike;
-    private final List<AbstractOperation> operations;
+    private final AbstractOperation[] operations;
 
-    public DecisionOperation(boolean expressionLike, List<AbstractOperation> operations) {
+    public DecisionOperation(boolean expressionLike, AbstractOperation[] operations) {
         this.expressionLike = expressionLike;
-        if (operations == null || operations.size() < 3) {
+        if (operations == null || operations.length < 3) {
             throw new IllegalStateException(
                     "Decision operation must have at least two conditionals (if ... then ... [elsif then ...] else ... endif)");
         }
         this.operations = operations;
-        for (int i = 0; i < operations.size(); i++) {
-            this.operations.get(i).addParent(this);
+        for (int i = 0; i < operations.length; i++) {
+            this.operations[i].addParent(this);
         }
     }
 
     @Override
     protected Object resolve(OperationContext context) {
         Boolean condition;
-        for (int i = 0; i < operations.size() - 1; i += 2) {
-            condition = operations.get(i).evaluate(context);
+        for (int i = 0; i < operations.length - 1; i += 2) {
+            condition = operations[i].evaluate(context);
             if (condition) {
-                return operations.get(i + 1).evaluate(context);
+                return operations[i + 1].evaluate(context);
             }
         }
-        return operations.get(operations.size() - 1).evaluate(context);
+        return operations[operations.length - 1].evaluate(context);
     }
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        List<AbstractOperation> clonedOperations = new ArrayList<>();
-        for (AbstractOperation op : operations) {
-            clonedOperations.add(op.copy(context));
+        AbstractOperation[] clonedOperations = new AbstractOperation[operations.length];
+        for (int i = 0; i < operations.length; i++) {
+            clonedOperations[i] = operations[i].copy(context);
         }
         return new DecisionOperation(expressionLike, clonedOperations);
     }
@@ -80,38 +77,40 @@ public class DecisionOperation extends AbstractOperation {
     }
 
     private void functionRepresentation(StringBuilder builder) {
-        int count = operations.size();
+        int count = operations.length;
         for (int i = 0; i < count - 1; i += 2) {
             if (i == 0) {
                 builder.append("if(");
             } else {
                 builder.append(", ");
             }
-            builder.append(operations.get(i)).append(", ").append(operations.get(i + 1));
+            builder.append(operations[i]).append(", ").append(operations[i + 1]);
         }
-        builder.append(", ").append(operations.get(operations.size() - 1)).append(")");
+        builder.append(", ").append(operations[operations.length - 1]).append(")");
     }
 
     private void expressionRepresentation(StringBuilder builder) {
-        int count = operations.size();
+        int count = operations.length;
         for (int i = 0; i < count - 1; i += 2) {
             if (i == 0) {
                 builder.append("if ");
             } else {
                 builder.append(" elsif ");
             }
-            builder.append(operations.get(i)).append(" then ").append(operations.get(i + 1));
+            builder.append(operations[i]).append(" then ").append(operations[i + 1]);
         }
-        builder.append(" else ").append(operations.get(operations.size() - 1)).append(" endif");
+        builder.append(" else ").append(operations[operations.length - 1]).append(" endif");
     }
 
     @Override
     public void accept(OperationVisitor<?> visitor) {
-        getOperations().forEach(op -> op.accept(visitor));
+        for (AbstractOperation operation : this.operations) {
+            operation.accept(visitor);
+        }
         visitor.visit(this);
     }
 
-    public List<AbstractOperation> getOperations() {
+    public AbstractOperation[] getOperations() {
         return operations;
     }
 

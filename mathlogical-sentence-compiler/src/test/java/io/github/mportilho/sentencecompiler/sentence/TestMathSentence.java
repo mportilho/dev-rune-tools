@@ -105,13 +105,6 @@ public class TestMathSentence {
     }
 
     @Test
-    public void testProductOfSequenceOperation() { // 2 * 3 * 4
-        computeMathSentence("P[1,3](P + 1)", valueOf(24));
-        computeMathSentence("P[1,3](P + P[1,3](P + 2))", valueOf(238266));
-        computeMathSentence("P[1,3](P + P + P[1,3](P + 2))", valueOf(261888));
-    }
-
-    @Test
     public void testRootOperation() {
         computeMathSentence("2 root 4", valueOf(2));
         computeMathSentence("3 root 27", valueOf(3));
@@ -127,13 +120,6 @@ public class TestMathSentence {
     public void testSubtractionOperation() {
         computeMathSentence("1 - 2", valueOf(-1));
         computeMathSentence("1 - 2 - 3", valueOf(-4));
-    }
-
-    @Test
-    public void testSummationOperation() {
-        computeMathSentence("S[1,3](S + 2)", valueOf(12));
-        computeMathSentence("S[1,3](S + S[1,3](S + 2))", valueOf(42));
-        computeMathSentence("S[1,3](S + S + S[1,3](S + 2))", valueOf(48));
     }
 
     @Test

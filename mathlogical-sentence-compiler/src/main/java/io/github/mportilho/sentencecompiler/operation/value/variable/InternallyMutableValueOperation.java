@@ -24,13 +24,11 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
-import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.BiFunction;
 
 public class InternallyMutableValueOperation extends AbstractVariableValueOperation {
@@ -49,11 +47,6 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
     @Override
     protected Object resolve(OperationContext context) {
         return mutableOperationResolver.apply(this, context);
-    }
-
-    @Override
-    public void setValue(Object newValue, Set<Class<? extends AbstractOperation>> limitingOperationTypesMap) {
-        throw new SentenceConfigurationException("Cannot set value to an internally mutable variable");
     }
 
     @Override

@@ -26,18 +26,9 @@ package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseProductOfSequenceOperation;
-import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseSummationOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 public class SequenceVariableValueOperation extends AbstractVariableValueOperation {
-
-    private static final Set<Class<? extends AbstractOperation>> STOP_ON = new HashSet<>(
-            Arrays.asList(PreciseSummationOperation.class, PreciseProductOfSequenceOperation.class));
 
     public SequenceVariableValueOperation(String variableName) {
         super(variableName);
@@ -51,7 +42,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
     }
 
     public void setSequenceIndex(Number newValue) {
-        super.setValue(newValue, STOP_ON);
+        super.setValue(newValue);
     }
 
     @Override

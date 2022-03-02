@@ -29,7 +29,6 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.Objects;
-import java.util.Set;
 
 public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
@@ -50,14 +49,10 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
     }
 
     public void setValue(Object newValue) {
-        setValue(newValue, null);
-    }
-
-    public void setValue(Object newValue, Set<Class<? extends AbstractOperation>> limitingOperationTypesMap) {
         if (newValue == null) {
             throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));
         }
-        clearCache(limitingOperationTypesMap);
+        clearCache();
         this.value = newValue;
     }
 

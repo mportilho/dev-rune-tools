@@ -181,26 +181,6 @@ public class TestMathOperationCaches {
 	}
 
 	@Test
-	public void testProductOfSequenceOperation() {
-		MathSentence mathSentence;
-
-		mathSentence = new MathSentence("P[1,3](P + 2)");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
-
-		mathSentence = new MathSentence("P[1,3](P + P[1,3](P + 2))");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(12);
-
-		mathSentence = new MathSentence("P[1,3](P + P + P[1,3](P + 2))");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(13);
-	}
-
-	@Test
 	public void testRootOperation() {
 		MathSentence mathSentence;
 
@@ -243,26 +223,6 @@ public class TestMathOperationCaches {
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
-	}
-
-	@Test
-	public void testSummationOperation() {
-		MathSentence mathSentence;
-
-		mathSentence = new MathSentence("S[1,3](S + 2)");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
-
-		mathSentence = new MathSentence("S[1,3](S + S[1,3](S + 2))");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(12);
-
-		mathSentence = new MathSentence("S[1,3](S + S + S[1,3](S + 2))");
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(13);
 	}
 
 	@Test

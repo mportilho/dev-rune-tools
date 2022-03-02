@@ -30,7 +30,9 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import static java.lang.Boolean.TRUE;
 
@@ -45,7 +47,7 @@ public abstract class AbstractOperation {
     private Set<AbstractOperation> cacheBlockingSemaphores;
     private Boolean cacheDisableHint;
 
-    private List<AbstractOperation> parents;
+    private AbstractOperation[] parents = {};
     private Class<?> expectedType;
     private boolean applyingParenthesis;
 
@@ -123,8 +125,8 @@ public abstract class AbstractOperation {
      */
     private Object castOperationFromDetectedAmbiguity(Object result, NoFormattedConverterFoundException e) {
         AbstractOperation operation = null;
-        if (parents != null && parents.size() == 1 && parents.get(0) instanceof BaseOperation) {
-            operation = parents.get(0);
+        if (parents.length == 1 && parents[0] instanceof BaseOperation) {
+            operation = parents[0];
         } else if (this instanceof BaseOperation) {
             operation = this;
         }
@@ -195,10 +197,10 @@ public abstract class AbstractOperation {
         if (operation == null) {
             return;
         }
-        if (parents == null) {
-            parents = new ArrayList<>();
-        }
-        parents.add(operation);
+        AbstractOperation[] newArray = new AbstractOperation[parents.length + 1];
+        System.arraycopy(parents, 0, newArray, 0, parents.length);
+        newArray[newArray.length - 1] = operation;
+        parents = newArray;
     }
 
     /**
@@ -219,10 +221,8 @@ public abstract class AbstractOperation {
     private void enableCaching(AbstractOperation operation) {
         if (operation.cacheBlockingSemaphores != null) {
             operation.cacheBlockingSemaphores.remove(this);
-            if (operation.parents != null) {
-                for (AbstractOperation parent : operation.parents) {
-                    enableCaching(parent);
-                }
+            for (AbstractOperation parent : operation.parents) {
+                enableCaching(parent);
             }
         }
     }
@@ -233,10 +233,8 @@ public abstract class AbstractOperation {
             operation.cacheBlockingSemaphores = new HashSet<>(3);
         }
         operation.cacheBlockingSemaphores.add(semaphore);
-        if (operation.parents != null) {
-            for (AbstractOperation parent : operation.parents) {
-                disableCaching(semaphore, parent);
-            }
+        for (AbstractOperation parent : operation.parents) {
+            disableCaching(semaphore, parent);
         }
     }
 
@@ -259,10 +257,8 @@ public abstract class AbstractOperation {
 
     private void clearCache(AbstractOperation operation) {
         operation.cache = null;
-        if (operation.parents != null) {
-            for (AbstractOperation parent : operation.parents) {
-                clearCache(parent);
-            }
+        for (AbstractOperation parent : operation.parents) {
+            clearCache(parent);
         }
     }
 

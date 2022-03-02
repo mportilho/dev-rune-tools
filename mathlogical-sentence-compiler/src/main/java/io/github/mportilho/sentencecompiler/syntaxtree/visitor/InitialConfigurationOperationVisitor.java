@@ -47,9 +47,6 @@ public class InitialConfigurationOperationVisitor implements OperationVisitor<Ob
         return operation;
     }
 
-    private void createParentArray(AbstractOperation operation) {
-    }
-
     @Override
     public Object visit(BaseOperation operation) {
         return disableCaching(operation);
@@ -57,51 +54,43 @@ public class InitialConfigurationOperationVisitor implements OperationVisitor<Ob
 
     @Override
     public Object visit(AbstractUnaryOperator operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractBinaryOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractDateTimeOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(DecisionOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(FunctionOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(AbstractSequencialMathOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(
             AbstractConstantValueOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 
     @Override
     public Object visit(
             AbstractVariableValueOperation operation) {
-        createParentArray(operation);
         return disableCaching(operation);
     }
 }

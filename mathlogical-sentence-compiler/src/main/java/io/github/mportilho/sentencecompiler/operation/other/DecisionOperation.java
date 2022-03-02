@@ -39,7 +39,7 @@ public class DecisionOperation extends AbstractOperation {
 
     public DecisionOperation(boolean expressionLike, List<AbstractOperation> operations) {
         this.expressionLike = expressionLike;
-        if (operations == null || operations.size() < 2) {
+        if (operations == null || operations.size() < 3) {
             throw new IllegalStateException(
                     "Decision operation must have at least two conditionals (if ... then ... [elsif then ...] else ... endif)");
         }

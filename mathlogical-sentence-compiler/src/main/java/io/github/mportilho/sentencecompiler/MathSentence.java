@@ -27,9 +27,10 @@ package io.github.mportilho.sentencecompiler;
 import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
-import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionData;
+import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -74,10 +75,11 @@ public class MathSentence {
                 new PreciseOperationSyntaxTreeGenerator() : new FastOperationSyntaxTreeGenerator();
 
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, generator);
-        return new SyntaxExecutionSite(data.operation(), mathSentenceOptions.getMathContext(),
-                mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), data.userVariables(),
-                data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
-                mathSentenceOptions.getFormattedConversionService(), mathSentenceOptions.isPreciseNumbers());
+        return new SyntaxExecutionSite(data.operation(),
+                new SyntaxExecutionData(mathSentenceOptions.getMathContext(),
+                        mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), mathSentenceOptions.isPreciseNumbers()),
+                data.userVariables(), data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
+                mathSentenceOptions.getFormattedConversionService());
     }
 
     private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {

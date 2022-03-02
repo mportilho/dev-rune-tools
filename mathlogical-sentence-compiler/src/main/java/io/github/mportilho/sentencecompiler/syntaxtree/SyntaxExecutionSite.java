@@ -39,8 +39,6 @@ import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVi
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.MathContext;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -51,37 +49,28 @@ public class SyntaxExecutionSite {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyntaxExecutionSite.class);
 
     private final AbstractOperation operation;
-    private final MathContext mathContext;
-    private final Integer scale;
-    private final ZoneId zoneId;
+    private final SyntaxExecutionData syntaxExecutionData;
     private final Map<String, AbstractVariableValueOperation> userVariables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
     private final OperationSupportData operationSupportData;
     private final FormattedConversionService conversionService;
-    private final boolean preciseNumbers;
 
     // caching
     private AbstractVariableValueOperation[] varCache;
 
     public SyntaxExecutionSite(
             AbstractOperation operation,
-            MathContext mathContext,
-            Integer scale,
-            ZoneId zoneId,
+            SyntaxExecutionData syntaxExecutionData,
             Map<String, AbstractVariableValueOperation> userVariables,
             Map<String, AssignedVariableOperation> assignedVariables,
             OperationSupportData operationSupportData,
-            FormattedConversionService conversionService,
-            boolean preciseNumbers) {
+            FormattedConversionService conversionService) {
         this.operation = operation;
-        this.mathContext = mathContext;
-        this.scale = scale;
-        this.zoneId = zoneId;
+        this.syntaxExecutionData = syntaxExecutionData;
         this.userVariables = Collections.unmodifiableMap(userVariables);
         this.assignedVariables = Collections.unmodifiableMap(assignedVariables);
         this.operationSupportData = operationSupportData;
         this.conversionService = conversionService;
-        this.preciseNumbers = preciseNumbers;
     }
 
     public Object compute() {
@@ -90,10 +79,11 @@ public class SyntaxExecutionSite {
 
     public Object compute(OperationSupportData userOperationSupportData) {
         Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
-        OperationContext operationContext = new OperationContext(mathContext,
-                scale, false, new MemoizedSupplier<>(() -> ZonedDateTime.now(zoneId)),
+        OperationContext operationContext = new OperationContext(syntaxExecutionData.mathContext(),
+                syntaxExecutionData.scale(), false,
+                new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())),
                 conversionService, operationSupportData,
-                userOperationSupportData, false, zoneId);
+                userOperationSupportData, false, syntaxExecutionData.zoneId());
         for (AbstractVariableValueOperation variableValueOperation : getUserVariablesCache()) {
             if (variableValueOperation.shouldResetOperation(operationContext)) {
                 variableValueOperation.clearCache();
@@ -110,9 +100,10 @@ public class SyntaxExecutionSite {
     }
 
     public void warmUp() {
-        OperationContext operationContext = new OperationContext(mathContext,
-                scale, true, new MemoizedSupplier<>(() -> ZonedDateTime.now(zoneId)), conversionService, operationSupportData,
-                operationSupportData, preciseNumbers, zoneId);
+        OperationContext operationContext = new OperationContext(syntaxExecutionData.mathContext(),
+                syntaxExecutionData.scale(), true,
+                new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())), conversionService, operationSupportData,
+                operationSupportData, syntaxExecutionData.preciseNumbers(), syntaxExecutionData.zoneId());
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
@@ -156,9 +147,9 @@ public class SyntaxExecutionSite {
         AbstractOperation copy = operation.copy(cloningCtx);
         copy.accept(new InitialConfigurationOperationVisitor());
         return new SyntaxExecutionSite(
-                copy, mathContext, scale, zoneId, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
+                copy, syntaxExecutionData, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
                 new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.copyFunctions()),
-                conversionService, preciseNumbers);
+                conversionService);
     }
 
     public void setUserVariable(String name, Object value) {

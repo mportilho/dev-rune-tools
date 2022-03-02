@@ -28,11 +28,12 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 
 import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestMathSentence {
 
@@ -120,6 +121,13 @@ public class TestMathSentence {
     public void testSubtractionOperation() {
         computeMathSentence("1 - 2", valueOf(-1));
         computeMathSentence("1 - 2 - 3", valueOf(-4));
+    }
+
+    @Test
+    public void testProductOfSequenceOperation() {
+        computeMathSentence("P[[1,2,3]](P + 1)", valueOf(24));
+        computeMathSentence("P[[1,2,3]](P + P[[1,2,3]](P + 2))", valueOf(238266));
+        computeMathSentence("P[[1,2,3]](P + P + P[[1,2,3]](P + 2))", valueOf(261888));
     }
 
     @Test

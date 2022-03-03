@@ -37,7 +37,6 @@ public class LambdaCallSite {
     private final MethodType methodType;
     private final LambdaSupplier lambdaSupplier;
     private final FormattedConversionService service;
-    private boolean permitCaching = false;
 
     public LambdaCallSite(
             String methodName, MethodType methodType,
@@ -99,15 +98,6 @@ public class LambdaCallSite {
 
     public static String keyName(String methodName, int parameterCount) {
         return methodName + "_" + parameterCount;
-    }
-
-    public LambdaCallSite permitCaching() {
-        this.permitCaching = true;
-        return this;
-    }
-
-    public boolean isPermittingCache() {
-        return permitCaching;
     }
 
     public String getMethodName() {

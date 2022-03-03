@@ -41,8 +41,7 @@ public class FunctionOperation extends AbstractOperation {
 
     private final String functionName;
     private final AbstractOperation[] parameters;
-    private boolean cacheHint;
-    private boolean uninitialized = true;
+    private final boolean cacheHint;
 
     public FunctionOperation(String functionName, AbstractOperation[] parameters, boolean caching) {
         this.functionName = functionName;
@@ -82,13 +81,7 @@ public class FunctionOperation extends AbstractOperation {
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
-        if (uninitialized) {
-            if (caller.isPermittingCache()) {
-                this.configureCaching(true); // it's a hint only to enable caching, not disabling
-            }
-            this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
-            uninitialized = false;
-        }
+        this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
         return caller;
     }
 

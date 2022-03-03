@@ -217,24 +217,21 @@ public abstract class AbstractOperation {
         if (operation.cacheBlockingSemaphores != null && operation.cacheBlockingSemaphores.length > 0) {
             if (operation.cacheBlockingSemaphores.length == 1 && operation.cacheBlockingSemaphores[0] == semaphore) {
                 operation.cacheBlockingSemaphores = new AbstractOperation[0];
-            } else if (operation.cacheBlockingSemaphores.length > 1) {
-                int index = -1;
-                for (int i = 0, cacheLength = operation.cacheBlockingSemaphores.length; i < cacheLength; i++) {
-                    if (operation.cacheBlockingSemaphores[i] == semaphore) {
-                        index = i;
-                        break;
-                    }
+                for (AbstractOperation parent : operation.parents) {
+                    enableCaching(semaphore, parent);
                 }
+            } else if (operation.cacheBlockingSemaphores.length > 1) {
+                int index = findSemaphoreIndex(semaphore, operation);
                 if (index != -1) {
                     AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length - 1];
                     System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, index);
                     System.arraycopy(operation.cacheBlockingSemaphores, index + 1, temp, index,
                             operation.cacheBlockingSemaphores.length - index - 1);
                     operation.cacheBlockingSemaphores = temp;
+                    for (AbstractOperation parent : operation.parents) {
+                        enableCaching(semaphore, parent);
+                    }
                 }
-            }
-            for (AbstractOperation parent : operation.parents) {
-                enableCaching(semaphore, parent);
             }
         }
     }
@@ -244,28 +241,29 @@ public abstract class AbstractOperation {
         if (operation.cacheBlockingSemaphores == null) {
             operation.cacheBlockingSemaphores = new AbstractOperation[1];
             operation.cacheBlockingSemaphores[0] = semaphore;
+            for (AbstractOperation parent : operation.parents) {
+                disableCaching(semaphore, parent);
+            }
         } else {
-            if (isDisableSemaphoreAbsent(semaphore, operation)) {
+            if (findSemaphoreIndex(semaphore, operation) == -1) {
                 AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length + 1];
                 System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, operation.cacheBlockingSemaphores.length);
                 temp[temp.length - 1] = semaphore;
                 operation.cacheBlockingSemaphores = temp;
-            }
-        }
-        for (AbstractOperation parent : operation.parents) {
-            disableCaching(semaphore, parent);
-        }
-    }
-
-    public boolean isDisableSemaphoreAbsent(AbstractOperation semaphore, AbstractOperation operation) {
-        if (operation.cacheBlockingSemaphores != null) {
-            for (AbstractOperation cacheBlockingSemaphore : operation.cacheBlockingSemaphores) {
-                if (cacheBlockingSemaphore == semaphore) {
-                    return false;
+                for (AbstractOperation parent : operation.parents) {
+                    disableCaching(semaphore, parent);
                 }
             }
         }
-        return true;
+    }
+
+    public int findSemaphoreIndex(AbstractOperation semaphore, AbstractOperation operation) {
+        for (int i = 0, cacheLength = operation.cacheBlockingSemaphores.length; i < cacheLength; i++) {
+            if (operation.cacheBlockingSemaphores[i] == semaphore) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     protected boolean isCaching() {

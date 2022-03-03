@@ -42,7 +42,7 @@ public class InitialConfigurationOperationVisitor implements OperationVisitor<Ob
 
     private Object disableCaching(AbstractOperation operation) {
         if (operation.checkAndRemoveDisableCacheHint()) {
-            operation.setCachingOptions(false);
+            operation.setCaching(false);
         }
         return operation;
     }

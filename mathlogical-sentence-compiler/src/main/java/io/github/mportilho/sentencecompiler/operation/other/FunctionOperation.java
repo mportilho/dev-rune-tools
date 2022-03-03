@@ -27,9 +27,9 @@ package io.github.mportilho.sentencecompiler.operation.other;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.time.LocalDateTime;
@@ -41,6 +41,7 @@ public class FunctionOperation extends AbstractOperation {
 
     private final String functionName;
     private final AbstractOperation[] parameters;
+    private boolean uninitialized = true;
 
     public FunctionOperation(String functionName, AbstractOperation[] parameters, boolean caching) {
         this.functionName = functionName;
@@ -82,10 +83,13 @@ public class FunctionOperation extends AbstractOperation {
         if (caller == null) {
             throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
-        if (caller.isCacheHint()) {
-            this.setCachingOptions(true);
+        if (uninitialized) {
+            if (caller.isPermittingCache()) {
+                this.setCaching(true); // it's a hint only to enable caching, not disabling
+            }
+            this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
+            uninitialized = false;
         }
-        this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
         return caller;
     }
 

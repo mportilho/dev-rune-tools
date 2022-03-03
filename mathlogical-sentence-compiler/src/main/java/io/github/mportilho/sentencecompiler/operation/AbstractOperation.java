@@ -30,11 +30,10 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import static java.lang.Boolean.TRUE;
 
 /**
  * Default behavior for all operations
@@ -45,7 +44,6 @@ public abstract class AbstractOperation {
 
     private Object cache;
     private Set<AbstractOperation> cacheBlockingSemaphores;
-    private Boolean cacheDisableHint;
 
     private AbstractOperation[] parents = {};
     private Class<?> expectedType;
@@ -207,10 +205,10 @@ public abstract class AbstractOperation {
      * The CacheConfigurationVisitor will check if this semaphore is not null to decide to disable caching
      */
     public void hintDisableCache() {
-        this.cacheDisableHint = TRUE;
+        this.cacheBlockingSemaphores = Collections.emptySet();
     }
 
-    public void setCachingOptions(boolean enable) {
+    public void setCaching(boolean enable) {
         if (enable && !isCaching()) {
             enableCaching(this);
         } else if (!enable) {
@@ -220,7 +218,7 @@ public abstract class AbstractOperation {
 
     private void enableCaching(AbstractOperation operation) {
         if (operation.cacheBlockingSemaphores != null) {
-            operation.cacheBlockingSemaphores.remove(this);
+            operation.cacheBlockingSemaphores.remove(operation);
             for (AbstractOperation parent : operation.parents) {
                 enableCaching(parent);
             }
@@ -239,9 +237,8 @@ public abstract class AbstractOperation {
     }
 
     public boolean checkAndRemoveDisableCacheHint() {
-        if (TRUE.equals(cacheDisableHint)) {
+        if (cacheBlockingSemaphores != null) {
             cacheBlockingSemaphores = new HashSet<>(3);
-            cacheDisableHint = null;
             return true;
         }
         return false;

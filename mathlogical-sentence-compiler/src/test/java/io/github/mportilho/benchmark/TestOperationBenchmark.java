@@ -57,7 +57,7 @@ public class TestOperationBenchmark {
         // executed before each invocation of the benchmark
 //        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
 //        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
-//        compiler.compute();
+        compiler.compute();
     }
 
 //    @Test
@@ -75,7 +75,8 @@ public class TestOperationBenchmark {
     @Measurement(batchSize = -1, iterations = 5, time = 100, timeUnit = TimeUnit.SECONDS)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void test() throws Exception {
-        compiler.copy();
+        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
     }
 
 

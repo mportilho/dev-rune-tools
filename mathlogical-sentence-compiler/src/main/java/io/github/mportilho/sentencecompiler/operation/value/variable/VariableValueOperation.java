@@ -43,25 +43,25 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     }
 
     /**
-     * Variable provider disables setCaching, but users can activate it through the 'value provider context' parameter.
+     * Variable provider disables configureCaching, but users can activate it through the 'value provider context' parameter.
      * Note that by doing so, the provider won't be called again unless it gets cleaned by subtree operations.
      */
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
                 new VariableValueProviderContext(context.mathContext(), context.scale(), false);
         Object result = variableProvider.retrieveValue(valueProviderContext);
-        setCaching(valueProviderContext.isCaching());
+        configureCaching(valueProviderContext.isCaching());
         return result;
     }
 
     private Object resolveVariable(OperationContext context) {
         Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
         if (currValue != null) {
-            setCaching(false);
+            configureCaching(false);
             return currValue;
         }
 
-        setCaching(true);
+        configureCaching(true);
         if (getValue() != null) {
             return getValue();
         }

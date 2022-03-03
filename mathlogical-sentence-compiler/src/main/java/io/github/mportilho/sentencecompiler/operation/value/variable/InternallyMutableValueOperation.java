@@ -41,7 +41,6 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
         super(variableName);
         Objects.requireNonNull(mutableOperationResolver, "Mutable operation resolver must be provided");
         this.mutableOperationResolver = mutableOperationResolver;
-        this.hintDisableCache();
     }
 
     @Override
@@ -58,5 +57,10 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
     @Override
     protected void formatRepresentation(StringBuilder builder) {
         builder.append(getVariableName());
+    }
+
+    @Override
+    public boolean getCacheHint() {
+        return false;
     }
 }

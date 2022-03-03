@@ -41,8 +41,8 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 public class InitialConfigurationOperationVisitor implements OperationVisitor<Object> {
 
     private Object disableCaching(AbstractOperation operation) {
-        if (operation.checkAndRemoveDisableCacheHint()) {
-            operation.setCaching(false);
+        if (!operation.getCacheHint()) {
+            operation.configureCaching(false); // Only disables, never enables
         }
         return operation;
     }

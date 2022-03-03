@@ -30,10 +30,7 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Default behavior for all operations
@@ -43,7 +40,7 @@ import java.util.Set;
 public abstract class AbstractOperation {
 
     private Object cache;
-    private Set<AbstractOperation> cacheBlockingSemaphores;
+    private AbstractOperation[] cacheBlockingSemaphores;
 
     private AbstractOperation[] parents = {};
     private Class<?> expectedType;
@@ -62,6 +59,17 @@ public abstract class AbstractOperation {
     public abstract void accept(OperationVisitor<?> visitor);
 
     protected abstract void formatRepresentation(StringBuilder builder);
+
+    /**
+     * @return signal for enabling caches
+     */
+    public boolean getCacheHint() {
+        return true;
+    }
+
+    public boolean shouldResetOperation(OperationContext context) {
+        return false;
+    }
 
     /**
      * Evaluates the current operation for it's resulting value. If the current
@@ -153,17 +161,13 @@ public abstract class AbstractOperation {
             copy = createClone(cloningContext).copyAtributes(this);
             cloningContext.getClonedOperationsMap().put(this, copy);
         }
-        if (this.cacheBlockingSemaphores != null && !this.cacheBlockingSemaphores.isEmpty()) {
-            copy.cacheBlockingSemaphores = new HashSet<>(this.cacheBlockingSemaphores.size());
-            for (AbstractOperation cacheBlocker : this.cacheBlockingSemaphores) {
-                copy.cacheBlockingSemaphores.add(cloningContext.getClonedOperationsMap().get(cacheBlocker));
+        if (this.cacheBlockingSemaphores != null && !(this.cacheBlockingSemaphores.length == 0)) {
+            copy.cacheBlockingSemaphores = new AbstractOperation[this.cacheBlockingSemaphores.length];
+            for (int i = 0, blockingSemaphoresLength = this.cacheBlockingSemaphores.length; i < blockingSemaphoresLength; i++) {
+                copy.cacheBlockingSemaphores[i] = cloningContext.getClonedOperationsMap().get(this.cacheBlockingSemaphores[i]);
             }
         }
         return copy;
-    }
-
-    public boolean shouldResetOperation(OperationContext context) {
-        return false;
     }
 
     @SuppressWarnings({"unchecked"})
@@ -201,26 +205,35 @@ public abstract class AbstractOperation {
         parents = newArray;
     }
 
-    /**
-     * The CacheConfigurationVisitor will check if this semaphore is not null to decide to disable caching
-     */
-    public void hintDisableCache() {
-        this.cacheBlockingSemaphores = Collections.emptySet();
-    }
-
-    public void setCaching(boolean enable) {
+    public void configureCaching(boolean enable) {
         if (enable && !isCaching()) {
-            enableCaching(this);
+            enableCaching(this, this);
         } else if (!enable) {
             disableCaching(this, this);
         }
     }
 
-    private void enableCaching(AbstractOperation operation) {
-        if (operation.cacheBlockingSemaphores != null) {
-            operation.cacheBlockingSemaphores.remove(operation);
+    private void enableCaching(AbstractOperation semaphore, AbstractOperation operation) {
+        if (operation.cacheBlockingSemaphores != null && operation.cacheBlockingSemaphores.length > 0) {
+            if (operation.cacheBlockingSemaphores.length == 1 && operation.cacheBlockingSemaphores[0] == semaphore) {
+                operation.cacheBlockingSemaphores = new AbstractOperation[0];
+            } else if (operation.cacheBlockingSemaphores.length > 1) {
+                int index = -1;
+                for (int i = 0, cacheLength = operation.cacheBlockingSemaphores.length; i < cacheLength; i++) {
+                    if (operation.cacheBlockingSemaphores[i] == semaphore) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index != -1) {
+                    AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length - 1];
+                    System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, index);
+                    System.arraycopy(operation.cacheBlockingSemaphores, index + 1, temp, index, temp.length - index - 1);
+                    operation.cacheBlockingSemaphores = temp;
+                }
+            }
             for (AbstractOperation parent : operation.parents) {
-                enableCaching(parent);
+                enableCaching(semaphore, parent);
             }
         }
     }
@@ -228,24 +241,21 @@ public abstract class AbstractOperation {
     private void disableCaching(AbstractOperation semaphore, AbstractOperation operation) {
         operation.cache = null;
         if (operation.cacheBlockingSemaphores == null) {
-            operation.cacheBlockingSemaphores = new HashSet<>(3);
+            operation.cacheBlockingSemaphores = new AbstractOperation[1];
+            operation.cacheBlockingSemaphores[0] = semaphore;
+        } else {
+            AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length + 1];
+            System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, operation.cacheBlockingSemaphores.length);
+            temp[temp.length - 1] = semaphore;
+            operation.cacheBlockingSemaphores = temp;
         }
-        operation.cacheBlockingSemaphores.add(semaphore);
         for (AbstractOperation parent : operation.parents) {
             disableCaching(semaphore, parent);
         }
     }
 
-    public boolean checkAndRemoveDisableCacheHint() {
-        if (cacheBlockingSemaphores != null) {
-            cacheBlockingSemaphores = new HashSet<>(3);
-            return true;
-        }
-        return false;
-    }
-
     protected boolean isCaching() {
-        return cacheBlockingSemaphores == null || cacheBlockingSemaphores.isEmpty();
+        return cacheBlockingSemaphores == null || cacheBlockingSemaphores.length == 0;
     }
 
     public void clearCache() {

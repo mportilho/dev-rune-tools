@@ -41,6 +41,7 @@ public class FunctionOperation extends AbstractOperation {
 
     private final String functionName;
     private final AbstractOperation[] parameters;
+    private boolean cacheHint;
     private boolean uninitialized = true;
 
     public FunctionOperation(String functionName, AbstractOperation[] parameters, boolean caching) {
@@ -53,9 +54,7 @@ public class FunctionOperation extends AbstractOperation {
         } else {
             this.parameters = EMPTY;
         }
-        if (!caching) {
-            this.hintDisableCache();
-        }
+        this.cacheHint = caching;
     }
 
     @Override
@@ -85,7 +84,7 @@ public class FunctionOperation extends AbstractOperation {
         }
         if (uninitialized) {
             if (caller.isPermittingCache()) {
-                this.setCaching(true); // it's a hint only to enable caching, not disabling
+                this.configureCaching(true); // it's a hint only to enable caching, not disabling
             }
             this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
             uninitialized = false;
@@ -138,6 +137,11 @@ public class FunctionOperation extends AbstractOperation {
             parameter.accept(visitor);
         }
         visitor.visit(this);
+    }
+
+    @Override
+    public boolean getCacheHint() {
+        return this.cacheHint;
     }
 
     public AbstractOperation[] getParameters() {

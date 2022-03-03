@@ -161,7 +161,7 @@ public abstract class AbstractOperation {
             copy = createClone(cloningContext).copyAtributes(this);
             cloningContext.getClonedOperationsMap().put(this, copy);
         }
-        if (this.cacheBlockingSemaphores != null && !(this.cacheBlockingSemaphores.length == 0)) {
+        if (this.cacheBlockingSemaphores != null && this.cacheBlockingSemaphores.length != 0) {
             copy.cacheBlockingSemaphores = new AbstractOperation[this.cacheBlockingSemaphores.length];
             for (int i = 0, blockingSemaphoresLength = this.cacheBlockingSemaphores.length; i < blockingSemaphoresLength; i++) {
                 copy.cacheBlockingSemaphores[i] = cloningContext.getClonedOperationsMap().get(this.cacheBlockingSemaphores[i]);

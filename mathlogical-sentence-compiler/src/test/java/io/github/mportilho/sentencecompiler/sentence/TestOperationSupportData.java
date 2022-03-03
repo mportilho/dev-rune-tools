@@ -135,13 +135,20 @@ public class TestOperationSupportData {
         compiler.setVariable("b", 5);
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");
 
+        data.putDictionary("a", 1);
+        data.putDictionary("b", 2);
+        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("11");
+
         data.putDictionary("a", 5);
         data.putDictionary("b", 10);
         assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("55");
 
-        data.putDictionary("a", 5);
+        data.putDictionary("a", 6);
+        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("56");
+
+        data.getDictionary().remove("a");
         data.getDictionary().remove("b");
-        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("30");
+        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("28");
 
         // not passing user dictionary
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");

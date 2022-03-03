@@ -57,7 +57,9 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     private Object resolveVariable(OperationContext context) {
         Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
         if (currValue != null) {
-            configureCaching(false);
+            if (isDisableSemaphoreAbsent(this, this)) {
+                configureCaching(false);
+            }
             return currValue;
         }
 

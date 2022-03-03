@@ -33,7 +33,6 @@ import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 import org.slf4j.Logger;
@@ -145,7 +144,6 @@ public class SyntaxExecutionSite {
     public SyntaxExecutionSite copy() {
         CloningContext cloningCtx = new CloningContext();
         AbstractOperation copy = operation.copy(cloningCtx);
-        copy.accept(new InitialConfigurationOperationVisitor());
         return new SyntaxExecutionSite(
                 copy, syntaxExecutionData, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
                 new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.copyFunctions()),

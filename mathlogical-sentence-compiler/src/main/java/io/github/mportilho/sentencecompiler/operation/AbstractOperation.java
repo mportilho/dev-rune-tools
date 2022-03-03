@@ -228,7 +228,8 @@ public abstract class AbstractOperation {
                 if (index != -1) {
                     AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length - 1];
                     System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, index);
-                    System.arraycopy(operation.cacheBlockingSemaphores, index + 1, temp, index, temp.length - index - 1);
+                    System.arraycopy(operation.cacheBlockingSemaphores, index + 1, temp, index,
+                            operation.cacheBlockingSemaphores.length - index - 1);
                     operation.cacheBlockingSemaphores = temp;
                 }
             }
@@ -244,14 +245,27 @@ public abstract class AbstractOperation {
             operation.cacheBlockingSemaphores = new AbstractOperation[1];
             operation.cacheBlockingSemaphores[0] = semaphore;
         } else {
-            AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length + 1];
-            System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, operation.cacheBlockingSemaphores.length);
-            temp[temp.length - 1] = semaphore;
-            operation.cacheBlockingSemaphores = temp;
+            if (isDisableSemaphoreAbsent(semaphore, operation)) {
+                AbstractOperation[] temp = new AbstractOperation[operation.cacheBlockingSemaphores.length + 1];
+                System.arraycopy(operation.cacheBlockingSemaphores, 0, temp, 0, operation.cacheBlockingSemaphores.length);
+                temp[temp.length - 1] = semaphore;
+                operation.cacheBlockingSemaphores = temp;
+            }
         }
         for (AbstractOperation parent : operation.parents) {
             disableCaching(semaphore, parent);
         }
+    }
+
+    public boolean isDisableSemaphoreAbsent(AbstractOperation semaphore, AbstractOperation operation) {
+        if (operation.cacheBlockingSemaphores != null) {
+            for (AbstractOperation cacheBlockingSemaphore : operation.cacheBlockingSemaphores) {
+                if (cacheBlockingSemaphore == semaphore) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     protected boolean isCaching() {

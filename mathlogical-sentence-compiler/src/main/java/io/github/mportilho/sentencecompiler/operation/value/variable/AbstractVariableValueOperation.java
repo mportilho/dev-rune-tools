@@ -34,6 +34,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
     private Object value;
+    private Object lastResult;
 
     public AbstractVariableValueOperation(String variableName) {
         this.variableName = variableName;
@@ -52,7 +53,6 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         if (newValue == null) {
             throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));
         }
-        clearCache();
         this.value = newValue;
     }
 
@@ -93,5 +93,14 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     public Object getValue() {
         return value;
+    }
+
+    public Object setLastResult(Object lastResult) {
+        this.lastResult = lastResult;
+        return lastResult;
+    }
+
+    public Object getLastResult() {
+        return lastResult;
     }
 }

@@ -50,14 +50,14 @@ public class TestWarmedUpVariableOperation {
 		mathSentence.setVariable("a", 2);
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(2);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 
 		mathSentence = new MathSentence("b + 3");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.setVariable("b", 2);
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
 	}
 
 }

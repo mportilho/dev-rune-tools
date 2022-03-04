@@ -56,22 +56,31 @@ public class LambdaCallSite {
     @SuppressWarnings({"unchecked"})
     public <R> R call(LambdaContext context, Object[] parameters) {
         Object[] convertedParams = new Object[parameters.length];
-        Class<?>[] parameterTypes = methodType.parameterArray();
+        Class<?>[] methodParameterTypes = methodType.parameterArray();
         Object value;
 
         for (int i = 0, parametersLength = parameters.length; i < parametersLength; i++) {
             Object parameter = parameters[i];
-            Class<?> parameterType = parameterTypes[i];
+            Class<?> parameterType = methodParameterTypes[i];
             if (parameterType.isArray()) {
                 if (!parameter.getClass().isArray()) {
                     throw new IllegalArgumentException(String.format("Parameter on position [%s] of virtual method [%s] should be an array", i, methodName));
                 }
-                int arrLength = Array.getLength(parameter);
-                R[] convertedArray = (R[]) Array.newInstance(parameterType.getComponentType(), arrLength);
-                for (int j = 0; j < arrLength; j++) {
-                    convertedArray[j] = (R) service.convert(Array.get(parameter, j), parameterType.getComponentType());
+                if (parameter.getClass().getComponentType().isPrimitive()) {
+                    int arrLength = Array.getLength(parameter);
+                    R[] convertedArray = (R[]) Array.newInstance(parameterType.getComponentType(), arrLength);
+                    for (int j = 0; j < arrLength; j++) {
+                        convertedArray[j] = (R) service.convert(Array.get(parameter, j), parameterType.getComponentType());
+                    }
+                    convertedParams[i] = convertedArray;
+                } else {
+                    Object[] paramArray = (Object[]) parameter;
+                    R[] convertedArray = (R[]) Array.newInstance(parameterType.getComponentType(), paramArray.length);
+                    for (int j = 0, paramArrayLength = paramArray.length; j < paramArrayLength; j++) {
+                        convertedArray[j] = (R) service.convert(paramArray[j], parameterType.getComponentType());
+                    }
+                    convertedParams[i] = convertedArray;
                 }
-                convertedParams[i] = convertedArray;
             } else {
                 if (parameterType.equals(parameter.getClass())) {
                     convertedParams[i] = parameter;

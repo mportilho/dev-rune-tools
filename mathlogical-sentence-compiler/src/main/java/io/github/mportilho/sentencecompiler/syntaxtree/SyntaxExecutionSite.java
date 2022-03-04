@@ -54,9 +54,6 @@ public class SyntaxExecutionSite {
     private final OperationSupportData operationSupportData;
     private final FormattedConversionService conversionService;
 
-    // caching
-    private AbstractVariableValueOperation[] varCache;
-
     public SyntaxExecutionSite(
             AbstractOperation operation,
             SyntaxExecutionData syntaxExecutionData,
@@ -83,19 +80,7 @@ public class SyntaxExecutionSite {
                 new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())),
                 conversionService, operationSupportData,
                 userOperationSupportData, false, syntaxExecutionData.zoneId());
-        for (AbstractVariableValueOperation variableValueOperation : getUserVariablesCache()) {
-            if (variableValueOperation.shouldResetOperation(operationContext)) {
-                variableValueOperation.clearCache();
-            }
-        }
         return operation.evaluate(operationContext);
-    }
-
-    private AbstractVariableValueOperation[] getUserVariablesCache() {
-        if (this.varCache == null) {
-            this.varCache = userVariables.values().toArray(new AbstractVariableValueOperation[0]);
-        }
-        return this.varCache;
     }
 
     public void warmUp() {
@@ -170,7 +155,7 @@ public class SyntaxExecutionSite {
     public Map<String, Object> listUserVariables() {
         Map<String, Object> map = new HashMap<>();
         for (Map.Entry<String, AbstractVariableValueOperation> entry : userVariables.entrySet()) {
-            map.put(entry.getKey(), entry.getValue().getCache());
+            map.put(entry.getKey(), entry.getValue().getLastResult());
         }
         return map;
     }

@@ -36,10 +36,13 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
+        Object result;
         if (getValue() instanceof VariableProvider variableProvider) {
-            return resolveVariableProvider(context, variableProvider);
+            result = resolveVariableProvider(context, variableProvider);
+        } else {
+            result = resolveVariable(context);
         }
-        return resolveVariable(context);
+        return setLastResult(result);
     }
 
     /**
@@ -49,19 +52,14 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
                 new VariableValueProviderContext(context.mathContext(), context.scale(), false);
-        Object result = variableProvider.retrieveValue(valueProviderContext);
-        configureCaching(valueProviderContext.isCaching());
-        return result;
+        return variableProvider.retrieveValue(valueProviderContext);
     }
 
     private Object resolveVariable(OperationContext context) {
         Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
         if (currValue != null) {
-            configureCaching(false);
             return currValue;
         }
-
-        configureCaching(true);
         if (getValue() != null) {
             return getValue();
         }
@@ -85,4 +83,8 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
         return copiedOperation;
     }
 
+    @Override
+    public boolean getCacheHint() {
+        return false;
+    }
 }

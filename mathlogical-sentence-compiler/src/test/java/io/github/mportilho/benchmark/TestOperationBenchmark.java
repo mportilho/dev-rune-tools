@@ -25,6 +25,7 @@
 package io.github.mportilho.benchmark;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
 
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class TestOperationBenchmark {
 
     private MathSentence compiler;
+    OperationSupportData data = new OperationSupportData();
     private final Random random = new Random(System.nanoTime());
 
     @Param({"10", "100", "1000"})
@@ -45,28 +47,16 @@ public class TestOperationBenchmark {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
-        compiler = new MathSentence("a * b + a ^ 3");
-        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
-        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
-        compiler.compute();
+        compiler = new MathSentence("a + 5 * b");
 
     }
 
     @Setup(Level.Invocation)
     public void setupInvokation() throws Exception {
         // executed before each invocation of the benchmark
-//        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
-//        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
-        compiler.compute();
+        compiler.setVariable("a", 5);
+        compiler.setVariable("b", 10);
     }
-
-//    @Test
-//    public void testest() {
-//        compiler = new MathSentence("max(Param1, 5) * min(Param2, 4)");
-//        compiler.setVariable("Param1", BigDecimal.valueOf(random.nextInt()));
-//        compiler.setVariable("Param2", BigDecimal.valueOf(random.nextInt()));
-//        compiler.compute();
-//    }
 
     @Benchmark
     @BenchmarkMode(Mode.Throughput)
@@ -75,8 +65,7 @@ public class TestOperationBenchmark {
     @Measurement(batchSize = -1, iterations = 5, time = 100, timeUnit = TimeUnit.SECONDS)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void test() throws Exception {
-        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
-        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
+        compiler.compute();
     }
 
 

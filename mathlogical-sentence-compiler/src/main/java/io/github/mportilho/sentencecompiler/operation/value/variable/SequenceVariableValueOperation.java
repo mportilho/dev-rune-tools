@@ -43,11 +43,12 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
 
     public void setSequenceIndex(Object newValue) {
         super.setValue(newValue);
+        clearCache();
     }
 
     @Override
     protected Object resolve(OperationContext context) {
-        return getValue();
+        return setLastResult(getValue());
     }
 
     @Override

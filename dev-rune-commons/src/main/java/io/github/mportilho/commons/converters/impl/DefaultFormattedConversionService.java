@@ -36,15 +36,14 @@ import java.util.Objects;
 
 public class DefaultFormattedConversionService implements FormattedConversionService {
 
-    private Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters;
+    private static final Map<ConvertMappingKey, FormattedConverter<?, ?>> FORMATTED_CONVERTERS = loadFormattedValueConverters();
 
     public DefaultFormattedConversionService() {
-        this.formattedConverters = loadFormattedValueConverters();
     }
 
     @Override
     public boolean canConvert(Class<?> sourceType, Class<?> targetType) {
-        return formattedConverters.containsKey(new ConvertMappingKey(sourceType, targetType));
+        return FORMATTED_CONVERTERS.containsKey(new ConvertMappingKey(sourceType, targetType));
     }
 
     @SuppressWarnings("unchecked")
@@ -60,8 +59,8 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
     }
 
     @SuppressWarnings("unchecked")
-    public <S, T> T convert(ConvertMappingKey convertMappingKey, S source, Class<T> targetType, String format) {
-        FormattedConverter<S, T> converter = (FormattedConverter<S, T>) formattedConverters.get(convertMappingKey);
+    private <S, T> T convert(ConvertMappingKey convertMappingKey, S source, Class<T> targetType, String format) {
+        FormattedConverter<S, T> converter = (FormattedConverter<S, T>) FORMATTED_CONVERTERS.get(convertMappingKey);
         if (converter == null) {
             if (targetType.isInstance(source)) {
                 return (T) source;
@@ -76,8 +75,8 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
      * Adds the default {@link FormattedConverter}s into the new instance of this
      * type
      */
-    private Map<ConvertMappingKey, FormattedConverter<?, ?>> loadFormattedValueConverters() {
-        formattedConverters = new HashMap<>();
+    private static Map<ConvertMappingKey, FormattedConverter<?, ?>> loadFormattedValueConverters() {
+        Map<ConvertMappingKey, FormattedConverter<?, ?>> formattedConverters = new HashMap<>();
         AvailableBigDecimalFormatters.loadFormattedValueConverters(formattedConverters);
         AvailableDatesFormatters.loadFormattedValueConverters(formattedConverters);
         AvailableDoubleConverters.loadFormattedValueConverters(formattedConverters);

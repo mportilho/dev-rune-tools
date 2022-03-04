@@ -40,7 +40,7 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        return ((AbstractOperation) getValue()).evaluate(context);
+        return setLastResult(((AbstractOperation) getValue()).evaluate(context));
     }
 
     @Override

@@ -127,6 +127,7 @@ public class MathSentence {
         syntaxExecutionSite.addFunctionFromObject(functionProvider);
     }
 
+    //FIXME add unit test
     public MathSentence addConstant(String variableName, Object value) {
         this.syntaxExecutionSite.setUserVariableAndLock(variableName, value);
         return this;
@@ -175,10 +176,6 @@ public class MathSentence {
 
     public boolean isLocked() {
         return locked;
-    }
-
-    SyntaxExecutionSite getSyntaxExecutionSite() {
-        return syntaxExecutionSite;
     }
 
     @Override

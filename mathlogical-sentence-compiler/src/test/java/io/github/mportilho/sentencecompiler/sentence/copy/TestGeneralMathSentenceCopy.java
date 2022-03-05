@@ -88,23 +88,23 @@ public class TestGeneralMathSentenceCopy {
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(4);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("f", 2);
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(5);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("d", 2);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(10);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(10);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         copiedSentence.compute();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(10);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(10);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
     }
 
     @Test
@@ -120,25 +120,25 @@ public class TestGeneralMathSentenceCopy {
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.warmUp();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(9);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         copiedSentence = original.copy();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(9);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(9);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(6);
 
         original.setVariable("d", 0);
         original.warmUp();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(15);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(9);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(6);
 
         original.compute();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(15);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(9);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(6);
 
         copiedSentence = original.copy();
-        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(15);
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(15);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(6);
     }
 
     @Test
@@ -238,34 +238,34 @@ public class TestGeneralMathSentenceCopy {
         original.setVariable("g", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(3);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("b", 7);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(7);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("b", 5);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(5);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("e", 7);
         original.setVariable("f", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(8);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("d", true);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(11);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("d", false);
         original.setVariable("e", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(11);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
     }
 
     @Test  //FIXME esse aqui
@@ -281,34 +281,34 @@ public class TestGeneralMathSentenceCopy {
         original.setVariable("g", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(2);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("b", 7);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(4);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("b", 5);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(4);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("e", 7);
         original.setVariable("f", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(7);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("d", true);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(8);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
 
         original.setVariable("d", false);
         original.setVariable("e", 8);
         original.warmUp();
         copiedSentence = original.copy();
-        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(8);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
     }
 
     @Test

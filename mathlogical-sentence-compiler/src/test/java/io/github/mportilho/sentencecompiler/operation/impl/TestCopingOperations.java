@@ -159,6 +159,8 @@ public class TestCopingOperations {
         VariableValueOperation copy;
 
         operation = new VariableValueOperation("A");
+        operation.configureCaching(false);
+
         copy = (VariableValueOperation) operation.copy(new CloningContext());
         assertThat(copy).isNotEqualTo(operation);
         assertThat(copy.getVariableName()).isEqualTo(operation.getVariableName());
@@ -186,6 +188,8 @@ public class TestCopingOperations {
         SequenceVariableValueOperation copy;
 
         operation = new SequenceVariableValueOperation("A");
+        operation.configureCaching(false);
+
         copy = (SequenceVariableValueOperation) operation.copy(new CloningContext());
         assertThat(copy).isNotEqualTo(operation);
         assertThat(copy.getVariableName()).isEqualTo(operation.getVariableName());

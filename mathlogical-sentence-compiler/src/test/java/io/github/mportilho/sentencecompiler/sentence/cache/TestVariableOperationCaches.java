@@ -49,14 +49,14 @@ public class TestVariableOperationCaches {
 		mathSentence.setVariable("a", 2);
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(2);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 
 		mathSentence = new MathSentence("b + 3");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.setVariable("b", 2);
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
 	}
 
 }

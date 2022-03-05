@@ -28,7 +28,7 @@ import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.math.AbstractSequencialMathOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class FastProductOfSequenceOperation extends AbstractSequencialMathOperation {
 

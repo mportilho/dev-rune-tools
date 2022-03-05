@@ -30,9 +30,8 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.VectorValue
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseEulerNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PrecisePiNumberConstantValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
-import org.apache.commons.math3.analysis.function.Abs;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

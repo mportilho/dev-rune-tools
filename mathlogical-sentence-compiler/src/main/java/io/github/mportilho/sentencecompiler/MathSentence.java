@@ -28,9 +28,6 @@ import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
-import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionData;
-import io.github.mportilho.sentencecompiler.syntaxtree.SyntaxExecutionSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -62,12 +59,10 @@ public class MathSentence {
         this.locked = false;
     }
 
-    private MathSentence(
-            MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite, boolean locked) {
+    private MathSentence(MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.syntaxExecutionSite = syntaxExecutionSite;
-        this.locked = locked;
     }
 
     private SyntaxExecutionSite initializeComputingSite(String sentence, MathSentenceOptions mathSentenceOptions) {
@@ -132,6 +127,11 @@ public class MathSentence {
         syntaxExecutionSite.addFunctionFromObject(functionProvider);
     }
 
+    public MathSentence addConstant(String variableName, Object value) {
+        this.syntaxExecutionSite.setUserVariableAndLock(variableName, value);
+        return this;
+    }
+
     public MathSentence setVariable(String variableName, Object value) {
         checkUpdateLock();
         syntaxExecutionSite.setUserVariable(variableName, value);
@@ -158,7 +158,7 @@ public class MathSentence {
     }
 
     public final MathSentence copy() {
-        return new MathSentence(this.mathContext, this.scale, this.syntaxExecutionSite.copy(), this.locked);
+        return new MathSentence(this.mathContext, this.scale, this.syntaxExecutionSite.copy());
     }
 
     public <T> T visitOperations(OperationVisitor<T> visitor) {
@@ -175,6 +175,10 @@ public class MathSentence {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    SyntaxExecutionSite getSyntaxExecutionSite() {
+        return syntaxExecutionSite;
     }
 
     @Override

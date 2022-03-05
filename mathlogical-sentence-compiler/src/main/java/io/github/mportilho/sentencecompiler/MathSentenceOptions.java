@@ -26,7 +26,6 @@ package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
 
 import java.math.MathContext;
 import java.time.ZoneId;

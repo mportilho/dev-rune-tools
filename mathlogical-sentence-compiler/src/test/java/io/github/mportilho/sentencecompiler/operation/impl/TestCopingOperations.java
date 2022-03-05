@@ -35,7 +35,7 @@ import io.github.mportilho.sentencecompiler.operation.value.constant.precise.Pre
 import io.github.mportilho.sentencecompiler.operation.value.constant.TimeConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.SequenceVariableValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;

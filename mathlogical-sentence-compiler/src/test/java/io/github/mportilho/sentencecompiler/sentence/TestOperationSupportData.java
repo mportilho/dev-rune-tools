@@ -26,7 +26,7 @@ package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.OperationSupportData;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 

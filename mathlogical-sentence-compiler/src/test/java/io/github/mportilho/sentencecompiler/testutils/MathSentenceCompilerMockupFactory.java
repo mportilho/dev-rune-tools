@@ -27,8 +27,8 @@ package io.github.mportilho.sentencecompiler.testutils;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.sentencecompiler.MathSentenceOptions;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationSupportData;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
 
 import java.math.MathContext;

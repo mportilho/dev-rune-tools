@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler.operation.logic;
 
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;

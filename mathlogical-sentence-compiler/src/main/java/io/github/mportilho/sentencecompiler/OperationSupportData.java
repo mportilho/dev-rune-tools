@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.sentencecompiler.syntaxtree.ext.*;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;

@@ -40,7 +40,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Calculates the irregular r of return on a series of transactions.  The
- * irregular r of return is the constant r for which, if the transactions
+ * irregular r of return is the addConstant r for which, if the transactions
  * had been applied to an investment with that r, the same resulting returns
  * would be realized.
  * <p>

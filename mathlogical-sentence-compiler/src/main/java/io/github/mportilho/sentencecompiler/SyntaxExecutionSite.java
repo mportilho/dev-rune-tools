@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree;
+package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
@@ -43,7 +43,7 @@ import java.util.*;
 
 import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory.createLambdaCallSites;
 
-public class SyntaxExecutionSite {
+class SyntaxExecutionSite {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SyntaxExecutionSite.class);
 
@@ -135,12 +135,22 @@ public class SyntaxExecutionSite {
                 conversionService);
     }
 
-    public void setUserVariable(String name, Object value) {
+    AbstractVariableValueOperation getUserVariableOperation(String name) {
         AssertUtils.notNullOrBlank(name, "Parameter [name] must be provided");
-        Objects.requireNonNull(value, "Parameter [value] must be provided");
-        AbstractVariableValueOperation variableOperation = userVariables.get(name);
+        return userVariables.get(name);
+    }
+
+    public void setUserVariable(String name, Object value) {
+        AbstractVariableValueOperation variableOperation = getUserVariableOperation(name);
         if (variableOperation != null) {
             variableOperation.setValue(value);
+        }
+    }
+
+    public void setUserVariableAndLock(String name, Object value) {
+        AbstractVariableValueOperation variableOperation = getUserVariableOperation(name);
+        if (variableOperation != null) {
+            variableOperation.setValueAndLock(value);
         }
     }
 

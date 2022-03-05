@@ -27,7 +27,7 @@ package io.github.mportilho.sentencecompiler.operation.value.constant.fast;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class FastPiNumberConstantValueOperation extends AbstractConstantValueOperation {
 

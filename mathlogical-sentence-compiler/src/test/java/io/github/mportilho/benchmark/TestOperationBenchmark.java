@@ -25,11 +25,10 @@
 package io.github.mportilho.benchmark;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationSupportData;
+import io.github.mportilho.sentencecompiler.OperationSupportData;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
 
-import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +47,8 @@ public class TestOperationBenchmark {
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
         compiler = new MathSentence("a + 5 * b");
+        data.getDictionary().put("a", 5);
+        data.getDictionary().put("b", 10);
 
     }
 
@@ -67,7 +68,6 @@ public class TestOperationBenchmark {
     public void test() throws Exception {
         compiler.compute();
     }
-
 
     @Test
     public void benchmark() throws Exception {

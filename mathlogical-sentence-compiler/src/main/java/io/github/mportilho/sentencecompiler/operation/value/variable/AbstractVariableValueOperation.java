@@ -34,6 +34,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
     private Object value;
+    private boolean locked = false;
 
     public AbstractVariableValueOperation(String variableName) {
         this.variableName = variableName;
@@ -49,10 +50,19 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
     }
 
     public void setValue(Object newValue) {
+        if (locked) {
+            throw new SentenceConfigurationException("Locked VariableOperation cannot receive new values");
+        }
         if (newValue == null) {
             throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));
         }
         this.value = newValue;
+    }
+
+    public void setValueAndLock(Object newValue) {
+        setValue(newValue);
+        this.locked = true;
+        this.configureCaching(true);
     }
 
     @Override
@@ -94,4 +104,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         return value;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
 }

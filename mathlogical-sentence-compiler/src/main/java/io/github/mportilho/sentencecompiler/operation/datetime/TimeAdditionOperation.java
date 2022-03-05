@@ -26,7 +26,7 @@ package io.github.mportilho.sentencecompiler.operation.datetime;
 
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.OperationContext;
+import io.github.mportilho.sentencecompiler.OperationContext;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;

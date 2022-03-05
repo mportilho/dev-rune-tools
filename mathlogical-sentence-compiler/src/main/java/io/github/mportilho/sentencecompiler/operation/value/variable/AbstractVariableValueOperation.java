@@ -34,7 +34,6 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
     private Object value;
-    private Object lastResult;
 
     public AbstractVariableValueOperation(String variableName) {
         this.variableName = variableName;
@@ -95,12 +94,4 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         return value;
     }
 
-    public Object setLastResult(Object lastResult) {
-        this.lastResult = lastResult;
-        return lastResult;
-    }
-
-    public Object getLastResult() {
-        return lastResult;
-    }
 }

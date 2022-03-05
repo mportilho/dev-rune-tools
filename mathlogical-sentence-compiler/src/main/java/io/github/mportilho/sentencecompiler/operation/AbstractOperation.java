@@ -42,6 +42,7 @@ public abstract class AbstractOperation {
     private static final AbstractOperation[] EMPTY_ARRAY = {};
 
     private Object cache;
+    private Object lastResult;
     private AbstractOperation[] cacheBlockingSemaphores;
 
     private AbstractOperation[] parents = EMPTY_ARRAY;
@@ -94,22 +95,22 @@ public abstract class AbstractOperation {
         Object result;
         try {
             if (isCaching()) {
-                if (cache == null) {
-                    result = resolve(context); // resolve method can disable caching
-                    cache = isCaching() ? result : null;
-                } else {
+                if (cache != null) {
                     result = cache;
+                } else {
+                    result = cache = castOperationResult(resolve(context), context);
                 }
             } else {
-                result = resolve(context);
-                cache = isCaching() ? result : null;
+                result = castOperationResult(resolve(context), context);
+                cache = null;
             }
         } catch (NullPointerException | SyntaxExecutionException e) {
             throw e;
         } catch (Exception e) {
             throw new SyntaxExecutionException(String.format("Error computing expression [%s]", this), e);
         }
-        return (T) castOperationResult(result, context);
+        lastResult = result;
+        return (T) result;
     }
 
     private Object castOperationResult(Object result, OperationContext context) {
@@ -306,6 +307,10 @@ public abstract class AbstractOperation {
      */
     public boolean isNotApplyingParenthesis() {
         return !applyingParenthesis;
+    }
+
+    public Object getLastResult() {
+        return lastResult;
     }
 
     /**

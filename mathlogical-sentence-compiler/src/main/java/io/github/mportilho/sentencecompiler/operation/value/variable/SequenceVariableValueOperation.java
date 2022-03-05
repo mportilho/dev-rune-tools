@@ -48,7 +48,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
 
     @Override
     protected Object resolve(OperationContext context) {
-        return setLastResult(getValue());
+        return getValue();
     }
 
     @Override

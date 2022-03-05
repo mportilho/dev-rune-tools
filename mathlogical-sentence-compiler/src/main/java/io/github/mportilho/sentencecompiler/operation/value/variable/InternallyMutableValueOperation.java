@@ -45,7 +45,7 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
 
     @Override
     protected Object resolve(OperationContext context) {
-        return setLastResult(mutableOperationResolver.apply(this, context));
+        return mutableOperationResolver.apply(this, context);
     }
 
     @Override

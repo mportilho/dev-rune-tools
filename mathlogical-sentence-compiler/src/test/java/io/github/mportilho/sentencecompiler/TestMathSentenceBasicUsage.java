@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler;
 
-import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
@@ -34,6 +33,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
 
+import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -61,7 +61,7 @@ public class TestMathSentenceBasicUsage {
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("3");
         assertThat(compiler.listUserVariables())
                 .isNotEmpty().hasSize(2)
-                .containsKeys("a", "b").containsValues(1, 2);
+                .containsKeys("a", "b").containsValues(valueOf(1), valueOf(2));
     }
 
     @Test

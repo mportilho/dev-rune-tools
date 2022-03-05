@@ -147,7 +147,7 @@ public class SyntaxExecutionSite {
     public Map<String, Object> listAssignedVariables() {
         Map<String, Object> map = new HashMap<>();
         for (Map.Entry<String, AssignedVariableOperation> entry : assignedVariables.entrySet()) {
-            map.put(entry.getKey(), entry.getValue().getCache());
+            map.put(entry.getKey(), entry.getValue().getLastResult());
         }
         return map;
     }

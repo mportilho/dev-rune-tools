@@ -42,7 +42,7 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
         } else {
             result = resolveVariable(context);
         }
-        return setLastResult(result);
+        return result;
     }
 
     /**

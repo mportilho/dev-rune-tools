@@ -45,7 +45,7 @@ public class VectorValueOperation extends AbstractVariableValueOperation {
         for (int i = 0, splitLength = vector.length; i < splitLength; i++) {
             result[i] = conversionService.convert(vector[i].evaluate(context), getExpectedType().getComponentType());
         }
-        return setLastResult(result);
+        return result;
     }
 
     @Override

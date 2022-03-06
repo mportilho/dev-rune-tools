@@ -26,7 +26,6 @@ package io.github.mportilho.dfr.core.processor;
 
 import io.github.mportilho.dfr.core.operation.FilterData;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,8 +38,8 @@ public record ConditionalStatement(
         String id,
         LogicType logicType,
         boolean negate,
-        List<FilterData> clauses,
-        List<ConditionalStatement> oppositeStatements
+        FilterData[] clauses,
+        ConditionalStatement[] oppositeStatements
 ) {
 
     public ConditionalStatement {
@@ -49,14 +48,19 @@ public record ConditionalStatement(
     }
 
     public Optional<FilterData> findClauseByPath(String path) {
-        return clauses.stream().filter(c -> path.equals(c.path())).findFirst();
+        for (FilterData clause : clauses) {
+            if (clause != null && path.equals(clause.path())) {
+                return Optional.of(clause);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
      * @return An indication that this statement has no clauses nor sub-statements
      */
     public boolean hasNoCondition() {
-        return clauses != null && oppositeStatements != null && clauses.isEmpty() && oppositeStatements.isEmpty();
+        return clauses != null && oppositeStatements != null && clauses.length == 0 && oppositeStatements.length == 0;
     }
 
     /**

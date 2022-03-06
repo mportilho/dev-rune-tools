@@ -69,7 +69,7 @@ public class TestOperationBenchmark {
         compiler.compute();
     }
 
-    @Test
+//    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

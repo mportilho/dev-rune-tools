@@ -168,7 +168,7 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         statement = processor.createStatements(new AnnotationProcessorParameter(SearchBooks.class, null), userParameters);
         assertThat(statement).isNotNull();
 
-        ConditionalStatement subStatement = statement.oppositeStatements().get(0);
+        ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
         FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
@@ -198,7 +198,7 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         statement = processor.createStatements(new AnnotationProcessorParameter(SearchBooks.class, null), userParameters);
         assertThat(statement).isNotNull();
 
-        ConditionalStatement subStatement = statement.oppositeStatements().get(0);
+        ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
         FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
@@ -228,7 +228,7 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         statement = processor.createStatements(new AnnotationProcessorParameter(SearchBooks.class, null), userParameters);
         assertThat(statement).isNotNull();
 
-        ConditionalStatement subStatement = statement.oppositeStatements().get(0);
+        ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
         FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
@@ -258,7 +258,7 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         statement = processor.createStatements(new AnnotationProcessorParameter(SearchBooks.class, null), userParameters);
         assertThat(statement).isNotNull();
 
-        ConditionalStatement subStatement = statement.oppositeStatements().get(0);
+        ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
         FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();

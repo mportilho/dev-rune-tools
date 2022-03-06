@@ -28,11 +28,11 @@ import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.NotEquals;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestConditionalStatement {
 
@@ -46,19 +46,19 @@ public class TestConditionalStatement {
 
     @Test
     public void testNullClauses() {
-        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, null, Collections.emptyList()))
+        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, null, new ConditionalStatement[0]))
                 .isInstanceOf(NullPointerException.class).hasMessage("Clause list cannot be null");
 
-        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, Collections.emptyList(), null))
+        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, new FilterData[0], null))
                 .isInstanceOf(NullPointerException.class).hasMessage("Opposite statement list cannot be null");
     }
 
     @Test
     public void testOneClause() {
-        List<FilterData> clauses = new ArrayList<>();
-        clauses.add(new FilterData("name", "name", new String[]{"name"}, String.class, NotEquals.class,
-                false, false, List.<Object[]>of(new String[]{"Blanka"}), null, null));
-        ConditionalStatement condition = new ConditionalStatement("nameQuery", LogicType.CONJUNCTION, false, clauses, Collections.emptyList());
+        ConditionalStatement condition = new ConditionalStatement("nameQuery", LogicType.CONJUNCTION, false,
+                new FilterData[]{new FilterData("name", "name", new String[]{"name"}, String.class, NotEquals.class,
+                        false, false, List.<Object[]>of(new String[]{"Blanka"}), null, null)},
+                new ConditionalStatement[0]);
 
         assertThat(condition.logicType()).isEqualByComparingTo(LogicType.CONJUNCTION);
         assertThat(condition.isConjunction()).isTrue();

@@ -25,9 +25,9 @@
 package io.github.mportilho.sentencecompiler.operation;
 
 import io.github.mportilho.commons.converters.NoFormattedConverterFoundException;
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.Objects;
@@ -68,19 +68,6 @@ public abstract class AbstractOperation {
      */
     public boolean getCacheHint() {
         return true;
-    }
-
-    /**
-     * Indication that the current node should be cleared for new evaluations.
-     * <p>
-     * <p/>
-     * For example, using a custom user dictionary for variables always triggers node reset
-     *
-     * @param context context variables for node evaluation
-     * @return the clearing indication for new evaluations
-     */
-    public boolean shouldResetOperation(OperationContext context) {
-        return false;
     }
 
     /**

@@ -24,9 +24,9 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class VariableValueOperation extends AbstractVariableValueOperation {
 
@@ -64,15 +64,6 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
             return getValue();
         }
         return context.operationSupportData().getDictionary().get(getVariableName());
-    }
-
-    @Override
-    public boolean shouldResetOperation(OperationContext context) {
-        if (isCaching() && getCache() != null) {
-            return context.userOperationSupportData().getDictionary().containsKey(getVariableName())
-                    && !compareValues(getCache(), context.userOperationSupportData().getDictionary().get(getVariableName()));
-        }
-        return super.shouldResetOperation(context);
     }
 
     @Override

@@ -28,8 +28,6 @@ import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationExce
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
-import java.util.Objects;
-
 public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
@@ -83,19 +81,6 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         visitor.visit(this);
     }
 
-    @SuppressWarnings({"unchecked"})
-    protected boolean compareValues(Object value1, Object value2) {
-        if (value1 != null && value2 != null) {
-            if (Objects.equals(value1, value2)) {
-                return true;
-            } else if (value1.getClass().isInstance(value2)
-                    && value1 instanceof Comparable c1 && value2 instanceof Comparable c2) {
-                return c1.compareTo(c2) == 0;
-            }
-        }
-        return value1 == null && value2 == null;
-    }
-
     public String getVariableName() {
         return variableName;
     }
@@ -104,7 +89,4 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         return value;
     }
 
-    public boolean isLocked() {
-        return locked;
-    }
 }

@@ -51,7 +51,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     public void setValue(Object newValue) {
         if (locked) {
-            throw new SentenceConfigurationException("Locked VariableOperation cannot receive new values");
+            throw new SentenceConfigurationException(String.format("Variable [%s] was set as constant", variableName));
         }
         if (newValue == null) {
             throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));

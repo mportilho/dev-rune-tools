@@ -59,4 +59,23 @@ public class TestVariableOperationCaches {
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
 	}
 
+	@Test
+	public void testConstantVariableOperationCache() {
+		MathSentence mathSentence;
+
+		mathSentence = new MathSentence("a");
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+		mathSentence.setConstant("a", 2);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+		mathSentence.compute();
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(2);
+
+		mathSentence = new MathSentence("b + 3");
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+		mathSentence.setConstant("b", 2);
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+		mathSentence.compute();
+		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
+	}
+
 }

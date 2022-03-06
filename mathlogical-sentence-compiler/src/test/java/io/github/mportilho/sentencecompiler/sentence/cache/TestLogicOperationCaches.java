@@ -259,7 +259,7 @@ public class TestLogicOperationCaches {
 	public void testOrOperation() {
 		MathSentence mathSentence;
 
-		// second addConstant is not evaluated because the first one is true
+		// second setConstant is not evaluated because the first one is true
 		mathSentence = new MathSentence("true or true");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.compute();

@@ -117,18 +117,19 @@ public class MathSentence {
         return this;
     }
 
-    public void addFunction(LambdaCallSite function) {
+    public MathSentence addFunction(LambdaCallSite function) {
         checkUpdateLock();
         syntaxExecutionSite.addFunction(function);
+        return this;
     }
 
-    public void addFunctionFromObject(Object functionProvider) {
+    public MathSentence addFunctionFromObject(Object functionProvider) {
         checkUpdateLock();
         syntaxExecutionSite.addFunctionFromObject(functionProvider);
+        return this;
     }
 
-    //FIXME add unit test
-    public MathSentence addConstant(String variableName, Object value) {
+    public MathSentence setConstant(String variableName, Object value) {
         this.syntaxExecutionSite.setUserVariableAndLock(variableName, value);
         return this;
     }

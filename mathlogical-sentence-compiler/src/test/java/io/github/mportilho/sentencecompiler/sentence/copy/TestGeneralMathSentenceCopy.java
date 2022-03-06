@@ -71,6 +71,34 @@ public class TestGeneralMathSentenceCopy {
     }
 
     @Test
+    public void testSimpleCopy_withConstants() {
+        MathSentence original = new MathSentence("(c) * (a + b)");
+        MathSentence copiedSentence = original.copy();
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        original.setConstant("a", 1);
+        original.setConstant("b", 2);
+        original.setVariable("c", 3);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        copiedSentence.setConstant("a", 1);
+        copiedSentence.setConstant("b", 2);
+        copiedSentence.setVariable("c", 3);
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        original.compute();
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        copiedSentence.compute();
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
+    }
+
+    @Test
     public void testCacheWithWarmedUpCompilerSimpleMathOperations() {
         MathSentence original = new MathSentence("((a + b) / (c * d)) - f");
         MathSentence copiedSentence = original.copy();

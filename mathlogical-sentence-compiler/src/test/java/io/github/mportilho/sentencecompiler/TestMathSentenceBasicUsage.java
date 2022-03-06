@@ -25,6 +25,7 @@
 package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 import org.junit.jupiter.api.Test;
@@ -98,6 +99,13 @@ public class TestMathSentenceBasicUsage {
 
         assertThatThrownBy(() -> compiler.addFunctionFromObject(Object.class))
                 .isInstanceOf(MathSentenceLockingException.class);
+    }
+
+    @Test
+    public void testFailSettingConstantVariableManyTimes() {
+        MathSentence compiler = new MathSentence("b + c");
+        compiler.setConstant("b", 2);
+        assertThatThrownBy(() -> compiler.setConstant("b", 2)).isInstanceOf(SentenceConfigurationException.class);
     }
 
 }

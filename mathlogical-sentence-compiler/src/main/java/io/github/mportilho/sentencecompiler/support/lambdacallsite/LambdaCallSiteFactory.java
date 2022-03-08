@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 import static java.lang.reflect.Modifier.isStatic;
 
 public class LambdaCallSiteFactory {
@@ -54,11 +53,14 @@ public class LambdaCallSiteFactory {
             }
 
             if (findFactoryInterface(method.getParameterCount()) == null || hasPrimitives(method)) {
-                dynamicCallerPool.put(LambdaCallSite.keyName(method), createMethodHandleCaller(lookup, method, isClassObject ? null : provider));
+                LambdaCallSite callSite = createMethodHandleCaller(lookup, method, isClassObject ? null : provider);
+                dynamicCallerPool.put(callSite.getKeyName(), callSite);
             } else if (isStatic(method.getModifiers())) {
-                dynamicCallerPool.put(LambdaCallSite.keyName(method), createStaticCaller(lookup, method));
+                LambdaCallSite callSite = createStaticCaller(lookup, method);
+                dynamicCallerPool.put(callSite.getKeyName(), callSite);
             } else if (!isClassObject) {
-                dynamicCallerPool.put(LambdaCallSite.keyName(method), createDynamicCaller(lookup, method, provider));
+                LambdaCallSite callSite = createDynamicCaller(lookup, method, provider);
+                dynamicCallerPool.put(callSite.getKeyName(), callSite);
             }
         }
         return dynamicCallerPool;

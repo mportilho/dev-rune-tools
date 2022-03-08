@@ -22,35 +22,20 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.syntaxtree.ext;
+package io.github.mportilho.benchmark;
 
-import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import java.math.BigDecimal;
 
-import java.lang.invoke.MethodType;
-import java.util.HashMap;
-import java.util.Map;
+public class FunctionProviderForTests {
 
-public class StringFunctionExtension {
+    private final BigDecimal salt;
 
-    private static final Map<String, LambdaCallSite> INSTANCE = internalStringFunctionsFactory();
-
-    public static Map<String, LambdaCallSite> stringFunctionsFactory() {
-        return INSTANCE;
+    public FunctionProviderForTests(BigDecimal salt) {
+        this.salt = salt;
     }
 
-    private static Map<String, LambdaCallSite> internalStringFunctionsFactory() {
-        Map<String, LambdaCallSite> extensions = new HashMap<>();
-        LambdaCallSite callSite;
-
-        callSite = new LambdaCallSite("concat", MethodType.methodType(String.class, String[].class),
-                (context, parameters) -> String.join("", (String[]) parameters[0]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("trim", MethodType.methodType(String.class, String.class),
-                (context, parameters) -> ((String) parameters[0]).trim());
-        extensions.put(callSite.getKeyName(), callSite);
-
-        return extensions;
+    public BigDecimal sum(BigDecimal a, BigDecimal b) {
+        return a.add(b).multiply(salt);
     }
 
 }

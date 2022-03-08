@@ -22,33 +22,35 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
+package io.github.mportilho.sentencecompiler.support.lambdacallsite.ext;
 
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
-import org.junit.jupiter.api.Test;
 
-import static io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.StringFunctionExtension.stringFunctionsFactory;
-import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
-import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
-import static org.assertj.core.api.Assertions.assertThat;
+import java.lang.invoke.MethodType;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TestStringFormulaExtensions {
+public class StringFunctionExtension {
 
-    @Test
-    public void test_concat_Function() {
-        LambdaCallSite concat = stringFunctionsFactory().get(keyName("concat", 1));
-        assertThat((String) concat.call(getLambdaContext(), new Object[]{new Object[]{ONE, TEN, "teste", "123"}}))
-                .isEqualTo("110teste123");
+    private static final Map<String, LambdaCallSite> INSTANCE = internalStringFunctionsFactory();
+
+    public static Map<String, LambdaCallSite> stringFunctionsFactory() {
+        return INSTANCE;
     }
 
-    @Test
-    public void test_trim_Function() {
-        LambdaCallSite trim = stringFunctionsFactory().get(keyName("trim", 1));
+    private static Map<String, LambdaCallSite> internalStringFunctionsFactory() {
+        Map<String, LambdaCallSite> extensions = new HashMap<>();
+        LambdaCallSite callSite;
 
-        assertThat((String) trim.call(getLambdaContext(), new Object[]{" a 12  3  "}))
-                .isEqualTo("a 12  3");
+        callSite = new LambdaCallSite("concat", MethodType.methodType(String.class, String[].class),
+                (context, parameters) -> String.join("", (String[]) parameters[0]));
+        extensions.put(callSite.getKeyName(), callSite);
+
+        callSite = new LambdaCallSite("trim", MethodType.methodType(String.class, String.class),
+                (context, parameters) -> ((String) parameters[0]).trim());
+        extensions.put(callSite.getKeyName(), callSite);
+
+        return extensions;
     }
 
 }

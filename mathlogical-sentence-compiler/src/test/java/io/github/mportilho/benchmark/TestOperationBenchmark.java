@@ -26,9 +26,12 @@ package io.github.mportilho.benchmark;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.OperationSupportData;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
 
+import java.lang.invoke.MethodType;
+import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -46,7 +49,8 @@ public class TestOperationBenchmark {
     @Setup(Level.Iteration)
     public void setupIteration() throws Exception {
         // executed before each invocation of the iteration
-        compiler = new MathSentence("a + 5 * b");
+        compiler = new MathSentence("sum(a, b)");
+        compiler.addFunctionFromObject(new FunctionProviderForTests(BigDecimal.valueOf(5)));
         data.getDictionary().put("a", 5);
         data.getDictionary().put("b", 10);
 
@@ -55,8 +59,8 @@ public class TestOperationBenchmark {
     @Setup(Level.Invocation)
     public void setupInvokation() throws Exception {
         // executed before each invocation of the benchmark
-        compiler.setVariable("a", 5);
-        compiler.setVariable("b", 10);
+        compiler.setVariable("a", BigDecimal.valueOf(random.nextInt()));
+        compiler.setVariable("b", BigDecimal.valueOf(random.nextInt()));
     }
 
     @Benchmark
@@ -66,10 +70,11 @@ public class TestOperationBenchmark {
     @Measurement(batchSize = -1, iterations = 5, time = 100, timeUnit = TimeUnit.SECONDS)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void test() throws Exception {
-        compiler.compute();
+        compiler.setVariable("a", 1);
+        compiler.setVariable("b", 2);
     }
 
-//    @Test
+    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

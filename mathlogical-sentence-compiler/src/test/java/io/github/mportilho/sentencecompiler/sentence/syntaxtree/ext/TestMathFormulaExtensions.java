@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static io.github.mportilho.sentencecompiler.syntaxtree.ext.MathFormulasExtension.mathFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.MathFormulasExtension.mathFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
 import static java.math.BigDecimal.*;

@@ -31,6 +31,7 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.util.Objects;
+import java.util.SplittableRandom;
 
 /**
  * Default behavior for all operations
@@ -40,6 +41,7 @@ import java.util.Objects;
 public abstract class AbstractOperation {
 
     private static final AbstractOperation[] EMPTY_ARRAY = {};
+    private static final SplittableRandom RANDOM = new SplittableRandom(System.nanoTime());
 
     private Object cache;
     private Object lastResult;
@@ -48,6 +50,7 @@ public abstract class AbstractOperation {
     private AbstractOperation[] parents = EMPTY_ARRAY;
     private Class<?> expectedType;
     private boolean applyingParenthesis;
+    private final int fixedHash = RANDOM.nextInt();
 
     public AbstractOperation() {
         this.expectedType = Object.class;
@@ -298,6 +301,11 @@ public abstract class AbstractOperation {
 
     public Object getLastResult() {
         return lastResult;
+    }
+
+    @Override
+    public int hashCode() {
+        return fixedHash;
     }
 
     /**

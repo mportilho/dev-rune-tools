@@ -24,15 +24,15 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite.ext;
 
+import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
-import java.lang.invoke.MethodType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.HashMap;
 import java.util.Map;
 
 public class DateTimeFunctionExtension {
@@ -43,149 +43,133 @@ public class DateTimeFunctionExtension {
         return INSTANCE;
     }
 
+    public static Long secondsBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.SECONDS.between(t1, t2);
+    }
+
+    public static Long minutesBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.MINUTES.between(t1, t2);
+    }
+
+    public static Long hoursBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.HOURS.between(t1, t2);
+    }
+
+    public static Long daysBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.DAYS.between(t1, t2);
+    }
+
+    public static Long monthsBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.MONTHS.between(t1, t2);
+    }
+
+    public static Long yearsBetween(Temporal t1, Temporal t2) {
+        return ChronoUnit.YEARS.between(t1, t2);
+    }
+
+    public static LocalDate maxDate(LocalDate[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
+        }
+        LocalDate maxOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            LocalDate parameter = p[i];
+            if (maxOne.compareTo(parameter) < 0) {
+                maxOne = parameter;
+            }
+        }
+        return maxOne;
+    }
+
+    public static LocalDate minDate(LocalDate[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
+        }
+        LocalDate minOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            LocalDate parameter = p[i];
+            if (minOne.compareTo(parameter) > 0) {
+                minOne = parameter;
+            }
+        }
+        return minOne;
+    }
+
+    public static LocalTime maxTime(LocalTime[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
+        }
+        LocalTime maxOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            LocalTime parameter = p[i];
+            if (maxOne.compareTo(parameter) < 0) {
+                maxOne = parameter;
+            }
+        }
+        return maxOne;
+    }
+
+    public static LocalTime minTime(LocalTime[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
+        }
+        LocalTime minOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            LocalTime parameter = p[i];
+            if (minOne.compareTo(parameter) > 0) {
+                minOne = parameter;
+            }
+        }
+        return minOne;
+    }
+
+    public static ZonedDateTime maxDateTime(ZonedDateTime[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
+        }
+        ZonedDateTime maxOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            ZonedDateTime parameter = p[i];
+            if (maxOne.compareTo(parameter) < 0) {
+                maxOne = parameter;
+            }
+        }
+        return maxOne;
+    }
+
+    public static ZonedDateTime minDateTime(ZonedDateTime[] p) {
+        if (p.length == 1) {
+            return p[0];
+        } else if (p.length == 2) {
+            return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
+        }
+        ZonedDateTime minOne = p[0];
+        for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
+            ZonedDateTime parameter = p[i];
+            if (minOne.compareTo(parameter) > 0) {
+                minOne = parameter;
+            }
+        }
+        return minOne;
+    }
+
+
     private static Map<String, LambdaCallSite> internalDateTimeFunctionsFactory() {
-        LambdaCallSite callSite;
-        Map<String, LambdaCallSite> extensions = new HashMap<>();
-
-        callSite = new LambdaCallSite("secondsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.SECONDS.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("minutesBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.MINUTES.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("hoursBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.HOURS.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("daysBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.DAYS.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("monthsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.MONTHS.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("yearsBetween", MethodType.methodType(Long.class, Temporal.class, Temporal.class),
-                (context, parameters) -> ChronoUnit.YEARS.between((Temporal) parameters[0], (Temporal) parameters[1]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("maxDate", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    LocalDate[] p = (LocalDate[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
-                    }
-                    LocalDate maxOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        LocalDate parameter = p[i];
-                        if (maxOne.compareTo(parameter) < 0) {
-                            maxOne = parameter;
-                        }
-                    }
-                    return maxOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("minDate", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    LocalDate[] p = (LocalDate[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
-                    }
-                    LocalDate minOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        LocalDate parameter = p[i];
-                        if (minOne.compareTo(parameter) > 0) {
-                            minOne = parameter;
-                        }
-                    }
-                    return minOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("maxTime", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    LocalTime[] p = (LocalTime[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
-                    }
-                    LocalTime maxOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        LocalTime parameter = p[i];
-                        if (maxOne.compareTo(parameter) < 0) {
-                            maxOne = parameter;
-                        }
-                    }
-                    return maxOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("minTime", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    LocalTime[] p = (LocalTime[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
-                    }
-                    LocalTime minOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        LocalTime parameter = p[i];
-                        if (minOne.compareTo(parameter) > 0) {
-                            minOne = parameter;
-                        }
-                    }
-                    return minOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("maxDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    ZonedDateTime[] p = (ZonedDateTime[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[0] : p[1];
-                    }
-                    ZonedDateTime maxOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        ZonedDateTime parameter = p[i];
-                        if (maxOne.compareTo(parameter) < 0) {
-                            maxOne = parameter;
-                        }
-                    }
-                    return maxOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("minDateTime", MethodType.methodType(Temporal.class, Temporal[].class),
-                (context, parameters) -> {
-                    ZonedDateTime[] p = (ZonedDateTime[]) parameters;
-                    if (p.length == 1) {
-                        return p[0];
-                    } else if (p.length == 2) {
-                        return p[0].compareTo(p[1]) >= 0 ? p[1] : p[0];
-                    }
-                    ZonedDateTime minOne = p[0];
-                    for (int i = 1, parametersLength = p.length; i < parametersLength; i++) {
-                        ZonedDateTime parameter = p[i];
-                        if (minOne.compareTo(parameter) > 0) {
-                            minOne = parameter;
-                        }
-                    }
-                    return minOne;
-                });
-        extensions.put(callSite.getKeyName(), callSite);
-
-        return extensions;
+        try {
+            return LambdaCallSiteFactory.createLambdaCallSites(DateTimeFunctionExtension.class);
+        } catch (Throwable e) {
+            throw new SentenceConfigurationException("Error while loading temporal functions", e);
+        }
     }
 
 }

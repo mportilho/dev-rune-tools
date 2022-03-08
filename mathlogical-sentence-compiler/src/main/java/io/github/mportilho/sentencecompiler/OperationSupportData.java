@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.*;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,20 +36,11 @@ import static java.util.Collections.emptyMap;
 public class OperationSupportData {
 
     public static final OperationSupportData EMPTY_DATA = new OperationSupportData(emptyMap(), emptyMap());
-    private static final Map<String, LambdaCallSite> INTERNAL_FUNCTIONS;
+
 
     private final Map<String, Object> dictionary;
     private final Map<String, LambdaCallSite> functions;
 
-    static {
-        Map<String, LambdaCallSite> temp = new HashMap<>();
-        temp.putAll(DateTimeFunctionExtension.dateTimeFunctionsFactory());
-        temp.putAll(FinancialFormulasExtension.financialFunctionsFactory());
-        temp.putAll(MathFormulasExtension.mathFunctionsFactory());
-        temp.putAll(StringFunctionExtension.stringFunctionsFactory());
-        temp.putAll(TrigonometryFunctionExtension.trigonometryFunctionFactory());
-        INTERNAL_FUNCTIONS = Collections.unmodifiableMap(temp);
-    }
 
     public OperationSupportData() {
         this.dictionary = new HashMap<>();
@@ -68,7 +59,7 @@ public class OperationSupportData {
     }
 
     public LambdaCallSite getFunction(String key) {
-        return functions.getOrDefault(key, INTERNAL_FUNCTIONS.get(key));
+        return functions.getOrDefault(key, LambdaCallSiteFactory.DEFAULT_FUNCTIONS.get(key));
     }
 
     public OperationSupportData putDictionary(String key, Object value) {

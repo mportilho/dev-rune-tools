@@ -24,12 +24,15 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.*;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.lang.invoke.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -38,6 +41,19 @@ import static java.lang.reflect.Modifier.isStatic;
 
 public class LambdaCallSiteFactory {
 
+    public static final Map<String, LambdaCallSite> DEFAULT_FUNCTIONS;
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
+
+    static {
+        Map<String, LambdaCallSite> temp = new HashMap<>();
+        temp.putAll(DateTimeFunctionExtension.dateTimeFunctionsFactory());
+        temp.putAll(FinancialFormulasExtension.financialFunctionsFactory());
+        temp.putAll(MathFormulasExtension.mathFunctionsFactory());
+        temp.putAll(StringFunctionExtension.stringFunctionsFactory());
+        temp.putAll(TrigonometryFunctionExtension.trigonometryFunctionFactory());
+        DEFAULT_FUNCTIONS = Collections.unmodifiableMap(temp);
+    }
+
     public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
         Objects.requireNonNull(provider, "Provider object for extracting methods required");
         boolean isClassObject = provider instanceof Class<?>;
@@ -45,32 +61,35 @@ public class LambdaCallSiteFactory {
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz, Object.class);
 
         Map<String, LambdaCallSite> dynamicCallerPool = new HashMap<>();
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
         for (MethodDescriptor methodDescriptor : beanInfo.getMethodDescriptors()) {
-            Method method = methodDescriptor.getMethod();
-            if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers())) {
-                continue;
-            }
-
-            if (findFactoryInterface(method.getParameterCount()) == null || hasPrimitives(method)) {
-                LambdaCallSite callSite = createMethodHandleCaller(lookup, method, isClassObject ? null : provider);
-                dynamicCallerPool.put(callSite.getKeyName(), callSite);
-            } else if (isStatic(method.getModifiers())) {
-                LambdaCallSite callSite = createStaticCaller(lookup, method);
-                dynamicCallerPool.put(callSite.getKeyName(), callSite);
-            } else if (!isClassObject) {
-                LambdaCallSite callSite = createDynamicCaller(lookup, method, provider);
-                dynamicCallerPool.put(callSite.getKeyName(), callSite);
+            LambdaCallSite lambdaCallSite = createLambdaCallSite(methodDescriptor.getMethod(), isClassObject, provider);
+            if (lambdaCallSite != null) {
+                dynamicCallerPool.put(lambdaCallSite.getKeyName(), lambdaCallSite);
             }
         }
         return dynamicCallerPool;
     }
 
+    private static LambdaCallSite createLambdaCallSite(
+            Method method, boolean isClassObject, Object provider) throws Throwable {
+        if (void.class.equals(method.getReturnType()) || !Modifier.isPublic(method.getModifiers())) {
+            return null;
+        }
+        if (findFactoryInterface(method.getParameterCount()) == null || hasPrimitives(method)) {
+            return createMethodHandleCaller(method, isClassObject ? null : provider);
+        } else if (isStatic(method.getModifiers())) {
+            return createStaticCaller(method);
+        } else if (!isClassObject) {
+            return createDynamicCaller(method, provider);
+        }
+        return null;
+    }
+
     // slower
     private static LambdaCallSite createMethodHandleCaller(
-            MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
+            Method method, Object instance) throws Throwable {
 
-        MethodHandle methodHandle = instance == null ? lookup.unreflect(method) : lookup.unreflect(method).bindTo(instance);
+        MethodHandle methodHandle = instance == null ? LambdaCallSiteFactory.LOOKUP.unreflect(method) : LambdaCallSiteFactory.LOOKUP.unreflect(method).bindTo(instance);
         MethodHandle callableMethodHandle = methodHandle.asType(methodHandle.type().generic())
                 .asSpreader(Object[].class, methodHandle.type().parameterCount());
         LambdaSupplier supplier = (context, parameters) -> {
@@ -83,13 +102,12 @@ public class LambdaCallSiteFactory {
         return new LambdaCallSite(method.getName(), methodHandle.type(), supplier);
     }
 
-    private static LambdaCallSite createStaticCaller(
-            MethodHandles.Lookup lookup, Method method) throws Throwable {
+    private static LambdaCallSite createStaticCaller(Method method) throws Throwable {
         Class<?> clazz = method.getDeclaringClass();
         Class<?> factoryInterface = findFactoryInterface(method.getParameterCount());
         MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
-        MethodHandle implementationMethodHandle = lookup.findStatic(clazz, method.getName(), functionMethodType);
-        CallSite callSite = LambdaMetafactory.metafactory(lookup,
+        MethodHandle implementationMethodHandle = LambdaCallSiteFactory.LOOKUP.findStatic(clazz, method.getName(), functionMethodType);
+        CallSite callSite = LambdaMetafactory.metafactory(LambdaCallSiteFactory.LOOKUP,
                 "call",
                 MethodType.methodType(factoryInterface),
                 functionMethodType.generic(),
@@ -99,15 +117,13 @@ public class LambdaCallSiteFactory {
         return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke()));
     }
 
-    private static LambdaCallSite createDynamicCaller(
-            MethodHandles.Lookup lookup, Method method, Object instance) throws Throwable {
-
+    private static LambdaCallSite createDynamicCaller(Method method, Object instance) throws Throwable {
         Class<?> clazz = method.getDeclaringClass();
         Class<?> factoryInterface = findFactoryInterface(method.getParameterCount());
         MethodType functionMethodType = MethodType.methodType(method.getReturnType(), method.getParameterTypes());
-        MethodHandle implementationMethodHandle = lookup.findVirtual(clazz, method.getName(), functionMethodType);
+        MethodHandle implementationMethodHandle = LambdaCallSiteFactory.LOOKUP.findVirtual(clazz, method.getName(), functionMethodType);
 
-        CallSite callSite = LambdaMetafactory.metafactory(lookup,
+        CallSite callSite = LambdaMetafactory.metafactory(LambdaCallSiteFactory.LOOKUP,
                 "call",
                 MethodType.methodType(factoryInterface, instance.getClass()), // factoryMethodType
                 MethodType.genericMethodType(method.getParameterCount()), // method params plus instance object

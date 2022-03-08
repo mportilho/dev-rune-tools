@@ -24,10 +24,10 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite.ext;
 
+import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
-import java.lang.invoke.MethodType;
-import java.util.HashMap;
 import java.util.Map;
 
 public class StringFunctionExtension {
@@ -38,19 +38,28 @@ public class StringFunctionExtension {
         return INSTANCE;
     }
 
+    public static String concat(String[] strings) {
+        return String.join("", strings);
+    }
+
+    public static String join(String delimiter, String[] strings) {
+        return String.join(delimiter, strings);
+    }
+
+    public static String trim(String string) {
+        return string.trim();
+    }
+
+    public static Integer stringLength(String string) {
+        return string.length();
+    }
+
     private static Map<String, LambdaCallSite> internalStringFunctionsFactory() {
-        Map<String, LambdaCallSite> extensions = new HashMap<>();
-        LambdaCallSite callSite;
-
-        callSite = new LambdaCallSite("concat", MethodType.methodType(String.class, String[].class),
-                (context, parameters) -> String.join("", (String[]) parameters[0]));
-        extensions.put(callSite.getKeyName(), callSite);
-
-        callSite = new LambdaCallSite("trim", MethodType.methodType(String.class, String.class),
-                (context, parameters) -> ((String) parameters[0]).trim());
-        extensions.put(callSite.getKeyName(), callSite);
-
-        return extensions;
+        try {
+            return LambdaCallSiteFactory.createLambdaCallSites(StringFunctionExtension.class);
+        } catch (Throwable e) {
+            throw new SentenceConfigurationException("Error while loading string functions", e);
+        }
     }
 
 }

@@ -77,7 +77,7 @@ public class MathFormulasExtension {
         return minOne;
     }
 
-    static BigDecimal mean(MathContext mc, BigDecimal[] p) {
+    static BigDecimal mean(BigDecimal[] p, MathContext mc) {
         if (p.length == 1) {
             return p[0];
         } else if (p.length == 2) {
@@ -90,7 +90,7 @@ public class MathFormulasExtension {
         return sum.divide(BigDecimal.valueOf(p.length), mc);
     }
 
-    static BigDecimal geometricMean(MathContext mc, BigDecimal[] p) {
+    static BigDecimal geometricMean(BigDecimal[] p, MathContext mc) {
         BigDecimal x = ONE;
         for (BigDecimal param : p) {
             x = x.multiply(param, mc);
@@ -98,7 +98,7 @@ public class MathFormulasExtension {
         return BigDecimalMath.root(x, valueOf(p.length), mc);
     }
 
-    static BigDecimal harmonicMean(MathContext mc, BigDecimal[] p) {
+    static BigDecimal harmonicMean(BigDecimal[] p, MathContext mc) {
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
             x = x.add(ONE.divide(param, mc), mc);
@@ -113,7 +113,7 @@ public class MathFormulasExtension {
      * @return
      */
     static BigDecimal variance(BigDecimal[] p, int type, MathContext mc) {
-        BigDecimal mean = mean(mc, p);
+        BigDecimal mean = mean(p, mc);
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
             x = x.add(BigDecimalMath.pow(param.subtract(mean, mc), 2, mc), mc);
@@ -126,7 +126,7 @@ public class MathFormulasExtension {
     }
 
     static BigDecimal meanDev(BigDecimal[] p, MathContext mc) {
-        BigDecimal mean = mean(mc, p);
+        BigDecimal mean = mean(p, mc);
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
             x = x.add(param.subtract(mean, mc).abs(mc), mc);
@@ -154,7 +154,7 @@ public class MathFormulasExtension {
             throw new SentenceConfigurationException("Error while loading math formulas", e);
         }
 
-        supplier = (context, parameters) -> mean(context.mathContext(), (BigDecimal[]) parameters[0]);
+        supplier = (context, parameters) -> mean((BigDecimal[]) parameters[0], context.mathContext());
         callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier);
         extensions.put(callSite.getKeyName(), callSite);
         callSite = new LambdaCallSite("mean", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier);
@@ -181,11 +181,11 @@ public class MathFormulasExtension {
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("geometricMean", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> geometricMean(context.mathContext(), (BigDecimal[]) parameters[0]));
+                (context, parameters) -> geometricMean((BigDecimal[]) parameters[0], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("harmonicMean", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> harmonicMean(context.mathContext(), (BigDecimal[]) parameters[0]));
+                (context, parameters) -> harmonicMean((BigDecimal[]) parameters[0], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("rule3d", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),

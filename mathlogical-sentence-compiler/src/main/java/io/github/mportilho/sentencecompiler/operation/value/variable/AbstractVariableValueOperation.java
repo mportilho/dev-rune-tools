@@ -49,7 +49,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     public void setValue(Object newValue) {
         if (locked) {
-            throw new SentenceConfigurationException(String.format("Variable [%s] was set as constant", variableName));
+            throw new SentenceConfigurationException(String.format("Variable [%s] was set as a constant", variableName));
         }
         if (newValue == null) {
             throw new SentenceConfigurationException(String.format("Variable [%s] received a null value", variableName));

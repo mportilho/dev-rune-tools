@@ -74,7 +74,7 @@ public class TestOperationBenchmark {
         compiler.setVariable("b", 2);
     }
 
-    @Test
+//    @Test
     public void benchmark() throws Exception {
         String[] argv = {};
         org.openjdk.jmh.Main.main(argv);

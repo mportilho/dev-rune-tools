@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 
-import static io.github.mportilho.sentencecompiler.support.functions.general.DateTimeFunctionExtension.dateTimeFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.support.function.generics.DateTimeFunctionExtension.dateTimeFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.functions.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.function.newtonraphson;
 
 /**
  * Indicates the algorithm failed to converge in the allotted number of

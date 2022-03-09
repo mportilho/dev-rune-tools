@@ -24,6 +24,12 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
+import io.github.mportilho.sentencecompiler.support.function.generics.DateTimeFunctionExtension;
+import io.github.mportilho.sentencecompiler.support.function.generics.FinancialFormulasExtension;
+import io.github.mportilho.sentencecompiler.support.function.generics.MathFormulasExtension;
+import io.github.mportilho.sentencecompiler.support.function.generics.StringFunctionExtension;
+import io.github.mportilho.sentencecompiler.support.function.generics.TrigonometryFunctionExtension;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;

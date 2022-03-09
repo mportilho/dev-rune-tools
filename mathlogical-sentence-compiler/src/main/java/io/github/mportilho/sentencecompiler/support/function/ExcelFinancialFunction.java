@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.functions;
+package io.github.mportilho.sentencecompiler.support.function;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

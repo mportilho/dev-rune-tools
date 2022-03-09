@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.functions.general;
+package io.github.mportilho.sentencecompiler.support.function.generics;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;

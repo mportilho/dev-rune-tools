@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.functions.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.function.newtonraphson;
 
 /**
  * Indicates that the numerical method employed encountered a zero-valued

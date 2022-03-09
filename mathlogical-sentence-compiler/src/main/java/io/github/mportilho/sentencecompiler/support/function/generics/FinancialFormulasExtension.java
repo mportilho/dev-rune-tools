@@ -22,11 +22,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.functions.general;
+package io.github.mportilho.sentencecompiler.support.function.generics;
 
-import io.github.mportilho.sentencecompiler.support.functions.ExcelFinancialFunction;
-import io.github.mportilho.sentencecompiler.support.functions.xirr.Transaction;
-import io.github.mportilho.sentencecompiler.support.functions.xirr.Xirr;
+import io.github.mportilho.sentencecompiler.support.function.ExcelFinancialFunction;
+import io.github.mportilho.sentencecompiler.support.function.xirr.Transaction;
+import io.github.mportilho.sentencecompiler.support.function.xirr.Xirr;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.lang.invoke.MethodType;

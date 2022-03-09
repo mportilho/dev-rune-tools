@@ -93,7 +93,7 @@ public class MathFormulasExtension {
         return sum.divide(BigDecimal.valueOf(p.length), mc);
     }
 
-    static BigDecimal geometricMean(BigDecimal[] p, MathContext mc) {
+    public static BigDecimal geometricMean(BigDecimal[] p, MathContext mc) {
         BigDecimal x = ONE;
         for (BigDecimal param : p) {
             x = x.multiply(param, mc);
@@ -101,7 +101,7 @@ public class MathFormulasExtension {
         return BigDecimalMath.root(x, valueOf(p.length), mc);
     }
 
-    static BigDecimal harmonicMean(BigDecimal[] p, MathContext mc) {
+    public static BigDecimal harmonicMean(BigDecimal[] p, MathContext mc) {
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
             x = x.add(ONE.divide(param, mc), mc);
@@ -115,7 +115,7 @@ public class MathFormulasExtension {
      * @param mc
      * @return
      */
-    static BigDecimal variance(BigDecimal[] p, int type, MathContext mc) {
+    public static BigDecimal variance(BigDecimal[] p, int type, MathContext mc) {
         BigDecimal mean = mean(p, mc);
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
@@ -124,11 +124,11 @@ public class MathFormulasExtension {
         return ONE.divide(valueOf(p.length - type), mc).multiply(x, mc);
     }
 
-    static BigDecimal stdDev(BigDecimal[] p, int type, MathContext mc) {
+    public static BigDecimal stdDev(BigDecimal[] p, int type, MathContext mc) {
         return BigDecimalMath.sqrt(variance(p, type, mc), mc);
     }
 
-    static BigDecimal meanDev(BigDecimal[] p, MathContext mc) {
+    public static BigDecimal meanDev(BigDecimal[] p, MathContext mc) {
         BigDecimal mean = mean(p, mc);
         BigDecimal x = ZERO;
         for (BigDecimal param : p) {
@@ -138,12 +138,12 @@ public class MathFormulasExtension {
     }
 
 
-    static BigDecimal rule3d(MathContext mc, BigDecimal origin1, BigDecimal result1, BigDecimal origin2) {
+    public static BigDecimal rule3d(BigDecimal origin1, BigDecimal result1, BigDecimal origin2, MathContext mc) {
         return origin2.multiply(result1, mc).divide(origin1, mc);
     }
 
-    static BigDecimal rule3i(MathContext mc, BigDecimal origin1, BigDecimal result1, BigDecimal origin2) {
-        return origin1.multiply(result1, mc).divide(origin2, mc);
+    public static BigDecimal rule3i(BigDecimal origin1, BigDecimal result1, BigDecimal origin2, MathContext mc) {
+        return origin1.multiply(origin2, mc).divide(result1, mc);
     }
 
     private static Map<String, LambdaCallSite> internalMathFunctionsFactory() {
@@ -192,11 +192,11 @@ public class MathFormulasExtension {
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("rule3d", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> rule3d(context.mathContext(), (BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2]));
+                (context, parameters) -> rule3d((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("rule3i", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> rule3i(context.mathContext(), (BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2]));
+                (context, parameters) -> rule3i((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

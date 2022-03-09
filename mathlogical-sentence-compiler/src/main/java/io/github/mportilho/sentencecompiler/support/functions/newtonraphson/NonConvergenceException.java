@@ -24,20 +24,42 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.formulas.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.functions.newtonraphson;
 
 /**
- * Indicates that the numerical method employed encountered a zero-valued
- * derivative, terminating the algorithm unsuccessfully.
- * <p>
- * The state of the algorithm is available via the getters, to allow the caller
- * to adjust the guess and try again.
+ * Indicates the algorithm failed to converge in the allotted number of
+ * iterations.
  *
  * @author ray
  */
-public class ZeroValuedDerivativeException extends OverflowException {
+public class NonConvergenceException extends IllegalArgumentException {
 
-    ZeroValuedDerivativeException(NewtonRaphson.Calculation state) {
-        super("Newton-Raphson failed due to zero-valued derivative.", state);
+    private final double initialGuess;
+    private final long iterations;
+
+    public NonConvergenceException(double guess, long iterations) {
+        super("Newton-Raphson failed to converge within " + iterations
+                + " iterations.");
+        this.initialGuess = guess;
+        this.iterations = iterations;
     }
+
+    /**
+     * Get the initial guess used for the algorithm.
+     *
+     * @return the initial guess used for the algorithm
+     */
+    public double getInitialGuess() {
+        return initialGuess;
+    }
+
+    /**
+     * Get the number of iterations applied.
+     *
+     * @return the number of iterations applied.
+     */
+    public long getIterations() {
+        return iterations;
+    }
+
 }

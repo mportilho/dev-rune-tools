@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import static io.github.mportilho.sentencecompiler.support.formulas.ExcelFinancialFunction.*;
+import static io.github.mportilho.sentencecompiler.support.functions.ExcelFinancialFunction.*;
 import static java.math.BigDecimal.*;
 
 public class TestMoreExcelFinancialFormula {

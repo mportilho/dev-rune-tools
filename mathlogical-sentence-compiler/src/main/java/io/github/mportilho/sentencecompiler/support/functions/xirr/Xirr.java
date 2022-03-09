@@ -24,11 +24,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.formulas.xirr;
+package io.github.mportilho.sentencecompiler.support.functions.xirr;
 
-import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.ZeroValuedDerivativeException;
-import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.NewtonRaphson;
-import io.github.mportilho.sentencecompiler.support.formulas.newtonraphson.NonConvergenceException;
+import io.github.mportilho.sentencecompiler.support.functions.newtonraphson.ZeroValuedDerivativeException;
+import io.github.mportilho.sentencecompiler.support.functions.newtonraphson.NewtonRaphson;
+import io.github.mportilho.sentencecompiler.support.functions.newtonraphson.NonConvergenceException;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;

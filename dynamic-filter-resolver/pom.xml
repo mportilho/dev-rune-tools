@@ -4,11 +4,11 @@
     <parent>
         <groupId>io.github.mportilho</groupId>
         <artifactId>dev-rune-tools</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>dynamic-filter-resolver</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>Dynamic Filter Resolver</name>
 
     <properties>
@@ -50,11 +50,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
-                <configuration>
-                    <argLine>
-                        --illegal-access=permit
-                    </argLine>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -84,7 +79,7 @@
         <dependency>
             <groupId>io.github.mportilho</groupId>
             <artifactId>dev-rune-commons</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

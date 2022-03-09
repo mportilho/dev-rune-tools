@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.lambdacallsite.ext;
+package io.github.mportilho.sentencecompiler.support.functions.general;
 
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;

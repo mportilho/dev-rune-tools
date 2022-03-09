@@ -27,7 +27,7 @@ package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 
-import static io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.StringFunctionExtension.stringFunctionsFactory;
+import static io.github.mportilho.sentencecompiler.support.functions.general.StringFunctionExtension.stringFunctionsFactory;
 import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite.keyName;
 import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
 import static java.math.BigDecimal.ONE;

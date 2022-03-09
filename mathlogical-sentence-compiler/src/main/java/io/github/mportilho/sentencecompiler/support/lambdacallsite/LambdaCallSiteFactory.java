@@ -24,8 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
-import io.github.mportilho.sentencecompiler.support.lambdacallsite.ext.*;
-
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.MethodDescriptor;

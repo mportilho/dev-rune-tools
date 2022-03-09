@@ -24,7 +24,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.formulas.newtonraphson;
+package io.github.mportilho.sentencecompiler.support.functions.newtonraphson;
 
 
 /**

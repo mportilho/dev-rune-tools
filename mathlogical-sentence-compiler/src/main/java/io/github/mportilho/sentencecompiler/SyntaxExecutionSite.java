@@ -35,8 +35,6 @@ import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVar
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -44,8 +42,6 @@ import java.util.*;
 import static io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory.createLambdaCallSites;
 
 class SyntaxExecutionSite {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SyntaxExecutionSite.class);
 
     private final AbstractOperation operation;
     private final SyntaxExecutionData syntaxExecutionData;
@@ -105,9 +101,6 @@ class SyntaxExecutionSite {
     public void addFunction(LambdaCallSite function) {
         Objects.requireNonNull(function, "Function implementation is required");
         String keyName = function.getKeyName();
-        if (operationSupportData.getFunction(keyName) != null) {
-            LOGGER.warn("Overriding already present function [{}]", function.getMethodName());
-        }
         operationSupportData.putFunction(keyName, function);
     }
 
@@ -117,9 +110,6 @@ class SyntaxExecutionSite {
 
             List<String> overridingFunctions = callSiteMap.keySet().stream().filter(key ->
                     operationSupportData.getFunction(key) != null).toList();
-            if (!overridingFunctions.isEmpty()) {
-                LOGGER.warn("Overriding already present function(s) [{}]", String.join(", ", overridingFunctions));
-            }
             callSiteMap.forEach(operationSupportData::putFunction);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);

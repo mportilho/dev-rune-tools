@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.lambdacallsite.ext;
+package io.github.mportilho.sentencecompiler.support.functions.general;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;

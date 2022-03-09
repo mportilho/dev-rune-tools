@@ -32,9 +32,12 @@ import java.util.Map;
 
 public class StringFunctionExtension {
 
-    private static final Map<String, LambdaCallSite> INSTANCE = internalStringFunctionsFactory();
+    private static Map<String, LambdaCallSite> INSTANCE;
 
     public static Map<String, LambdaCallSite> stringFunctionsFactory() {
+        if (INSTANCE == null) {
+            INSTANCE = internalStringFunctionsFactory();
+        }
         return INSTANCE;
     }
 

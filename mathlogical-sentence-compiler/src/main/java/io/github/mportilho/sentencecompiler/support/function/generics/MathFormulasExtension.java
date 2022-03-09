@@ -39,9 +39,12 @@ import static java.math.BigDecimal.*;
 
 public class MathFormulasExtension {
 
-    private static final Map<String, LambdaCallSite> INSTANCE = internalMathFunctionsFactory();
+    private static Map<String, LambdaCallSite> INSTANCE;
 
     public static Map<String, LambdaCallSite> mathFunctionsFactory() {
+        if (INSTANCE == null) {
+            INSTANCE = internalMathFunctionsFactory();
+        }
         return INSTANCE;
     }
 

@@ -37,9 +37,12 @@ import java.util.Map;
 
 public class DateTimeFunctionExtension {
 
-    private static final Map<String, LambdaCallSite> INSTANCE = internalDateTimeFunctionsFactory();
+    private static Map<String, LambdaCallSite> INSTANCE;
 
     public static Map<String, LambdaCallSite> dateTimeFunctionsFactory() {
+        if (INSTANCE == null) {
+            INSTANCE = internalDateTimeFunctionsFactory();
+        }
         return INSTANCE;
     }
 

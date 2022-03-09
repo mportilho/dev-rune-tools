@@ -38,9 +38,12 @@ import java.util.Map;
 
 public class FinancialFormulasExtension {
 
-    private static final Map<String, LambdaCallSite> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
+    private static Map<String, LambdaCallSite> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
 
     public static Map<String, LambdaCallSite> financialFunctionsFactory() {
+        if (FORMULA_MAP == null) {
+            FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
+        }
         return FORMULA_MAP;
     }
 

@@ -112,8 +112,7 @@ public class FinancialFormulasExtension {
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pv",
-                MethodType.methodType(BigDecimal.class,
-                        BigDecimal.class, BigDecimal.class, BigDecimal.class),
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
                 (context, parameters) -> ExcelFinancialFunction.pv(
                         (BigDecimal) parameters[0],
                         (BigDecimal) parameters[1],

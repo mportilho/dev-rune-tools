@@ -98,7 +98,7 @@ public class TestMathFormulaExtensions {
     @Test
     public void test_Rule3i_Function() {
         LambdaCallSite rule3i = mathFunctionsFactory().get(keyName("rule3i", 3));
-        assertThat((BigDecimal) rule3i.call(getLambdaContext(), new Integer[]{400, 3, 480}))
+        assertThat((BigDecimal) rule3i.call(getLambdaContext(), new Integer[]{400, 480, 3}))
                 .isEqualByComparingTo("2.5");
     }
 

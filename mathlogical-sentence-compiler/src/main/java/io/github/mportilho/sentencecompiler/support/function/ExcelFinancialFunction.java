@@ -152,7 +152,7 @@ public class ExcelFinancialFunction {
     }
 
     /**
-     * Find invest time number
+     * Finds invest time number
      *
      * @param r   periodic interest r represented as a decimal.
      * @param per period (payment number) to check value at. Number of compounding periods

@@ -24,80 +24,79 @@
 
 package io.github.mportilho.sentencecompiler.sentence.warmup;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.sentence.cache.CacheCheckVisitor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.sentence.cache.CacheCheckVisitor;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestWarmedUpAssignedOperation {
 
-	private static CacheCheckVisitor cacheVisitor;
+    private static CacheCheckVisitor cacheVisitor;
 
-	@BeforeAll
-	public static void beforeClass() {
-		cacheVisitor = new CacheCheckVisitor();
-	}
+    @BeforeAll
+    public static void beforeClass() {
+        cacheVisitor = new CacheCheckVisitor();
+    }
 
-	@Test
-	public void testAssignedVariable() {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append("a = 1 + 2;");
-		sb.append("a * 5");
+    @Test
+    public void testAssignedVariable() {
+        StringBuilder sb;
+        sb = new StringBuilder();
+        sb.append("a = 1 + 2;");
+        sb.append("a * 5");
 
-		MathSentence mathSentence;
-		mathSentence = new MathSentence(sb.toString());
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
-	}
+        MathSentence mathSentence;
+        mathSentence = new MathSentence(sb.toString());
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        mathSentence.warmUp();
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
+    }
 
-	@Test
-	public void testMultipleAssignedVariables() {
-		StringBuilder sb;
-		sb = new StringBuilder();
-		sb.append("a = 1 + 2;");
-		sb.append("b = 5;");
-		sb.append("a * b");
+    @Test
+    public void testMultipleAssignedVariables() {
+        StringBuilder sb;
+        sb = new StringBuilder();
+        sb.append("a = 1 + 2;");
+        sb.append("b = 5;");
+        sb.append("a * (1 / b)");
 
-		MathSentence mathSentence;
-		mathSentence = new MathSentence(sb.toString());
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(8);
-	}
+        MathSentence mathSentence;
+        mathSentence = new MathSentence(sb.toString());
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        mathSentence.warmUp();
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(10);
+    }
 
-	@Test
-	public void testObtainAssinedVariable() {
-		StringBuilder sb;
+    @Test
+    public void testObtainAssinedVariable() {
+        StringBuilder sb;
 
-		sb = new StringBuilder();
-		sb.append("a = 1 + 2;");
-		sb.append("b = 5;");
+        sb = new StringBuilder();
+        sb.append("a = 1 + 2;");
+        sb.append("b = 5;");
 
-		MathSentence mathSentence;
-		mathSentence = new MathSentence(sb.toString());
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
-	}
+        MathSentence mathSentence;
+        mathSentence = new MathSentence(sb.toString());
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        mathSentence.warmUp();
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
+    }
 
-	@Test
-	public void testObtainAssinedVariableNoCache() {
-		StringBuilder sb;
+    @Test
+    public void testObtainAssinedVariableNoCache() {
+        StringBuilder sb;
 
-		sb = new StringBuilder();
-		sb.append("a = 1 + 2;");
-		sb.append("b = a + 5;");
+        sb = new StringBuilder();
+        sb.append("a = 1 + 2;");
+        sb.append("b = a + 5;");
 
-		MathSentence mathSentence;
-		mathSentence = new MathSentence(sb.toString());
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
-		mathSentence.warmUp();
-		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
-	}
+        MathSentence mathSentence;
+        mathSentence = new MathSentence(sb.toString());
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+        mathSentence.warmUp();
+        assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
+    }
 
 }

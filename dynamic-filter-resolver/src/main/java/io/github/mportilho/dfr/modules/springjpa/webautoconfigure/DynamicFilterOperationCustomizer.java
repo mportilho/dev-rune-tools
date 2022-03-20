@@ -25,9 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import io.github.mportilho.dfr.core.operation.type.Dynamic;
-import io.github.mportilho.dfr.core.operation.type.IsNotNull;
-import io.github.mportilho.dfr.core.operation.type.IsNull;
+import io.github.mportilho.dfr.core.operation.type.*;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
 import io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils;
 import io.github.mportilho.dfr.core.processor.annotation.Filter;
@@ -38,6 +36,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
@@ -90,22 +89,13 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
      * Applies necessary customization on the OpenAPI 3 {@link Operation}
      * representation
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes"})
     private static void customizeParameter(
             Operation operation, MethodParameter methodParameter, Filter filter) throws Exception {
         ParameterizedType parameterizedType = (ParameterizedType) methodParameter.getParameter().getParameterizedType();
         Class<?> parameterizedClassType = Class.forName(parameterizedType.getActualTypeArguments()[0].getTypeName());
 
-        Field field;
-        try {
-            String fieldToSearch = filter.parameterField() != null && !filter.parameterField().isBlank() ?
-                    filter.parameterField() : filter.path();
-            field = ConditionalAnnotationUtils.findFilterField(parameterizedClassType, fieldToSearch);
-        } catch (IllegalStateException e) {
-            String location = isNotEmpty(operation.getTags()) ? operation.getTags().get(0) + "." : "";
-            location += operation.getOperationId();
-            throw new IllegalStateException(String.format("Fail to get Schema data from Operation '%s'", location), e);
-        }
+        Field field = findParameterField(operation, filter, parameterizedClassType);
         Class<?> fieldClass = field.getType();
 
         if (Dynamic.class.equals(filter.operation()) && filter.parameters().length > 1) {
@@ -122,38 +112,22 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             parameter.setName(parameterName);
 
             if (Dynamic.class.equals(filter.operation())) {
-                Schema schema = new Schema<>();
-                schema.type("string");
                 ArraySchema arraySchema = new ArraySchema();
                 arraySchema.type("array");
                 arraySchema.minItems(2);
                 arraySchema.maxItems(2);
-                arraySchema.items(schema);
+                arraySchema.items(new StringSchema());
+                parameter.setSchema(arraySchema);
+            } else if (IsIn.class.equals(filter.operation()) || IsNotIn.class.equals(filter.operation())) {
+                ArraySchema arraySchema = new ArraySchema();
+                arraySchema.type("array");
+                arraySchema.items(Optional.ofNullable(parameter.getSchema()).orElse(new StringSchema()));
                 parameter.setSchema(arraySchema);
             } else {
-                Optional<Schema> optSchema = Optional.ofNullable(parameter.getSchema());
-                boolean schemaExists = optSchema.isPresent();
-                Schema schema = optSchema.orElse(new Schema<>());
-
-                if (IsNull.class.equals(filter.operation()) || IsNotNull.class.equals(filter.operation())) {
-                    schema = new BooleanSchema();
-                } else if (schemaExists) {
-                    schema.setType(schemaFromType.getType());
-                    schema.setEnum(schemaFromType.getEnum());
-                } else {
-                    schema = schemaFromType;
-                }
-                parameter.setSchema(schema);
-
-                if (filter.defaultValues() != null && filter.defaultValues().length == 1) {
-                    schema.setDefault(filter.defaultValues()[0]);
-                }
-                SchemaValidationUtils.applyValidations(schema, field);
+                createCommonSchema(filter, field, schemaFromType, parameter);
             }
 
-            if (filter.required() || SchemaValidationUtils.isFieldRequired(field)) {
-                parameter.required(true);
-            }
+            parameter.required(filter.required());
             if (parameterExists) {
                 if (parameter.getIn() == null || ParameterIn.DEFAULT.toString().equals(parameter.getIn())) {
                     parameter.setIn(ParameterIn.QUERY.toString());
@@ -165,6 +139,42 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
                 operation.getParameters().add(parameter);
             }
         }
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static void createCommonSchema(Filter filter, Field field, Schema schemaFromType, io.swagger.v3.oas.models.parameters.Parameter parameter) {
+        Optional<Schema> optSchema = Optional.ofNullable(parameter.getSchema());
+        boolean schemaExists = optSchema.isPresent();
+        Schema schema = optSchema.orElse(new Schema<>());
+
+        if (IsNull.class.equals(filter.operation()) || IsNotNull.class.equals(filter.operation())) {
+            schema = new BooleanSchema();
+        } else if (schemaExists) {
+            schema.setType(schemaFromType.getType());
+            schema.setEnum(schemaFromType.getEnum());
+        } else {
+            schema = schemaFromType;
+        }
+        parameter.setSchema(schema);
+
+        if (filter.defaultValues() != null && filter.defaultValues().length == 1) {
+            schema.setDefault(filter.defaultValues()[0]);
+        }
+        SchemaValidationUtils.applyValidations(schema, field);
+    }
+
+    private static Field findParameterField(Operation operation, Filter filter, Class<?> parameterizedClassType) {
+        Field field;
+        try {
+            String fieldToSearch = filter.parameterField() != null && !filter.parameterField().isBlank() ?
+                    filter.parameterField() : filter.path();
+            field = ConditionalAnnotationUtils.findFilterField(parameterizedClassType, fieldToSearch);
+        } catch (IllegalStateException e) {
+            String location = isNotEmpty(operation.getTags()) ? operation.getTags().get(0) + "." : "";
+            location += operation.getOperationId();
+            throw new IllegalStateException(String.format("Fail to get Schema data from Operation '%s'", location), e);
+        }
+        return field;
     }
 
     /**

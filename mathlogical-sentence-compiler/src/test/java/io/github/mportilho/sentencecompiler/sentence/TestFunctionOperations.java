@@ -75,7 +75,6 @@ public class TestFunctionOperations {
     @Test
     public void testFunctionOperationsWithExternalDateTimeMethods() {
         MathSentence mathSentence;
-
         mathSentence = new MathSentence("$.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isFalse();
@@ -93,7 +92,6 @@ public class TestFunctionOperations {
     @Test
     public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
         MathSentence mathSentence;
-
         mathSentence = new MathSentence("$.add(3, 4 + 2 - $.extractedNumber())");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo(BigDecimal.valueOf(8));

@@ -166,8 +166,9 @@ public class TestSpecificationIsNullOperations {
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
 
-        assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(NullPointerException.class);
+        assertThat(specification.toPredicate(root, query, builder)).isNull();
         verify(builder, times(0)).isNull(any(Expression.class));
+        verify(builder, times(0)).isNotNull(any(Expression.class));
     }
 
 }

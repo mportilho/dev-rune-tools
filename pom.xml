@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <name>DevRune Development Tool</name>
+
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -14,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
     <modules>
         <module>dev-rune-commons</module>
         <module>dynamic-filter-resolver</module>
@@ -24,7 +26,7 @@
         <repository>
             <id>central</id>
             <name>SRV2180-releases</name>
-            <url>http://srv2180:8081/artifactory/libs-release-local</url>
+            <url>http://artifactory:8081/artifactory/libs-release-local</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
@@ -54,6 +56,18 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.8.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>

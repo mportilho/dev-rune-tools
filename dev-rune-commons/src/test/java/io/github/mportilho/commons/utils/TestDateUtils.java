@@ -106,12 +106,60 @@ public class TestDateUtils {
                 .isEqualTo(LocalDateTime.of(2018, 7, 11, 14, 33, 56, 338000000));
         assertThat(DateUtils.DATETIME_FORMATTER.parse("2018-07-11T14:33:56.338", LocalDateTime::from))
                 .isEqualTo(LocalDateTime.of(2018, 7, 11, 14, 33, 56, 338000000));
+        assertThat(DateUtils.DATETIME_FORMATTER.parse("2022-04-14T15:01:46.454", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2022, 4, 14, 15, 1, 46, 454000000));
 
         assertThat(DateUtils.DATETIME_FORMATTER.parse("2022-01-25T23:09:55.102085600", LocalDateTime::from))
                 .isEqualTo(LocalDateTime.of(2022, 1, 25, 23, 9, 55, 102085600));
 
         assertThat(DateUtils.DATETIME_FORMATTER.parse("01/10/2020 08:00", LocalDateTime::from))
                 .isEqualTo(LocalDateTime.of(2020, 10, 1, 8, 0));
+    }
+
+    @Test
+    public void testLocalDateTimePaddingTimePatterns() {
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2022-01-27T13:18:57.147118", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2022, 1, 27, 13, 18, 57, 147118000));
+
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000/12/14 22:23:24", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000/12/14-22:23:24", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000/12/14-22:23", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 0));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000/12/14 22:23:24.123", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24, 123000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000-12-14 22:23:24", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2000-12-14 22:23:24.123", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24, 123000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("14-12-2000 22:23:24", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("14-12-2000 22:23:24.123", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24, 123000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("14/12/2000 22:23:24", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("14/12/2000 22:23:24.123", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23, 24, 123000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("14/12/2000 22:23", LocalDateTime::from)).isEqualTo(LocalDateTime.of(2000, 12, 14, 22, 23));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2011-12-03T10:15:30", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2011, 12, 3, 10, 15, 30));
+
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2018-07-11T14:33:56.338Z", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2018, 7, 11, 14, 33, 56, 338000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2018-07-11T14:33:56.338", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2018, 7, 11, 14, 33, 56, 338000000));
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2022-04-14T15:01:46.454", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2022, 4, 14, 15, 1, 46, 454000000));
+
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("2022-01-25T23:09:55.102085600", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2022, 1, 25, 23, 9, 55, 102085600));
+
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("01/10/2020 08:00", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2020, 10, 1, 8, 0));
+
+        assertThat(DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse("01/10/2020", LocalDateTime::from))
+                .isEqualTo(LocalDateTime.of(2020, 10, 1, 0, 0));
     }
 
     @Test

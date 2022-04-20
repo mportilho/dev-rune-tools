@@ -47,11 +47,15 @@ class SpecIsNull<T> implements IsNull<Specification<T>> {
     @SuppressWarnings({"unchecked"})
     public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Boolean value = formattedConversionService.convert(filterData.findOneValue(), Boolean.class, null);
-            if (value) {
-                return criteriaBuilder.isNull(computeAttributePath(filterData, root));
+            Object rawValue = filterData.findOneValue();
+            if (rawValue != null) {
+                Boolean value = formattedConversionService.convert(filterData.findOneValue(), Boolean.class, null);
+                if (value) {
+                    return criteriaBuilder.isNull(computeAttributePath(filterData, root));
+                }
+                return criteriaBuilder.isNotNull(computeAttributePath(filterData, root));
             }
-            return criteriaBuilder.isNotNull(computeAttributePath(filterData, root));
+            return null;
         };
     }
 

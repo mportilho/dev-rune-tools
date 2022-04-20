@@ -35,6 +35,8 @@ public final class DateUtils {
     public static final DateTimeFormatter TIME_FORMATTER;
     public static final DateTimeFormatter DATETIME_FORMATTER;
 
+    public static final DateTimeFormatter DATETIME_FORMATTER_PADDING_TIME;
+
     static {
         YEAR_MONTH_FORMATTER = new DateTimeFormatterBuilder()
                 .appendPattern("[yyyyMM][MM/yyyy][MM-yyyy][yyyy/MM][yyyy-MM]")
@@ -64,6 +66,14 @@ public final class DateUtils {
                 .appendZoneRegionId()
                 .appendLiteral(']')
                 .optionalEnd()
+                .toFormatter();
+
+        DATETIME_FORMATTER_PADDING_TIME = new DateTimeFormatterBuilder()
+                .append(DATETIME_FORMATTER)
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                .parseDefaulting(ChronoField.NANO_OF_SECOND, 0)
                 .toFormatter();
     }
 

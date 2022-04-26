@@ -43,24 +43,20 @@ public class SpringFormattedConversionServiceAdapter implements FormattedConvers
     public SpringFormattedConversionServiceAdapter(
             ConversionService conversionService, FormattedConversionService delegate) {
         this.conversionService = Objects.requireNonNull(conversionService, "Spring ConversionService is required");
-        this.delegate = delegate;
+        this.delegate = Objects.requireNonNull(delegate, "Delegate FormmatedConversionService is required");
     }
 
     @Override
     public boolean canConvert(Class<?> sourceType, Class<?> targetType) {
-        boolean hasConversionOp = conversionService.canConvert(sourceType, targetType);
-        if (!hasConversionOp && delegate != null) {
-            return delegate.canConvert(sourceType, targetType);
-        }
-        return hasConversionOp;
+        return delegate.canConvert(sourceType, targetType) || conversionService.canConvert(sourceType, targetType);
     }
 
     @Override
     public <S, T> T convert(S source, Class<T> targetType, String format) {
-        if (conversionService.canConvert(source.getClass(), targetType)) {
-            return conversionService.convert(source, targetType);
+        if (delegate.canConvert(source.getClass(), targetType)) {
+            return delegate.convert(source, targetType, format);
         }
-        return delegate.convert(source, targetType, format);
+        return conversionService.convert(source, targetType);
     }
 
 }

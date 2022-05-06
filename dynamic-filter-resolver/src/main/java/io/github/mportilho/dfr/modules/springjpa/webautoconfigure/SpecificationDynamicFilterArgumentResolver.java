@@ -107,7 +107,10 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
         if (pathVariables != null && !pathVariables.isEmpty()) {
             for (Map.Entry<String, Object> entry : pathVariables.entrySet()) {
                 boolean isArray = entry.getValue() != null && entry.getValue().getClass().isArray();
-                providedParameterValuesMap.put(entry.getKey(), isArray ? (String[]) entry.getValue() : new String[]{(String) entry.getValue()});
+                String[] value = isArray ? (String[]) entry.getValue() : new String[]{(String) entry.getValue()};
+                if (value.length > 1 || (value.length == 1 && value[0] != null && !value[0].isBlank())) {
+                    providedParameterValuesMap.put(entry.getKey(), value);
+                }
             }
         }
         return providedParameterValuesMap;

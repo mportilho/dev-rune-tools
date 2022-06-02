@@ -131,4 +131,9 @@ public @interface Filter {
      */
     String[] modifiers() default {};
 
+    /**
+     * Optional parameter description to be displayed as documentation
+     */
+    String description() default "";
+
 }

@@ -42,7 +42,7 @@ public class TestFilterData {
     @Test
     public void test_NoValueDataFilter() {
         FilterData fdNoValues = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
-                Equals.class, false, false, List.of(), null, null);
+                Equals.class, false, false, List.of(), null, null, null);
 
         assertThat(fdNoValues.values()).isEmpty();
         assertThat(fdNoValues.findOneValue()).isNull();
@@ -55,7 +55,7 @@ public class TestFilterData {
     @Test
     public void test_SingleValueDataFilter() {
         FilterData fdSingleValue = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
-                Equals.class, false, false, wrap(new Integer[]{1}), null, Map.of("JoinType", "INNER"));
+                Equals.class, false, false, wrap(new Integer[]{1}), null, Map.of("JoinType", "INNER"), null);
 
         assertThat(fdSingleValue.values()).isNotEmpty().containsExactly(new Integer[]{1});
         assertThat(fdSingleValue.findOneValue()).isNotNull().isEqualTo(1);
@@ -67,7 +67,7 @@ public class TestFilterData {
     public void test_MultiValueDataFilter() {
         FilterData fdMultipleValues = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
                 Equals.class, false, false, wrap(new Integer[]{1, 2, 3}), null,
-                Map.of("a", "1", "b", "2"));
+                Map.of("a", "1", "b", "2"), null);
 
         assertThat(fdMultipleValues.values()).isNotEmpty().contains(new Integer[]{1, 2, 3});
         assertThatThrownBy(fdMultipleValues::findOneValue).isInstanceOf(IllegalStateException.class)
@@ -86,7 +86,7 @@ public class TestFilterData {
                         new Object[]{LocalDate.of(2000, 1, 1)},
                         new Object[]{LocalDate.of(2020, 12, 31)}
                 ),
-                null, Map.of());
+                null, Map.of(), null);
 
         assertThat(fdValuesOnBetweenOps.values()).isNotEmpty().contains(
                 new Object[]{LocalDate.of(2000, 1, 1)},
@@ -108,7 +108,7 @@ public class TestFilterData {
                         new Object[]{new Integer[]{5, 6, 7}},
                         new Object[]{new Object[]{new Integer[]{1, 3, 5}}, new Object[]{7, 11, 13}}
                 ),
-                null, Map.of());
+                null, Map.of(), null);
 
         assertThat(fdMultiDataArray.values()).isNotEmpty().contains(new Object[]{new Integer[]{1, 2, 3}},
                 new Object[]{new Integer[]{5, 6, 7}});

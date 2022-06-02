@@ -77,7 +77,7 @@ class SpecDynamic<T> implements Dynamic<Specification<T>> {
 
         FilterData newFilter = new FilterData(filterData.parameterField(), filterData.path(),
                 filterData.parameters(), filterData.targetType(), comparisonOperation.getOperation(), filterData.negate(),
-                filterData.ignoreCase(), List.<Object[]>of(new Object[]{value}), filterData.format(), filterData.modifiers());
+                filterData.ignoreCase(), List.<Object[]>of(new Object[]{value}), filterData.format(), filterData.modifiers(), filterData.description());
 
         return filterOperationService.createFilter(newFilter);
     }

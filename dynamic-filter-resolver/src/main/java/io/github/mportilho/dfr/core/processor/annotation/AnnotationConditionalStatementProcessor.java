@@ -156,7 +156,8 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
             Map<String, String> modifiers = computeModifiersMap(filter.modifiers());
 
             FilterData parameter = new FilterData(filter.parameterField(), filter.path(), filter.parameters(),
-                    filter.targetType(), filter.operation(), negate, filter.ignoreCase(), values, format, modifiers);
+                    filter.targetType(), filter.operation(), negate, filter.ignoreCase(), values, format, modifiers,
+                    filter.description());
             parameter = decorateFilterData(parameter, userParameters);
             filterParameters.add(parameter);
         }

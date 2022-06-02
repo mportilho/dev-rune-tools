@@ -85,7 +85,7 @@ public class TestSpecificationGreaterOrEqualsOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 GreaterOrEquals.class, false, false,
                 List.<Object[]>of(new String[]{"TestValue"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -106,7 +106,7 @@ public class TestSpecificationGreaterOrEqualsOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 GreaterOrEquals.class, false, true,
                 List.<Object[]>of(new String[]{"TestValue"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -127,7 +127,7 @@ public class TestSpecificationGreaterOrEqualsOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 GreaterOrEquals.class, false, false,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ONE}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -148,7 +148,7 @@ public class TestSpecificationGreaterOrEqualsOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 GreaterOrEquals.class, false, true,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ONE}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);

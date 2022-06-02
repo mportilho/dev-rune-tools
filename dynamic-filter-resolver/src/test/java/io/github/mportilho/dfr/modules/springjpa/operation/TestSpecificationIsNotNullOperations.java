@@ -79,7 +79,7 @@ public class TestSpecificationIsNotNullOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 IsNotNull.class, false, false,
                 List.<Object[]>of(new String[]{"true"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -100,7 +100,7 @@ public class TestSpecificationIsNotNullOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 IsNotNull.class, false, true,
                 List.<Object[]>of(new String[]{"false"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -121,7 +121,7 @@ public class TestSpecificationIsNotNullOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 IsNotNull.class, false, false,
                 List.<Object[]>of(new String[]{"true"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -142,7 +142,7 @@ public class TestSpecificationIsNotNullOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 IsNotNull.class, false, false,
                 List.<Object[]>of(new String[]{"false"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -163,7 +163,7 @@ public class TestSpecificationIsNotNullOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 IsNotNull.class, false, false,
                 List.<Object[]>of(new String[]{null}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
 

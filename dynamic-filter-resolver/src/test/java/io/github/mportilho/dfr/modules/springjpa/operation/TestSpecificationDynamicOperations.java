@@ -78,7 +78,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", ComparisonOperation.LK}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -99,7 +99,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", ComparisonOperation.LK}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -120,7 +120,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", "lk"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -141,7 +141,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"lk", "TestValue"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -162,7 +162,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO, "ne"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -183,7 +183,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{"ne", BigDecimal.ZERO}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
@@ -204,7 +204,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO, "inv"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -223,7 +223,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO}),
-                "", Map.of());
+                "", Map.of(), null);
 
         assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -243,7 +243,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{null}),
-                "", Map.of());
+                "", Map.of(), null);
 
         assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -263,7 +263,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{2, 3}),
-                "", Map.of());
+                "", Map.of(), null);
 
         assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -283,7 +283,7 @@ public class TestSpecificationDynamicOperations {
         FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{"2", "lte"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)

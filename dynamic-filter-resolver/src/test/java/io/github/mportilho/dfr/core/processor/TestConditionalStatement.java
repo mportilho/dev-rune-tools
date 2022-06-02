@@ -57,7 +57,7 @@ public class TestConditionalStatement {
     public void testOneClause() {
         ConditionalStatement condition = new ConditionalStatement("nameQuery", LogicType.CONJUNCTION, false,
                 new FilterData[]{new FilterData("name", "name", new String[]{"name"}, String.class, NotEquals.class,
-                        false, false, List.<Object[]>of(new String[]{"Blanka"}), null, null)},
+                        false, false, List.<Object[]>of(new String[]{"Blanka"}), null, null, null)},
                 new ConditionalStatement[0]);
 
         assertThat(condition.logicType()).isEqualByComparingTo(LogicType.CONJUNCTION);

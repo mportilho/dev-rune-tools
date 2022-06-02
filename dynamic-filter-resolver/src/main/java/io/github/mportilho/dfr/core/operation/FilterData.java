@@ -40,7 +40,8 @@ public record FilterData(
         boolean ignoreCase,
         List<Object[]> values,
         String format,
-        Map<String, String> modifiers
+        Map<String, String> modifiers,
+        String description
 ) {
 
     public FilterData {

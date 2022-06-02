@@ -89,7 +89,7 @@ public class TestSpecificationIsInOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 IsIn.class, false, false,
                 List.<Object[]>of(new String[]{"v1", "v2", "v3"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -110,7 +110,7 @@ public class TestSpecificationIsInOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 IsIn.class, false, true,
                 List.<Object[]>of(new String[]{"v1", "v2", "v3"}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -131,7 +131,7 @@ public class TestSpecificationIsInOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 IsIn.class, false, false,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -152,7 +152,7 @@ public class TestSpecificationIsInOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
                 IsIn.class, false, true,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ZERO, BigDecimal.ONE}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);

@@ -24,8 +24,8 @@
 
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.Between;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
@@ -37,13 +37,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.data.jpa.domain.Specification;
-import static org.assertj.core.api.Assertions.*;
 
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -86,7 +86,7 @@ public class TestSpecificationBetweenOperations {
 
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.<Object[]>of(new String[]{"TestValue"}), "",
-                Map.of());
+                Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(ArrayIndexOutOfBoundsException.class);
@@ -106,7 +106,7 @@ public class TestSpecificationBetweenOperations {
 
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.<Object[]>of(new String[]{"1", "2", "3"}), "",
-                Map.of());
+                Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(IllegalStateException.class);
@@ -126,7 +126,7 @@ public class TestSpecificationBetweenOperations {
 
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.of(new String[]{null}, new String[]{null}), "",
-                Map.of());
+                Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -146,7 +146,7 @@ public class TestSpecificationBetweenOperations {
 
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.of(new String[]{"a"}, new String[]{"c"}), "",
-                Map.of());
+                Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -166,7 +166,7 @@ public class TestSpecificationBetweenOperations {
 
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, true, List.of(new String[]{"a"}, new String[]{"c"}), "",
-                Map.of());
+                Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);
@@ -187,7 +187,7 @@ public class TestSpecificationBetweenOperations {
         FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, true,
                 List.of(new BigDecimal[]{BigDecimal.ZERO}, new BigDecimal[]{BigDecimal.ONE}),
-                "", Map.of());
+                "", Map.of(), null);
 
         Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
         specification.toPredicate(root, query, builder);

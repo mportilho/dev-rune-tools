@@ -49,6 +49,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static io.github.mportilho.commons.utils.PredicateUtils.isEmpty;
 import static io.github.mportilho.commons.utils.PredicateUtils.isNotEmpty;
@@ -63,6 +64,16 @@ import static java.util.Objects.requireNonNull;
  * @author Marcelo Portilho
  */
 public class DynamicFilterOperationCustomizer implements OperationCustomizer {
+
+    private final Function<String, String> propertyResolver;
+
+    public DynamicFilterOperationCustomizer() {
+        this.propertyResolver = variable -> variable;
+    }
+
+    public DynamicFilterOperationCustomizer(Function<String, String> propertyResolver) {
+        this.propertyResolver = propertyResolver;
+    }
 
     @Override
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
@@ -90,7 +101,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
      * representation
      */
     @SuppressWarnings({"rawtypes"})
-    private static void customizeParameter(
+    private void customizeParameter(
             Operation operation, MethodParameter methodParameter, Filter filter) throws Exception {
         ParameterizedType parameterizedType = (ParameterizedType) methodParameter.getParameter().getParameterizedType();
         Class<?> parameterizedClassType = Class.forName(parameterizedType.getActualTypeArguments()[0].getTypeName());
@@ -142,7 +153,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static void createCommonSchema(Filter filter, Field field, Schema schemaFromType, io.swagger.v3.oas.models.parameters.Parameter parameter) {
+    private void createCommonSchema(Filter filter, Field field, Schema schemaFromType, io.swagger.v3.oas.models.parameters.Parameter parameter) {
         Optional<Schema> optSchema = Optional.ofNullable(parameter.getSchema());
         boolean schemaExists = optSchema.isPresent();
         Schema schema = optSchema.orElse(new Schema<>());
@@ -156,6 +167,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             schema = schemaFromType;
         }
         parameter.setSchema(schema);
+        parameter.setDescription(propertyResolver.apply(filter.description()));
 
         if (filter.defaultValues() != null && filter.defaultValues().length == 1) {
             schema.setDefault(filter.defaultValues()[0]);

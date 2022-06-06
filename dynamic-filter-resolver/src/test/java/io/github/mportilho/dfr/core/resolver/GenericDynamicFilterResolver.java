@@ -26,22 +26,26 @@ package io.github.mportilho.dfr.core.resolver;
 
 
 import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class GenericDynamicFilterResolver extends AbstractDynamicFilterResolver<List<?>> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R extends List<?>> R emptyPredicate(Map<String, Object> context) {
+    public <R extends List<?>> R emptyPredicate() {
         return (R) Collections.emptyList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R extends List<?>> R createPredicateFromStatement(ConditionalStatement conditionalStatement, Map<String, Object> context) {
+    public <R extends List<?>> R createPredicateFromStatement(ConditionalStatement conditionalStatement) {
         if (conditionalStatement.clauses() == null) {
             return (R) Collections.emptyList();
         }
@@ -58,7 +62,7 @@ public class GenericDynamicFilterResolver extends AbstractDynamicFilterResolver<
     @Override
     @SuppressWarnings("unchecked")
     public <R extends List<?>> R composePredicatesFromSubStatements(LogicType logicType, R predicate,
-                                                                    List<R> subStatementPredicates, Map<String, Object> context) {
+                                                                    List<R> subStatementPredicates) {
         List<R> list = new ArrayList<>();
         if (predicate != null) {
             list.addAll((Collection<? extends R>) predicate);
@@ -73,4 +77,8 @@ public class GenericDynamicFilterResolver extends AbstractDynamicFilterResolver<
         return (R) list;
     }
 
+    @Override
+    public FilterOperationService<List<?>> getFilterOperationService() {
+        return null;
+    }
 }

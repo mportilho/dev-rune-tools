@@ -25,13 +25,15 @@
 package io.github.mportilho.dfr.core.processor.annotation;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.MethodParameter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static io.github.mportilho.commons.utils.PredicateUtils.isEmpty;
 
 public class ConditionalAnnotationUtils {
 
@@ -47,15 +49,31 @@ public class ConditionalAnnotationUtils {
         List<Filter> specsList = new ArrayList<>();
         if (annotation instanceof Conjunction conjunction) {
             specsList.addAll(Arrays.asList(conjunction.value()));
-            specsList.addAll(Stream.of(conjunction.disjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
+            specsList.addAll(Stream.of(conjunction.disjunctions()).flatMap(v -> Stream.of(v.value())).toList());
         } else if (annotation instanceof Disjunction disjunction) {
             specsList.addAll(Arrays.asList(disjunction.value()));
-            specsList.addAll(Stream.of(disjunction.conjunctions()).flatMap(v -> Stream.of(v.value())).collect(Collectors.toList()));
+            specsList.addAll(Stream.of(disjunction.conjunctions()).flatMap(v -> Stream.of(v.value())).toList());
         } else if (annotation instanceof Statement statement) {
             specsList.addAll(Arrays.asList(statement.value()));
         }
-//        specsList.removeIf(filter -> isNotEmpty(filter.constantValues()));
         return specsList;
+    }
+
+    /**
+     * Extract {@link Filter} annotation from the {@link MethodParameter}'s instance
+     */
+    public static Stream<Filter> retrieveFilterParameterAnnotations(
+            Class<?> parameterType, Annotation[] parameterAnnotations) {
+        return retrieveFilterParameterAnnotations(new AnnotationProcessorParameter(parameterType, parameterAnnotations));
+    }
+
+    public static Stream<Filter> retrieveFilterParameterAnnotations(AnnotationProcessorParameter annotationProcessorParameter) {
+        return findStatementAnnotations(annotationProcessorParameter)
+                .values().stream()
+                .flatMap(Collection::stream)
+                .map(ConditionalAnnotationUtils::flattenFilterAnnotations)
+                .flatMap(Collection::stream)
+                .filter(filter -> isEmpty(filter.constantValues()));
     }
 
     /**

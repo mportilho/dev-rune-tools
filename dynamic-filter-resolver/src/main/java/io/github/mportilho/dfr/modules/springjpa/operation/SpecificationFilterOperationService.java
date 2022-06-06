@@ -85,4 +85,9 @@ public class SpecificationFilterOperationService implements FilterOperationServi
         }
         return (R) filterOperationFactory.createFilter(filterData, formattedConversionService);
     }
+
+    @Override
+    public FormattedConversionService getFormattedConversionService() {
+        return formattedConversionService;
+    }
 }

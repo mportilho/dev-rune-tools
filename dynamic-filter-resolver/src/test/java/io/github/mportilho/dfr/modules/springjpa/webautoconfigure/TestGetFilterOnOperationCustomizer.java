@@ -24,20 +24,21 @@
 
 package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
+import io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils;
 import io.github.mportilho.dfr.core.processor.annotation.Filter;
 import io.github.mportilho.dfr.mocks.annotations.RequiredStatusValueInterface;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import static io.github.mportilho.dfr.modules.springjpa.webautoconfigure.DynamicFilterOperationCustomizer.retrieveFilterParameterAnnotations;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestGetFilterOnOperationCustomizer {
 
     @Test
     public void testGetAnnotation_FromType() {
-        List<Filter> filters = retrieveFilterParameterAnnotations(RequiredStatusValueInterface.class, null);
+        List<Filter> filters = ConditionalAnnotationUtils
+                .retrieveFilterParameterAnnotations(RequiredStatusValueInterface.class, null).toList();
         assertThat(filters).hasSize(1);
     }
 

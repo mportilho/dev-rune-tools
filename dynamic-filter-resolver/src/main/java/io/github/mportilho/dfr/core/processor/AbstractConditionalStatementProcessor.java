@@ -24,8 +24,6 @@
 
 package io.github.mportilho.dfr.core.processor;
 
-import io.github.mportilho.dfr.core.operation.FilterData;
-
 import java.util.*;
 
 public abstract class AbstractConditionalStatementProcessor<T> implements ConditionalStatementProcessor<T> {
@@ -91,11 +89,6 @@ public abstract class AbstractConditionalStatementProcessor<T> implements Condit
         } catch (Exception e) {
             throw new IllegalStateException("Provided expression resolver threw an error", e);
         }
-    }
-
-    @Override
-    public FilterData decorateFilterData(FilterData filterData, Map<String, Object[]> parametersMap) {
-        return filterData;
     }
 
 }

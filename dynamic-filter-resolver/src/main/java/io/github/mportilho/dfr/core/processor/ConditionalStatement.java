@@ -26,6 +26,7 @@ package io.github.mportilho.dfr.core.processor;
 
 import io.github.mportilho.dfr.core.operation.FilterData;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,7 +40,8 @@ public record ConditionalStatement(
         LogicType logicType,
         boolean negate,
         FilterData[] clauses,
-        ConditionalStatement[] oppositeStatements
+        ConditionalStatement[] oppositeStatements,
+        Map<String, FilterData> decoratableFilters
 ) {
 
     public ConditionalStatement {

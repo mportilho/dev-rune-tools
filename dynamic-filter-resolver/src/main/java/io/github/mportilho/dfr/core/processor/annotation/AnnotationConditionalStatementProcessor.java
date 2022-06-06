@@ -25,6 +25,7 @@
 package io.github.mportilho.dfr.core.processor.annotation;
 
 import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.type.Decorated;
 import io.github.mportilho.dfr.core.operation.type.IsIn;
 import io.github.mportilho.dfr.core.operation.type.IsNotIn;
 import io.github.mportilho.dfr.core.processor.AbstractConditionalStatementProcessor;
@@ -54,8 +55,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
      * {@inheritDoc}
      */
     @Override
-    public ConditionalStatement createStatements(
-            AnnotationProcessorParameter parameter, Map<String, Object[]> userParameters) {
+    public ConditionalStatement createStatements(AnnotationProcessorParameter parameter, Map<String, Object[]> userParameters) {
         Map<String, Object[]> parametersMap = userParameters != null ? userParameters : Collections.emptyMap();
         List<ConditionalStatement> statements = new ArrayList<>();
         Map<Annotation, List<Annotation>> statementAnnotations = findStatementAnnotations(parameter);
@@ -67,13 +67,22 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
                             .map(ann -> createStatements(stmtId, ann, parametersMap))
                             .filter(Objects::nonNull).toList());
         }
-        if (statements.isEmpty()) {
+
+        Map<String, FilterData> decoratedFilterMap = ConditionalAnnotationUtils.retrieveFilterParameterAnnotations(parameter)
+                .filter(filter -> Decorated.class.equals(filter.operation()))
+                .collect(Collectors.toMap(Filter::path, f -> createFilterData(f, null, userParameters)));
+
+        if (statements.isEmpty() && decoratedFilterMap.isEmpty()) {
             return null;
         } else if (statements.size() == 1) {
+            if (!decoratedFilterMap.isEmpty()) {
+                ConditionalStatement c = statements.get(0);
+                return new ConditionalStatement(c.id(), c.logicType(), c.negate(), c.clauses(), c.oppositeStatements(), decoratedFilterMap);
+            }
             return statements.get(0);
         }
         return new ConditionalStatement("conditional_wrapper", LogicType.DISJUNCTION, false,
-                EMPTY_FILTER_DATA, statements.toArray(ConditionalStatement[]::new));
+                EMPTY_FILTER_DATA, statements.toArray(ConditionalStatement[]::new), decoratedFilterMap);
     }
 
     /**
@@ -105,23 +114,23 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
             String strNegate = conjunction != null ? conjunction.negate() : disjunction.negate();
             boolean negate = computeNegatingParameter(stmtId, strNegate, userParameters);
 
-            FilterData[] clauses = createFilterData(filters, userParameters);
+            FilterData[] clauses = composeFilterData(filters, userParameters);
             List<ConditionalStatement> oppositeConditionals = new ArrayList<>();
             int i = 0;
             for (Statement stmt : statements) {
-                FilterData[] params = createFilterData(stmt.value(), userParameters);
+                FilterData[] params = composeFilterData(stmt.value(), userParameters);
                 if (params.length > 0) {
                     String subStmtName = stmtId + "_subStatements_" + i++;
                     oppositeConditionals.add(new ConditionalStatement(
                             subStmtName, logicType.opposite(),
                             computeNegatingParameter(subStmtName, stmt.negate(), userParameters),
-                            params, EMPTY_CONDITIONAL_STATEMENT));
+                            params, EMPTY_CONDITIONAL_STATEMENT, Collections.emptyMap()));
                 }
             }
             if (clauses.length == 0 && oppositeConditionals.size() == 1) {
                 statement = oppositeConditionals.get(0);
             } else if (clauses.length > 0 || !oppositeConditionals.isEmpty()) {
-                statement = new ConditionalStatement(stmtId, logicType, negate, clauses, oppositeConditionals.toArray(ConditionalStatement[]::new));
+                statement = new ConditionalStatement(stmtId, logicType, negate, clauses, oppositeConditionals.toArray(ConditionalStatement[]::new), Collections.emptyMap());
             }
         }
         return statement;
@@ -130,7 +139,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
     /**
      *
      */
-    private FilterData[] createFilterData(Filter[] filters, Map<String, Object[]> userParameters) {
+    private FilterData[] composeFilterData(Filter[] filters, Map<String, Object[]> userParameters) {
         if (filters == null || filters.length == 0) {
             return EMPTY_FILTER_DATA;
         }
@@ -140,6 +149,10 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
 
         List<FilterData> filterParameters = new ArrayList<>(filters.length);
         for (Filter filter : filters) {
+            if (Decorated.class.equals(filter.operation())) {
+                continue;
+            }
+
             List<Object[]> values = computeFilter(filter, userParameters);
 
             if (values.isEmpty()) {
@@ -151,17 +164,19 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
                 continue;
             }
 
-            boolean negate = computeNegatingParameter(filter.path(), filter.negate(), userParameters);
-            String format = computeFormatParameter(filter, userParameters);
-            Map<String, String> modifiers = computeModifiersMap(filter.modifiers());
-
-            FilterData parameter = new FilterData(filter.parameterField(), filter.path(), filter.parameters(),
-                    filter.targetType(), filter.operation(), negate, filter.ignoreCase(), values, format, modifiers,
-                    filter.description());
-            parameter = decorateFilterData(parameter, userParameters);
-            filterParameters.add(parameter);
+            filterParameters.add(createFilterData(filter, values, userParameters));
         }
         return filterParameters.toArray(FilterData[]::new);
+    }
+
+    public FilterData createFilterData(Filter filter, List<Object[]> values, Map<String, Object[]> userParameters) {
+        boolean negate = computeNegatingParameter(filter.path(), filter.negate(), userParameters);
+        String format = computeFormatParameter(filter, userParameters);
+        Map<String, String> modifiers = computeModifiersMap(filter.modifiers());
+
+        return new FilterData(filter.parameterField(), filter.path(), filter.parameters(),
+                filter.targetType(), filter.operation(), negate, filter.ignoreCase(), values, format, modifiers,
+                filter.description());
     }
 
     /**

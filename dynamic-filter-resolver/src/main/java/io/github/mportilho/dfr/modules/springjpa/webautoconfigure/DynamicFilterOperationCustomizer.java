@@ -26,7 +26,6 @@ package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import io.github.mportilho.dfr.core.operation.type.*;
-import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
 import io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils;
 import io.github.mportilho.dfr.core.processor.annotation.Filter;
 import io.github.mportilho.dfr.modules.springjpa.webautoconfigure.openapi3utils.SchemaValidationUtils;
@@ -41,19 +40,15 @@ import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
 import static io.github.mportilho.commons.utils.PredicateUtils.isEmpty;
 import static io.github.mportilho.commons.utils.PredicateUtils.isNotEmpty;
-import static io.github.mportilho.dfr.core.processor.annotation.ConditionalAnnotationUtils.findStatementAnnotations;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -79,8 +74,11 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
     public Operation customize(Operation operation, HandlerMethod handlerMethod) {
         for (MethodParameter methodParameter : handlerMethod.getMethodParameters()) {
             String parameterName = getParameterName(methodParameter);
-            List<Filter> parameterAnnotations = retrieveFilterParameterAnnotations(methodParameter.getParameterType(),
-                    methodParameter.getParameterAnnotations());
+
+            List<Filter> parameterAnnotations = ConditionalAnnotationUtils
+                    .retrieveFilterParameterAnnotations(methodParameter.getParameterType(), methodParameter.getParameterAnnotations())
+                    .filter(filter -> isEmpty(filter.constantValues()))
+                    .toList();
 
             if (!parameterAnnotations.isEmpty()) {
                 operation.getParameters().removeIf(p -> p.getName().equals(parameterName));
@@ -105,6 +103,16 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             Operation operation, MethodParameter methodParameter, Filter filter) throws Exception {
         ParameterizedType parameterizedType = (ParameterizedType) methodParameter.getParameter().getParameterizedType();
         Class<?> parameterizedClassType = Class.forName(parameterizedType.getActualTypeArguments()[0].getTypeName());
+
+        if (Decorated.class.equals(filter.operation())) {
+            var parameter = new io.swagger.v3.oas.models.parameters.Parameter();
+            parameter.setName(filter.parameters()[0]);
+            Schema schema = AnnotationsUtils.resolveSchemaFromType(filter.targetType(), null, null);
+            parameter.setSchema(schema);
+            parameter.setIn(ParameterIn.QUERY.toString());
+            operation.getParameters().add(parameter);
+            return;
+        }
 
         Field field = findParameterField(operation, filter, parameterizedClassType);
         Class<?> fieldClass = field.getType();
@@ -216,21 +224,5 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
         }
         return name;
     }
-
-    /**
-     * Extract {@link Filter} annotation from the {@link MethodParameter}'s instance
-     */
-    static List<Filter> retrieveFilterParameterAnnotations(
-            Class<?> parameterType, Annotation[] parameterAnnotations) {
-        Map<Annotation, List<Annotation>> statementAnnotations =
-                findStatementAnnotations(new AnnotationProcessorParameter(parameterType, parameterAnnotations));
-        return statementAnnotations.values().stream()
-                .flatMap(Collection::stream)
-                .map(ConditionalAnnotationUtils::flattenFilterAnnotations)
-                .flatMap(Collection::stream)
-                .filter(filter -> isEmpty(filter.constantValues()))
-                .toList();
-    }
-
 
 }

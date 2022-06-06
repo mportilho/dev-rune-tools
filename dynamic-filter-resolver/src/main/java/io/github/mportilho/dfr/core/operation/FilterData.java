@@ -24,6 +24,8 @@
 
 package io.github.mportilho.dfr.core.operation;
 
+import io.github.mportilho.dfr.core.operation.type.Decorated;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -46,7 +48,9 @@ public record FilterData(
 
     public FilterData {
         Objects.requireNonNull(parameters, "Parameters cannot be null");
-        Objects.requireNonNull(values, "Value list cannot be null");
+        if (!Decorated.class.equals(operation) && (values == null || values.isEmpty())) {
+            throw new IllegalArgumentException("Value list cannot be null or empty for non decorated filters");
+        }
     }
 
     /**

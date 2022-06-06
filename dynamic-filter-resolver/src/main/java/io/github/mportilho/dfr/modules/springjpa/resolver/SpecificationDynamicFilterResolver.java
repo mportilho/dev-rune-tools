@@ -29,13 +29,9 @@ import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
 import io.github.mportilho.dfr.core.resolver.AbstractDynamicFilterResolver;
-import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.mapping.PropertyPath;
 
-import javax.persistence.criteria.From;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A DynamicFilterResolver that converts {@link ConditionalStatement}
@@ -56,7 +52,7 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <R extends Specification<?>> R emptyPredicate(Map<String, Object> context) {
+    public <R extends Specification<?>> R emptyPredicate() {
         return (R) Specification.where(null);
     }
 
@@ -65,8 +61,7 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
      */
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public <R extends Specification<?>> R createPredicateFromStatement(
-            ConditionalStatement conditionalStatement, Map<String, Object> context) {
+    public <R extends Specification<?>> R createPredicateFromStatement(ConditionalStatement conditionalStatement) {
         Specification rootSpec = null;
 
         for (FilterData clause : conditionalStatement.clauses()) {
@@ -89,9 +84,7 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public <R extends Specification<?>> R composePredicatesFromSubStatements(
-            LogicType logicType, R predicate, List<R> subStatementPredicates,
-            Map<String, Object> context) {
+    public <R extends Specification<?>> R composePredicatesFromSubStatements(LogicType logicType, R predicate, List<R> subStatementPredicates) {
         Specification currentPredicate = predicate;
         for (Specification subPredicate : subStatementPredicates) {
             if (currentPredicate == null) {
@@ -103,41 +96,8 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
         return (R) currentPredicate;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public <R extends Specification<?>> R responseDecorator(R response, Map<String, Object> context) {
-        if (context == null || context.isEmpty()) {
-            return response;
-        }
-        Fetching[] fetches = (Fetching[]) context.get(Fetching.class.getCanonicalName());
-        if (fetches == null || fetches.length == 0) {
-            return response;
-        }
-
-        Specification<?> decoratedSpec = (root, query, criteriaBuilder) -> {
-            query.distinct(true);
-            for (Fetching fetching : fetches) {
-                for (String attributePath : fetching.value()) {
-                    From<?, ?> from = root;
-                    PropertyPath propertyPath = PropertyPath.from(attributePath, root.getJavaType());
-                    while (propertyPath != null && propertyPath.hasNext()) {
-                        from = (From<?, ?>) root.fetch(propertyPath.getSegment(), fetching.joinType());
-                        propertyPath = propertyPath.next();
-                    }
-                    if (propertyPath != null) {
-                        from.fetch(propertyPath.getSegment(), fetching.joinType());
-                    } else {
-                        throw new IllegalStateException(
-                                String.format("Expected parsing to yield a PropertyPath from %s but got null!", attributePath));
-                    }
-                }
-            }
-            return null;
-        };
-        return (R) ((Specification) decoratedSpec).and(response);
+    public FilterOperationService<Specification<?>> getFilterOperationService() {
+        return filterOperationService;
     }
-
 }

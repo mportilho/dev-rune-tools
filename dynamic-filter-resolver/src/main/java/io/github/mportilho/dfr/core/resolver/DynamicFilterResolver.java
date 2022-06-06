@@ -25,8 +25,12 @@
 package io.github.mportilho.dfr.core.resolver;
 
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
+import io.github.mportilho.dfr.core.processor.annotation.FilterDecorator;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -39,6 +43,8 @@ import java.util.Map;
  */
 public interface DynamicFilterResolver<T> {
 
+    FilterOperationService<T> getFilterOperationService();
+
     /**
      * Converts the conditional statement to a target framework's query structure
      * object
@@ -47,23 +53,45 @@ public interface DynamicFilterResolver<T> {
      *                             dynamic filter
      * @param conditionalStatement Conditional statement representation for
      *                             conversion
-     * @param context              Context map containing helping data for statement
-     *                             conversion
      * @return The query object created from this dynamic filter resolver
      */
-    <R extends T> R convertTo(ConditionalStatement conditionalStatement, Map<String, Object> context);
+    default <R extends T> R convertTo(ConditionalStatement conditionalStatement) {
+        return convertTo(conditionalStatement, null, Collections.emptyMap());
+    }
+
+    /**
+     * Converts the conditional statement to a target framework's query structure
+     * object
+     *
+     * @param <R>                  Return type of the target query object for this
+     *                             dynamic filter
+     * @param conditionalStatement Conditional statement representation for
+     *                             conversion.
+     * @param decorator            Decorator to be used for the resulting filtering object
+     * @param parametersMap        User provided parameters
+     * @return The query object created from this dynamic filter resolver
+     */
+    <R extends T> R convertTo(ConditionalStatement conditionalStatement, FilterDecorator<T> decorator,
+                              Map<String, Object[]> parametersMap);
 
     /**
      * A method that can be overridden to decorate the resulting converted object
      *
-     * @param <R>      Return type of the target query object for this dynamic
-     *                 filter
-     * @param response The resulting query object created from this dynamic filter
-     * @param context  Context map containing helping data for statement conversion
+     * @param <R>             Return type of the target query object for this dynamic
+     *                        filter
+     * @param filter          The resulting query object created from this dynamic filter
+     * @param filterDecorator decarates the resulting filter
+     * @param parametersMap   User provided parameters
      * @return The decorated query object
      */
-    default <R extends T> R responseDecorator(R response, Map<String, Object> context) {
-        return response;
+    @SuppressWarnings({"unchecked"})
+    default <R extends T> R decorateFilters(
+            R filter, FilterDecorator<T> filterDecorator, ConditionalStatement conditionalStatement,
+            Map<String, Object[]> parametersMap, FormattedConversionService formattedConversionService) {
+        if (filterDecorator == null) {
+            return filter;
+        }
+        return (R) filterDecorator.decorate(filter, conditionalStatement, parametersMap, formattedConversionService);
     }
 
 }

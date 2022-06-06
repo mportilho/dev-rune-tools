@@ -27,8 +27,12 @@ package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.ConditionalStatementProcessor;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
+import io.github.mportilho.dfr.core.processor.annotation.CompositeFilterDecorator;
+import io.github.mportilho.dfr.core.processor.annotation.FilterDecorator;
+import io.github.mportilho.dfr.core.processor.annotation.FilterDecorators;
 import io.github.mportilho.dfr.core.resolver.DynamicFilterResolver;
 import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
+import io.github.mportilho.dfr.modules.springjpa.resolver.FetchingFilterDecorator;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ClassUtils;
@@ -41,6 +45,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,8 +59,6 @@ import java.util.Map;
  * @author Marcelo Portilho
  */
 public class SpecificationDynamicFilterArgumentResolver implements HandlerMethodArgumentResolver {
-
-    private static final String FETCHING_CLASS_NAME = Fetching.class.getCanonicalName();
 
     private final ConditionalStatementProcessor<AnnotationProcessorParameter> conditionalStatementProcessor;
     private final DynamicFilterResolver<Specification<?>> dynamicFilterResolver;
@@ -83,13 +86,51 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
     public Object resolveArgument(
             MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
-        Map<String, Object[]> providedParameterValuesMap = createProvidedValuesMap(webRequest);
-        Map<String, Object> contextMap = createContextMap(parameter);
+        Map<String, Object[]> userParameters = createProvidedValuesMap(webRequest);
 
         ConditionalStatement statement = conditionalStatementProcessor.createStatements(
                 new AnnotationProcessorParameter(parameter.getParameterType(), parameter.getParameterAnnotations()),
-                providedParameterValuesMap);
-        return createProxy(dynamicFilterResolver.convertTo(statement, contextMap), parameter.getParameterType());
+                userParameters);
+
+        return createProxy(dynamicFilterResolver.convertTo(statement, createDecorator(parameter), userParameters),
+                parameter.getParameterType());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private FilterDecorator<Specification<?>> createDecorator(MethodParameter parameter) {
+        List<FilterDecorator<Specification<?>>> decoratorList = null;
+
+        FetchingFilterDecorator fetchingDecorator = createFetchingDecorator(parameter);
+        if (fetchingDecorator != null) {
+            decoratorList = new ArrayList<>();
+            decoratorList.add(fetchingDecorator);
+        }
+
+        FilterDecorators annotation = parameter.getParameterAnnotation(FilterDecorators.class);
+        if (annotation != null) {
+            if (decoratorList == null) {
+                decoratorList = new ArrayList<>();
+            }
+            for (Class<? extends FilterDecorator<?>> aClass : annotation.value()) {
+                try {
+                    decoratorList.add((FilterDecorator<Specification<?>>) aClass.getConstructor().newInstance());
+                } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                         InvocationTargetException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return decoratorList != null ? new CompositeFilterDecorator<>(decoratorList) : null;
+    }
+
+    private FetchingFilterDecorator createFetchingDecorator(MethodParameter parameter) {
+        List<Fetching> fetches = new ArrayList<>();
+        for (Annotation annotation : parameter.getParameterAnnotations()) {
+            if (annotation.annotationType().equals(Fetching.class)) {
+                fetches.add((Fetching) annotation);
+            }
+        }
+        return fetches.isEmpty() ? null : new FetchingFilterDecorator(fetches);
     }
 
     /**
@@ -114,25 +155,6 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
             }
         }
         return providedParameterValuesMap;
-    }
-
-    /**
-     * Creates a context map for the {@link ConditionalStatementProcessor}
-     */
-    private Map<String, Object> createContextMap(MethodParameter parameter) {
-        Map<String, Object> contextMap = new HashMap<>();
-        List<Annotation> list = new ArrayList<>();
-        for (Annotation annotation : parameter.getParameterAnnotations()) {
-            if (annotation.annotationType().equals(Fetching.class)) {
-                list.add(annotation);
-            }
-        }
-
-        Annotation[] filteredAnnotations = list.toArray(new Annotation[0]);
-        if (filteredAnnotations.length > 0) {
-            contextMap.put(FETCHING_CLASS_NAME, filteredAnnotations);
-        }
-        return contextMap;
     }
 
     /**

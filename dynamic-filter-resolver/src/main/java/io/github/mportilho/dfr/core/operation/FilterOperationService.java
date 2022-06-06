@@ -24,6 +24,8 @@
 
 package io.github.mportilho.dfr.core.operation;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+
 /**
  * Contains a set of filtering operations for a specific target query library.
  *
@@ -34,5 +36,7 @@ package io.github.mportilho.dfr.core.operation;
 public interface FilterOperationService<T> {
 
     <R> R createFilter(FilterData filterData);
+
+    FormattedConversionService getFormattedConversionService();
 
 }

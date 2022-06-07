@@ -49,6 +49,10 @@ public record ConditionalStatement(
         Objects.requireNonNull(oppositeStatements, "Opposite statement list cannot be null");
     }
 
+    public Optional<FilterData> getDecorableFilter(String key) {
+        return Optional.ofNullable(decoratableFilters.get(key));
+    }
+
     public Optional<FilterData> findClauseByPath(String path) {
         for (FilterData clause : clauses) {
             if (clause != null && path.equals(clause.path())) {

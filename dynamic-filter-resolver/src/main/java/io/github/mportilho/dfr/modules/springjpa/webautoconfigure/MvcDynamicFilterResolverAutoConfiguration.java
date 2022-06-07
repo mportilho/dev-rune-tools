@@ -28,7 +28,6 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.dfr.core.processor.ValueExpressionResolver;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationConditionalStatementProcessor;
-import io.github.mportilho.dfr.core.resolver.DynamicFilterResolver;
 import io.github.mportilho.dfr.modules.springjpa.operation.SpecificationFilterOperationService;
 import io.github.mportilho.dfr.modules.springjpa.resolver.SpecificationDynamicFilterResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.StringValueResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -56,9 +54,13 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
 
     private StringValueResolver stringValueResolver;
     private final ConversionService conversionService;
+    private final ValueExpressionResolver<String> valueExpressionResolver;
 
-    public MvcDynamicFilterResolverAutoConfiguration(@Autowired(required = false) ConversionService conversionService) {
+    public MvcDynamicFilterResolverAutoConfiguration(
+            @Autowired(required = false) ConversionService conversionService,
+            @Autowired(required = false) ValueExpressionResolver<String> valueExpressionResolver) {
         this.conversionService = conversionService;
+        this.valueExpressionResolver = valueExpressionResolver;
     }
 
     /**
@@ -72,8 +74,6 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
 
             @Override
             public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-                ValueExpressionResolver<?> resolver = stringValueResolver != null ? (stringValueResolver::resolveStringValue) : null;
-
                 FormattedConversionService formattedConversionService;
                 if (conversionService != null) {
                     formattedConversionService = new SpringFormattedConversionServiceAdapter(conversionService, new DefaultFormattedConversionService());
@@ -81,11 +81,22 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
                     formattedConversionService = new DefaultFormattedConversionService();
                 }
 
-                DynamicFilterResolver<Specification<?>> dynamicFilterResolver = new SpecificationDynamicFilterResolver(
+                var dynamicFilterResolver = new SpecificationDynamicFilterResolver(
                         new SpecificationFilterOperationService(formattedConversionService));
-                AnnotationConditionalStatementProcessor processor = new AnnotationConditionalStatementProcessor(resolver);
+                var processor = new AnnotationConditionalStatementProcessor(getValueExpressionResolver());
                 resolvers.add(new SpecificationDynamicFilterArgumentResolver(processor, dynamicFilterResolver));
             }
+        };
+    }
+
+    private ValueExpressionResolver<String> getValueExpressionResolver() {
+        ValueExpressionResolver<String> resolver = stringValueResolver != null ? (stringValueResolver::resolveStringValue) : a -> null;
+        return key -> {
+            String response = null;
+            if (valueExpressionResolver != null) {
+                response = valueExpressionResolver.resolveValue(key);
+            }
+            return response != null ? response : resolver.resolveValue(key);
         };
     }
 

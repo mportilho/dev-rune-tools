@@ -5,7 +5,6 @@ import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import org.apache.commons.lang3.Validate;
 
 import java.util.Collection;
-import java.util.Map;
 
 public class CompositeFilterDecorator<T> implements FilterDecorator<T> {
 
@@ -16,11 +15,10 @@ public class CompositeFilterDecorator<T> implements FilterDecorator<T> {
     }
 
     @Override
-    public T decorate(T filter, ConditionalStatement conditionalStatement, Map<String, Object[]> parametersMap,
-                      FormattedConversionService formattedConversionService) {
+    public T decorate(T filter, ConditionalStatement conditionalStatement, FormattedConversionService formattedConversionService) {
         T decorated = filter;
         for (FilterDecorator<T> decorator : decorators) {
-            decorated = decorator.decorate(decorated, conditionalStatement, parametersMap, formattedConversionService);
+            decorated = decorator.decorate(decorated, conditionalStatement, formattedConversionService);
         }
         return decorated;
     }

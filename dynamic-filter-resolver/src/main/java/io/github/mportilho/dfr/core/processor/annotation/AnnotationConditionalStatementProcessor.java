@@ -70,7 +70,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
 
         Map<String, FilterData> decoratedFilterMap = ConditionalAnnotationUtils.retrieveFilterParameterAnnotations(parameter)
                 .filter(filter -> Decorated.class.equals(filter.operation()))
-                .collect(Collectors.toMap(Filter::path, f -> createFilterData(f, null, userParameters)));
+                .collect(Collectors.toMap(Filter::path, f -> createFilterData(f, computeFilter(f, parametersMap), parametersMap)));
 
         if (statements.isEmpty() && decoratedFilterMap.isEmpty()) {
             return null;
@@ -169,7 +169,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
         return filterParameters.toArray(FilterData[]::new);
     }
 
-    public FilterData createFilterData(Filter filter, List<Object[]> values, Map<String, Object[]> userParameters) {
+    private FilterData createFilterData(Filter filter, List<Object[]> values, Map<String, Object[]> userParameters) {
         boolean negate = computeNegatingParameter(filter.path(), filter.negate(), userParameters);
         String format = computeFormatParameter(filter, userParameters);
         Map<String, String> modifiers = computeModifiersMap(filter.modifiers());
@@ -265,7 +265,7 @@ public class AnnotationConditionalStatementProcessor extends AbstractConditional
         if (formatParamValueArray != null && formatParamValueArray.length > 0) {
             Object formatValue = formatParamValueArray[0];
             if (formatValue instanceof Object[] arr && arr.length > 1) {
-                throw new IllegalStateException("Attribute 'format' parsing produced more than one value for path " + filter.path());
+                throw new IllegalStateException("Attribute 'format' produced more than one value for path " + filter.path());
             } else if (formatValue instanceof Object[] arr && arr.length == 1) {
                 return arr[0].toString();
             } else if (formatValue != null) {

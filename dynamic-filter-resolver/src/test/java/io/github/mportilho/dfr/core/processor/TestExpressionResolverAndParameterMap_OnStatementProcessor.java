@@ -35,12 +35,14 @@ import io.github.mportilho.dfr.mocks.interfaces.SearchMusics;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
 
@@ -339,7 +341,7 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
 
         assertThatThrownBy(() -> processor.createStatements(new AnnotationProcessorParameter(SearchMusics.class, null), userParameters))
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Attribute 'format' parsing produced more than one value for path trackQuery");
+                .hasMessage("Attribute 'format' produced more than one value for path trackQuery");
     }
 
     @Test

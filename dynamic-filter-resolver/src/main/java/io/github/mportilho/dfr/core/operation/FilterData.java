@@ -25,6 +25,7 @@
 package io.github.mportilho.dfr.core.operation;
 
 import io.github.mportilho.dfr.core.operation.type.Decorated;
+import org.apache.commons.lang3.Validate;
 
 import java.util.List;
 import java.util.Map;
@@ -48,9 +49,12 @@ public record FilterData(
 
     public FilterData {
         Objects.requireNonNull(parameters, "Parameters cannot be null");
-        if (!Decorated.class.equals(operation) && (values == null || values.isEmpty())) {
-            throw new IllegalArgumentException("Value list cannot be null or empty for non decorated filters");
-        }
+        Objects.requireNonNull(values, "Filter value cannot be null");
+        Validate.isTrue(Decorated.class.equals(operation) || !values.isEmpty(), "Value list cannot be empty for non decorated filters");
+    }
+
+    public boolean hasAnyValue() {
+        return !(values == null || values.isEmpty() || (values.size() == 1 && values.get(0) == null));
     }
 
     /**
@@ -58,7 +62,7 @@ public record FilterData(
      * position. Returns null if none is found.
      */
     public Object findOneValue() {
-        if (values == null || values.isEmpty() || (values.size() == 1 && values.get(0) == null)) {
+        if (!hasAnyValue()) {
             return null;
         } else if (values.size() > 1 || (values.get(0) != null && values.get(0).length > 1)) {
             throw new IllegalStateException(String.format("Multiple values found while fetching a single one for path [%s]", path));

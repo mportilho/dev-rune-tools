@@ -9,7 +9,6 @@ import org.springframework.data.mapping.PropertyPath;
 
 import javax.persistence.criteria.From;
 import java.util.Collection;
-import java.util.Map;
 
 public class FetchingFilterDecorator implements FilterDecorator<Specification<?>> {
 
@@ -22,7 +21,7 @@ public class FetchingFilterDecorator implements FilterDecorator<Specification<?>
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Specification<?> decorate(Specification<?> filter, ConditionalStatement conditionalStatement,
-                                     Map<String, Object[]> parametersMap, FormattedConversionService formattedConversionService) {
+                                     FormattedConversionService formattedConversionService) {
         if (fetches == null || fetches.isEmpty()) {
             return filter;
         }

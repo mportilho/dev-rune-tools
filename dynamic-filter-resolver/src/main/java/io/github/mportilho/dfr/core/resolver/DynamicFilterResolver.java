@@ -91,7 +91,7 @@ public interface DynamicFilterResolver<T> {
         if (filterDecorator == null) {
             return filter;
         }
-        return (R) filterDecorator.decorate(filter, conditionalStatement, parametersMap, formattedConversionService);
+        return (R) filterDecorator.decorate(filter, conditionalStatement, formattedConversionService);
     }
 
 }

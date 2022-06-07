@@ -110,6 +110,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             Schema schema = AnnotationsUtils.resolveSchemaFromType(filter.targetType(), null, null);
             parameter.setSchema(schema);
             parameter.setIn(ParameterIn.QUERY.toString());
+            parameter.setDescription(propertyResolver.apply(filter.description()));
             operation.getParameters().add(parameter);
             return;
         }

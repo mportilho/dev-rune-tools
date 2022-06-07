@@ -25,13 +25,16 @@
 package io.github.mportilho.dfr.core.operation;
 
 import io.github.mportilho.dfr.core.operation.type.Between;
+import io.github.mportilho.dfr.core.operation.type.Decorated;
 import io.github.mportilho.dfr.core.operation.type.Equals;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestFilterData {
 
@@ -41,8 +44,15 @@ public class TestFilterData {
 
     @Test
     public void test_NoValueDataFilter() {
+        assertThatThrownBy(() -> new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
+                Equals.class, false, false, List.of(), null, null, null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void test_NoValueDataFilter_DecoratedOperation() {
         FilterData fdNoValues = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
-                Equals.class, false, false, List.of(), null, null, null);
+                Decorated.class, false, false, List.of(), null, null, null);
 
         assertThat(fdNoValues.values()).isEmpty();
         assertThat(fdNoValues.findOneValue()).isNull();

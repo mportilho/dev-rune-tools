@@ -30,6 +30,7 @@ import org.apache.commons.lang3.Validate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 //TODO include doc
 
@@ -68,6 +69,10 @@ public record FilterData(
             throw new IllegalStateException(String.format("Multiple values found while fetching a single one for path [%s]", path));
         }
         return values.get(0)[0];
+    }
+
+    public Optional<FilterData> ifHasValue() {
+        return hasAnyValue() ? Optional.of(this) : Optional.empty();
     }
 
     public Object findOneValueOnIndex(int i) {

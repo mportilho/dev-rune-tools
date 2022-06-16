@@ -31,14 +31,11 @@ import io.github.mportilho.dfr.core.processor.annotation.AnnotationConditionalSt
 import io.github.mportilho.dfr.modules.springjpa.operation.SpecificationFilterOperationService;
 import io.github.mportilho.dfr.modules.springjpa.resolver.SpecificationDynamicFilterResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.util.StringValueResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
@@ -49,18 +46,14 @@ import java.util.List;
  *
  * @author Marcelo Portilho
  */
-@ConditionalOnClass({EnableJpaRepositories.class, EnableWebMvc.class})
 public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueResolverAware {
 
     private StringValueResolver stringValueResolver;
-    private final ConversionService conversionService;
-    private final ValueExpressionResolver<String> valueExpressionResolver;
 
-    public MvcDynamicFilterResolverAutoConfiguration(
-            @Autowired(required = false) ConversionService conversionService,
-            @Autowired(required = false) ValueExpressionResolver<String> valueExpressionResolver) {
-        this.conversionService = conversionService;
-        this.valueExpressionResolver = valueExpressionResolver;
+    @Bean
+    @ConditionalOnMissingBean
+    public FormattedConversionService formattedConversionService() {
+        return new DefaultFormattedConversionService();
     }
 
     /**
@@ -69,27 +62,22 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
      * configuration
      */
     @Bean
-    public WebMvcConfigurer webMvcConfigurer() {
+    public WebMvcConfigurer webMvcConfigurer(
+            @Autowired(required = false) final FormattedConversionService formattedConversionService,
+            @Autowired(required = false) final ValueExpressionResolver<String> valueExpressionResolver) {
         return new WebMvcConfigurer() {
 
             @Override
             public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-                FormattedConversionService formattedConversionService;
-                if (conversionService != null) {
-                    formattedConversionService = new SpringFormattedConversionServiceAdapter(conversionService, new DefaultFormattedConversionService());
-                } else {
-                    formattedConversionService = new DefaultFormattedConversionService();
-                }
-
-                var dynamicFilterResolver = new SpecificationDynamicFilterResolver(
-                        new SpecificationFilterOperationService(formattedConversionService));
-                var processor = new AnnotationConditionalStatementProcessor(getValueExpressionResolver());
+                var specificationFilterOperationService = new SpecificationFilterOperationService(formattedConversionService);
+                var dynamicFilterResolver = new SpecificationDynamicFilterResolver(specificationFilterOperationService);
+                var processor = new AnnotationConditionalStatementProcessor(getValueExpressionResolver(valueExpressionResolver));
                 resolvers.add(new SpecificationDynamicFilterArgumentResolver(processor, dynamicFilterResolver));
             }
         };
     }
 
-    private ValueExpressionResolver<String> getValueExpressionResolver() {
+    private ValueExpressionResolver<String> getValueExpressionResolver(ValueExpressionResolver<String> valueExpressionResolver) {
         ValueExpressionResolver<String> resolver = stringValueResolver != null ? (stringValueResolver::resolveStringValue) : a -> null;
         return key -> {
             String response = null;

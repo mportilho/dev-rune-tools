@@ -12,8 +12,8 @@
     <name>Dynamic Filter Resolver</name>
 
     <properties>
-        <spring.boot.version>2.5.7</spring.boot.version>
-        <springdocs.version>1.5.3</springdocs.version>
+        <spring.boot.version>2.7.0</spring.boot.version>
+        <springdocs.version>1.6.9</springdocs.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>

@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.support.function.generics;
 
-import io.github.mportilho.sentencecompiler.support.function.ExcelFinancialFunction;
+import io.github.mportilho.sentencecompiler.support.function.financial.ExcelFinancialFunction;
 import io.github.mportilho.sentencecompiler.support.function.xirr.Transaction;
 import io.github.mportilho.sentencecompiler.support.function.xirr.Xirr;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;

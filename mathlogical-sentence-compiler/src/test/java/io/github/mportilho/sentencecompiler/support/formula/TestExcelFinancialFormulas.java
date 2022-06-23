@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import static io.github.mportilho.sentencecompiler.support.function.ExcelFinancialFunction.*;
+import static io.github.mportilho.sentencecompiler.support.function.financial.ExcelFinancialFunction.*;
 import static java.math.BigDecimal.*;
 
 public class TestExcelFinancialFormulas {
@@ -141,7 +141,7 @@ public class TestExcelFinancialFormulas {
         assertThat(eir(valueOf(0.1), valueOf(365), ONE, MathContext.DECIMAL64))
                 .isEqualByComparingTo("0.105155781616375");
 
-        // monthly = annually
+        // monthly => annually
         assertThat(eir(valueOf(0.02), ONE, valueOf(12), MathContext.DECIMAL64))
                 .isEqualByComparingTo("0.268241794562545");
     }

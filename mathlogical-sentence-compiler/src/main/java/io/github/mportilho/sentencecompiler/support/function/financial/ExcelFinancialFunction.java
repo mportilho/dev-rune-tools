@@ -22,7 +22,7 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.support.function;
+package io.github.mportilho.sentencecompiler.support.function.financial;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -44,6 +44,19 @@ public class ExcelFinancialFunction {
 
     private static final int MAX_ITERATION_COUNT = 1000;
     private static final BigDecimal ABSOLUTE_ACCURACY = valueOf(1E-7);
+
+    /**
+     * Periodic Equivalent Interest Rate => ((1+r) ^ (per/nper)) - 1
+     *
+     * @param r    Rate value for the period
+     * @param per  number of original periods
+     * @param nper number of target periods
+     * @param mc   provided math context
+     * @return Equivalient interest r
+     */
+    public static BigDecimal peir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
+        return pow(ONE.add(r, mc), nper.divide(per, mc), mc).subtract(ONE, mc);
+    }
 
     /**
      * Equivalent Interest Rate => ((1+r/per)^(per*nper)) - 1
@@ -236,6 +249,9 @@ public class ExcelFinancialFunction {
             BigDecimal r, BigDecimal per, BigDecimal nper, BigDecimal pmt, BigDecimal pper, BigDecimal type,
             MathContext mc) {
         // p = number of periodic payments in the compounding period, divided by [per]
+        if (ZERO.compareTo(pmt) == 0) {
+            return ZERO;
+        }
         BigDecimal p = per.compareTo(pper) == 0 ? ONE : pper.divide(per, mc);
         BigDecimal ratePerPeriod = r.divide(per, mc);
         BigDecimal equivRateOfPeriod = eir(r, per, nper, mc);

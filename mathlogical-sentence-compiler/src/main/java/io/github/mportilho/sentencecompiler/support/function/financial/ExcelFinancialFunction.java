@@ -55,7 +55,7 @@ public class ExcelFinancialFunction {
      * @return Equivalient interest r
      */
     public static BigDecimal lpeir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
-        return pow(ONE.add(r, mc), nper.divide(per, mc), mc).subtract(ONE, mc);
+        return r.multiply(nper, mc).divide(per, mc);
     }
 
     /**

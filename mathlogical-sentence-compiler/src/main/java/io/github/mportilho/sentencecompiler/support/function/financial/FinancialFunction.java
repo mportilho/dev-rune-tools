@@ -2,8 +2,7 @@ package io.github.mportilho.sentencecompiler.support.function.financial;
 
 import java.math.BigDecimal;
 
-import static java.math.BigDecimal.ZERO;
-import static java.math.BigDecimal.valueOf;
+import static java.math.BigDecimal.*;
 import static java.math.MathContext.DECIMAL64;
 import static java.math.RoundingMode.HALF_EVEN;
 
@@ -17,6 +16,10 @@ public class FinancialFunction {
         return ExcelFinancialFunction.peir(r, valueOf(targetPeriod), valueOf(sourcePeriod), DECIMAL64);
     }
 
+    public static BigDecimal lpeir(BigDecimal r, long sourcePeriod, long targetPeriod) {
+        return ExcelFinancialFunction.lpeir(r, valueOf(targetPeriod), valueOf(sourcePeriod), DECIMAL64);
+    }
+
     /**
      * @param r    periodic interest r represented as a decimal.
      * @param nper number of total payments / periods.
@@ -25,6 +28,22 @@ public class FinancialFunction {
      */
     public static BigDecimal pmt(BigDecimal r, long nper, BigDecimal pv) {
         return ExcelFinancialFunction.pmt(r, valueOf(nper), pv, DECIMAL64).setScale(2, HALF_EVEN).abs();
+    }
+
+    public static BigDecimal ppmt(BigDecimal r, long nper, BigDecimal pv) {
+        return ExcelFinancialFunction.ppmt(r, ONE, valueOf(nper), pv, DECIMAL64).setScale(2, HALF_EVEN).abs();
+    }
+
+    public static BigDecimal ppmt(BigDecimal r, BigDecimal nper, BigDecimal pv) {
+        return ExcelFinancialFunction.ppmt(r, ONE, nper, pv, DECIMAL64).setScale(2, HALF_EVEN).abs();
+    }
+
+    public static BigDecimal ipmt(BigDecimal r, long nper, BigDecimal pv) {
+        return ExcelFinancialFunction.ipmt(r, ONE, valueOf(nper), pv, ZERO, DECIMAL64).setScale(2, HALF_EVEN).abs();
+    }
+
+    public static BigDecimal ipmt(BigDecimal r, BigDecimal nper, BigDecimal pv) {
+        return ExcelFinancialFunction.ipmt(r, ONE, nper, pv, ZERO, DECIMAL64).setScale(2, HALF_EVEN).abs();
     }
 
     /**

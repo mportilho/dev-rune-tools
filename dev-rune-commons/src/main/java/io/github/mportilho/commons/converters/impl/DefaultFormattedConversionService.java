@@ -55,21 +55,40 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
             return (T) source;
         }
         ConvertMappingKey convertMappingKey = new ConvertMappingKey(source.getClass(), targetType);
-        return convert(convertMappingKey, source, targetType, format);
+        FormattedConverter<S, T> converter = (FormattedConverter<S, T>) FORMATTED_CONVERTERS.get(convertMappingKey);
+        return converter != null ? converter.convert(source, format) : fallbackConversion(source, targetType);
     }
 
     @SuppressWarnings("unchecked")
-    private <S, T> T convert(ConvertMappingKey convertMappingKey, S source, Class<T> targetType, String format) {
-        FormattedConverter<S, T> converter = (FormattedConverter<S, T>) FORMATTED_CONVERTERS.get(convertMappingKey);
-        if (converter == null) {
-            if (targetType.isInstance(source)) {
-                return (T) source;
-            }
-            throw new NoFormattedConverterFoundException(source.getClass(), targetType);
+    private <S, T> T fallbackConversion(S source, Class<T> targetType) {
+        if (targetType.isInstance(source)) {
+            return (T) source;
         }
-        return converter.convert(source, format);
+        T anEnum = convertEnum(source, targetType);
+        if (anEnum != null) {
+            return anEnum;
+        }
+        throw new NoFormattedConverterFoundException(source.getClass(), targetType);
     }
 
+    private <S, T> T convertEnum(S source, Class<T> targetType) {
+        if (targetType.isEnum()) {
+            if (source instanceof String value) {
+                for (T enumConstant : targetType.getEnumConstants()) {
+                    if (((Enum<?>) enumConstant).name().equalsIgnoreCase(value)) {
+                        return enumConstant;
+                    }
+                }
+            } else if (source instanceof Number value) {
+                for (T enumConstant : targetType.getEnumConstants()) {
+                    if (value.intValue() == ((Enum<?>) enumConstant).ordinal()) {
+                        return enumConstant;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Adds the default {@link FormattedConverter}s into the new instance of this

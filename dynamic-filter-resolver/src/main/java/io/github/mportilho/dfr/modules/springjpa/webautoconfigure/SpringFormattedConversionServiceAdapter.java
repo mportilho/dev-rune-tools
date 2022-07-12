@@ -43,7 +43,7 @@ public class SpringFormattedConversionServiceAdapter implements FormattedConvers
     public SpringFormattedConversionServiceAdapter(
             ConversionService conversionService, FormattedConversionService delegate) {
         this.conversionService = Objects.requireNonNull(conversionService, "Spring ConversionService is required");
-        this.delegate = Objects.requireNonNull(delegate, "Delegate FormmatedConversionService is required");
+        this.delegate = Objects.requireNonNull(delegate, "Delegate FormattedConversionService is required");
     }
 
     @Override

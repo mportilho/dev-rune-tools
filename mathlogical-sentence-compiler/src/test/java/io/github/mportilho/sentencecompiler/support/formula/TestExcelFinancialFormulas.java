@@ -25,13 +25,14 @@
 package io.github.mportilho.sentencecompiler.support.formula;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
 import static io.github.mportilho.sentencecompiler.support.function.financial.ExcelFinancialFunction.*;
 import static java.math.BigDecimal.*;
+import static java.math.MathContext.DECIMAL64;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestExcelFinancialFormulas {
 
@@ -41,7 +42,7 @@ public class TestExcelFinancialFormulas {
     private static final BigDecimal pv = valueOf(5000);
     private static final BigDecimal fv = valueOf(22000);
     private static final BigDecimal pmt = valueOf(100);
-    private static final MathContext mc = MathContext.DECIMAL64;
+    private static final MathContext mc = DECIMAL64;
 
     @Test
     public void test_pmt() {
@@ -60,6 +61,26 @@ public class TestExcelFinancialFormulas {
     }
 
     @Test
+    public void test_ipmt_from_original_formula() {
+        BigDecimal loan = valueOf(-50_000);
+        BigDecimal rate = valueOf(0.05);
+        BigDecimal periodsMonth = valueOf(60);
+        BigDecimal compoundingPeriodsYear = valueOf(12);
+        assertThat(ipmt(rate.divide(compoundingPeriodsYear, DECIMAL64), ONE, periodsMonth, loan, DECIMAL64))
+                .isEqualByComparingTo("208.3333333333334");
+    }
+
+    @Test
+    public void test_ipmt_from_original_formula_2() {
+        BigDecimal loan = valueOf(5_000);
+        BigDecimal rate = valueOf(0.05);
+        BigDecimal futureValue = valueOf(22_000);
+        BigDecimal periodsMonth = valueOf(20);
+        BigDecimal compoundingPeriodsYear = valueOf(12);
+        assertThat(ipmt(rate, compoundingPeriodsYear, periodsMonth, loan, futureValue, DECIMAL64)).isEqualByComparingTo("330.0274992659322");
+    }
+
+    @Test
     public void test_ppmt() {
         assertThat(ppmt(r, per, nper, pv, fv, ZERO, mc)).isEqualByComparingTo("-3671.454700270698");
         assertThat(ppmt(r, per, nper, pv, fv, mc)).isEqualByComparingTo("-3671.454700270698");
@@ -67,94 +88,105 @@ public class TestExcelFinancialFormulas {
     }
 
     @Test
+    public void test_ppmt_from_original_formula_1() {
+        BigDecimal loan = valueOf(-5_000);
+        BigDecimal rate = valueOf(0.05);
+        BigDecimal futureValue = valueOf(-22_000);
+        BigDecimal periodsMonth = valueOf(20);
+        BigDecimal compoundingPeriodsYear = valueOf(12);
+        assertThat(ppmt(rate, compoundingPeriodsYear, periodsMonth, loan, futureValue, DECIMAL64))
+                .isEqualByComparingTo("1396.577353414598");
+    }
+
+    @Test
     public void test_fv() {
-        assertThat(fv(valueOf(0.18), valueOf(12), ONE, ZERO, valueOf(10000), ZERO, MathContext.DECIMAL64))
+        assertThat(fv(valueOf(0.18), valueOf(12), ONE, ZERO, valueOf(10000), ZERO, DECIMAL64))
                 .isEqualByComparingTo("-11956.18171461535");
 
-        assertThat(fv(r, ONE, nper, ZERO, pv, ZERO, MathContext.DECIMAL64))
+        assertThat(fv(r, ONE, nper, ZERO, pv, ZERO, DECIMAL64))
                 .isEqualByComparingTo("-8144.473133887205");
 
-        assertThat(fv(r, ONE, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
+        assertThat(fv(r, ONE, nper, pmt, pv, ZERO, DECIMAL64))
                 .isEqualByComparingTo("-9402.262387442087");
 
-        assertThat(fv(r, nper, pmt, pv, MathContext.DECIMAL64))
+        assertThat(fv(r, nper, pmt, pv, DECIMAL64))
                 .isEqualByComparingTo("-9402.262387442087");
 
-        assertThat(fv(r, per, nper, ZERO, pv, ZERO, MathContext.DECIMAL64))
+        assertThat(fv(r, per, nper, ZERO, pv, ZERO, DECIMAL64))
                 .isEqualByComparingTo("-8235.047488451745");
 
-        assertThat(fv(r, per, nper, pmt, pv, ZERO, MathContext.DECIMAL64))
+        assertThat(fv(r, per, nper, pmt, pv, ZERO, DECIMAL64))
                 .isEqualByComparingTo("-23763.27543302012");
 
     }
 
     @Test
     public void test_fvs() {
-        assertThat(fvs(r, per, nper, pmt, ZERO, MathContext.DECIMAL64))
+        assertThat(fvs(r, per, nper, pmt, ZERO, DECIMAL64))
                 .isEqualByComparingTo("15528.22794456837");
 
-        assertThat(fvs(valueOf(0.1), valueOf(12), ONE, pmt, valueOf(4), ZERO, MathContext.DECIMAL64))
+        assertThat(fvs(valueOf(0.1), valueOf(12), ONE, pmt, valueOf(4), ZERO, DECIMAL64))
                 .isEqualByComparingTo("418.8522697651720");
     }
 
     @Test
     public void test_pv() {
-        assertThat(pv(valueOf(0.08), valueOf(12), valueOf(5), ZERO, valueOf(10000), ZERO, MathContext.DECIMAL64))
+        assertThat(pv(valueOf(0.08), valueOf(12), valueOf(5), ZERO, valueOf(10000), ZERO, DECIMAL64))
                 .isEqualByComparingTo("-6712.104444291458");
     }
 
     @Test
     public void teste_r() {
-        assertThat(r(valueOf(12), valueOf(5), valueOf(6712.10), valueOf(10000), MathContext.DECIMAL64))
+        assertThat(r(valueOf(12), valueOf(5), valueOf(6712.10), valueOf(10000), DECIMAL64))
                 .isEqualByComparingTo("0.080000133309060");
     }
 
     @Test
     public void teste_nper() {
-        assertThat(nper(valueOf(0.08), valueOf(12), valueOf(6712.10), valueOf(10000), MathContext.DECIMAL64))
+        assertThat(nper(valueOf(0.08), valueOf(12), valueOf(6712.10), valueOf(10000), DECIMAL64))
                 .isEqualByComparingTo("5.000008304196684");
     }
 
     @Test
     public void teste_eir() {
         // month => biannual
-        assertThat(eir(valueOf(0.18), valueOf(12), ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.18), valueOf(12), ONE, DECIMAL64))
                 .isEqualByComparingTo("0.195618171461535");
 
         // annual => annually compounding
-        assertThat(eir(valueOf(0.1), ONE, ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.1), ONE, ONE, DECIMAL64))
                 .isEqualByComparingTo("0.1");
 
         // annual => six monthly compounding
-        assertThat(eir(valueOf(0.1), valueOf(2), ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.1), valueOf(2), ONE, DECIMAL64))
                 .isEqualByComparingTo("0.1025");
 
         // annual => quarterly compounding
-        assertThat(eir(valueOf(0.1), valueOf(4), ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.1), valueOf(4), ONE, DECIMAL64))
                 .isEqualByComparingTo("0.103812890625");
 
         // annual => monthly compounding
-        assertThat(eir(valueOf(0.1), valueOf(12), ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.1), valueOf(12), ONE, DECIMAL64))
                 .isEqualByComparingTo("0.104713067441293");
 
         // annual => daily compounding
-        assertThat(eir(valueOf(0.1), valueOf(365), ONE, MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.1), valueOf(365), ONE, DECIMAL64))
                 .isEqualByComparingTo("0.105155781616375");
 
         // monthly => annually
-        assertThat(eir(valueOf(0.02), ONE, valueOf(12), MathContext.DECIMAL64))
+        assertThat(eir(valueOf(0.02), ONE, valueOf(12), DECIMAL64))
                 .isEqualByComparingTo("0.268241794562545");
     }
 
     @Test
     public void test_npv() {
-        assertThat(npv(valueOf(0.1), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.1), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, DECIMAL64))
                 .isEqualByComparingTo("4.1322314049587");
 
-        assertThat(npv(valueOf(0.15), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.15), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, DECIMAL64))
                 .isEqualByComparingTo("-2.45746691871456");
 
-        assertThat(npv(valueOf(0.131), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, MathContext.DECIMAL64))
+        assertThat(npv(valueOf(0.131), valueOf(-100), new BigDecimal[]{valueOf(60), valueOf(60)}, DECIMAL64))
                 .isEqualByComparingTo("-0.04385687180895");
     }
 

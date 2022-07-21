@@ -4,11 +4,11 @@
     <groupId>io.github.mportilho</groupId>
     <artifactId>dev-rune-tools</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1.1-SNAPSHOT</version>
+    <version>1.0.3</version>
     <name>DevRune Development Tool</name>
 
     <properties>
-        <dev-rune-commons.version>1.0.1.1-SNAPSHOT</dev-rune-commons.version>
+        <dev-rune-commons.version>1.0.3</dev-rune-commons.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -64,6 +64,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>

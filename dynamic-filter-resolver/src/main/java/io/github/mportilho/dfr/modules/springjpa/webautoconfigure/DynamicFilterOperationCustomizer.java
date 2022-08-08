@@ -38,14 +38,13 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static io.github.mportilho.commons.utils.PredicateUtils.isEmpty;
 import static io.github.mportilho.commons.utils.PredicateUtils.isNotEmpty;
@@ -60,14 +59,14 @@ import static java.util.Objects.requireNonNull;
  */
 public class DynamicFilterOperationCustomizer implements OperationCustomizer {
 
-    private final Function<String, String> propertyResolver;
+    private final ParameterNameDiscoverer parameterNameDiscoverer;
 
     public DynamicFilterOperationCustomizer() {
-        this.propertyResolver = variable -> variable;
+        this(null);
     }
 
-    public DynamicFilterOperationCustomizer(Function<String, String> propertyResolver) {
-        this.propertyResolver = propertyResolver;
+    public DynamicFilterOperationCustomizer(ParameterNameDiscoverer parameterNameDiscoverer) {
+        this.parameterNameDiscoverer = parameterNameDiscoverer;
     }
 
     @Override
@@ -110,7 +109,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             Schema schema = AnnotationsUtils.resolveSchemaFromType(filter.targetType(), null, null);
             parameter.setSchema(schema);
             parameter.setIn(ParameterIn.QUERY.toString());
-            parameter.setDescription(propertyResolver.apply(filter.description()));
+            parameter.setDescription(filter.description());
             operation.getParameters().add(parameter);
             return;
         }
@@ -176,7 +175,7 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
             schema = schemaFromType;
         }
         parameter.setSchema(schema);
-        parameter.setDescription(propertyResolver.apply(filter.description()));
+        parameter.setDescription(filter.description());
 
         if (filter.defaultValues() != null && filter.defaultValues().length == 1) {
             schema.setDefault(filter.defaultValues()[0]);
@@ -214,16 +213,15 @@ public class DynamicFilterOperationCustomizer implements OperationCustomizer {
     /**
      * Defines the request parameter's name
      */
-    private static String getParameterName(MethodParameter methodParameter) {
-        String name;
-        Parameter parameter = methodParameter.getParameter();
-        io.swagger.v3.oas.annotations.Parameter parameterAnnotation = parameter.getAnnotation(io.swagger.v3.oas.annotations.Parameter.class);
+    private String getParameterName(MethodParameter methodParameter) {
+        io.swagger.v3.oas.annotations.Parameter parameterAnnotation = methodParameter.getParameter().getAnnotation(io.swagger.v3.oas.annotations.Parameter.class);
         if (parameterAnnotation != null) {
-            name = parameterAnnotation.name();
-        } else {
-            name = parameter.getName();
+            return parameterAnnotation.name();
+        } else if (parameterNameDiscoverer != null) {
+            methodParameter.initParameterNameDiscovery(parameterNameDiscoverer);
+            return methodParameter.getParameterName();
         }
-        return name;
+        return methodParameter.getParameter().getName();
     }
 
 }

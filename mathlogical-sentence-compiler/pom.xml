@@ -4,11 +4,10 @@
     <parent>
         <groupId>io.github.mportilho</groupId>
         <artifactId>dev-rune-tools</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
     <artifactId>mathlogical-sentence-compiler</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
     <name>Mathlogical Sentence Compiler</name>
 
     <properties>
@@ -32,30 +31,30 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>3.0.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>run-benchmarks</id>-->
-<!--                        <phase>integration-test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <classpathScope>test</classpathScope>-->
-<!--                            <executable>java</executable>-->
-<!--                            <arguments>-->
-<!--                                <argument>-classpath</argument>-->
-<!--                                <classpath/>-->
-<!--                                <argument>org.openjdk.jmh.Main</argument>-->
-<!--                                <argument>.*</argument>-->
-<!--                            </arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.codehaus.mojo</groupId>-->
+            <!--                <artifactId>exec-maven-plugin</artifactId>-->
+            <!--                <version>3.0.0</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>run-benchmarks</id>-->
+            <!--                        <phase>integration-test</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>exec</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <classpathScope>test</classpathScope>-->
+            <!--                            <executable>java</executable>-->
+            <!--                            <arguments>-->
+            <!--                                <argument>-classpath</argument>-->
+            <!--                                <classpath/>-->
+            <!--                                <argument>org.openjdk.jmh.Main</argument>-->
+            <!--                                <argument>.*</argument>-->
+            <!--                            </arguments>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 
@@ -63,7 +62,6 @@
         <dependency>
             <groupId>io.github.mportilho</groupId>
             <artifactId>dev-rune-commons</artifactId>
-            <version>${dev-rune-commons.version}</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
@@ -89,18 +87,18 @@
             <version>3.23.1</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.openjdk.jmh</groupId>-->
-<!--            <artifactId>jmh-core</artifactId>-->
-<!--            <version>${jmh.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.openjdk.jmh</groupId>-->
-<!--            <artifactId>jmh-generator-annprocess</artifactId>-->
-<!--            <version>${jmh.version}</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjdk.jmh</groupId>-->
+        <!--            <artifactId>jmh-core</artifactId>-->
+        <!--            <version>${jmh.version}</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.openjdk.jmh</groupId>-->
+        <!--            <artifactId>jmh-generator-annprocess</artifactId>-->
+        <!--            <version>${jmh.version}</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
     </dependencies>
 
 </project>

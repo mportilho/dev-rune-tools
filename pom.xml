@@ -4,11 +4,10 @@
     <groupId>io.github.mportilho</groupId>
     <artifactId>dev-rune-tools</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>DevRune Development Tool</name>
 
     <properties>
-        <dev-rune-commons.version>1.0.3</dev-rune-commons.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -35,6 +34,16 @@
             <url>http://artifactory:8081/artifactory/libs-snapshot-local</url>
         </snapshotRepository>
     </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.mportilho</groupId>
+                <artifactId>dev-rune-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

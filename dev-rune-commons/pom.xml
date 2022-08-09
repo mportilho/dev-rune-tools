@@ -4,11 +4,10 @@
     <parent>
         <groupId>io.github.mportilho</groupId>
         <artifactId>dev-rune-tools</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
     <artifactId>dev-rune-commons</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3</version>
     <name>DevRune Commons</name>
 
     <dependencies>
@@ -25,8 +24,6 @@
             <version>3.23.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
 
 </project>

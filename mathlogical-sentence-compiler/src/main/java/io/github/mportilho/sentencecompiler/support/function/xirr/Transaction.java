@@ -26,8 +26,11 @@
 
 package io.github.mportilho.sentencecompiler.support.function.xirr;
 
+import io.github.mportilho.commons.utils.DateUtils;
+
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 import static java.time.ZoneOffset.UTC;
@@ -40,6 +43,7 @@ import static java.time.ZoneOffset.UTC;
  * withdrawals from your cash).  Positive amounts represent withdrawals from the
  * investment (deposits into cash).  Zero amounts are allowed in case your
  * investment is now worthless.
+ *
  * @see Xirr
  */
 public class Transaction {
@@ -49,8 +53,9 @@ public class Transaction {
 
     /**
      * Construct a Transaction instance with the given amount at the given day.
+     *
      * @param amount the amount transferred
-     * @param when the day the transaction took place
+     * @param when   the day the transaction took place
      */
     public Transaction(double amount, Instant when) {
         this.amount = amount;
@@ -64,8 +69,9 @@ public class Transaction {
 
     /**
      * Construct a Transaction instance with the given amount at the given day.
+     *
      * @param amount the amount transferred
-     * @param when the day the transaction took place
+     * @param when   the day the transaction took place
      */
     public Transaction(double amount, Date when) {
         this.amount = amount;
@@ -74,18 +80,20 @@ public class Transaction {
 
     /**
      * Construct a Transaction instance with the given amount at the given day.
+     *
      * @param amount the amount transferred
-     * @param when the day the transaction took place, see
-     *             {@link LocalDate#parse(CharSequence) }
-     *             for the format
+     * @param when   the day the transaction took place, see
+     *               {@link LocalDate#parse(CharSequence) }
+     *               for the format
      */
     public Transaction(double amount, String when) {
         this.amount = amount;
-        this.when = LocalDate.parse(when).atStartOfDay().toInstant(UTC);
+        this.when = DateUtils.DATETIME_FORMATTER_PADDING_TIME.parse(when, LocalDate::from).atStartOfDay().toInstant(UTC);
     }
 
     /**
      * The amount transferred in this transaction.
+     *
      * @return amount transferred in this transaction
      */
     public double getAmount() {
@@ -94,6 +102,7 @@ public class Transaction {
 
     /**
      * The day the transaction took place.
+     *
      * @return day the transaction took place
      */
     public Instant getWhen() {

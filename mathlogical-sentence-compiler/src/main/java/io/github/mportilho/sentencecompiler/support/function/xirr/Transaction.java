@@ -48,8 +48,8 @@ import static java.time.ZoneOffset.UTC;
  */
 public class Transaction {
 
-    final double amount;
-    final Instant when;
+    private final double amount;
+    private final Instant when;
 
     /**
      * Construct a Transaction instance with the given amount at the given day.

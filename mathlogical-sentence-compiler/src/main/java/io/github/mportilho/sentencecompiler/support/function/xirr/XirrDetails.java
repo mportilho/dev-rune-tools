@@ -36,28 +36,28 @@ import java.util.stream.Collector;
 class XirrDetails {
     public static Collector<Transaction, XirrDetails, XirrDetails> collector() {
         return Collector.of(
-            XirrDetails::new,
-            XirrDetails::accumulate,
-            XirrDetails::combine,
-            Collector.Characteristics.IDENTITY_FINISH,
-            Collector.Characteristics.UNORDERED);
+                XirrDetails::new,
+                XirrDetails::accumulate,
+                XirrDetails::combine,
+                Collector.Characteristics.IDENTITY_FINISH,
+                Collector.Characteristics.UNORDERED);
     }
 
-    Instant start;
-    Instant end;
-    double minAmount = Double.POSITIVE_INFINITY;
-    double maxAmount = Double.NEGATIVE_INFINITY;
-    double total;
-    double deposits;
+    private Instant start;
+    private Instant end;
+    private double minAmount = Double.POSITIVE_INFINITY;
+    private double maxAmount = Double.NEGATIVE_INFINITY;
+    private double total;
+    private double deposits;
 
     public void accumulate(final Transaction tx) {
-        start = start != null && start.isBefore(tx.when) ? start : tx.when;
-        end = end != null && end.isAfter(tx.when) ? end : tx.when;
-        minAmount = Math.min(minAmount, tx.amount);
-        maxAmount = Math.max(maxAmount, tx.amount);
-        total += tx.amount;
-        if (tx.amount < 0) {
-            deposits -= tx.amount;
+        start = start != null && start.isBefore(tx.getWhen()) ? start : tx.getWhen();
+        end = end != null && end.isAfter(tx.getWhen()) ? end : tx.getWhen();
+        minAmount = Math.min(minAmount, tx.getAmount());
+        maxAmount = Math.max(maxAmount, tx.getAmount());
+        total += tx.getAmount();
+        if (tx.getAmount() < 0) {
+            deposits -= tx.getAmount();
         }
     }
 
@@ -77,16 +77,39 @@ class XirrDetails {
 
         if (start.equals(end)) {
             throw new IllegalArgumentException(
-                "Transactions must not all be on the same day.");
+                    "Transactions must not all be on the same day.");
         }
         if (minAmount >= 0) {
             throw new IllegalArgumentException(
-                "Transactions must not all be nonnegative.");
+                    "Transactions must not all be nonnegative.");
         }
         if (maxAmount < 0) {
             throw new IllegalArgumentException(
-                "Transactions must not be negative.");
+                    "Transactions must not be negative.");
         }
     }
 
+    public Instant getStart() {
+        return start;
+    }
+
+    public Instant getEnd() {
+        return end;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public double getMaxAmount() {
+        return maxAmount;
+    }
+
+    public double getMinAmount() {
+        return minAmount;
+    }
+
+    public double getDeposits() {
+        return deposits;
+    }
 }

@@ -26,9 +26,9 @@
 
 package io.github.mportilho.sentencecompiler.support.function.xirr;
 
-import io.github.mportilho.sentencecompiler.support.function.newtonraphson.ZeroValuedDerivativeException;
 import io.github.mportilho.sentencecompiler.support.function.newtonraphson.NewtonRaphson;
 import io.github.mportilho.sentencecompiler.support.function.newtonraphson.NonConvergenceException;
+import io.github.mportilho.sentencecompiler.support.function.newtonraphson.ZeroValuedDerivativeException;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -50,28 +50,28 @@ import static java.time.temporal.ChronoUnit.DAYS;
  * <p>
  * Example usage:
  * <code>
- *     double r = new Xirr(
- *             new Transaction(-1000, "2016-01-15"),
- *             new Transaction(-2500, "2016-02-08"),
- *             new Transaction(-1000, "2016-04-17"),
- *             new Transaction( 5050, "2016-08-24")
- *         ).xirr();
+ * double r = new Xirr(
+ * new Transaction(-1000, "2016-01-15"),
+ * new Transaction(-2500, "2016-02-08"),
+ * new Transaction(-1000, "2016-04-17"),
+ * new Transaction( 5050, "2016-08-24")
+ * ).xirr();
  * </code>
  * <p>
  * Example using the builder to gain more control:
  * <code>
- *     double r = Xirr.builder()
- *         .withNewtonRaphsonBuilder(
- *             NewtonRaphson.builder()
- *                 .withIterations(1000)
- *                 .withTolerance(0.0001))
- *         .withGuess(.20)
- *         .withTransactions(
- *             new Transaction(-1000, "2016-01-15"),
- *             new Transaction(-2500, "2016-02-08"),
- *             new Transaction(-1000, "2016-04-17"),
- *             new Transaction( 5050, "2016-08-24")
- *         ).xirr();
+ * double r = Xirr.builder()
+ * .withNewtonRaphsonBuilder(
+ * NewtonRaphson.builder()
+ * .withIterations(1000)
+ * .withTolerance(0.0001))
+ * .withGuess(.20)
+ * .withTransactions(
+ * new Transaction(-1000, "2016-01-15"),
+ * new Transaction(-2500, "2016-02-08"),
+ * new Transaction(-1000, "2016-04-17"),
+ * new Transaction( 5050, "2016-08-24")
+ * ).xirr();
  * </code>
  * <p>
  * This class is not thread-safe and is designed for each instance to be used
@@ -82,6 +82,7 @@ public class Xirr {
 
     /**
      * Convenience method for getting an instance of a {@link Builder}.
+     *
      * @return new Builder
      */
     public static Builder builder() {
@@ -93,11 +94,12 @@ public class Xirr {
     private final double amountOfUnits;
     private final ChronoUnit unit;
 
-    private NewtonRaphson.Builder builder;
+    private final NewtonRaphson.Builder builder;
     private Double guess;
 
     /**
      * Construct an Xirr instance for the given transactions.
+     *
      * @param tx the transactions
      * @throws IllegalArgumentException if there are fewer than 2 transactions
      * @throws IllegalArgumentException if all the transactions are on the same date
@@ -105,11 +107,12 @@ public class Xirr {
      * @throws IllegalArgumentException if all the transactions non-negative (withdrawals)
      */
     public Xirr(Transaction... tx) {
-        this(Arrays.asList(tx));
+        this(List.of(tx));
     }
 
     /**
      * Construct an Xirr instance for the given transactions.
+     *
      * @param txs the transactions
      * @throws IllegalArgumentException if there are fewer than 2 transactions
      * @throws IllegalArgumentException if all the transactions are on the same date
@@ -124,15 +127,15 @@ public class Xirr {
                  ChronoUnit unit) {
         if (txs.size() < 2) {
             throw new IllegalArgumentException(
-                "Must have at least two transactions");
+                    "Must have at least two transactions");
         }
         details = txs.stream().collect(XirrDetails.collector());
         this.unit = unit;
         this.amountOfUnits = amountOfUnits;
         details.validate();
         investments = txs.stream()
-            .map(this::createInvestment)
-            .collect(Collectors.toList());
+                .map(this::createInvestment)
+                .collect(Collectors.toList());
 
         this.builder = builder != null ? builder : NewtonRaphson.builder();
         this.guess = guess;
@@ -142,52 +145,55 @@ public class Xirr {
         // Transform the transaction into an Investment instance
         // It is much easier to calculate the present value of an Investment
         final Investment result = new Investment();
-        result.amount = tx.amount;
+        result.amount = tx.getAmount();
         // Don't use YEARS.between() as it returns whole numbers
-        result.years = unit.between(tx.when, details.end) / amountOfUnits;
+        result.years = unit.between(tx.getWhen(), details.getEnd()) / amountOfUnits;
         return result;
     }
 
     /**
      * Calculates the present value of the investment if it had been subject to
      * the given r of return.
+     *
      * @param rate the r of return
      * @return the present value of the investment if it had been subject to the
-     *         given r of return
+     * given r of return
      */
     public double presentValue(final double rate) {
         return investments.stream()
-            .mapToDouble(inv -> inv.presentValue(rate))
-            .sum();
+                .mapToDouble(inv -> inv.presentValue(rate))
+                .sum();
     }
 
     /**
      * The derivative of the present value under the given r.
+     *
      * @param rate the r of return
      * @return derivative of the present value under the given r
      */
     public double derivative(final double rate) {
         return investments.stream()
-            .mapToDouble(inv -> inv.derivative(rate))
-            .sum();
+                .mapToDouble(inv -> inv.derivative(rate))
+                .sum();
     }
 
     /**
      * Calculates the irregular r of return of the transactions for this
      * instance of Xirr.
+     *
      * @return the irregular r of return of the transactions
      * @throws ZeroValuedDerivativeException if the derivative is 0 while executing the Newton-Raphson method
-     * @throws NonConvergenceException if the Newton-Raphson method fails to converge in the
+     * @throws NonConvergenceException       if the Newton-Raphson method fails to converge in the
      */
     public double xirr() {
-        final double years = unit.between(details.start, details.end) / amountOfUnits;
-        if (details.maxAmount == 0) {
+        final double years = unit.between(details.getStart(), details.getEnd()) / amountOfUnits;
+        if (details.getMaxAmount() == 0) {
             return -1; // Total loss
         }
-        guess = guess != null ? guess : (details.total / details.deposits) / years;
+        guess = guess != null ? guess : (details.getTotal() / details.getDeposits()) / years;
         return builder.withFunction(this::presentValue)
-            .withDerivative(this::derivative)
-            .findRoot(guess);
+                .withDerivative(this::derivative)
+                .findRoot(guess);
     }
 
     /**
@@ -195,14 +201,19 @@ public class Xirr {
      * conveniently for our purposes.
      */
     private static class Investment {
-        /** The amount of the investment. */
-        double amount;
-        /** The number of years for which the investment applies, including
-         * fractional years. */
-        double years;
+        /**
+         * The amount of the investment.
+         */
+        private double amount;
+        /**
+         * The number of years for which the investment applies, including
+         * fractional years.
+         */
+        private double years;
 
         /**
          * Present value of the investment at the given r.
+         *
          * @param rate the r of return
          * @return present value of the investment at the given r
          */
@@ -237,6 +248,7 @@ public class Xirr {
 
         /**
          * Derivative of the present value of the investment at the given r.
+         *
          * @param rate the r of return
          * @return derivative of the present value at the given r
          */
@@ -303,6 +315,7 @@ public class Xirr {
          * Convenience method for building the Xirr instance and invoking
          * {@link Xirr#xirr()}.  See the documentation for that method for
          * details.
+         *
          * @return the irregular r of return of the transactions
          */
         public double xirr() {

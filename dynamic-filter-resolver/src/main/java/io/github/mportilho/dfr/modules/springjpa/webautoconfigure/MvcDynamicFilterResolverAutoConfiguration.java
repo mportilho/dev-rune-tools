@@ -32,6 +32,8 @@ import io.github.mportilho.dfr.modules.springjpa.operation.SpecificationFilterOp
 import io.github.mportilho.dfr.modules.springjpa.resolver.SpecificationDynamicFilterResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.StringValueResolver;
@@ -46,8 +48,9 @@ import java.util.List;
  *
  * @author Marcelo Portilho
  */
-public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueResolverAware {
+public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueResolverAware, ApplicationContextAware {
 
+    private ApplicationContext applicationContext;
     private StringValueResolver stringValueResolver;
 
     @Bean
@@ -62,9 +65,7 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
      * configuration
      */
     @Bean
-    public WebMvcConfigurer webMvcConfigurer(
-            @Autowired(required = false) final FormattedConversionService formattedConversionService,
-            @Autowired(required = false) final ValueExpressionResolver<String> valueExpressionResolver) {
+    public WebMvcConfigurer webMvcConfigurer(@Autowired(required = false) final FormattedConversionService formattedConversionService, @Autowired(required = false) final ValueExpressionResolver<String> valueExpressionResolver) {
         return new WebMvcConfigurer() {
 
             @Override
@@ -72,7 +73,7 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
                 var specificationFilterOperationService = new SpecificationFilterOperationService(formattedConversionService);
                 var dynamicFilterResolver = new SpecificationDynamicFilterResolver(specificationFilterOperationService);
                 var processor = new AnnotationConditionalStatementProcessor(getValueExpressionResolver(valueExpressionResolver));
-                resolvers.add(new SpecificationDynamicFilterArgumentResolver(processor, dynamicFilterResolver));
+                resolvers.add(new SpecificationDynamicFilterArgumentResolver(applicationContext, processor, dynamicFilterResolver));
             }
         };
     }
@@ -91,5 +92,10 @@ public class MvcDynamicFilterResolverAutoConfiguration implements EmbeddedValueR
     @Override
     public void setEmbeddedValueResolver(StringValueResolver resolver) {
         this.stringValueResolver = resolver;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 }

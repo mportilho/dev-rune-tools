@@ -26,7 +26,7 @@ package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.GreaterOrEquals;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
 import org.junit.jupiter.api.BeforeAll;
@@ -82,12 +82,12 @@ public class TestSpecificationGreaterOrEqualsOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 GreaterOrEquals.class, false, false,
                 List.<Object[]>of(new String[]{"TestValue"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).greaterThanOrEqualTo(any(Expression.class), (String) argThat(x -> x.toString().equals("TestValue")));
@@ -103,12 +103,12 @@ public class TestSpecificationGreaterOrEqualsOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 GreaterOrEquals.class, false, true,
                 List.<Object[]>of(new String[]{"TestValue"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).greaterThanOrEqualTo(any(Expression.class), (String) argThat(x -> x.toString().equals("TESTVALUE")));
@@ -124,12 +124,12 @@ public class TestSpecificationGreaterOrEqualsOperations {
         when(path.getJavaType()).thenReturn(BigDecimal.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, BigDecimal.class,
                 GreaterOrEquals.class, false, false,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ONE}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).ge(any(Expression.class), eq(BigDecimal.ONE));
@@ -145,12 +145,12 @@ public class TestSpecificationGreaterOrEqualsOperations {
         when(path.getJavaType()).thenReturn(BigDecimal.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, BigDecimal.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, BigDecimal.class,
                 GreaterOrEquals.class, false, true,
                 List.<Object[]>of(new BigDecimal[]{BigDecimal.ONE}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).ge(any(Expression.class), eq(BigDecimal.ONE));

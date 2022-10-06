@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.IsNotIn;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -52,8 +52,8 @@ class SpecIsNotIn<T> implements IsNotIn<Specification<T>> {
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Specification<T> createFilter(FilterData FilterData, FormattedConversionService formattedConversionService) {
-        return Specification.not(isInOperation.createFilter(FilterData, formattedConversionService));
+    public Specification<T> createFilter(DataFilter DataFilter, FormattedConversionService formattedConversionService) {
+        return Specification.not(isInOperation.createFilter(DataFilter, formattedConversionService));
     }
 
 }

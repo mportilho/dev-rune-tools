@@ -24,16 +24,6 @@
 
 package io.github.mportilho.dfr.core.processor;
 
-import io.github.mportilho.dfr.core.operation.FilterData;
-import io.github.mportilho.dfr.core.operation.type.*;
-import io.github.mportilho.dfr.mocks.interfaces.queries.ComparisonOperations;
-import io.github.mportilho.dfr.mocks.interfaces.queries.OtherComparisonOperations;
-import io.github.mportilho.dfr.mocks.interfaces.queries.StringComparisonOperations;
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.Arrays;
-
 public class TestConditionalStatementProcessorOnAllOperations {
 
 //    @Test

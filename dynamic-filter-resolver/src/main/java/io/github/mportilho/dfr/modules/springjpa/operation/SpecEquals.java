@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.Equals;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -45,12 +45,12 @@ class SpecEquals<T> implements Equals<Specification<T>> {
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
+    public Specification<T> createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression expression = JpaPredicateUtils.computeAttributePath(filterData, root);
-            Object value = formattedConversionService.convert(filterData.findOneValue(), expression.getJavaType(), filterData.format());
+            Expression expression = JpaPredicateUtils.computeAttributePath(dataFilter, root);
+            Object value = formattedConversionService.convert(dataFilter.findOneValue(), expression.getJavaType(), dataFilter.format());
 
-            if (filterData.ignoreCase() && expression.getJavaType().equals(String.class)) {
+            if (dataFilter.ignoreCase() && expression.getJavaType().equals(String.class)) {
                 expression = criteriaBuilder.upper(expression);
                 value = value != null ? value.toString().toUpperCase() : null;
             }

@@ -86,14 +86,13 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         Map<String, Object[]> userParameters = createProvidedValuesMap(webRequest);
-
         ConditionalStatement statement = conditionalStatementProcessor.createStatements(new AnnotationProcessorParameter(parameter.getParameterType(), parameter.getParameterAnnotations()), userParameters);
-
-        return createProxy(dynamicFilterResolver.convertTo(statement, createFilterDecorator(parameter), userParameters), parameter.getParameterType());
+        FilterDecorator<Specification<?>> filterDecorator = createFilterDecoratorByFetchingAnnotation(parameter);
+        return createProxy(dynamicFilterResolver.createFilter(statement, filterDecorator, userParameters), parameter.getParameterType());
     }
 
     @SuppressWarnings({"unchecked"})
-    private FilterDecorator<Specification<?>> createFilterDecorator(MethodParameter parameter) {
+    private FilterDecorator<Specification<?>> createFilterDecoratorByFetchingAnnotation(MethodParameter parameter) {
         List<FilterDecorator<Specification<?>>> decoratorList = null;
 
         FetchingFilterDecorator fetchingDecorator = createFetchingDecorator(parameter);

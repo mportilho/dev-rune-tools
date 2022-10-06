@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.NotEquals;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -45,12 +45,12 @@ class SpecNotEquals<T> implements NotEquals<Specification<T>> {
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public Specification<T> createFilter(FilterData FilterData, FormattedConversionService formattedConversionService) {
+    public Specification<T> createFilter(DataFilter DataFilter, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression expression = JpaPredicateUtils.computeAttributePath(FilterData, root);
-            Object value = formattedConversionService.convert(FilterData.findOneValue(), expression.getJavaType(), FilterData.format());
+            Expression expression = JpaPredicateUtils.computeAttributePath(DataFilter, root);
+            Object value = formattedConversionService.convert(DataFilter.findOneValue(), expression.getJavaType(), DataFilter.format());
 
-            if (FilterData.ignoreCase() && expression.getJavaType().equals(String.class)) {
+            if (DataFilter.ignoreCase() && expression.getJavaType().equals(String.class)) {
                 expression = criteriaBuilder.upper(expression);
                 value = value != null ? value.toString().toUpperCase() : null;
             }

@@ -36,7 +36,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TestFilterData {
+public class TestDataFilter {
 
     private List<Object[]> wrap(Object[] arr) {
         return List.<Object[]>of(arr);
@@ -44,14 +44,14 @@ public class TestFilterData {
 
     @Test
     public void test_NoValueDataFilter() {
-        assertThatThrownBy(() -> new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
+        assertThatThrownBy(() -> new DataFilter("ap", "p", new String[]{"p1", "p2"}, null,
                 Equals.class, false, false, List.of(), null, null, null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     public void test_NoValueDataFilter_DecoratedOperation() {
-        FilterData fdNoValues = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
+        DataFilter fdNoValues = new DataFilter("ap", "p", new String[]{"p1", "p2"}, null,
                 Decorated.class, false, false, List.of(), null, null, null);
 
         assertThat(fdNoValues.values()).isEmpty();
@@ -64,7 +64,7 @@ public class TestFilterData {
 
     @Test
     public void test_SingleValueDataFilter() {
-        FilterData fdSingleValue = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
+        DataFilter fdSingleValue = new DataFilter("ap", "p", new String[]{"p1", "p2"}, null,
                 Equals.class, false, false, wrap(new Integer[]{1}), null, Map.of("JoinType", "INNER"), null);
 
         assertThat(fdSingleValue.values()).isNotEmpty().containsExactly(new Integer[]{1});
@@ -75,7 +75,7 @@ public class TestFilterData {
 
     @Test
     public void test_MultiValueDataFilter() {
-        FilterData fdMultipleValues = new FilterData("ap", "p", new String[]{"p1", "p2"}, null,
+        DataFilter fdMultipleValues = new DataFilter("ap", "p", new String[]{"p1", "p2"}, null,
                 Equals.class, false, false, wrap(new Integer[]{1, 2, 3}), null,
                 Map.of("a", "1", "b", "2"), null);
 
@@ -89,7 +89,7 @@ public class TestFilterData {
 
     @Test
     public void test_DataFilter_ForBetweenOperation() {
-        FilterData fdValuesOnBetweenOps = new FilterData("", "p",
+        DataFilter fdValuesOnBetweenOps = new DataFilter("", "p",
                 new String[]{"date1", "date2"}, null,
                 Between.class, false, false, List.of
                 (
@@ -110,7 +110,7 @@ public class TestFilterData {
 
     @Test
     public void test_MultiDimensional_DataFilter() {
-        FilterData fdMultiDataArray = new FilterData("", "p",
+        DataFilter fdMultiDataArray = new DataFilter("", "p",
                 new String[]{"date1", "date2"}, null,
                 Between.class, false, false, List.of
                 (

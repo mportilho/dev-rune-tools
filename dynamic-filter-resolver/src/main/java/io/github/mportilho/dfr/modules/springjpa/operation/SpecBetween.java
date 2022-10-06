@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.Between;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -45,22 +45,22 @@ class SpecBetween<T> implements Between<Specification<T>> {
      */
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
+    public Specification<T> createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression<Comparable> expression = JpaPredicateUtils.computeAttributePath(filterData, root);
+            Expression<Comparable> expression = JpaPredicateUtils.computeAttributePath(dataFilter, root);
             Comparable lowerValue;
             Comparable upperValue;
 
-            if (filterData.values().isEmpty()) {
+            if (dataFilter.values().isEmpty()) {
                 lowerValue = null;
                 upperValue = null;
             } else {
-                lowerValue = formattedConversionService.convert(filterData.findOneValueOnIndex(0),
-                        expression.getJavaType(), filterData.format());
-                upperValue = formattedConversionService.convert(filterData.findOneValueOnIndex(1),
-                        expression.getJavaType(), filterData.format());
+                lowerValue = formattedConversionService.convert(dataFilter.findOneValueOnIndex(0),
+                        expression.getJavaType(), dataFilter.format());
+                upperValue = formattedConversionService.convert(dataFilter.findOneValueOnIndex(1),
+                        expression.getJavaType(), dataFilter.format());
 
-                if (filterData.ignoreCase() && expression.getJavaType().equals(String.class)) {
+                if (dataFilter.ignoreCase() && expression.getJavaType().equals(String.class)) {
                     expression = criteriaBuilder.upper((Expression) expression);
                     lowerValue = lowerValue != null ? lowerValue.toString().toUpperCase() : null;
                     upperValue = upperValue != null ? upperValue.toString().toUpperCase() : null;

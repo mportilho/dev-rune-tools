@@ -26,7 +26,7 @@ package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.Between;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
 import org.junit.jupiter.api.BeforeAll;
@@ -84,11 +84,11 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.<Object[]>of(new String[]{"TestValue"}), "",
                 Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(ArrayIndexOutOfBoundsException.class);
 
         verify(builder, times(0)).between(any(Expression.class), anyString(), anyString());
@@ -104,11 +104,11 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.<Object[]>of(new String[]{"1", "2", "3"}), "",
                 Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         assertThatThrownBy(() -> specification.toPredicate(root, query, builder)).isInstanceOf(IllegalStateException.class);
 
         verify(builder, times(0)).between(any(Expression.class), anyString(), anyString());
@@ -124,11 +124,11 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.of(new String[]{null}, new String[]{null}), "",
                 Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).between((Path) any(), (String) eq(null), (String) eq(null));
@@ -144,11 +144,11 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, false, List.of(new String[]{"a"}, new String[]{"c"}), "",
                 Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).between((Expression) any(), eq("a"), eq("c"));
@@ -164,11 +164,11 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, true, List.of(new String[]{"a"}, new String[]{"c"}), "",
                 Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).between((Expression) any(), eq("A"), eq("C"));
@@ -184,12 +184,12 @@ public class TestSpecificationBetweenOperations {
         when(path.getJavaType()).thenReturn(BigDecimal.class);
         when(builder.upper(any())).thenReturn(path);
 
-        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
+        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
                 Between.class, false, true,
                 List.of(new BigDecimal[]{BigDecimal.ZERO}, new BigDecimal[]{BigDecimal.ONE}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(filterData, formattedConversionService);
+        Specification<Person> specification = specOp.createFilter(dataFilter, formattedConversionService);
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).between((Expression) any(), eq(BigDecimal.ZERO), eq(new BigDecimal("1")));

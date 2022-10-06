@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.FilterOperationFactory;
 import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.operation.type.*;
@@ -76,14 +76,14 @@ public class SpecificationFilterOperationService implements FilterOperationServi
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public <R> R createFilter(FilterData filterData) {
-        requireNonNull(filterData);
-        FilterOperationFactory filterOperationFactory = operationMap.get(requireNonNull(filterData.operation()));
+    public <R> R createFilter(DataFilter dataFilter) {
+        requireNonNull(dataFilter);
+        FilterOperationFactory filterOperationFactory = operationMap.get(requireNonNull(dataFilter.operation()));
         if (filterOperationFactory == null) {
             throw new IllegalStateException(String.format("No operation factory found for operation '%s'",
-                    filterData.operation().getSimpleName()));
+                    dataFilter.operation().getSimpleName()));
         }
-        return (R) filterOperationFactory.createFilter(filterData, formattedConversionService);
+        return (R) filterOperationFactory.createFilter(dataFilter, formattedConversionService);
     }
 
     @Override

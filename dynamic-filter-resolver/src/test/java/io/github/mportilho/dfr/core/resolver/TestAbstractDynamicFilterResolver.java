@@ -24,18 +24,6 @@
 
 package io.github.mportilho.dfr.core.resolver;
 
-import io.github.mportilho.dfr.core.operation.FilterData;
-import io.github.mportilho.dfr.core.operation.type.NotEquals;
-import io.github.mportilho.dfr.core.processor.ConditionalStatement;
-import io.github.mportilho.dfr.core.processor.LogicType;
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 public class TestAbstractDynamicFilterResolver {
 
 //    @Test

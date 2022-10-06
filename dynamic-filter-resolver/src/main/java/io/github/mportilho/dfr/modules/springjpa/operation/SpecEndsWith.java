@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.FilterData;
+import io.github.mportilho.dfr.core.operation.DataFilter;
 import io.github.mportilho.dfr.core.operation.type.EndsWith;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -46,13 +46,13 @@ class SpecEndsWith<T> implements EndsWith<Specification<T>> {
      */
     @Override
     @SuppressWarnings({"unchecked"})
-    public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
+    public Specification<T> createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Path<String> path = JpaPredicateUtils.computeAttributePath(filterData, root);
-            String value = formattedConversionService.convert(filterData.findOneValue(), path.getJavaType(), filterData.format());
+            Path<String> path = JpaPredicateUtils.computeAttributePath(dataFilter, root);
+            String value = formattedConversionService.convert(dataFilter.findOneValue(), path.getJavaType(), dataFilter.format());
 
             Expression<String> expression;
-            if (filterData.ignoreCase()) {
+            if (dataFilter.ignoreCase()) {
                 expression = criteriaBuilder.upper(path);
                 value = value != null ? "%" + value.toUpperCase() : null;
             } else {

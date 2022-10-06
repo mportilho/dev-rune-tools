@@ -85,8 +85,8 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      * {@inheritDoc}
      */
     @Override
-    public <R extends T> R convertTo(ConditionalStatement conditionalStatement, FilterDecorator<T> filterDecorator,
-                                     Map<String, Object[]> parametersMap) {
+    public <R extends T> R createFilter(ConditionalStatement conditionalStatement, FilterDecorator<T> filterDecorator,
+                                        Map<String, Object[]> parametersMap) {
         if (conditionalStatement == null || conditionalStatement.hasNoCondition()) {
             return decorateFilters(emptyPredicate(), filterDecorator, conditionalStatement, parametersMap,
                     getFilterOperationService().getFormattedConversionService());

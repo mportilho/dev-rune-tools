@@ -55,8 +55,8 @@ public interface DynamicFilterResolver<T> {
      *                             conversion
      * @return The query object created from this dynamic filter resolver
      */
-    default <R extends T> R convertTo(ConditionalStatement conditionalStatement) {
-        return convertTo(conditionalStatement, null, Collections.emptyMap());
+    default <R extends T> R createFilter(ConditionalStatement conditionalStatement) {
+        return createFilter(conditionalStatement, null, Collections.emptyMap());
     }
 
     /**
@@ -71,8 +71,8 @@ public interface DynamicFilterResolver<T> {
      * @param parametersMap        User provided parameters
      * @return The query object created from this dynamic filter resolver
      */
-    <R extends T> R convertTo(ConditionalStatement conditionalStatement, FilterDecorator<T> decorator,
-                              Map<String, Object[]> parametersMap);
+    <R extends T> R createFilter(ConditionalStatement conditionalStatement, FilterDecorator<T> decorator,
+                                 Map<String, Object[]> parametersMap);
 
     /**
      * A method that can be overridden to decorate the resulting converted object

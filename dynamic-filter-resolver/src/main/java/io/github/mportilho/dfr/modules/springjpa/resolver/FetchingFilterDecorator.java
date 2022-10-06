@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.mapping.PropertyPath;
 
 import javax.persistence.criteria.From;
+import javax.persistence.criteria.Root;
 import java.util.Collection;
 
 public class FetchingFilterDecorator implements FilterDecorator<Specification<?>> {
@@ -28,24 +29,28 @@ public class FetchingFilterDecorator implements FilterDecorator<Specification<?>
         Specification<?> decoratedSpec = (root, query, criteriaBuilder) -> {
             query.distinct(true);
             for (Fetching fetching : fetches) {
-                for (String attributePath : fetching.value()) {
-                    From<?, ?> from = root;
-                    PropertyPath propertyPath = PropertyPath.from(attributePath, root.getJavaType());
-                    while (propertyPath != null && propertyPath.hasNext()) {
-                        from = (From<?, ?>) root.fetch(propertyPath.getSegment(), fetching.joinType());
-                        propertyPath = propertyPath.next();
-                    }
-                    if (propertyPath != null) {
-                        from.fetch(propertyPath.getSegment(), fetching.joinType());
-                    } else {
-                        throw new IllegalStateException(
-                                String.format("Expected parsing to yield a PropertyPath from %s but got null!", attributePath));
-                    }
-                }
+                createJoinClause(root, fetching);
             }
             return null;
         };
         return ((Specification) decoratedSpec).and(filter);
+    }
+
+    private static void createJoinClause(Root<Object> root, Fetching fetching) {
+        for (String attributePath : fetching.value()) {
+            From<?, ?> from = root;
+            PropertyPath propertyPath = PropertyPath.from(attributePath, root.getJavaType());
+            while (propertyPath != null && propertyPath.hasNext()) {
+                from = (From<?, ?>) root.fetch(propertyPath.getSegment(), fetching.joinType());
+                propertyPath = propertyPath.next();
+            }
+            if (propertyPath != null) {
+                from.fetch(propertyPath.getSegment(), fetching.joinType());
+            } else {
+                throw new IllegalStateException(
+                        String.format("Expected parsing to yield a PropertyPath from %s but got null!", attributePath));
+            }
+        }
     }
 
 }

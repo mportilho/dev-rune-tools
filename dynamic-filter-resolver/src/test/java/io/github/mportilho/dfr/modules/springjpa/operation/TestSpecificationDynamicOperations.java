@@ -26,7 +26,7 @@ package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.dfr.core.operation.ComparisonOperation;
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.Dynamic;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
 import org.junit.jupiter.api.Test;
@@ -75,12 +75,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", ComparisonOperation.LK}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TESTVALUE%")));
@@ -96,12 +96,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", ComparisonOperation.LK}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TESTVALUE%")));
@@ -117,12 +117,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"TestValue", "lk"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TESTVALUE%")));
@@ -138,12 +138,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Dynamic.class, false, true,
                 List.<Object[]>of(new Object[]{"lk", "TestValue"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TESTVALUE%")));
@@ -159,12 +159,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO, "ne"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).notEqual(any(Expression.class), eq("0"));
@@ -180,12 +180,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{"ne", BigDecimal.ZERO}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).notEqual(any(Expression.class), eq("0"));
@@ -201,12 +201,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO, "inv"}),
                 "", Map.of(), null);
 
-        assertThatThrownBy(() -> specOp.createFilter(dataFilter, new DefaultFormattedConversionService()))
+        assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -220,12 +220,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{BigDecimal.ZERO}),
                 "", Map.of(), null);
 
-        assertThatThrownBy(() -> specOp.createFilter(dataFilter, new DefaultFormattedConversionService()))
+        assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("Must provide only operation and value for dynamic query");
     }
@@ -240,12 +240,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{null}),
                 "", Map.of(), null);
 
-        assertThatThrownBy(() -> specOp.createFilter(dataFilter, new DefaultFormattedConversionService()))
+        assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("Must provide only operation and value for dynamic query");
     }
@@ -260,12 +260,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{2, 3}),
                 "", Map.of(), null);
 
-        assertThatThrownBy(() -> specOp.createFilter(dataFilter, new DefaultFormattedConversionService()))
+        assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("Must provide only operation and value for dynamic query");
     }
@@ -280,12 +280,12 @@ public class TestSpecificationDynamicOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("weight", "weight", new String[]{"weight"}, String.class,
+        FilterData filterData = new FilterData("weight", "weight", new String[]{"weight"}, String.class,
                 Dynamic.class, false, false,
                 List.<Object[]>of(new Object[]{"2", "lte"}),
                 "", Map.of(), null);
 
-        assertThatThrownBy(() -> specOp.createFilter(dataFilter, new DefaultFormattedConversionService()))
+        assertThatThrownBy(() -> specOp.createFilter(filterData, new DefaultFormattedConversionService()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("Must provide only operation and value for dynamic query");
     }

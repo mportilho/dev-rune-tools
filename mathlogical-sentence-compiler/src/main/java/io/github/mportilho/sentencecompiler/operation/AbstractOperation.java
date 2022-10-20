@@ -26,7 +26,7 @@ package io.github.mportilho.sentencecompiler.operation;
 
 import io.github.mportilho.commons.converters.NoFormattedConverterFoundException;
 import io.github.mportilho.sentencecompiler.OperationContext;
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
@@ -94,10 +94,10 @@ public abstract class AbstractOperation {
                 result = castOperationResult(resolve(context), context);
                 cache = null;
             }
-        } catch (NullPointerException | SyntaxExecutionException e) {
+        } catch (NullPointerException | SentenceExecutionException e) {
             throw e;
         } catch (Exception e) {
-            throw new SyntaxExecutionException(String.format("Error computing expression [%s]", this), e);
+            throw new SentenceExecutionException(String.format("Error computing expression [%s]", this), e);
         }
         lastResult = result;
         return (T) result;
@@ -106,7 +106,7 @@ public abstract class AbstractOperation {
     private Object castOperationResult(Object result, OperationContext context) {
         if (result == null && !context.allowingNull()) {
             if (this instanceof AbstractVariableValueOperation) {
-                throw new SyntaxExecutionException(String.format("Variable [%s] requires a value", this));
+                throw new SentenceExecutionException(String.format("Variable [%s] requires a value", this));
             } else {
                 throw new NullPointerException(String.format("Invalid null result for expression [%s] ", this));
             }
@@ -136,7 +136,7 @@ public abstract class AbstractOperation {
             operation.expectedType(Boolean.class);
             return result;
         } else {
-            throw new SyntaxExecutionException(
+            throw new SentenceExecutionException(
                     String.format("Wrong expected value type on expression [%s]. Expected [%s], got [%s]",
                             this, e.getTargetType(), e.getSourceType()), e);
         }

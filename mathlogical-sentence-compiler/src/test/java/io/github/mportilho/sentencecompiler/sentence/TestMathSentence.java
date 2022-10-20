@@ -26,7 +26,7 @@ package io.github.mportilho.sentencecompiler.sentence;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -96,7 +96,7 @@ public class TestMathSentence {
         computeMathSentence("halfDown(3.555, 2)", valueOf(3.55));
         computeMathSentence("halfEven(3.545, 2)", valueOf(3.54));
         computeMathSentence("halfEven(3.555, 2)", valueOf(3.56));
-        assertThatThrownBy(() -> computeMathSentence("unnecessary(3.555, 2)", valueOf(3.56))).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> computeMathSentence("unnecessary(3.555, 2)", valueOf(3.56))).isInstanceOf(SentenceExecutionException.class);
     }
 
     @Test

@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.IsIn;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -47,18 +47,18 @@ class SpecIsIn<T> implements IsIn<Specification<T>> {
      */
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public Specification<T> createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService) {
+    public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
         return (root, query, criteriaBuilder) -> {
-            Expression expressionTemp = JpaPredicateUtils.computeAttributePath(dataFilter, root);
-            Object[] rawValues = dataFilter.values().get(0);
+            Expression expressionTemp = JpaPredicateUtils.computeAttributePath(filterData, root);
+            Object[] rawValues = filterData.values().get(0);
 
             Predicate predicate = null;
-            boolean ignoreCase = dataFilter.ignoreCase() && expressionTemp.getJavaType().equals(String.class);
+            boolean ignoreCase = filterData.ignoreCase() && expressionTemp.getJavaType().equals(String.class);
 
             if (rawValues != null) {
                 Expression expression = ignoreCase ? criteriaBuilder.upper(expressionTemp) : expressionTemp;
                 Object[] arr = Arrays.stream(rawValues).map(v -> {
-                    Object valueTemp = formattedConversionService.convert(v, expression.getJavaType(), dataFilter.format());
+                    Object valueTemp = formattedConversionService.convert(v, expression.getJavaType(), filterData.format());
                     return ignoreCase && valueTemp != null ? valueTemp.toString().toUpperCase() : valueTemp;
                 }).toArray();
                 predicate = expression.in(arr);

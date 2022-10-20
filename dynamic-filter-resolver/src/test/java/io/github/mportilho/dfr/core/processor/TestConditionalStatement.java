@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.core.processor;
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.NotEquals;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
@@ -50,14 +50,14 @@ public class TestConditionalStatement {
         assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, null, new ConditionalStatement[0], Collections.emptyMap()))
                 .isInstanceOf(NullPointerException.class).hasMessage("Clause list cannot be null");
 
-        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, new DataFilter[0], null, Collections.emptyMap()))
+        assertThatThrownBy(() -> new ConditionalStatement("", LogicType.CONJUNCTION, false, new FilterData[0], null, Collections.emptyMap()))
                 .isInstanceOf(NullPointerException.class).hasMessage("Opposite statement list cannot be null");
     }
 
     @Test
     public void testOneClause() {
         ConditionalStatement condition = new ConditionalStatement("nameQuery", LogicType.CONJUNCTION, false,
-                new DataFilter[]{new DataFilter("name", "name", new String[]{"name"}, String.class, NotEquals.class,
+                new FilterData[]{new FilterData("name", "name", new String[]{"name"}, String.class, NotEquals.class,
                         false, false, List.<Object[]>of(new String[]{"Blanka"}), null, null, null)},
                 new ConditionalStatement[0], Collections.emptyMap());
 

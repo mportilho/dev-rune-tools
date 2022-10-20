@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.fast;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.operation.math.fast.FastNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.OperationContext;
@@ -85,7 +85,7 @@ public class TestFastComplexMathOperations {
         FastFactorialOperation operation;
 
         FastFactorialOperation throwsExceptionOperation = new FastFactorialOperation(new GenericValueOperation(-1d).expectedType(Double.class));
-        assertThatThrownBy(() -> throwsExceptionOperation.<Double>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> throwsExceptionOperation.<Double>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         operation = new FastFactorialOperation(new GenericValueOperation(0d).expectedType(Double.class));
         assertThat(operation.<Double>evaluate(context)).isEqualByComparingTo(1d);
@@ -203,7 +203,7 @@ public class TestFastComplexMathOperations {
 
         FastNumberRoundingOperation operationThrowing = new FastNumberRoundingOperation(new GenericValueOperation(0.353333d),
                 new GenericValueOperation(2d), RoundingEnum.UNNECESSARY);
-        assertThatThrownBy(() -> operationThrowing.<Double>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operationThrowing.<Double>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 
     @Test

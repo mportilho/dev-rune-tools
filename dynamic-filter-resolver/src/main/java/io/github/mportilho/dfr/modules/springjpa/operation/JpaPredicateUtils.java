@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import org.springframework.data.mapping.PropertyPath;
 
 import javax.persistence.criteria.*;
@@ -54,14 +54,14 @@ class JpaPredicateUtils {
 
     /**
      * Obtains the actual JPA Criteria {@link Path} object to the desired path
-     * defined on {@link DataFilter} object. Joins automatically when navigating through entities.
+     * defined on {@link FilterData} object. Joins automatically when navigating through entities.
      */
-    public static <T> Path<T> computeAttributePath(DataFilter dataFilter, Root<?> root) {
-        PropertyPath propertyPath = PropertyPath.from(dataFilter.path(), root.getJavaType());
+    public static <T> Path<T> computeAttributePath(FilterData filterData, Root<?> root) {
+        PropertyPath propertyPath = PropertyPath.from(filterData.path(), root.getJavaType());
         From<?, ?> from = root;
 
         while (propertyPath != null && propertyPath.hasNext()) {
-            String joinTypeString = dataFilter.findModifier("JoinType");
+            String joinTypeString = filterData.findModifier("JoinType");
             JoinType joinType;
             if (joinTypeString == null) {
                 joinType = JoinType.LEFT;
@@ -73,7 +73,7 @@ class JpaPredicateUtils {
             propertyPath = propertyPath.next();
         }
         if (propertyPath == null) {
-            throw new IllegalStateException(String.format("No path '%s' found no type '%s'", dataFilter.path(), root.getJavaType().getCanonicalName()));
+            throw new IllegalStateException(String.format("No path '%s' found no type '%s'", filterData.path(), root.getJavaType().getCanonicalName()));
         }
         return from.get(propertyPath.getSegment());
     }

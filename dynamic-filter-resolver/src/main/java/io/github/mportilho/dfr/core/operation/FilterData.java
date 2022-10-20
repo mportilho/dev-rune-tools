@@ -34,7 +34,7 @@ import java.util.Optional;
 
 //TODO include doc
 
-public record DataFilter(
+public record FilterData(
         String parameterField,
         String path,
         String[] parameters,
@@ -48,7 +48,7 @@ public record DataFilter(
         String description
 ) {
 
-    public DataFilter {
+    public FilterData {
         Objects.requireNonNull(parameters, "Parameters cannot be null");
         Objects.requireNonNull(values, "Filter value cannot be null");
         Validate.isTrue(Decorated.class.equals(operation) || !values.isEmpty(), "Value list cannot be empty for non decorated filters");
@@ -71,7 +71,7 @@ public record DataFilter(
         return values.get(0)[0];
     }
 
-    public Optional<DataFilter> ifHasValue() {
+    public Optional<FilterData> ifHasValue() {
         return hasAnyValue() ? Optional.of(this) : Optional.empty();
     }
 

@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.core.resolver;
 
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
@@ -50,8 +50,8 @@ public class GenericDynamicFilterResolver extends AbstractDynamicFilterResolver<
             return (R) Collections.emptyList();
         }
         List<Object[]> list = new ArrayList<>();
-        for (DataFilter dataFilter : conditionalStatement.clauses()) {
-            List<Object[]> v = dataFilter.values();
+        for (FilterData filterData : conditionalStatement.clauses()) {
+            List<Object[]> v = filterData.values();
             if (!v.isEmpty()) {
                 list.add(v.get(0));
             }

@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
@@ -76,7 +76,7 @@ public class BaseOperation extends AbstractOperation {
         } else if (Boolean.class.equals(this.getExpectedType())) {
             return Boolean.FALSE;
         }
-        throw new SyntaxExecutionException(String.format("Type [%s] not expected for base operation. Must be number or boolean.", this.getExpectedType()));
+        throw new SentenceExecutionException(String.format("Type [%s] not expected for base operation. Must be number or boolean.", this.getExpectedType()));
     }
 
     @Override

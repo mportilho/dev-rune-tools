@@ -35,7 +35,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
  */
 public interface FilterOperationService<T> {
 
-    <R> R createFilter(DataFilter dataFilter);
+    <R> R createFilter(FilterData filterData);
 
     FormattedConversionService getFormattedConversionService();
 

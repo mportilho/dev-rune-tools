@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxParsingException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceParsingException;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarBaseVisitor;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser;
@@ -681,14 +681,14 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
         boolean containsAssignedVariable = assignedVariables.containsKey(name);
         if (containsAssignedVariable && userVariables.containsKey(name)) {
-            throw new SyntaxParsingException(
+            throw new SentenceParsingException(
                     String.format("Duplicate variable name [%s] found between assigned and user variables", name));
         }
 
         if (containsAssignedVariable) {
             AssignedVariableOperation valueOperation = assignedVariables.get(name);
             if (valueOperation == null) {
-                throw new SyntaxParsingException(String.format(
+                throw new SentenceParsingException(String.format(
                         "Assigned variable [%s] not declared before requiring operation [%s]", name, context.getParent().getText()));
             }
             return valueOperation;

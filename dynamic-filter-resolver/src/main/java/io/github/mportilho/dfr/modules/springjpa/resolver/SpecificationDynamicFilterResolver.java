@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.modules.springjpa.resolver;
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.LogicType;
@@ -64,7 +64,7 @@ public class SpecificationDynamicFilterResolver extends AbstractDynamicFilterRes
     public <R extends Specification<?>> R createPredicateFromStatement(ConditionalStatement conditionalStatement) {
         Specification rootSpec = null;
 
-        for (DataFilter clause : conditionalStatement.clauses()) {
+        for (FilterData clause : conditionalStatement.clauses()) {
             Specification<?> spec = filterOperationService.createFilter(clause);
 
             if (spec != null) {

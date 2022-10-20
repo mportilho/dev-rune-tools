@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
@@ -94,15 +94,15 @@ public class TestDateOperations {
     public void testDateAdditionOperation_WithInvalidDateElement() {
         DateAdditionOperation operation1 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
-        assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateAdditionOperation operation2 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
-        assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateAdditionOperation operation3 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
-        assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
     }
 
@@ -110,30 +110,30 @@ public class TestDateOperations {
     public void testDateSetOperation_WithInvalidDateElement() {
         DateSetOperation operation4 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 25)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
-        assertThatThrownBy(() -> operation4.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation4.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateSetOperation operation5 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
                 DateElementEnum.MINUTE);
-        assertThatThrownBy(() -> operation5.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation5.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateSetOperation operation6 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2020)), DateElementEnum.SECOND);
-        assertThatThrownBy(() -> operation6.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation6.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 
     @Test
     public void testDateSubtractionOperation_WithInvalidDateElement() {
         DateSubtractionOperation operation7 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
-        assertThatThrownBy(() -> operation7.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation7.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateSubtractionOperation operation8 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
-        assertThatThrownBy(() -> operation8.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation8.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         DateSubtractionOperation operation9 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
                 new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
-        assertThatThrownBy(() -> operation9.<LocalDate>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operation9.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 
 }

@@ -26,7 +26,7 @@ package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.dfr.core.operation.ComparisonOperation;
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.Dynamic;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -56,8 +56,8 @@ class SpecDynamic<T> implements Dynamic<Specification<T>> {
 
     @Override
     @SuppressWarnings({"unchecked"})
-    public Specification<T> createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService) {
-        Object[] rawValues = dataFilter.values().get(0);
+    public Specification<T> createFilter(FilterData filterData, FormattedConversionService formattedConversionService) {
+        Object[] rawValues = filterData.values().get(0);
         if (rawValues == null || rawValues.length != 2) {
             throw new IllegalArgumentException("Must provide only operation and value for dynamic query");
         }
@@ -75,9 +75,9 @@ class SpecDynamic<T> implements Dynamic<Specification<T>> {
             }
         }
 
-        DataFilter newFilter = new DataFilter(dataFilter.parameterField(), dataFilter.path(),
-                dataFilter.parameters(), dataFilter.targetType(), comparisonOperation.getOperation(), dataFilter.negate(),
-                dataFilter.ignoreCase(), List.<Object[]>of(new Object[]{value}), dataFilter.format(), dataFilter.modifiers(), dataFilter.description());
+        FilterData newFilter = new FilterData(filterData.parameterField(), filterData.path(),
+                filterData.parameters(), filterData.targetType(), comparisonOperation.getOperation(), filterData.negate(),
+                filterData.ignoreCase(), List.<Object[]>of(new Object[]{value}), filterData.format(), filterData.modifiers(), filterData.description());
 
         return filterOperationService.createFilter(newFilter);
     }

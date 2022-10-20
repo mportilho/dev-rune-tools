@@ -1,7 +1,7 @@
 /*******************************************************************************
  * MIT License
  *
- * Copyright (c) 2021-2022. Marcelo Silva Portilho
+ * Copyright (c) 2022. Marcelo Silva Portilho
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,27 +24,10 @@
 
 package io.github.mportilho.sentencecompiler.exceptions;
 
-public class SyntaxExecutionException extends RuntimeException {
+public class SentenceParsingException extends RuntimeException {
 
-    public SyntaxExecutionException() {
-        super();
-    }
-
-    public SyntaxExecutionException(
-            String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    public SyntaxExecutionException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public SyntaxExecutionException(String message) {
+    public SentenceParsingException(String message) {
         super(message);
-    }
-
-    public SyntaxExecutionException(Throwable cause) {
-        super(cause);
     }
 
 }

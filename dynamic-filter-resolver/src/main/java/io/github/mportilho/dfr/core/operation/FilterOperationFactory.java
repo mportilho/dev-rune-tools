@@ -39,11 +39,11 @@ public interface FilterOperationFactory<T> {
     /**
      * Creates a filtering operation for the provided parameter
      *
-     * @param dataFilter                 The representation of a query filter
+     * @param filterData                 The representation of a query filter
      * @param formattedConversionService Convert filter values to the target attribute's
      *                                   type
      * @return The resulting query logic
      */
-    <R> R createFilter(DataFilter dataFilter, FormattedConversionService formattedConversionService);
+    <R> R createFilter(FilterData filterData, FormattedConversionService formattedConversionService);
 
 }

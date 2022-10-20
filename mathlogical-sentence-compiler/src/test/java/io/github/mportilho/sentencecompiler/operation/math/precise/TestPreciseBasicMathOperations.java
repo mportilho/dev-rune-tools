@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.precise;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
@@ -113,7 +113,7 @@ public class TestPreciseBasicMathOperations {
 
         PreciseDivisionOperation divisionByZeroOperation = new PreciseDivisionOperation(new GenericValueOperation(BigDecimal.ZERO),
                 new GenericValueOperation(BigDecimal.ZERO));
-        assertThatThrownBy(() -> divisionByZeroOperation.<BigDecimal>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> divisionByZeroOperation.<BigDecimal>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         operation = new PreciseDivisionOperation(new GenericValueOperation(BigDecimal.ONE), new GenericValueOperation(BigDecimal.ONE));
         assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");

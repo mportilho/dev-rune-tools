@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation.math.precise;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.OperationContext;
@@ -89,7 +89,7 @@ public class TestPreciseComplexMathOperations {
         PreciseFactorialOperation operation;
 
         PreciseFactorialOperation throwsExceptionOperation = new PreciseFactorialOperation(new GenericValueOperation(valueOf(-1)));
-        assertThatThrownBy(() -> throwsExceptionOperation.<BigDecimal>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> throwsExceptionOperation.<BigDecimal>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
         operation = new PreciseFactorialOperation(new GenericValueOperation(valueOf(0)));
         assertThat(operation.<BigDecimal>evaluate(context)).isEqualByComparingTo("1");
@@ -204,7 +204,7 @@ public class TestPreciseComplexMathOperations {
 
         PreciseNumberRoundingOperation operationThrowing = new PreciseNumberRoundingOperation(new GenericValueOperation(valueOf(0.353333)),
                 new GenericValueOperation(valueOf(2)), RoundingEnum.UNNECESSARY);
-        assertThatThrownBy(() -> operationThrowing.<BigDecimal>evaluate(context)).isInstanceOf(SyntaxExecutionException.class);
+        assertThatThrownBy(() -> operationThrowing.<BigDecimal>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 
     @Test

@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.OperationSupportData;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
@@ -40,7 +40,7 @@ public class TestOperationSupportData {
 
         compiler = new MathSentence("a + 5 * b");
         assertThatThrownBy(compiler::compute)
-                .isInstanceOf(SyntaxExecutionException.class).hasMessage("Variable [a] requires a value");
+                .isInstanceOf(SentenceExecutionException.class).hasMessage("Variable [a] requires a value");
 
         compiler
                 .addDictionaryEntry("a", 3)
@@ -55,7 +55,7 @@ public class TestOperationSupportData {
         compiler = new MathSentence("a + 5 * b");
         compiler.setVariable("a", 3);
         assertThatThrownBy(compiler::compute)
-                .isInstanceOf(SyntaxExecutionException.class).hasMessage("Variable [b] requires a value");
+                .isInstanceOf(SentenceExecutionException.class).hasMessage("Variable [b] requires a value");
 
         compiler.addDictionaryEntry("b", 5);
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");
@@ -85,11 +85,11 @@ public class TestOperationSupportData {
 
         compiler = new MathSentence("a + 5 * b");
         assertThatThrownBy(compiler::compute)
-                .isInstanceOf(SyntaxExecutionException.class).hasMessage("Variable [a] requires a value");
+                .isInstanceOf(SentenceExecutionException.class).hasMessage("Variable [a] requires a value");
 
         data.putDictionary("a", BigDecimal.valueOf(3));
         assertThatThrownBy(() -> compiler.compute(data))
-                .isInstanceOf(SyntaxExecutionException.class).hasMessage("Variable [b] requires a value");
+                .isInstanceOf(SentenceExecutionException.class).hasMessage("Variable [b] requires a value");
 
         data.putDictionary("b", 10);
         assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("53");

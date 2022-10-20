@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation.other;
 
-import io.github.mportilho.sentencecompiler.exceptions.SyntaxExecutionException;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
@@ -71,7 +71,7 @@ public class FunctionOperation extends AbstractOperation {
             Object result = caller.call(new LambdaContext(context.mathContext(), context.scale(), context.zoneId()), params);
             return convertToInternalTypes(result, context);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new SyntaxExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
+            throw new SentenceExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",
                     functionName, parameters.length), e);
         }
     }
@@ -79,7 +79,7 @@ public class FunctionOperation extends AbstractOperation {
     private LambdaCallSite getLambdaCallSite(OperationContext context) {
         LambdaCallSite caller = context.getFunction(functionName, parameters.length);
         if (caller == null) {
-            throw new SyntaxExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
+            throw new SentenceExecutionException(String.format("Function [%s] with [%s] parameter(s) not found", functionName, parameters.length));
         }
         this.expectedType(getCorrespondingInternalType(caller.getMethodType().returnType()));
         return caller;

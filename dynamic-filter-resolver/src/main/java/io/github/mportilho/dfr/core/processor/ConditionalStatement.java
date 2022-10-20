@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.core.processor;
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 
 import java.util.Map;
 import java.util.Objects;
@@ -39,9 +39,9 @@ public record ConditionalStatement(
         String id,
         LogicType logicType,
         boolean negate,
-        DataFilter[] clauses,
+        FilterData[] clauses,
         ConditionalStatement[] oppositeStatements,
-        Map<String, DataFilter> decoratableFilters
+        Map<String, FilterData> decoratableFilters
 ) {
 
     public ConditionalStatement {
@@ -49,12 +49,12 @@ public record ConditionalStatement(
         Objects.requireNonNull(oppositeStatements, "Opposite statement list cannot be null");
     }
 
-    public Optional<DataFilter> getDecorableFilter(String key) {
+    public Optional<FilterData> getDecorableFilter(String key) {
         return Optional.ofNullable(decoratableFilters.get(key));
     }
 
-    public Optional<DataFilter> findClauseByPath(String path) {
-        for (DataFilter clause : clauses) {
+    public Optional<FilterData> findClauseByPath(String path) {
+        for (FilterData clause : clauses) {
             if (clause != null && path.equals(clause.path())) {
                 return Optional.of(clause);
             }

@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.core.processor;
 
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationConditionalStatementProcessor;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
 import io.github.mportilho.dfr.core.processor.expressionresolver.StringValueExpressionResolver;
@@ -173,8 +173,8 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
-        DataFilter dataFilter = subStatement.findClauseByPath("releaseState").orElseThrow();
-        assertThat(dataFilter.negate()).isFalse();
+        FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
+        assertThat(filterData.negate()).isFalse();
     }
 
     @Test
@@ -203,8 +203,8 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
-        DataFilter dataFilter = subStatement.findClauseByPath("releaseState").orElseThrow();
-        assertThat(dataFilter.negate()).isTrue();
+        FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
+        assertThat(filterData.negate()).isTrue();
     }
 
     @Test
@@ -233,8 +233,8 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
-        DataFilter dataFilter = subStatement.findClauseByPath("releaseState").orElseThrow();
-        assertThat(dataFilter.negate()).isFalse();
+        FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
+        assertThat(filterData.negate()).isFalse();
     }
 
     @Test
@@ -263,8 +263,8 @@ public class TestExpressionResolverAndParameterMap_OnStatementProcessor {
         ConditionalStatement subStatement = statement.oppositeStatements()[0];
         assertThat(subStatement).isNotNull();
 
-        DataFilter dataFilter = subStatement.findClauseByPath("releaseState").orElseThrow();
-        assertThat(dataFilter.negate()).isFalse();
+        FilterData filterData = subStatement.findClauseByPath("releaseState").orElseThrow();
+        assertThat(filterData.negate()).isFalse();
     }
 
     @Test

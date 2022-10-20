@@ -25,7 +25,7 @@
 package io.github.mportilho.dfr.modules.springjpa.operation;
 
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
-import io.github.mportilho.dfr.core.operation.DataFilter;
+import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.Like;
 import io.github.mportilho.dfr.modules.springjpa.samples.application.model.Person;
 import org.junit.jupiter.api.Test;
@@ -72,12 +72,12 @@ public class TestSpecificationLikeOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Like.class, false, false,
                 List.<Object[]>of(new String[]{"TestValue"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TestValue%")));
@@ -93,12 +93,12 @@ public class TestSpecificationLikeOperations {
         when(path.getJavaType()).thenReturn(String.class);
         when(builder.upper(any())).thenReturn(path);
 
-        DataFilter dataFilter = new DataFilter("name", "name", new String[]{"name"}, String.class,
+        FilterData filterData = new FilterData("name", "name", new String[]{"name"}, String.class,
                 Like.class, false, true,
                 List.<Object[]>of(new String[]{"TestValue"}),
                 "", Map.of(), null);
 
-        Specification<Person> specification = specOp.createFilter(dataFilter, new DefaultFormattedConversionService());
+        Specification<Person> specification = specOp.createFilter(filterData, new DefaultFormattedConversionService());
         specification.toPredicate(root, query, builder);
 
         verify(builder, times(1)).like(any(Expression.class), (String) argThat(x -> x.toString().equals("%TESTVALUE%")));

@@ -26,14 +26,15 @@ package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 
-public class TestDecisionOperations {
+import static org.assertj.core.api.Assertions.assertThat;
+
+class TestDecisionOperations {
 
     @Test
-    public void testDecisionOperations() {
+    void testDecisionOperations() {
         MathSentence mathSentence;
 
         mathSentence = new MathSentence("if true then 1 else 0 endif");

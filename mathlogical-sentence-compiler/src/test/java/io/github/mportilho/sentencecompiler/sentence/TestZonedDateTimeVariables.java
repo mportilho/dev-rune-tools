@@ -33,10 +33,10 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class TestZonedDateTimeVariables {
+class TestZonedDateTimeVariables {
 
     @Test
-    public void testZonedDT_withLocalDate() {
+    void testZonedDT_withLocalDate() {
         MathSentence compiler;
 
         ZonedDateTime zdt = ZonedDateTime.of(LocalDate.of(2020, 4, 30), LocalTime.now(), ZoneId.systemDefault());

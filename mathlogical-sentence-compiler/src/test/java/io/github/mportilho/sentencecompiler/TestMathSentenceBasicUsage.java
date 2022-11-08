@@ -48,6 +48,22 @@ public class TestMathSentenceBasicUsage {
     }
 
     @Test
+    public void testSetVariable_MultiType() {
+        MathSentence compiler = new MathSentence("a + b");
+        compiler.setVariable("a", Double.valueOf(1));
+        compiler.setVariable("b", "2");
+        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("3");
+    }
+
+    @Test
+    public void testSetVariable_MultiType_booleanExpression() {
+        MathSentence compiler = new MathSentence("!a = true = b");
+        compiler.setVariable("a", "false");
+        compiler.setVariableProvider("b", c -> "tr" + "ue");
+        assertThat(compiler.<Boolean>compute()).isTrue();
+    }
+
+    @Test
     public void testListVariables() {
         MathSentence compiler = new MathSentence("a + b");
         assertThat(compiler.listUserVariables())

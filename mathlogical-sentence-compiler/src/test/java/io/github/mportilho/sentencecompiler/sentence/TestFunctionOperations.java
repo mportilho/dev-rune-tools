@@ -34,10 +34,10 @@ import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestFunctionOperations {
+class TestFunctionOperations {
 
     @Test
-    public void testFunctionOperationsWithExternalNumberMethods() {
+    void testFunctionOperationsWithExternalNumberMethods() {
         MathSentence mathSentence;
 
         mathSentence = new MathSentence("$.extractedNumber() + 2");
@@ -46,7 +46,7 @@ public class TestFunctionOperations {
     }
 
     @Test
-    public void testFunctionOperationsWithExternalStringMethods() {
+    void testFunctionOperationsWithExternalStringMethods() {
         MathSentence mathSentence;
 
         mathSentence = new MathSentence("$.extractedString() = 'food'");
@@ -55,7 +55,7 @@ public class TestFunctionOperations {
     }
 
     @Test
-    public void testFunctionOperationsWithExternalDateMethods() {
+    void testFunctionOperationsWithExternalDateMethods() {
         MathSentence mathSentence;
 
         mathSentence = new MathSentence("$.extractedDate() = currDate");
@@ -64,7 +64,7 @@ public class TestFunctionOperations {
     }
 
     @Test
-    public void testFunctionOperationsWithExternalTimeMethods() {
+    void testFunctionOperationsWithExternalTimeMethods() {
         MathSentence mathSentence;
 
         mathSentence = new MathSentence("$.extractedTime() = 02:03:00");
@@ -73,7 +73,7 @@ public class TestFunctionOperations {
     }
 
     @Test
-    public void testFunctionOperationsWithExternalDateTimeMethods() {
+    void testFunctionOperationsWithExternalDateTimeMethods() {
         MathSentence mathSentence;
         mathSentence = new MathSentence("$.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
@@ -81,16 +81,16 @@ public class TestFunctionOperations {
     }
 
     @Test
-    public void testFunctionOperationsWithExternalBooleanMethods() {
+    void testFunctionOperationsWithExternalBooleanMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedBoolean()");
+        mathSentence = new MathSentence("extractedBoolean()");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.<Boolean>compute()).isTrue();
     }
 
     @Test
-    public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
+    void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
         MathSentence mathSentence;
         mathSentence = new MathSentence("$.add(3, 4 + 2 - $.extractedNumber())");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());

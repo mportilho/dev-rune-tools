@@ -34,13 +34,16 @@ import java.util.Map;
 
 public class TrigonometryFunctionExtension {
 
-    private static Map<String, LambdaCallSite> INSTANCE;
+    private TrigonometryFunctionExtension() {
+    }
+
+    private static Map<String, LambdaCallSite> instance;
 
     public static Map<String, LambdaCallSite> trigonometryFunctionFactory() {
-        if (INSTANCE == null) {
-            INSTANCE = internalTrigonometryFunctionFactory();
+        if (instance == null) {
+            instance = internalTrigonometryFunctionFactory();
         }
-        return INSTANCE;
+        return instance;
     }
 
     private static Map<String, LambdaCallSite> internalTrigonometryFunctionFactory() {

@@ -38,13 +38,16 @@ import java.util.Map;
 
 public class FinancialFormulasExtension {
 
-    private static Map<String, LambdaCallSite> FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
+    private FinancialFormulasExtension() {
+    }
+
+    private static Map<String, LambdaCallSite> formulaMap = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
 
     public static Map<String, LambdaCallSite> financialFunctionsFactory() {
-        if (FORMULA_MAP == null) {
-            FORMULA_MAP = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
+        if (formulaMap == null) {
+            formulaMap = Collections.unmodifiableMap(internalFinancialFunctionsFactory());
         }
-        return FORMULA_MAP;
+        return formulaMap;
     }
 
     private static Map<String, LambdaCallSite> internalFinancialFunctionsFactory() {

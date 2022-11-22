@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mportilho</groupId>
-        <artifactId>dev-rune-tools</artifactId>
-        <version>1.0.6</version>
+        <artifactId>dev-runes</artifactId>
+        <version>1.0.7</version>
     </parent>
     <artifactId>dynamic-filter-resolver</artifactId>
     <packaging>jar</packaging>
     <name>Dynamic Filter Resolver</name>
 
     <properties>
-        <spring.boot.version>2.7.1</spring.boot.version>
-        <springdocs.version>1.6.9</springdocs.version>
+        <spring.boot.version>3.0.0-RC2</spring.boot.version>
+        <springdocs.version>2.0.0-RC2</springdocs.version>
     </properties>
 
     <dependencyManagement>
@@ -65,7 +65,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.mportilho</groupId>
-            <artifactId>dev-rune-commons</artifactId>
+            <artifactId>dev-runes-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,9 +84,8 @@
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdocs.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Spring Framework Dev -->

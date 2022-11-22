@@ -29,7 +29,7 @@ import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.GreaterOrEquals;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Expression;
 
 /**
  * Implementation of {@link GreaterOrEquals} for the Spring Data JPA's

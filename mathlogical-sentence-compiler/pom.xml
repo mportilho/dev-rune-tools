@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.mportilho</groupId>
-        <artifactId>dev-rune-tools</artifactId>
-        <version>1.0.6</version>
+        <artifactId>dev-runes</artifactId>
+        <version>1.0.7</version>
     </parent>
     <artifactId>mathlogical-sentence-compiler</artifactId>
     <packaging>jar</packaging>
@@ -61,7 +61,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.mportilho</groupId>
-            <artifactId>dev-rune-commons</artifactId>
+            <artifactId>dev-runes-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>

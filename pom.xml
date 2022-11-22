@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.mportilho</groupId>
-    <artifactId>dev-rune-tools</artifactId>
+    <artifactId>dev-runes</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.6</version>
-    <name>DevRune Development Tool</name>
+    <version>1.0.7</version>
+    <name>DevRunes Development Tool</name>
 
     <properties>
         <java.version>17</java.version>
@@ -17,7 +17,7 @@
     </properties>
 
     <modules>
-        <module>dev-rune-commons</module>
+        <module>dev-runes-commons</module>
         <module>dynamic-filter-resolver</module>
         <module>mathlogical-sentence-compiler</module>
     </modules>
@@ -39,7 +39,7 @@
         <dependencies>
             <dependency>
                 <groupId>io.github.mportilho</groupId>
-                <artifactId>dev-rune-commons</artifactId>
+                <artifactId>dev-runes-commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

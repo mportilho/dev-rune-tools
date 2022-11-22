@@ -28,7 +28,7 @@ import io.github.mportilho.dfr.core.processor.annotation.Filter;
 import io.swagger.v3.oas.models.media.Schema;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;

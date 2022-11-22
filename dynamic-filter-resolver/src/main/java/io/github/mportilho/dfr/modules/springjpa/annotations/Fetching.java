@@ -24,8 +24,8 @@
 
 package io.github.mportilho.dfr.modules.springjpa.annotations;
 
-import javax.persistence.criteria.Fetch;
-import javax.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Fetch;
+import jakarta.persistence.criteria.JoinType;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;

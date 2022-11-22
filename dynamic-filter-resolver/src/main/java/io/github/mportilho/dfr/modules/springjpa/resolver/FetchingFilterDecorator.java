@@ -7,8 +7,8 @@ import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.mapping.PropertyPath;
 
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Root;
 import java.util.Collection;
 
 public class FetchingFilterDecorator implements FilterDecorator<Specification<?>> {

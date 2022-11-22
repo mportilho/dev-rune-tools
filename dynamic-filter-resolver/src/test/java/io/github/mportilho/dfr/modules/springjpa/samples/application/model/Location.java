@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.modules.springjpa.samples.application.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table

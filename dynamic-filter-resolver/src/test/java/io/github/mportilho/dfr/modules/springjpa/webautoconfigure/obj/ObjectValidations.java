@@ -24,7 +24,7 @@
 
 package io.github.mportilho.dfr.modules.springjpa.webautoconfigure.obj;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

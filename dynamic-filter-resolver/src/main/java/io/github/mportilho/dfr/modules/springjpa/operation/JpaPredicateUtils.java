@@ -27,8 +27,8 @@ package io.github.mportilho.dfr.modules.springjpa.operation;
 import io.github.mportilho.dfr.core.operation.FilterData;
 import org.springframework.data.mapping.PropertyPath;
 
-import javax.persistence.criteria.*;
-import javax.persistence.metamodel.Attribute;
+import jakarta.persistence.criteria.*;
+import jakarta.persistence.metamodel.Attribute;
 import java.util.function.BiFunction;
 
 /**

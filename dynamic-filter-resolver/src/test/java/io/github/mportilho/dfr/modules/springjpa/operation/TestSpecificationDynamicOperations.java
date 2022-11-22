@@ -38,7 +38,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.data.jpa.domain.Specification;
 import static org.assertj.core.api.Assertions.*;
 
-import javax.persistence.criteria.*;
+import jakarta.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;

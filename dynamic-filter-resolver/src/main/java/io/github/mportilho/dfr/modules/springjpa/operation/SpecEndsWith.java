@@ -29,8 +29,8 @@ import io.github.mportilho.dfr.core.operation.FilterData;
 import io.github.mportilho.dfr.core.operation.type.EndsWith;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Path;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Path;
 
 /**
  * Implementation of {@link EndsWith} for the Spring Data JPA's

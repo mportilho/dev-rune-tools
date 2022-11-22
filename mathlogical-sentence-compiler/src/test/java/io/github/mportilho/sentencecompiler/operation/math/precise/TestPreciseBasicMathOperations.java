@@ -35,12 +35,12 @@ import java.math.BigDecimal;
 
 import static java.math.BigDecimal.valueOf;
 
-public class TestPreciseBasicMathOperations {
+class TestPreciseBasicMathOperations {
 
     private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
-    public void testPreciseAditionOperation() {
+    void testPreciseAditionOperation() {
         PreciseAdditionOperation operation;
 
         operation = new PreciseAdditionOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(BigDecimal.ZERO));
@@ -60,7 +60,7 @@ public class TestPreciseBasicMathOperations {
     }
 
     @Test
-    public void testPreciseDivisionOperation() {
+    void testPreciseDivisionOperation() {
         PreciseSubtractionOperation operation;
 
         operation = new PreciseSubtractionOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(BigDecimal.ZERO));
@@ -80,7 +80,7 @@ public class TestPreciseBasicMathOperations {
     }
 
     @Test
-    public void testPreciseMultiplicationOperation() {
+    void testPreciseMultiplicationOperation() {
         PreciseMultiplicationOperation operation;
 
         operation = new PreciseMultiplicationOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(BigDecimal.ZERO));
@@ -100,7 +100,7 @@ public class TestPreciseBasicMathOperations {
     }
 
     @Test
-    public void testPreciseImplicitMultiplicationOperation() {
+    void testPreciseImplicitMultiplicationOperation() {
         PreciseMultiplicationOperation operation;
 
         operation = new PreciseMultiplicationOperation(new GenericValueOperation(valueOf(2)), new GenericValueOperation(valueOf(3)), true);
@@ -108,7 +108,7 @@ public class TestPreciseBasicMathOperations {
     }
 
     @Test
-    public void testPreciseSubtractionOperation() {
+    void testPreciseSubtractionOperation() {
         PreciseDivisionOperation operation;
 
         PreciseDivisionOperation divisionByZeroOperation = new PreciseDivisionOperation(new GenericValueOperation(BigDecimal.ZERO),

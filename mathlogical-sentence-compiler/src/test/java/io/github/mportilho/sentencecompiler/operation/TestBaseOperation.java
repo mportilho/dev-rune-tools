@@ -34,18 +34,18 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestBaseOperation {
+class TestBaseOperation {
 
     private final OperationContext context = MathSentenceCompilerMockupFactory.getPreciseOperationContext();
 
     @Test
-    public void testBaseOperation() {
+    void testBaseOperation() {
         BaseOperation operation = new BaseOperation(null, null);
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
     @Test
-    public void testBaseOperationWithOperationMap() {
+    void testBaseOperationWithOperationMap() {
         Map<String, AssignedVariableOperation> map = new HashMap<>();
         map.put("one", new AssignedVariableOperation("one", new PreciseNumberConstantValueOperation("1")));
         map.put("two", new AssignedVariableOperation("two", new PreciseNumberConstantValueOperation("2")));
@@ -55,7 +55,7 @@ public class TestBaseOperation {
     }
 
     @Test
-    public void testCopingBaseOperation() throws Throwable {
+    void testCopingBaseOperation() throws Throwable {
         BaseOperation operation = new BaseOperation(null, null);
         BaseOperation copyOperation = (BaseOperation) operation.copy(new CloningContext());
 
@@ -65,7 +65,7 @@ public class TestBaseOperation {
     }
 
     @Test
-    public void testCopingBaseOperationWithOperationMap() throws Throwable {
+    void testCopingBaseOperationWithOperationMap() throws Throwable {
         Map<String, AssignedVariableOperation> map = new HashMap<>();
         map.put("one", new AssignedVariableOperation("one", new PreciseNumberConstantValueOperation("1")));
         map.put("two", new AssignedVariableOperation("two", new PreciseNumberConstantValueOperation("2")));

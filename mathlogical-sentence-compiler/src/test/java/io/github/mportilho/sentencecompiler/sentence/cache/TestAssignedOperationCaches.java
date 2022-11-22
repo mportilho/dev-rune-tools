@@ -31,17 +31,17 @@ import org.junit.jupiter.api.Test;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
 
-public class TestAssignedOperationCaches {
+class TestAssignedOperationCaches {
 
 	private static CacheCheckVisitor cacheVisitor;
 
 	@BeforeAll
-	public static void beforeClass() {
+	static void beforeClass() {
 		cacheVisitor = new CacheCheckVisitor();
 	}
 
 	@Test
-	public void testAssignedVariable() {
+	void testAssignedVariable() {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("a = 1 + 2;");
@@ -55,7 +55,7 @@ public class TestAssignedOperationCaches {
 	}
 
 	@Test
-	public void testMultipleAssignedVariables() {
+	void testMultipleAssignedVariables() {
 		StringBuilder sb;
 		sb = new StringBuilder();
 		sb.append("a = 1 + 2;");
@@ -70,7 +70,7 @@ public class TestAssignedOperationCaches {
 	}
 
 	@Test
-	public void testObtainAssinedVariable() {
+	void testObtainAssinedVariable() {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
@@ -85,7 +85,7 @@ public class TestAssignedOperationCaches {
 	}
 
 	@Test
-	public void testObtainAssinedVariableNoCache() {
+	void testObtainAssinedVariableNoCache() {
 		StringBuilder sb;
 
 		sb = new StringBuilder();

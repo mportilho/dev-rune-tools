@@ -26,12 +26,11 @@ package io.github.mportilho.dfr.core.resolver;
 
 
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
+import io.github.mportilho.dfr.core.processor.FilterDefinition;
 import io.github.mportilho.dfr.core.processor.LogicType;
-import io.github.mportilho.dfr.core.processor.annotation.FilterDecorator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A helper class for {@link DynamicFilterResolver} that provides means to
@@ -85,14 +84,11 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      * {@inheritDoc}
      */
     @Override
-    public <R extends T> R createFilter(ConditionalStatement conditionalStatement, FilterDecorator<T> filterDecorator,
-                                        Map<String, Object[]> parametersMap) {
-        if (conditionalStatement == null || conditionalStatement.hasNoCondition()) {
-            return decorateFilters(emptyPredicate(), filterDecorator, conditionalStatement, parametersMap,
-                    getFilterOperationService().getFormattedConversionService());
+    public <R extends T> R createFilter(FilterDefinition filterDefinition) {
+        if (filterDefinition == null || filterDefinition.statement().hasNoCondition()) {
+            return decorateFilters(emptyPredicate(), filterDefinition, getFilterOperationService().getFormattedConversionService());
         }
-        return decorateFilters(convertRecursively(conditionalStatement), filterDecorator, conditionalStatement,
-                parametersMap, getFilterOperationService().getFormattedConversionService());
+        return decorateFilters(convertRecursively(filterDefinition.statement()), filterDefinition, getFilterOperationService().getFormattedConversionService());
     }
 
     /**

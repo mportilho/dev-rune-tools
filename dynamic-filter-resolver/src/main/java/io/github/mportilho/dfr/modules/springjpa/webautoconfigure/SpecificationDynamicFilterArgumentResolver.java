@@ -26,6 +26,7 @@ package io.github.mportilho.dfr.modules.springjpa.webautoconfigure;
 
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
 import io.github.mportilho.dfr.core.processor.ConditionalStatementProcessor;
+import io.github.mportilho.dfr.core.processor.FilterDefinition;
 import io.github.mportilho.dfr.core.processor.annotation.AnnotationProcessorParameter;
 import io.github.mportilho.dfr.core.processor.annotation.CompositeFilterDecorator;
 import io.github.mportilho.dfr.core.processor.annotation.FilterDecorator;
@@ -33,6 +34,7 @@ import io.github.mportilho.dfr.core.processor.annotation.FilterDecorators;
 import io.github.mportilho.dfr.core.resolver.DynamicFilterResolver;
 import io.github.mportilho.dfr.modules.springjpa.annotations.Fetching;
 import io.github.mportilho.dfr.modules.springjpa.resolver.FetchingFilterDecorator;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.MethodParameter;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,7 +45,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerMapping;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
 import java.lang.reflect.InvocationTargetException;
@@ -88,7 +89,8 @@ public class SpecificationDynamicFilterArgumentResolver implements HandlerMethod
         Map<String, Object[]> userParameters = createProvidedValuesMap(webRequest);
         ConditionalStatement statement = conditionalStatementProcessor.createStatements(new AnnotationProcessorParameter(parameter.getParameterType(), parameter.getParameterAnnotations()), userParameters);
         FilterDecorator<Specification<?>> filterDecorator = createFilterDecoratorByFetchingAnnotation(parameter);
-        return createProxy(dynamicFilterResolver.createFilter(statement, filterDecorator, userParameters), parameter.getParameterType());
+        FilterDefinition filterDefinition = new FilterDefinition(statement, filterDecorator, userParameters);
+        return createProxy(dynamicFilterResolver.createFilter(filterDefinition), parameter.getParameterType());
     }
 
     @SuppressWarnings({"unchecked"})

@@ -28,10 +28,8 @@ package io.github.mportilho.dfr.core.resolver;
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.dfr.core.operation.FilterOperationService;
 import io.github.mportilho.dfr.core.processor.ConditionalStatement;
+import io.github.mportilho.dfr.core.processor.FilterDefinition;
 import io.github.mportilho.dfr.core.processor.annotation.FilterDecorator;
-
-import java.util.Collections;
-import java.util.Map;
 
 /**
  * Represents the operation for converting a {@link ConditionalStatement}, with
@@ -46,52 +44,32 @@ public interface DynamicFilterResolver<T> {
     FilterOperationService<T> getFilterOperationService();
 
     /**
-     * Converts the conditional statement to a target framework's query structure
-     * object
+     * Converts the filter definition to the target framework's query structure
      *
-     * @param <R>                  Return type of the target query object for this
-     *                             dynamic filter
-     * @param conditionalStatement Conditional statement representation for
-     *                             conversion
-     * @return The query object created from this dynamic filter resolver
+     * @param filterDefinition filter metadata
+     * @param <R>              Return type of the target query object for this dynamic filter
+     * @return The query object created from this filter
      */
-    default <R extends T> R createFilter(ConditionalStatement conditionalStatement) {
-        return createFilter(conditionalStatement, null, Collections.emptyMap());
-    }
-
-    /**
-     * Converts the conditional statement to a target framework's query structure
-     * object
-     *
-     * @param <R>                  Return type of the target query object for this
-     *                             dynamic filter
-     * @param conditionalStatement Conditional statement representation for
-     *                             conversion.
-     * @param decorator            Decorator to be used for the resulting filtering object
-     * @param parametersMap        User provided parameters
-     * @return The query object created from this dynamic filter resolver
-     */
-    <R extends T> R createFilter(ConditionalStatement conditionalStatement, FilterDecorator<T> decorator,
-                                 Map<String, Object[]> parametersMap);
+    <R extends T> R createFilter(FilterDefinition filterDefinition);
 
     /**
      * A method that can be overridden to decorate the resulting converted object
      *
-     * @param <R>             Return type of the target query object for this dynamic
-     *                        filter
-     * @param filter          The resulting query object created from this dynamic filter
-     * @param filterDecorator decarates the resulting filter
-     * @param parametersMap   User provided parameters
+     * @param <R>                        Return type of the target query object for this dynamic
+     *                                   filter
+     * @param filter                     The resulting query object created from this dynamic filter
+     * @param filterDefinition           filter metadata
+     * @param formattedConversionService data converting service
      * @return The decorated query object
      */
     @SuppressWarnings({"unchecked"})
-    default <R extends T> R decorateFilters(
-            R filter, FilterDecorator<T> filterDecorator, ConditionalStatement conditionalStatement,
-            Map<String, Object[]> parametersMap, FormattedConversionService formattedConversionService) {
-        if (filterDecorator == null) {
+    default <R extends T> R decorateFilters(R filter, FilterDefinition filterDefinition,
+                                            FormattedConversionService formattedConversionService) {
+        if (filterDefinition == null || filterDefinition.decorator() == null) {
             return filter;
         }
-        return (R) filterDecorator.decorate(filter, conditionalStatement, formattedConversionService);
+        FilterDecorator<R> decorator = (FilterDecorator<R>) filterDefinition.decorator();
+        return decorator.decorate(filter, filterDefinition.statement(), formattedConversionService);
     }
 
 }

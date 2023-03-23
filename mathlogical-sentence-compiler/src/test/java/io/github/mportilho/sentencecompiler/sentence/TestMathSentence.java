@@ -30,6 +30,8 @@ import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionExceptio
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -133,6 +135,13 @@ public class TestMathSentence {
     @Test
     public void testCompountInterestFormula() {
         computeMathSentence("halfEven(5000 * (1 + 0.05 / 12)^(12 * 10), 2)", valueOf(8235.05));
+    }
+
+    @Test
+    public void testDaysSubtractOperation() {
+        assertThat(new MathSentence("2020-02-03 - 2020-02-01").<BigDecimal>compute()).isEqualByComparingTo("2");
+        assertThat(new MathSentence("2020-02-01 - 2020-02-03").<BigDecimal>compute()).isEqualByComparingTo("-2");
+        assertThat(new MathSentence("2020-02-01 - a").setVariable("a", "2020-02-03").<BigDecimal>compute()).isEqualByComparingTo("-2");
     }
 
 }

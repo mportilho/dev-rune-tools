@@ -145,9 +145,9 @@ NEGATIVE_IDENTIFIER: NegativeSymbol IdentifierText ;
 STRING: QUOTES (~ '\'' )*  QUOTES;
 NUMBER: Decimal | OctalDigits | HexDigits;
 POSITIVE: PositiveNumber ;
-DATE: NumberPart NumberPart NumberPart NumberPart MINUS MONTH_PART MINUS DAY_PART ;
-TIME: HOUR_PART Colon MINUTE_SECOND_PART (Colon MINUTE_SECOND_PART)? ;
-DATETIME: DATE ('T' | MINUS) TIME TIME_OFFSET? ;
+DATE: DateFragment ;
+TIME: HourFragment Colon MinuteSecondFragment (Colon MinuteSecondFragment)? ;
+DATETIME: DATE ('T' | MINUS) TIME TimeOffsetFragment? ;
 
 // TYPE CASTING
 BOOLEAN_TYPE: '<bool>';
@@ -157,28 +157,6 @@ DATE_TYPE: '<date>' ;
 TIME_TYPE: '<time>' ;
 DATETIME_TYPE: '<datetime>' ;
 VECTOR_TYPE: '<vector>' ;
-
-// Small lexer parts
-DAY_PART
-  : '0' '1'..'9'
-  | '1'..'2' NumberPart
-  | '3' '0'..'1'
-  ;
-MONTH_PART
-  : '0' '1'..'9'
-  | '1' '0'..'2'
-  ;
-HOUR_PART
-  : '0'..'1' NumberPart
-  | '2' '0'..'3'
-  ;
-MINUTE_SECOND_PART
-  : '0'..'5' NumberPart
-  ;
-
-TIME_OFFSET
-  : ('+' | '-') '0'..'2' NumberPart ':' NumberPart NumberPart
-  ;
 
 // Fragments
 fragment IdentifierText: [a-zA-Z_][a-zA-Z_0-9]* ;
@@ -196,6 +174,13 @@ fragment JsonPathSeparator : '->' ;
 fragment RawTextNoWhiteSpace: ('\\' [\\"] | ~[ \\"\r\n\t\u000C] )+ ;
 fragment RawAlphabeticNoWhiteSpace: ('\\' [\\"] | ~[ \\"\r\n\t\u000C0-9] )+ ;
 fragment MinusParenthesisOperator: '-(';
+
+fragment DayFragment: '0' '1'..'9' | '1'..'2' '0'..'9' | '3' '0'..'1' ;
+fragment MonthFragment: '0' '1'..'9' | '1' '0'..'2' ;
+fragment HourFragment: '0'..'1' '0'..'9' | '2' '0'..'3' ;
+fragment MinuteSecondFragment: '0'..'5' '0'..'9' ;
+fragment DateFragment: '0'..'9' '0'..'9' '0'..'9' '0'..'9' '-' MonthFragment '-' DayFragment ;
+fragment TimeOffsetFragment: ('+' | '-') '0'..'2' NumberPart ':' NumberPart NumberPart ;
 
 // COMMENT and WS are stripped from the output token stream by sending to a different channel 'skip'
 // COMMENT : '//' .+? ('\n'|EOF) -> skip ;
@@ -248,6 +233,7 @@ mathExpression
   | <assoc=right> mathExpression EXPONENTIATION mathExpression # exponentiationExpression
   | mathExpression (MULT | DIV | MODULO) mathExpression # multiplicationExpression
   | mathExpression (PLUS | MINUS) mathExpression # sumExpression
+  | dateEntity MINUS dateEntity # daysSubtractionExpression
   | MODULUS mathExpression MODULUS # modulusExpression
   | mathExpression DEGREE # degreeExpression
   | mathSpecificFunction # mathSpecificExpression

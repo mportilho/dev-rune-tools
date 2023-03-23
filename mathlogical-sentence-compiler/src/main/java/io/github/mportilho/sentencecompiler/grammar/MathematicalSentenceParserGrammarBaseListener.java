@@ -175,6 +175,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDaysSubtractionExpression(MathematicalSentenceParserGrammarParser.DaysSubtractionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDaysSubtractionExpression(MathematicalSentenceParserGrammarParser.DaysSubtractionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterModulusExpression(MathematicalSentenceParserGrammarParser.ModulusExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -160,6 +160,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitLogicalParenthesis(MathematicalSentenceParserGrammarParser.LogicalParenthesisContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code daysSubtractionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDaysSubtractionExpression(MathematicalSentenceParserGrammarParser.DaysSubtractionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code daysSubtractionExpression}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDaysSubtractionExpression(MathematicalSentenceParserGrammarParser.DaysSubtractionExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code modulusExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#mathExpression}.
 	 * @param ctx the parse tree

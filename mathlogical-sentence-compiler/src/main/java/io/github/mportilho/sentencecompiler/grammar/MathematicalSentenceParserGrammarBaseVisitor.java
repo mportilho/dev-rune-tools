@@ -111,6 +111,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitDaysSubtractionExpression(MathematicalSentenceParserGrammarParser.DaysSubtractionExpressionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitModulusExpression(MathematicalSentenceParserGrammarParser.ModulusExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

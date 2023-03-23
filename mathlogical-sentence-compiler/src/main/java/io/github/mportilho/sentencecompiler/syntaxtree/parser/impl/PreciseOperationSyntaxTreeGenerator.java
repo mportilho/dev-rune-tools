@@ -26,6 +26,7 @@ package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser.*;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
+import io.github.mportilho.sentencecompiler.operation.math.DaysSubtractionOperation;
 import io.github.mportilho.sentencecompiler.operation.math.precise.*;
 import io.github.mportilho.sentencecompiler.operation.math.precise.PreciseNumberRoundingOperation.RoundingEnum;
 import io.github.mportilho.sentencecompiler.operation.math.precise.logarithm.PreciseBinaryLogarithmOperation;
@@ -120,6 +121,11 @@ public class PreciseOperationSyntaxTreeGenerator extends AbstractOperationSyntax
             return new PreciseSubtractionOperation(ctx.mathExpression(0).accept(this), ctx.mathExpression(1).accept(this));
         }
         throw new IllegalStateException(String.format("Operation %s not implemented", ctx.getText()));
+    }
+
+    @Override
+    public AbstractOperation visitDaysSubtractionExpression(DaysSubtractionExpressionContext ctx) {
+        return new DaysSubtractionOperation(ctx.dateEntity(0).accept(this), ctx.dateEntity(1).accept(this));
     }
 
     @Override

@@ -62,8 +62,8 @@ public class ExcelFinancialFunction {
      * Compounding Periodic Equivalent Interest Rate => (1+r) ^ (nper/per) - 1
      *
      * @param r    Rate value for the period
-     * @param per  number of original periods
-     * @param nper number of target periods
+     * @param per  number of original periods - for example, if the interest rate is annual, set 12
+     * @param nper number of target periods - for example, set 2 if the payment is made every 2 months
      * @param mc   provided math context
      * @return Equivalient interest r
      */

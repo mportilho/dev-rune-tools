@@ -54,12 +54,12 @@ public class ExcelFinancialFunction {
      * @param mc   provided math context
      * @return Equivalient interest r
      */
-    public static BigDecimal lpeir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
+    public static BigDecimal leir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
         return r.multiply(nper, mc).divide(per, mc);
     }
 
     /**
-     * Compounding Periodic Equivalent Interest Rate => ((1+r) ^ (nper/per)) - 1
+     * Compounding Periodic Equivalent Interest Rate => (1+r) ^ (nper/per) - 1
      *
      * @param r    Rate value for the period
      * @param per  number of original periods
@@ -67,19 +67,19 @@ public class ExcelFinancialFunction {
      * @param mc   provided math context
      * @return Equivalient interest r
      */
-    public static BigDecimal peir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
+    public static BigDecimal ceir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
         return pow(ONE.add(r, mc), nper.divide(per, mc), mc).subtract(ONE, mc);
     }
 
     /**
-     * Equivalent Interest Rate => ((1+r/per)^(per*nper)) - 1
+     * Effective Interest Rate => ((1+r/per)^(per*nper)) - 1
      * Can be simplified to => ((1 + r) ^ nper) - 1
      *
      * @param r    Rate value for the period
      * @param per  period (payment number) to check value at. Number of compounding periods
      * @param nper number of total payments / periods
      * @param mc   provided math context
-     * @return Equivalient interest r
+     * @return Effective interest r
      */
     public static BigDecimal eir(BigDecimal r, BigDecimal per, BigDecimal nper, MathContext mc) {
         return pow(ONE.add(r.divide(per, mc), mc), per.multiply(nper, mc), mc).subtract(ONE, mc);
@@ -89,7 +89,7 @@ public class ExcelFinancialFunction {
      * Calculate present value from future one
      *
      * @param r    Periodic interest r represented as a decimal.
-     * @param per  period (payment number) to check value at. Number of compounding periods
+     * @param per  period (payment number) to check value at. Number of compounding periods.
      * @param nper number of total payments / periods.
      * @param pmt  periodic payment amount.
      * @param fv   future value of loan or annuity.

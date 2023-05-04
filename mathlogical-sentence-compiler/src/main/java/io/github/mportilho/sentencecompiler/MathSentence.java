@@ -59,6 +59,10 @@ public class MathSentence {
         this.locked = false;
     }
 
+    public MathSentence(String sentence, OperationSupportData operationSupportData) {
+        this(sentence, new MathSentenceOptions(operationSupportData));
+    }
+
     private MathSentence(MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite) {
         this.mathContext = mathContext;
         this.scale = scale;

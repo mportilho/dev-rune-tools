@@ -41,7 +41,7 @@ public class MathSentenceOptions {
     private final boolean preciseNumbers;
 
     public MathSentenceOptions() {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService( ), null,
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null,
                 ZoneOffset.UTC, true);
     }
 
@@ -49,6 +49,11 @@ public class MathSentenceOptions {
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
         this(mathContext, scale, formattedConversionService, null,
+                ZoneOffset.UTC, true);
+    }
+
+    public MathSentenceOptions(OperationSupportData operationSupportData) {
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), operationSupportData,
                 ZoneOffset.UTC, true);
     }
 

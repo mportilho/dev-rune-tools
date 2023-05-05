@@ -24,11 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
-import io.github.mportilho.sentencecompiler.support.function.generics.DateTimeFunctionExtension;
-import io.github.mportilho.sentencecompiler.support.function.generics.FinancialFormulasExtension;
-import io.github.mportilho.sentencecompiler.support.function.generics.MathFormulasExtension;
-import io.github.mportilho.sentencecompiler.support.function.generics.StringFunctionExtension;
-import io.github.mportilho.sentencecompiler.support.function.generics.TrigonometryFunctionExtension;
+import io.github.mportilho.sentencecompiler.support.function.generics.*;
 
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -59,6 +55,14 @@ public class LambdaCallSiteFactory {
     }
 
     public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
+        return makeLambdaCallSites(provider);
+    }
+
+    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider, String... methodNames) throws Throwable {
+        return makeLambdaCallSites(provider, methodNames);
+    }
+
+    private static Map<String, LambdaCallSite> makeLambdaCallSites(Object provider, String... methodNames) throws Throwable {
         Objects.requireNonNull(provider, "Provider object for extracting methods required");
         boolean isClassObject = provider instanceof Class<?>;
         Class<?> clazz = isClassObject ? (Class<?>) provider : provider.getClass();
@@ -66,12 +70,27 @@ public class LambdaCallSiteFactory {
 
         Map<String, LambdaCallSite> dynamicCallerPool = new HashMap<>();
         for (MethodDescriptor methodDescriptor : beanInfo.getMethodDescriptors()) {
+            if (verifyIgnoreableMethod(methodDescriptor, methodNames)) continue;
             LambdaCallSite lambdaCallSite = createLambdaCallSite(methodDescriptor.getMethod(), isClassObject, provider);
             if (lambdaCallSite != null) {
                 dynamicCallerPool.put(lambdaCallSite.getKeyName(), lambdaCallSite);
             }
         }
         return dynamicCallerPool;
+    }
+
+    private static boolean verifyIgnoreableMethod(MethodDescriptor methodDescriptor, String[] methodNames) {
+        if (methodNames != null && methodNames.length > 0) {
+            boolean found = false;
+            for (String methodName : methodNames) {
+                if (methodName.equals(methodDescriptor.getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            return !found;
+        }
+        return false;
     }
 
     private static LambdaCallSite createLambdaCallSite(

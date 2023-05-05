@@ -37,10 +37,8 @@ public class OperationSupportData {
 
     public static final OperationSupportData EMPTY_DATA = new OperationSupportData(emptyMap(), emptyMap());
 
-
     private final Map<String, Object> dictionary;
     private final Map<String, LambdaCallSite> functions;
-
 
     public OperationSupportData() {
         this.dictionary = new HashMap<>();
@@ -62,17 +60,15 @@ public class OperationSupportData {
         return functions.getOrDefault(key, LambdaCallSiteFactory.DEFAULT_FUNCTIONS.get(key));
     }
 
-    public OperationSupportData putDictionary(String key, Object value) {
+    public void putDictionary(String key, Object value) {
         dictionary.put(key, value);
-        return this;
     }
 
-    public OperationSupportData putFunction(String key, LambdaCallSite function) {
+    public void putFunction(String key, LambdaCallSite function) {
         functions.put(key, function);
-        return this;
     }
 
-    public Map<String, LambdaCallSite> copyFunctions() {
+    public Map<String, LambdaCallSite> getFunctions() {
         return Collections.unmodifiableMap(functions);
     }
 

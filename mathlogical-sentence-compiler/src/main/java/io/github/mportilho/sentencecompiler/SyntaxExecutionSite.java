@@ -121,7 +121,7 @@ class SyntaxExecutionSite {
         AbstractOperation copy = operation.copy(cloningCtx);
         return new SyntaxExecutionSite(
                 copy, syntaxExecutionData, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
-                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.copyFunctions()),
+                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.getFunctions()),
                 conversionService);
     }
 

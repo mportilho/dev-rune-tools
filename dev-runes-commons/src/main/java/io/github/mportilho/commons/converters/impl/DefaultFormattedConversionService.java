@@ -61,9 +61,32 @@ public class DefaultFormattedConversionService implements FormattedConversionSer
 
     @SuppressWarnings("unchecked")
     private <S, T> T fallbackConversion(S source, Class<T> targetType) {
+        if (targetType.isPrimitive()) {
+            if (source instanceof Number number) {
+                if (targetType.equals(int.class)) {
+                    return (T) Integer.valueOf(number.intValue());
+                } else if (targetType.equals(long.class)) {
+                    return (T) Long.valueOf(number.longValue());
+                } else if (targetType.equals(float.class)) {
+                    return (T) Float.valueOf(number.floatValue());
+                } else if (targetType.equals(double.class)) {
+                    return (T) Double.valueOf(number.doubleValue());
+                } else if (targetType.equals(short.class)) {
+                    return (T) Short.valueOf(number.shortValue());
+                } else if (targetType.equals(byte.class)) {
+                    return (T) Byte.valueOf(number.byteValue());
+                }
+            } else if (source instanceof Boolean bool) {
+                if (targetType.equals(boolean.class)) {
+                    return (T) bool;
+                }
+            }
+        }
+
         if (targetType.isInstance(source)) {
             return (T) source;
         }
+
         T anEnum = convertEnum(source, targetType);
         if (anEnum != null) {
             return anEnum;

@@ -31,6 +31,7 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory.getLambdaContext;
@@ -62,6 +63,15 @@ public class TestMethodMetaFactory {
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.LONG)
                 .isEqualTo(7L);
+    }
+
+    @Test
+    public void test_callingMethod_withLambdas() throws Throwable {
+        Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(ChronoUnit.DAYS, "between");
+        Object value = siteMap.get("between_2").call(getLambdaContext(), new Object[]{"2020-01-15", "2020-01-30"});
+        Assertions.assertThat(value)
+                .asInstanceOf(InstanceOfAssertFactories.LONG)
+                .isEqualTo(15);
     }
 
 }

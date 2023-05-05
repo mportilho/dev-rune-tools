@@ -26,12 +26,14 @@ package io.github.mportilho.commons.converters.impl.availfacs;
 
 import io.github.mportilho.commons.converters.FormattedConverter;
 import io.github.mportilho.commons.converters.impl.ConvertMappingKey;
+import io.github.mportilho.commons.converters.impl.dates.StringToTemporalConverter;
 import io.github.mportilho.commons.converters.impl.string.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,6 +68,7 @@ public class AvailableStringFormatters {
         formattedConverters.put(new ConvertMappingKey(String.class, Year.class), new StringToYearConverter());
         formattedConverters.put(new ConvertMappingKey(String.class, YearMonth.class), new StringToYearMonthConverter());
         formattedConverters.put(new ConvertMappingKey(String.class, ZonedDateTime.class), new StringToZonedDateTimeConverter());
+        formattedConverters.put(new ConvertMappingKey(String.class, Temporal.class), new StringToTemporalConverter());
     }
 
 }

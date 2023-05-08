@@ -131,6 +131,14 @@ public class MathSentence {
         return this;
     }
 
+    public MathSentence addFunction(String functionName, MethodType methodType, Function<Object[], Object> function) {
+        checkUpdateLock();
+        LambdaSupplier lambdaSupplier = (context, parameters) -> function.apply(parameters);
+        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, lambdaSupplier, syntaxExecutionSite.getConversionService());
+        syntaxExecutionSite.addFunction(lambdaCallSite);
+        return this;
+    }
+
     public MathSentence addFunctionFromObject(Object functionProvider) {
         checkUpdateLock();
         syntaxExecutionSite.addFunctionFromObject(functionProvider);

@@ -24,6 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.support.lambda;
 
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class TestLambdaCallSite {
         LambdaCallSite site = new LambdaCallSite(
                 "addOne",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ((BigDecimal) parameters[0]).add(ONE));
+                (context, parameters) -> ((BigDecimal) parameters[0]).add(ONE), new DefaultFormattedConversionService());
         Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new BigDecimal[]{ONE})).isEqualByComparingTo("2");
     }
 
@@ -53,7 +54,7 @@ public class TestLambdaCallSite {
         LambdaCallSite site = new LambdaCallSite(
                 "addThreeNumbers",
                 MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> ((BigDecimal) parameters[0]).add(((BigDecimal) parameters[1])).add(((BigDecimal) parameters[2])));
+                (context, parameters) -> ((BigDecimal) parameters[0]).add(((BigDecimal) parameters[1])).add(((BigDecimal) parameters[2])), new DefaultFormattedConversionService());
         Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new Object[]{ONE, 2, "3"})).isEqualByComparingTo("6");
     }
 
@@ -62,7 +63,7 @@ public class TestLambdaCallSite {
         LambdaCallSite site = new LambdaCallSite(
                 "sumArray",
                 MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> Stream.of(((BigDecimal[]) parameters[0])).reduce(ZERO, BigDecimal::add));
+                (context, parameters) -> Stream.of(((BigDecimal[]) parameters[0])).reduce(ZERO, BigDecimal::add), new DefaultFormattedConversionService());
         Assertions.assertThat((BigDecimal) site.call(getLambdaContext(), new Object[]{new Object[]{ONE, 2, "3"}})).isEqualByComparingTo("6");
     }
 
@@ -79,7 +80,7 @@ public class TestLambdaCallSite {
                         r[i] = a1[i].add(a2[i]).setScale(0, RoundingMode.HALF_EVEN);
                     }
                     return r;
-                });
+                }, new DefaultFormattedConversionService());
         Assertions.assertThat((BigDecimal[]) site.call(getLambdaContext(), new Object[]{
                 new Object[]{ONE, 2, "3"},
                 new Object[]{4d, 5f, (short) 4}

@@ -25,7 +25,6 @@
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
@@ -40,17 +39,11 @@ public class LambdaCallSite {
 
     public LambdaCallSite(
             String methodName, MethodType methodType,
-            LambdaSupplier lambdaSupplier) {
-        this(methodName, methodType, lambdaSupplier, new DefaultFormattedConversionService());
-    }
-
-    public LambdaCallSite(
-            String methodName, MethodType methodType,
-            LambdaSupplier lambdaSupplier, FormattedConversionService service) {
+            LambdaSupplier lambdaSupplier, FormattedConversionService conversionService) {
         this.methodName = methodName;
         this.methodType = methodType;
         this.lambdaSupplier = lambdaSupplier;
-        this.service = service;
+        this.service = conversionService;
     }
 
     @SuppressWarnings({"unchecked"})

@@ -24,6 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.sentence.text;
 
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.MathSentence;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
@@ -97,9 +98,9 @@ public class TestOtherOperationsTextualRepresentation {
         MathSentence mathSentence;
 
         LambdaCallSite callSite1 = new LambdaCallSite("function1",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5, new DefaultFormattedConversionService());
         LambdaCallSite callSite2 = new LambdaCallSite("function2",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 6, new DefaultFormattedConversionService());
 
         mathSentence = new MathSentence("$.function1(1 * 2) + $.function2(3 / 4)");
         mathSentence.addFunction(callSite1);
@@ -120,9 +121,9 @@ public class TestOtherOperationsTextualRepresentation {
     public void testFunctionOperationWithMultipleParametersTextRepresentation() {
         MathSentence mathSentence;
         LambdaCallSite callSite1 = new LambdaCallSite("function1",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5);
+                MethodType.methodType(BigDecimal.class, BigDecimal.class), (context, parameters) -> 5, new DefaultFormattedConversionService());
         LambdaCallSite callSite2 = new LambdaCallSite("function2",
-                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class), (context, parameters) -> 6);
+                MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class), (context, parameters) -> 6, new DefaultFormattedConversionService());
 
         mathSentence = new MathSentence("$.function1(1 * 2) + function2(3 / 4, 7)");
         mathSentence.addFunction(callSite1);

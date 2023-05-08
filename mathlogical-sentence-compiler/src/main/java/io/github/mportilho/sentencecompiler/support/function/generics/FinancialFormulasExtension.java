@@ -24,6 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.support.function.generics;
 
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.function.financial.ExcelFinancialFunction;
 import io.github.mportilho.sentencecompiler.support.function.xirr.Transaction;
 import io.github.mportilho.sentencecompiler.support.function.xirr.Xirr;
@@ -61,7 +62,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[1],
                         (BigDecimal) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("r",
@@ -72,7 +73,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pv",
@@ -86,7 +87,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[4],
                         (BigDecimal) parameters[5],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pv",
@@ -99,7 +100,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pv",
@@ -111,7 +112,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pv",
@@ -121,7 +122,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[1],
                         (BigDecimal) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("r",
@@ -132,7 +133,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("nper",
@@ -143,7 +144,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("fv",
@@ -156,7 +157,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[4],
                         (BigDecimal) parameters[5],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("fv",
@@ -168,7 +169,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("fv",
@@ -179,7 +180,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("fvs",
@@ -191,7 +192,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("fvs",
@@ -204,7 +205,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[4],
                         (BigDecimal) parameters[5],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pmt",
@@ -216,7 +217,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pmt",
@@ -227,7 +228,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("pmt",
@@ -237,7 +238,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[1],
                         (BigDecimal) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ipmt",
@@ -250,7 +251,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[4],
                         (BigDecimal) parameters[5],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ipmt",
@@ -262,7 +263,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ipmt",
@@ -273,7 +274,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ppmt",
@@ -286,7 +287,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[4],
                         (BigDecimal) parameters[5],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ppmt",
@@ -298,7 +299,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[3],
                         (BigDecimal) parameters[4],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("ppmt",
@@ -309,7 +310,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[2],
                         (BigDecimal) parameters[3],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("npv",
@@ -319,7 +320,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[1],
                         (BigDecimal[]) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("xnpv",
@@ -329,7 +330,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal[]) parameters[1],
                         (ZonedDateTime[]) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("irr",
@@ -338,7 +339,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal[]) parameters[0],
                         (BigDecimal) parameters[1],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("mirr",
@@ -348,7 +349,7 @@ public class FinancialFormulasExtension {
                         (BigDecimal) parameters[1],
                         (BigDecimal) parameters[2],
                         context.mathContext()
-                ));
+                ), new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("xirr",
@@ -362,7 +363,7 @@ public class FinancialFormulasExtension {
                     }
                     return Xirr.builder().withTransactions(transactions)
                             .withGuess(((BigDecimal) parameters[2]).doubleValue()).xirr();
-                });
+                }, new DefaultFormattedConversionService());
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

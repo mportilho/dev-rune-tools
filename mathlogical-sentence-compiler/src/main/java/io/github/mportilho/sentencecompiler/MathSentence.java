@@ -133,6 +133,9 @@ public class MathSentence {
 
     public MathSentence addFunction(String functionName, MethodType methodType, Function<Object[], Object> function) {
         checkUpdateLock();
+        Objects.requireNonNull(functionName, "Function name must be provided");
+        Objects.requireNonNull(methodType, "Function method type must be provided");
+        Objects.requireNonNull(function, "Function must be provided");
         LambdaSupplier lambdaSupplier = (context, parameters) -> function.apply(parameters);
         LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, lambdaSupplier, syntaxExecutionSite.getConversionService());
         syntaxExecutionSite.addFunction(lambdaCallSite);

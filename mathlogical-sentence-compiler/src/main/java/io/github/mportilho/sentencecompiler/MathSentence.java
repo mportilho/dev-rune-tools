@@ -28,6 +28,7 @@ import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaSupplier;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -35,9 +36,12 @@ import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.FastOperation
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.impl.PreciseOperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
+import java.lang.invoke.MethodType;
 import java.math.MathContext;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class MathSentence {
 
@@ -153,6 +157,11 @@ public class MathSentence {
     public MathSentence setVariableProvider(String variableName, VariableProvider provider) {
         checkUpdateLock();
         return setVariable(variableName, provider);
+    }
+
+    public MathSentence setVariableProvider(String variableName, Supplier<Object> supplier) {
+        checkUpdateLock();
+        return setVariable(variableName, (VariableProvider) context -> supplier.get());
     }
 
     public Map<String, Object> listAssignedVariables() {

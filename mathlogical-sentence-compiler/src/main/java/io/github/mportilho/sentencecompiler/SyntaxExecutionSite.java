@@ -168,4 +168,7 @@ class SyntaxExecutionSite {
         return operation.toString();
     }
 
+    public FormattedConversionService getConversionService() {
+        return conversionService;
+    }
 }

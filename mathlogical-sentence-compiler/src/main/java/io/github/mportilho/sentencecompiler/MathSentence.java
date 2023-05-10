@@ -159,9 +159,18 @@ public class MathSentence {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
     public MathSentence setVariables(Map<String, Object> variables) {
         checkUpdateLock();
-        variables.forEach(this::setVariable);
+        variables.forEach((name, value) -> {
+            if (value instanceof VariableProvider) {
+                setVariableProvider(name, (VariableProvider) value);
+            } else if (value instanceof Supplier) {
+                setVariableProvider(name, (Supplier<Object>) value);
+            } else {
+                setVariable(name, value);
+            }
+        });
         return this;
     }
 

@@ -28,6 +28,8 @@ import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 
+import java.util.function.Supplier;
+
 public class VariableValueOperation extends AbstractVariableValueOperation {
 
     public VariableValueOperation(String variableName) {
@@ -39,6 +41,8 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
         Object result;
         if (getValue() instanceof VariableProvider variableProvider) {
             result = resolveVariableProvider(context, variableProvider);
+        } else if (getValue() instanceof Supplier<?> supplier) {
+            result = supplier.get();
         } else {
             result = resolveVariable(context);
         }

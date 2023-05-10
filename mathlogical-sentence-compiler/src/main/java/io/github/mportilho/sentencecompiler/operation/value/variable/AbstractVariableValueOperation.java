@@ -28,6 +28,8 @@ import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationExce
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
+import java.util.function.Supplier;
+
 public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     private final String variableName;
@@ -68,7 +70,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         if (getCache() != null) {
             builder.append(getCache());
         } else {
-            if (getValue() == null || getValue() instanceof VariableProvider) {
+            if (getValue() == null || getValue() instanceof VariableProvider || getValue() instanceof Supplier<?>) {
                 builder.append(getVariableName());
             } else {
                 builder.append(getValue());

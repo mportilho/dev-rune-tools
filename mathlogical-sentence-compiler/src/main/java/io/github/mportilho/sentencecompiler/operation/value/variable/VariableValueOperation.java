@@ -55,19 +55,29 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
      */
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
-                new VariableValueProviderContext(context.mathContext(), context.scale(), false);
+                new VariableValueProviderContext(context.mathContext(), context.scale(), false); // TODO configureCaching vindo do contexto
         return variableProvider.retrieveValue(valueProviderContext);
     }
 
     private Object resolveVariable(OperationContext context) {
         Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
         if (currValue != null) {
-            return currValue;
+            return unwrapLambda(currValue, context);
         }
         if (getValue() != null) {
             return getValue();
         }
-        return context.operationSupportData().getDictionary().get(getVariableName());
+        return unwrapLambda(context.operationSupportData().getDictionary().get(getVariableName()), context);
+    }
+
+    private Object unwrapLambda(Object object, OperationContext context) {
+        if (object instanceof VariableProvider variableProvider) {
+            return resolveVariableProvider(context, variableProvider);
+        } else if (object instanceof Supplier<?> supplier) {
+            return supplier.get();
+        } else {
+            return object;
+        }
     }
 
     @Override

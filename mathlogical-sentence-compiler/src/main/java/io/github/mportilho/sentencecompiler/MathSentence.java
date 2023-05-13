@@ -45,6 +45,7 @@ import java.util.function.Supplier;
 
 public class MathSentence {
 
+    private final String originalSentence;
     private final MathContext mathContext;
     private final Integer scale;
     private final SyntaxExecutionSite syntaxExecutionSite;
@@ -57,6 +58,7 @@ public class MathSentence {
     public MathSentence(String sentence, MathSentenceOptions mathSentenceOptions) {
         AssertUtils.notNullOrBlank(sentence, "Sentence text must be provided");
         Objects.requireNonNull(mathSentenceOptions, "MathSentenceOptions must be provided");
+        this.originalSentence = sentence;
         this.mathContext = mathSentenceOptions.getMathContext();
         this.scale = mathSentenceOptions.getScale();
         this.syntaxExecutionSite = initializeComputingSite(sentence, mathSentenceOptions);
@@ -67,7 +69,8 @@ public class MathSentence {
         this(sentence, new MathSentenceOptions(operationSupportData));
     }
 
-    private MathSentence(MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite) {
+    private MathSentence(String originalSentence, MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite) {
+        this.originalSentence = originalSentence;
         this.mathContext = mathContext;
         this.scale = scale;
         this.syntaxExecutionSite = syntaxExecutionSite;
@@ -193,7 +196,7 @@ public class MathSentence {
     }
 
     public final MathSentence copy() {
-        return new MathSentence(this.mathContext, this.scale, this.syntaxExecutionSite.copy());
+        return new MathSentence(this.originalSentence, this.mathContext, this.scale, this.syntaxExecutionSite.copy());
     }
 
     public <T> T visitOperations(OperationVisitor<T> visitor) {
@@ -210,6 +213,10 @@ public class MathSentence {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public String getOriginalSentence() {
+        return originalSentence;
     }
 
     @Override

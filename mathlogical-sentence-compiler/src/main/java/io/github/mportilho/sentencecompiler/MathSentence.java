@@ -82,8 +82,9 @@ public class MathSentence {
 
         SyntaxTreeData data = SyntaxTreeParser.parseSentence(sentence, generator);
         return new SyntaxExecutionSite(data.operation(),
-                new SyntaxExecutionData(mathSentenceOptions.getMathContext(),
-                        mathSentenceOptions.getScale(), mathSentenceOptions.getZoneId(), mathSentenceOptions.isPreciseNumbers()),
+                new SyntaxExecutionData(mathSentenceOptions.getMathContext(), mathSentenceOptions.getScale(),
+                        mathSentenceOptions.getZoneId(), mathSentenceOptions.isPreciseNumbers(),
+                        mathSentenceOptions.isCachingVariableProvider()),
                 data.userVariables(), data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
                 mathSentenceOptions.getFormattedConversionService());
     }

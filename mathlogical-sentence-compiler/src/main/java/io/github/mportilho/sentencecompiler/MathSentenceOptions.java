@@ -39,33 +39,35 @@ public class MathSentenceOptions {
     private final OperationSupportData operationSupportData;
     private final ZoneId zoneId;
     private final boolean preciseNumbers;
+    private final boolean cachingVariableProvider;
 
     public MathSentenceOptions() {
         this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), null,
-                ZoneOffset.UTC, true);
+                ZoneOffset.UTC, true, true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale,
             FormattedConversionService formattedConversionService) {
         this(mathContext, scale, formattedConversionService, null,
-                ZoneOffset.UTC, true);
+                ZoneOffset.UTC, true, true);
     }
 
     public MathSentenceOptions(OperationSupportData operationSupportData) {
         this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), operationSupportData,
-                ZoneOffset.UTC, true);
+                ZoneOffset.UTC, true, true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale, FormattedConversionService formattedConversionService,
-            OperationSupportData operationSupportData, ZoneId zoneId, boolean preciseNumbers) {
+            OperationSupportData operationSupportData, ZoneId zoneId, boolean preciseNumbers, boolean cachingVariableProvider) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.formattedConversionService = formattedConversionService;
         this.operationSupportData = operationSupportData;
         this.zoneId = zoneId;
         this.preciseNumbers = preciseNumbers;
+        this.cachingVariableProvider = cachingVariableProvider;
     }
 
     public MathContext getMathContext() {
@@ -90,5 +92,9 @@ public class MathSentenceOptions {
 
     public boolean isPreciseNumbers() {
         return preciseNumbers;
+    }
+
+    public boolean isCachingVariableProvider() {
+        return cachingVariableProvider;
     }
 }

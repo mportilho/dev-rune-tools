@@ -39,6 +39,7 @@ public record OperationContext(
         MathContext mathContext,
         Integer scale,
         boolean allowingNull,
+        boolean cachingVariableProvider,
         Supplier<Temporal> currentDateTime,
         FormattedConversionService formattedConversionService,
         OperationSupportData operationSupportData,

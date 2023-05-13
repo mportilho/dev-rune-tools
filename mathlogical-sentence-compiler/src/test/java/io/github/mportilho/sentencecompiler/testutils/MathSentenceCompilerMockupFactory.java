@@ -39,19 +39,19 @@ import java.time.ZonedDateTime;
 public class MathSentenceCompilerMockupFactory {
 
     public static OperationContext getPreciseOperationContext() {
-        return new OperationContext(MathContext.DECIMAL64, 8, false, new MemoizedSupplier<>(ZonedDateTime::now),
+        return new OperationContext(MathContext.DECIMAL64, 8, false, true, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(),
                 new OperationSupportData(), true, ZoneId.systemDefault());
     }
 
     public static OperationContext getPreciseOperationContext(boolean allowingNull) {
-        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, new MemoizedSupplier<>(ZonedDateTime::now),
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, true, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 true, ZoneId.systemDefault());
     }
 
     public static OperationContext getFastOperationContext() {
-        return new OperationContext(MathContext.DECIMAL64, 8, false, new MemoizedSupplier<>(ZonedDateTime::now),
+        return new OperationContext(MathContext.DECIMAL64, 8, false, true, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 false, ZoneId.systemDefault());
     }
@@ -62,11 +62,11 @@ public class MathSentenceCompilerMockupFactory {
 
     public static MathSentenceOptions getFastMathSentenceOptions() {
         return new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService(), new OperationSupportData(),
-                ZoneId.systemDefault(), false);
+                ZoneId.systemDefault(), false, true);
     }
 
     public static OperationContext getFastOperationContext(boolean allowingNull) {
-        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, new MemoizedSupplier<>(ZonedDateTime::now),
+        return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, true, new MemoizedSupplier<>(ZonedDateTime::now),
                 new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
                 false, ZoneId.systemDefault());
     }

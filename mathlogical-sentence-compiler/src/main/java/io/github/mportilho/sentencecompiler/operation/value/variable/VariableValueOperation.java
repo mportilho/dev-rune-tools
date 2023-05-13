@@ -55,7 +55,7 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
      */
     private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
         VariableValueProviderContext valueProviderContext =
-                new VariableValueProviderContext(context.mathContext(), context.scale(), false); // TODO configureCaching vindo do contexto
+                new VariableValueProviderContext(context.mathContext(), context.scale(), context.cachingVariableProvider());
         return variableProvider.retrieveValue(valueProviderContext);
     }
 

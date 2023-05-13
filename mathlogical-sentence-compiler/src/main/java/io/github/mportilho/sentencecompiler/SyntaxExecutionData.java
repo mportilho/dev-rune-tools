@@ -27,5 +27,5 @@ package io.github.mportilho.sentencecompiler;
 import java.math.MathContext;
 import java.time.ZoneId;
 
-public record SyntaxExecutionData(MathContext mathContext, Integer scale, ZoneId zoneId, boolean preciseNumbers) {
+public record SyntaxExecutionData(MathContext mathContext, Integer scale, ZoneId zoneId, boolean preciseNumbers, boolean cachingVariableProvider) {
 }

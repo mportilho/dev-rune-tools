@@ -209,7 +209,7 @@ logicalStart
 
 assignmentExpression
   : IDENTIFIER EQ allEntityTypes SEMI # assignOperation
-  | LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET EQ allEntityTypes SEMI # destructuringAssignment
+  | vectorOfVariables EQ (vectorEntity | function) SEMI # destructuringAssignment
   ;
 
 logicalExpression
@@ -359,4 +359,8 @@ vectorEntity
   | LBLACKET timeEntity (COMMA timeEntity)* RBLACKET # vectorOfTimes
   | LBLACKET dateTimeEntity (COMMA dateTimeEntity)* RBLACKET # vectorOfDateTimes
   | VECTOR_TYPE? IDENTIFIER # vectorVariable
+  ;
+
+vectorOfVariables
+  : LBLACKET IDENTIFIER (COMMA IDENTIFIER)* RBLACKET
   ;

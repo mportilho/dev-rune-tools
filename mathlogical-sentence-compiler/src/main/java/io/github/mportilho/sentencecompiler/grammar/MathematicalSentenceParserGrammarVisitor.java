@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.12.0
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -37,6 +37,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitAssignOperation(MathematicalSentenceParserGrammarParser.AssignOperationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code destructuringAssignment}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code dateTimeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
@@ -619,4 +626,10 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#vectorOfVariables}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
 }

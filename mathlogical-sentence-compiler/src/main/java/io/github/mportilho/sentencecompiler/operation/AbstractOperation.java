@@ -60,11 +60,11 @@ public abstract class AbstractOperation {
 
     protected abstract AbstractOperation createClone(CloningContext context);
 
-    protected abstract String getOperationToken();
-
     public abstract void accept(OperationVisitor<?> visitor);
 
     protected abstract void formatRepresentation(StringBuilder builder);
+
+    protected abstract String getOperationToken();
 
     /**
      * @return signal for enabling caches

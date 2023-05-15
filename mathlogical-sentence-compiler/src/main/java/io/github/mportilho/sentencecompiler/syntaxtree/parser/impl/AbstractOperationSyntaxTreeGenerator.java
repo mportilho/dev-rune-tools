@@ -27,13 +27,13 @@ package io.github.mportilho.sentencecompiler.syntaxtree.parser.impl;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceParsingException;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarBaseVisitor;
 import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarLexer;
-import io.github.mportilho.sentencecompiler.grammar.MathematicalSentenceParserGrammarParser;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
 import io.github.mportilho.sentencecompiler.operation.logic.*;
 import io.github.mportilho.sentencecompiler.operation.math.DeggreOperation;
 import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
+import io.github.mportilho.sentencecompiler.operation.other.AssignedVectorOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
@@ -43,6 +43,7 @@ import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.InitialConfigurationOperationVisitor;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -85,9 +86,8 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitMathStart(MathStartContext ctx) {
-        for (MathematicalSentenceParserGrammarParser.AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
-            AssignedVariableOperation operator = (AssignedVariableOperation) expressionContext.accept(this);
-            assignedVariables.put(operator.getVariableName(), operator);
+        for (AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
+            expressionContext.accept(this);
         }
         AbstractOperation mathOperation = ctx.mathExpression() != null ? ctx.mathExpression().accept(this) : null;
         return new BaseOperation(mathOperation, assignedVariables);
@@ -95,9 +95,8 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitLogicalStart(LogicalStartContext ctx) {
-        for (MathematicalSentenceParserGrammarParser.AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
-            AssignedVariableOperation operator = (AssignedVariableOperation) expressionContext.accept(this);
-            assignedVariables.put(operator.getVariableName(), operator);
+        for (AssignmentExpressionContext expressionContext : ctx.assignmentExpression()) {
+            expressionContext.accept(this);
         }
         AbstractOperation logicalOperation = ctx.logicalExpression() != null ? ctx.logicalExpression().accept(this) : null;
         return new BaseOperation(logicalOperation, assignedVariables);
@@ -106,8 +105,29 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
     @Override
     public AbstractOperation visitAssignOperation(AssignOperationContext ctx) {
         AbstractOperation abstractOperation = ctx.allEntityTypes().accept(this);
-        return new AssignedVariableOperation(ctx.IDENTIFIER().getText(), abstractOperation)
-                .expectedType(abstractOperation.getExpectedType());
+        AssignedVariableOperation resultOperation = new AssignedVariableOperation(ctx.IDENTIFIER().getText(), abstractOperation).expectedType(abstractOperation.getExpectedType());
+        assignedVariables.put(resultOperation.getVariableName(), resultOperation);
+        return resultOperation;
+    }
+
+    @Override
+    public AbstractOperation visitDestructuringAssignment(DestructuringAssignmentContext ctx) {
+        AbstractOperation abstractOperation = ctx.function() != null ? ctx.function().accept(this) : ctx.vectorEntity().accept(this);
+        abstractOperation.expectedType(Object[].class);
+
+        int index = 0;
+        StringBuilder vectorAssignedVariableName = new StringBuilder("[");
+        for (Iterator<TerminalNode> iterator = ctx.vectorOfVariables().IDENTIFIER().iterator(); iterator.hasNext(); ) {
+            TerminalNode terminalNode = iterator.next();
+            String variableName = terminalNode.getText();
+            vectorAssignedVariableName.append(variableName);
+            if (iterator.hasNext()) {
+                vectorAssignedVariableName.append(", ");
+            }
+            assignedVariables.put(variableName, new AssignedVectorOperation(variableName, abstractOperation, index++));
+        }
+        vectorAssignedVariableName.append("]");
+        return new AssignedVariableOperation(vectorAssignedVariableName.toString(), abstractOperation);
     }
 
     @Override

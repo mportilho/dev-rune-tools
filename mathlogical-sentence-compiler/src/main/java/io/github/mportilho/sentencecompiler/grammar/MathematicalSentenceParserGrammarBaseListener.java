@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.12.0
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -62,6 +62,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignOperation(MathematicalSentenceParserGrammarParser.AssignOperationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1070,6 +1082,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

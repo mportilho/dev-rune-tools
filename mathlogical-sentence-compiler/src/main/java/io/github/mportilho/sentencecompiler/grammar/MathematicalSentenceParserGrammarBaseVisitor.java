@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.12.0
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -42,6 +42,13 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitAssignOperation(MathematicalSentenceParserGrammarParser.AssignOperationContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -630,4 +637,11 @@ public class MathematicalSentenceParserGrammarBaseVisitor<T> extends AbstractPar
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx) { return visitChildren(ctx); }
 }

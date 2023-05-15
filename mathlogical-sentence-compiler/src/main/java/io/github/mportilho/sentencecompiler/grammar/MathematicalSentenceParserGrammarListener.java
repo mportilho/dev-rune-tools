@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/dev/git/dev-rune-tools/mathlogical-sentence-compiler/src/main/resources\MathematicalSentenceParserGrammar.g4 by ANTLR 4.12.0
 
     package io.github.mportilho.sentencecompiler.grammar;
 
@@ -51,6 +51,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitAssignOperation(MathematicalSentenceParserGrammarParser.AssignOperationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code destructuringAssignment}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code destructuringAssignment}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#assignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDestructuringAssignment(MathematicalSentenceParserGrammarParser.DestructuringAssignmentContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code dateTimeExpression}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalExpression}.
@@ -1047,4 +1059,14 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitVectorVariable(MathematicalSentenceParserGrammarParser.VectorVariableContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MathematicalSentenceParserGrammarParser#vectorOfVariables}.
+	 * @param ctx the parse tree
+	 */
+	void enterVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#vectorOfVariables}.
+	 * @param ctx the parse tree
+	 */
+	void exitVectorOfVariables(MathematicalSentenceParserGrammarParser.VectorOfVariablesContext ctx);
 }

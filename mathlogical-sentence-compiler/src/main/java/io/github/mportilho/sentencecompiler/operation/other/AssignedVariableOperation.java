@@ -57,11 +57,6 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
     }
 
     @Override
-    public void accept(OperationVisitor<?> visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
     public String getOperationToken() {
         return "=";
     }

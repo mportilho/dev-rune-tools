@@ -35,19 +35,15 @@ public class LambdaCallSite {
     private final String methodName;
     private final MethodType methodType;
     private final LambdaSupplier lambdaSupplier;
-    private final FormattedConversionService service;
 
-    public LambdaCallSite(
-            String methodName, MethodType methodType,
-            LambdaSupplier lambdaSupplier, FormattedConversionService conversionService) {
+    public LambdaCallSite(String methodName, MethodType methodType, LambdaSupplier lambdaSupplier) {
         this.methodName = methodName;
         this.methodType = methodType;
         this.lambdaSupplier = lambdaSupplier;
-        this.service = conversionService;
     }
 
     @SuppressWarnings({"unchecked"})
-    public <R> R call(LambdaContext context, Object[] parameters) {
+    public <R> R call(LambdaContext context, FormattedConversionService service, Object[] parameters) {
         Object[] convertedParams = new Object[parameters.length];
         Class<?>[] methodParameterTypes = methodType.parameterArray();
         Object value;

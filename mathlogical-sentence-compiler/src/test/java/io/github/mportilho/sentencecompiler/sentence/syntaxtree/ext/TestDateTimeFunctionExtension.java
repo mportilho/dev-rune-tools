@@ -24,6 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 
@@ -37,12 +39,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestDateTimeFunctionExtension {
 
+    private static final FormattedConversionService conversionService = new DefaultFormattedConversionService();
+
     @Test
     public void test_secondsBetween_Function() {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("secondsBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusDays(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusDays(2)}))
                 .isEqualByComparingTo(60 * 60 * 24 * 2L);
     }
 
@@ -51,7 +55,7 @@ public class TestDateTimeFunctionExtension {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("minutesBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusDays(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusDays(2)}))
                 .isEqualByComparingTo(60 * 24 * 2L);
     }
 
@@ -60,7 +64,7 @@ public class TestDateTimeFunctionExtension {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("hoursBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusDays(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusDays(2)}))
                 .isEqualByComparingTo(24 * 2L);
     }
 
@@ -69,7 +73,7 @@ public class TestDateTimeFunctionExtension {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("daysBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusDays(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusDays(2)}))
                 .isEqualByComparingTo(2L);
     }
 
@@ -78,7 +82,7 @@ public class TestDateTimeFunctionExtension {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("monthsBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusYears(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusYears(2)}))
                 .isEqualByComparingTo(12 * 2L);
     }
 
@@ -87,7 +91,7 @@ public class TestDateTimeFunctionExtension {
         LambdaCallSite between = dateTimeFunctionsFactory().get(keyName("yearsBetween", 2));
 
         LocalDateTime d1 = LocalDateTime.of(2020, 4, 7, 12, 23, 14);
-        assertThat((long) between.call(getLambdaContext(), new Temporal[]{d1, d1.plusYears(2)}))
+        assertThat((long) between.call(getLambdaContext(), conversionService, new Temporal[]{d1, d1.plusYears(2)}))
                 .isEqualByComparingTo(2L);
     }
 

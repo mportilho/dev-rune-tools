@@ -24,12 +24,12 @@
 
 package io.github.mportilho.sentencecompiler.operation.other;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 import java.time.LocalDateTime;
@@ -68,7 +68,7 @@ public class FunctionOperation extends AbstractOperation {
             params = new Object[]{params};
         }
         try {
-            Object result = caller.call(new LambdaContext(context.mathContext(), context.scale(), context.zoneId()), params);
+            Object result = caller.call(new LambdaContext(context.mathContext(), context.scale(), context.zoneId()), context.formattedConversionService(), params);
             return convertToInternalTypes(result, context);
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new SentenceExecutionException(String.format("Wrong parameter number on calling function [%s] with [%s] parameters",

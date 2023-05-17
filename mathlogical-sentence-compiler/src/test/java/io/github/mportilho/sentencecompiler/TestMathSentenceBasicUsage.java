@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler;
 
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
@@ -99,7 +98,7 @@ public class TestMathSentenceBasicUsage {
         assertThatThrownBy(compiler::warmUp)
                 .isInstanceOf(MathSentenceLockingException.class);
 
-        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, null, new DefaultFormattedConversionService())))
+        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, null)))
                 .isInstanceOf(MathSentenceLockingException.class);
 
         assertThatThrownBy(() -> compiler.setVariable("", ""))

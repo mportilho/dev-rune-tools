@@ -24,6 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.support.lambda;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 import org.assertj.core.api.Assertions;
@@ -38,10 +40,12 @@ import static io.github.mportilho.sentencecompiler.testutils.MathSentenceCompile
 
 public class TestMethodMetaFactory {
 
+    private static final FormattedConversionService conversionService = new DefaultFormattedConversionService();
+
     @Test
     public void test_addBigDecimal() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("adder_2").call(getLambdaContext(), new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
+        Object value = siteMap.get("adder_2").call(getLambdaContext(), conversionService, new Object[]{BigDecimal.valueOf(3), BigDecimal.valueOf(5)});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.BIG_DECIMAL)
                 .isEqualByComparingTo("8");
@@ -50,7 +54,7 @@ public class TestMethodMetaFactory {
     @Test
     public void test_concatString() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("concatOne_1").call(getLambdaContext(), new Object[]{"number"});
+        Object value = siteMap.get("concatOne_1").call(getLambdaContext(), conversionService, new Object[]{"number"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.STRING)
                 .isEqualTo("number_1");
@@ -59,7 +63,7 @@ public class TestMethodMetaFactory {
     @Test
     public void test_callingMethod_withPrimitives() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(PlaceholderMethodUtils.class);
-        Object value = siteMap.get("adderLong_2").call(getLambdaContext(), new Object[]{"3", "4"});
+        Object value = siteMap.get("adderLong_2").call(getLambdaContext(), conversionService, new Object[]{"3", "4"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.LONG)
                 .isEqualTo(7L);
@@ -68,7 +72,7 @@ public class TestMethodMetaFactory {
     @Test
     public void test_callingMethod_withLambdas() throws Throwable {
         Map<String, LambdaCallSite> siteMap = LambdaCallSiteFactory.createLambdaCallSites(ChronoUnit.DAYS, "between");
-        Object value = siteMap.get("between_2").call(getLambdaContext(), new Object[]{"2020-01-15", "2020-01-30"});
+        Object value = siteMap.get("between_2").call(getLambdaContext(), conversionService, new Object[]{"2020-01-15", "2020-01-30"});
         Assertions.assertThat(value)
                 .asInstanceOf(InstanceOfAssertFactories.LONG)
                 .isEqualTo(15);

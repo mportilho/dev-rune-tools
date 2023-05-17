@@ -24,6 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 
@@ -36,10 +38,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestStringFormulaExtensions {
 
+    private static final FormattedConversionService conversionService = new DefaultFormattedConversionService();
+
     @Test
     public void test_concat_Function() {
         LambdaCallSite concat = stringFunctionsFactory().get(keyName("concat", 1));
-        assertThat((String) concat.call(getLambdaContext(), new Object[]{new Object[]{ONE, TEN, "teste", "123"}}))
+        assertThat((String) concat.call(getLambdaContext(), conversionService, new Object[]{new Object[]{ONE, TEN, "teste", "123"}}))
                 .isEqualTo("110teste123");
     }
 
@@ -47,7 +51,7 @@ public class TestStringFormulaExtensions {
     public void test_trim_Function() {
         LambdaCallSite trim = stringFunctionsFactory().get(keyName("trim", 1));
 
-        assertThat((String) trim.call(getLambdaContext(), new Object[]{" a 12  3  "}))
+        assertThat((String) trim.call(getLambdaContext(), conversionService, new Object[]{" a 12  3  "}))
                 .isEqualTo("a 12  3");
     }
 

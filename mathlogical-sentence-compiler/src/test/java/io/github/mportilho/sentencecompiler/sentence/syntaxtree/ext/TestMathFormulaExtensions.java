@@ -24,6 +24,8 @@
 
 package io.github.mportilho.sentencecompiler.sentence.syntaxtree.ext;
 
+import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import org.junit.jupiter.api.Test;
 
@@ -37,20 +39,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMathFormulaExtensions {
 
+    private static final FormattedConversionService conversionService = new DefaultFormattedConversionService();
+
     @Test
     public void test_Max_Function() {
         LambdaCallSite max = mathFunctionsFactory().get(keyName("max", 1));
 
-        assertThat((BigDecimal) max.call(getLambdaContext(), new Object[]{new BigDecimal[]{ONE}}))
+        assertThat((BigDecimal) max.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
 
-        assertThat((BigDecimal) max.call(getLambdaContext(), new Object[]{new BigDecimal[]{TEN, valueOf(-50)}}))
+        assertThat((BigDecimal) max.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{TEN, valueOf(-50)}}))
                 .isEqualByComparingTo("10");
 
-        assertThat((BigDecimal) max.call(getLambdaContext(), new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
+        assertThat((BigDecimal) max.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("231");
 
-        assertThat((BigDecimal) max.call(getLambdaContext(), new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
+        assertThat((BigDecimal) max.call(getLambdaContext(), conversionService, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("99");
     }
 
@@ -58,16 +62,16 @@ public class TestMathFormulaExtensions {
     public void test_Min_Function() {
         LambdaCallSite min = mathFunctionsFactory().get(keyName("min", 1));
 
-        assertThat((BigDecimal) min.call(getLambdaContext(), new Object[]{new BigDecimal[]{ONE}}))
+        assertThat((BigDecimal) min.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{ONE}}))
                 .isEqualByComparingTo("1");
 
-        assertThat((BigDecimal) min.call(getLambdaContext(), new Object[]{new BigDecimal[]{valueOf(-50), valueOf(231)}}))
+        assertThat((BigDecimal) min.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("-50");
 
-        assertThat((BigDecimal) min.call(getLambdaContext(), new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
+        assertThat((BigDecimal) min.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{ONE, TEN, valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("-50");
 
-        assertThat((BigDecimal) min.call(getLambdaContext(), new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
+        assertThat((BigDecimal) min.call(getLambdaContext(), conversionService, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("1");
     }
 
@@ -75,30 +79,30 @@ public class TestMathFormulaExtensions {
     public void test_Avg_Function() {
         LambdaCallSite avg = mathFunctionsFactory().get(keyName("avg", 1));
 
-        assertThat((BigDecimal) avg.call(getLambdaContext(), new Object[]{new BigDecimal[]{valueOf(231)}}))
+        assertThat((BigDecimal) avg.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{valueOf(231)}}))
                 .isEqualByComparingTo("231");
 
-        assertThat((BigDecimal) avg.call(getLambdaContext(), new Object[]{new BigDecimal[]{ONE, TEN}}))
+        assertThat((BigDecimal) avg.call(getLambdaContext(), conversionService, new Object[]{new BigDecimal[]{ONE, TEN}}))
                 .isEqualByComparingTo("5.5");
 
-        assertThat((BigDecimal) avg.call(getLambdaContext(), new Object[]{new Object[]{ONE, "10", valueOf(-50), valueOf(231)}}))
+        assertThat((BigDecimal) avg.call(getLambdaContext(), conversionService, new Object[]{new Object[]{ONE, "10", valueOf(-50), valueOf(231)}}))
                 .isEqualByComparingTo("48");
 
-        assertThat((BigDecimal) avg.call(getLambdaContext(), new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
+        assertThat((BigDecimal) avg.call(getLambdaContext(), conversionService, new Object[]{new Integer[]{1, 2, 3, 4, 5, 6, 99, 98, 97, 96}}))
                 .isEqualByComparingTo("41.1");
     }
 
     @Test
     public void test_Rule3d_Function() {
         LambdaCallSite rule3d = mathFunctionsFactory().get(keyName("rule3d", 3));
-        assertThat((BigDecimal) rule3d.call(getLambdaContext(), new Double[]{1.2, 400.0, 1.5}))
+        assertThat((BigDecimal) rule3d.call(getLambdaContext(), conversionService, new Double[]{1.2, 400.0, 1.5}))
                 .isEqualByComparingTo("500");
     }
 
     @Test
     public void test_Rule3i_Function() {
         LambdaCallSite rule3i = mathFunctionsFactory().get(keyName("rule3i", 3));
-        assertThat((BigDecimal) rule3i.call(getLambdaContext(), new Integer[]{400, 480, 3}))
+        assertThat((BigDecimal) rule3i.call(getLambdaContext(), conversionService, new Integer[]{400, 480, 3}))
                 .isEqualByComparingTo("2.5");
     }
 

@@ -25,7 +25,6 @@
 package io.github.mportilho.sentencecompiler.support.function.generics;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.lang.invoke.MethodType;
@@ -52,55 +51,55 @@ public class TrigonometryFunctionExtension {
         Map<String, LambdaCallSite> extensions = new HashMap<>();
 
         callSite = new LambdaCallSite("sin", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.sin(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.sin(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("cos", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.cos(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.cos(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("tan", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.tan(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.tan(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("asin", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.asin(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.asin(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("acos", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.acos(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.acos(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("atan", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.atan(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.atan(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("atan2", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.atan2(((BigDecimal) parameters[0]), ((BigDecimal) parameters[1]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.atan2(((BigDecimal) parameters[0]), ((BigDecimal) parameters[1]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("sinh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.sinh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.sinh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("cosh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.cosh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.cosh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("tanh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.tanh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.tanh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("asinh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.asinh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.asinh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("acosh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.acosh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.acosh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("atanh", MethodType.methodType(BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> BigDecimalMath.atanh(((BigDecimal) parameters[0]), context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> BigDecimalMath.atanh(((BigDecimal) parameters[0]), context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

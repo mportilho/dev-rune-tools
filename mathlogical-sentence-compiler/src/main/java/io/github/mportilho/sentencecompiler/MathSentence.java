@@ -141,7 +141,7 @@ public class MathSentence {
         Objects.requireNonNull(methodType, "Function method type must be provided");
         Objects.requireNonNull(function, "Function must be provided");
         LambdaSupplier lambdaSupplier = (context, parameters) -> function.apply(parameters);
-        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, lambdaSupplier, syntaxExecutionSite.getConversionService());
+        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, lambdaSupplier);
         syntaxExecutionSite.addFunction(lambdaCallSite);
         return this;
     }

@@ -24,7 +24,6 @@
 
 package io.github.mportilho.sentencecompiler.support.lambdacallsite;
 
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.support.function.generics.*;
 
 import java.beans.BeanInfo;
@@ -123,7 +122,7 @@ public class LambdaCallSiteFactory {
                 throw new IllegalStateException("Error calling dynamic function", e);
             }
         };
-        return new LambdaCallSite(method.getName(), methodHandle.type(), supplier, new DefaultFormattedConversionService());
+        return new LambdaCallSite(method.getName(), methodHandle.type(), supplier);
     }
 
     private static LambdaCallSite createStaticCaller(Method method) throws Throwable {
@@ -138,7 +137,7 @@ public class LambdaCallSiteFactory {
                 implementationMethodHandle,
                 functionMethodType);
 
-        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke()), new DefaultFormattedConversionService());
+        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke()));
     }
 
     private static LambdaCallSite createDynamicCaller(Method method, Object instance) throws Throwable {
@@ -153,7 +152,7 @@ public class LambdaCallSiteFactory {
                 MethodType.genericMethodType(method.getParameterCount()), // method params plus instance object
                 implementationMethodHandle,
                 functionMethodType); // method params plus instance object
-        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke(instance)), new DefaultFormattedConversionService());
+        return new LambdaCallSite(method.getName(), functionMethodType, createLambdaWrapper(callSite.getTarget().invoke(instance)));
     }
 
     private static boolean hasPrimitives(Method method) {

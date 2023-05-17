@@ -25,7 +25,6 @@
 package io.github.mportilho.sentencecompiler.support.function.generics;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
@@ -111,10 +110,10 @@ public class MathFormulasExtension {
     }
 
     /**
-     * @param p
+     * @param p    Array of values
      * @param type Value 0: Population Standard Deviation; Value 1: Sample Standard Deviation
-     * @param mc
-     * @return
+     * @param mc   MathContext
+     * @return variance
      */
     public static BigDecimal variance(BigDecimal[] p, int type, MathContext mc) {
         BigDecimal mean = mean(p, mc);
@@ -159,45 +158,45 @@ public class MathFormulasExtension {
         }
 
         supplier = (context, parameters) -> mean((BigDecimal[]) parameters[0], context.mathContext());
-        callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier, new DefaultFormattedConversionService());
+        callSite = new LambdaCallSite("avg", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier);
         extensions.put(callSite.getKeyName(), callSite);
-        callSite = new LambdaCallSite("mean", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier, new DefaultFormattedConversionService());
+        callSite = new LambdaCallSite("mean", MethodType.methodType(BigDecimal.class, BigDecimal[].class), supplier);
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("variance", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> variance((BigDecimal[]) parameters[0], 0, context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> variance((BigDecimal[]) parameters[0], 0, context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("sampleVariance", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> variance((BigDecimal[]) parameters[0], 1, context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> variance((BigDecimal[]) parameters[0], 1, context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("stdDev", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> stdDev((BigDecimal[]) parameters[0], 0, context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> stdDev((BigDecimal[]) parameters[0], 0, context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("sampleStdDev", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> stdDev((BigDecimal[]) parameters[0], 1, context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> stdDev((BigDecimal[]) parameters[0], 1, context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("meanDev", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> meanDev((BigDecimal[]) parameters[0], context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> meanDev((BigDecimal[]) parameters[0], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("geometricMean", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> geometricMean((BigDecimal[]) parameters[0], context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> geometricMean((BigDecimal[]) parameters[0], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("harmonicMean", MethodType.methodType(BigDecimal.class, BigDecimal[].class),
-                (context, parameters) -> harmonicMean((BigDecimal[]) parameters[0], context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> harmonicMean((BigDecimal[]) parameters[0], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("rule3d", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> rule3d((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> rule3d((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         callSite = new LambdaCallSite("rule3i", MethodType.methodType(BigDecimal.class, BigDecimal.class, BigDecimal.class, BigDecimal.class),
-                (context, parameters) -> rule3i((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()), new DefaultFormattedConversionService());
+                (context, parameters) -> rule3i((BigDecimal) parameters[0], (BigDecimal) parameters[1], (BigDecimal) parameters[2], context.mathContext()));
         extensions.put(callSite.getKeyName(), callSite);
 
         return extensions;

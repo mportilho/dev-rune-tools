@@ -28,6 +28,7 @@ import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationExce
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public abstract class AbstractVariableValueOperation extends AbstractOperation {
@@ -68,7 +69,7 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
     @Override
     protected void formatRepresentation(StringBuilder builder) {
         if (getCache() != null) {
-            builder.append(getCache());
+            builder.append(getCache().getClass().isArray() ? Arrays.toString((Object[]) getCache()) : getCache());
         } else {
             if (getValue() == null || getValue() instanceof VariableProvider || getValue() instanceof Supplier<?>) {
                 builder.append(getVariableName());

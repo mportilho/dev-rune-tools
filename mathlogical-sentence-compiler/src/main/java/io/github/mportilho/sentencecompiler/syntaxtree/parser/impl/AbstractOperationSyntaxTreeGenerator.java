@@ -69,7 +69,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     public AbstractOperationSyntaxTreeGenerator() {
         this.userVariables = new HashMap<>();
-        this.assignedVariables = new HashMap<>();
+        this.assignedVariables = new LinkedHashMap<>();
     }
 
     @Override

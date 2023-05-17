@@ -100,8 +100,7 @@ class SyntaxExecutionSite {
 
     public void addFunction(LambdaCallSite function) {
         Objects.requireNonNull(function, "Function implementation is required");
-        String keyName = function.getKeyName();
-        operationSupportData.putFunction(keyName, function);
+        operationSupportData.putFunction(function.getKeyName(), function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {

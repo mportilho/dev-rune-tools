@@ -28,7 +28,6 @@ import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
-import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaSupplier;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.OperationSyntaxTreeGenerator;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeData;
 import io.github.mportilho.sentencecompiler.syntaxtree.parser.SyntaxTreeParser;
@@ -140,8 +139,7 @@ public class MathSentence {
         Objects.requireNonNull(functionName, "Function name must be provided");
         Objects.requireNonNull(methodType, "Function method type must be provided");
         Objects.requireNonNull(function, "Function must be provided");
-        LambdaSupplier lambdaSupplier = (context, parameters) -> function.apply(parameters);
-        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, lambdaSupplier);
+        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, function);
         syntaxExecutionSite.addFunction(lambdaCallSite);
         return this;
     }

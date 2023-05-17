@@ -29,6 +29,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.util.function.Function;
 
 public class LambdaCallSite {
 
@@ -40,6 +41,12 @@ public class LambdaCallSite {
         this.methodName = methodName;
         this.methodType = methodType;
         this.lambdaSupplier = lambdaSupplier;
+    }
+
+    public LambdaCallSite(String methodName, MethodType methodType, Function<Object[], Object> supplier) {
+        this.methodName = methodName;
+        this.methodType = methodType;
+        this.lambdaSupplier = (lambdaContext, parameters) -> supplier.apply(parameters);
     }
 
     @SuppressWarnings({"unchecked"})

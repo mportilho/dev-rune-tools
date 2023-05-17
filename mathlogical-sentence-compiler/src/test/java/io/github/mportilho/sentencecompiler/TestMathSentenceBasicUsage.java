@@ -27,6 +27,7 @@ package io.github.mportilho.sentencecompiler;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
+import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaSupplier;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
 import org.junit.jupiter.api.Test;
 
@@ -98,7 +99,7 @@ public class TestMathSentenceBasicUsage {
         assertThatThrownBy(compiler::warmUp)
                 .isInstanceOf(MathSentenceLockingException.class);
 
-        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, null)))
+        assertThatThrownBy(() -> compiler.addFunction(new LambdaCallSite("", null, (LambdaSupplier) null)))
                 .isInstanceOf(MathSentenceLockingException.class);
 
         assertThatThrownBy(() -> compiler.setVariable("", ""))

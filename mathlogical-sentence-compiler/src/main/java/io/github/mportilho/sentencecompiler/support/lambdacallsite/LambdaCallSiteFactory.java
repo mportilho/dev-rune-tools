@@ -54,12 +54,20 @@ public class LambdaCallSiteFactory {
         DEFAULT_FUNCTIONS = Collections.unmodifiableMap(temp);
     }
 
-    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) throws Throwable {
-        return makeLambdaCallSites(provider);
+    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider) {
+        try {
+            return makeLambdaCallSites(provider);
+        } catch (Throwable e) {
+            throw new IllegalStateException(e);
+        }
     }
 
-    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider, String... methodNames) throws Throwable {
-        return makeLambdaCallSites(provider, methodNames);
+    public static Map<String, LambdaCallSite> createLambdaCallSites(Object provider, String... methodNames) {
+        try {
+            return makeLambdaCallSites(provider, methodNames);
+        } catch (Throwable e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private static Map<String, LambdaCallSite> makeLambdaCallSites(Object provider, String... methodNames) throws Throwable {

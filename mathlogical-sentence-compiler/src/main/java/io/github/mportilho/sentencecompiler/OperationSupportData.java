@@ -27,7 +27,6 @@ package io.github.mportilho.sentencecompiler;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,7 +68,7 @@ public class OperationSupportData {
     }
 
     public Map<String, LambdaCallSite> getFunctions() {
-        return Collections.unmodifiableMap(functions);
+        return functions;
     }
 
 }

@@ -106,6 +106,9 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
 
     @Override
     public void accept(OperationVisitor<?> visitor) {
+        if (value instanceof AbstractOperation operation) {
+            operation.accept(visitor);
+        }
         visitor.visit(this);
     }
 

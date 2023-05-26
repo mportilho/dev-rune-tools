@@ -24,6 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.syntaxtree.visitor;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractUnaryOperator;
@@ -34,7 +35,6 @@ import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.AbstractConstantValueOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +52,12 @@ public class WarmUpOperationVisitor implements OperationVisitor<Object> {
     }
 
     private boolean canEvaluate(Collection<? extends AbstractOperation> operations) {
-        return operations.stream().allMatch(this::canEvaluate);
+        for (AbstractOperation operation : operations) {
+            if (!canEvaluate(operation)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean canEvaluate(Map<String, ? extends AbstractOperation> operations) {

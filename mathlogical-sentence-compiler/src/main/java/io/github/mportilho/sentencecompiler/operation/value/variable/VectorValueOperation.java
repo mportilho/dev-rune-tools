@@ -28,6 +28,7 @@ import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
+import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public class VectorValueOperation extends AbstractVariableValueOperation {
 
@@ -57,5 +58,13 @@ public class VectorValueOperation extends AbstractVariableValueOperation {
         VectorValueOperation vectorValueOperation = new VectorValueOperation(getVariableName(), vector);
         copyVariableStateTo(vectorValueOperation);
         return vectorValueOperation;
+    }
+
+    @Override
+    public void accept(OperationVisitor<?> visitor) {
+        for (AbstractOperation abstractOperation : vector) {
+            abstractOperation.accept(visitor);
+        }
+        visitor.visit(this);
     }
 }

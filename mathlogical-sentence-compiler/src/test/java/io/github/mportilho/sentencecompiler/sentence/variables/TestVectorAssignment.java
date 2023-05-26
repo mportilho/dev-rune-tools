@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestDestructuringAssignment {
+public class TestVectorAssignment {
 
     @Test
     public void testSimpleDestructuringAssignment() {

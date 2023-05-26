@@ -25,13 +25,18 @@
 package io.github.mportilho.sentencecompiler.sentence.copy;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.sentence.cache.CacheCheckVisitor;
+import io.github.mportilho.sentencecompiler.testutils.OperationCollectorVisitor;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
+import java.lang.invoke.MethodType;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestGeneralMathSentenceCopy {
 
@@ -45,6 +50,7 @@ public class TestGeneralMathSentenceCopy {
     @Test
     public void testSimpleCopy() {
         MathSentence original = new MathSentence("(c) * (a + b)");
+
         MathSentence copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
@@ -68,6 +74,10 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence.compute();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -96,6 +106,10 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence.compute();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -133,6 +147,10 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence.compute();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -167,6 +185,10 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(6);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(6);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -186,6 +208,10 @@ public class TestGeneralMathSentenceCopy {
         copiedSentence = original.copy();
         assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(4);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -221,6 +247,10 @@ public class TestGeneralMathSentenceCopy {
 
         copiedSentence.compute();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(1);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -248,6 +278,10 @@ public class TestGeneralMathSentenceCopy {
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -294,6 +328,10 @@ public class TestGeneralMathSentenceCopy {
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test  //FIXME esse aqui
@@ -337,6 +375,10 @@ public class TestGeneralMathSentenceCopy {
         original.warmUp();
         copiedSentence = original.copy();
         assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -350,6 +392,10 @@ public class TestGeneralMathSentenceCopy {
         BigDecimal resultCopy = copiedSentence.compute();
         BigDecimal resultOriginal = original.compute();
         assertThat(resultOriginal).isEqualByComparingTo(resultCopy);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
     }
 
     @Test
@@ -374,6 +420,33 @@ public class TestGeneralMathSentenceCopy {
         original = new MathSentence("true and true or false xor false = false <> true and ~((1 > 2) and (3 <= 5))");
         copiedSentence = original.copy();
         assertThat(original.<Boolean>compute()).isEqualTo(copiedSentence.<Boolean>compute());
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited);
+    }
+
+    @Test
+    public void shouldCopyWithVectorAssignment() {
+        MathSentence original = new MathSentence("[a, b, c] = $.multiplyVector(2, [4, 5, 6]);");
+        MathSentence copiedSentence = original.copy();
+        original.addFunction("multiplyVector", MethodType.methodType(BigDecimal[].class, BigDecimal.class, BigDecimal[].class), (args) -> {
+            BigDecimal multiplier = (BigDecimal) args[0];
+            BigDecimal[] vector = (BigDecimal[]) args[1];
+            BigDecimal[] result = new BigDecimal[vector.length];
+            for (int i = 0; i < vector.length; i++) {
+                result[i] = vector[i].multiply(multiplier);
+            }
+            return result;
+        });
+        original.compute();
+
+        assertThat(original.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(10);
+        assertThat(copiedSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
+
+        Set<AbstractOperation> originalVisited = original.visitOperations(new OperationCollectorVisitor());
+        Set<AbstractOperation> copiedVisited = copiedSentence.visitOperations(new OperationCollectorVisitor());
+        assertThat(originalVisited).doesNotContainAnyElementsOf(copiedVisited).hasSameSizeAs(copiedVisited);
     }
 
 }

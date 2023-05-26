@@ -41,7 +41,7 @@ import java.util.Set;
 
 public class CacheCheckVisitor implements OperationVisitor<Integer> {
 
-    private Set<AbstractVariableValueOperation> visitedVariables = new HashSet<>();
+    private Set<AbstractOperation> visitedVariables = new HashSet<>();
     private int counter = 0;
 
     public CacheCheckVisitor reset() {
@@ -55,11 +55,13 @@ public class CacheCheckVisitor implements OperationVisitor<Integer> {
         return counter;
     }
 
-    public int getCounter() {
-        return counter;
-    }
-
     private Integer checkCache(AbstractOperation operation) {
+        if (visitedVariables.contains(operation)) {
+            return counter;
+        } else {
+            visitedVariables.add(operation);
+        }
+
         if (operation.getCache() != null) {
             return ++counter;
         }
@@ -108,17 +110,10 @@ public class CacheCheckVisitor implements OperationVisitor<Integer> {
 
     @Override
     public Integer visit(AbstractVariableValueOperation operation) {
-        // don't revisit same variables
-        if (visitedVariables.contains(operation)) {
-            return 0;
-        } else {
-            Integer numberOfCaches = checkCache(operation);
-            visitedVariables.add(operation);
-            if (operation.getValue() instanceof AbstractOperation op) {
-                op.accept(this);
-            }
-            return numberOfCaches;
+        if (operation.getValue() instanceof AbstractOperation op) {
+            op.accept(this);
         }
+        return checkCache(operation);
     }
 
 }

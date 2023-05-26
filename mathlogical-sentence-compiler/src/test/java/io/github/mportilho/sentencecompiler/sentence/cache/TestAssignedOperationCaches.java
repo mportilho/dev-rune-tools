@@ -70,7 +70,7 @@ class TestAssignedOperationCaches {
 	}
 
 	@Test
-	void testObtainAssinedVariable() {
+	void testObtainAssignedVariable() {
 		StringBuilder sb;
 
 		sb = new StringBuilder();
@@ -85,7 +85,7 @@ class TestAssignedOperationCaches {
 	}
 
 	@Test
-	void testObtainAssinedVariableNoCache() {
+	void testObtainAssignedVariableNoCache() {
 		StringBuilder sb;
 
 		sb = new StringBuilder();

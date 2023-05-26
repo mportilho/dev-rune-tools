@@ -559,6 +559,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterScalarEntityTypes(MathematicalSentenceParserGrammarParser.ScalarEntityTypesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitScalarEntityTypes(MathematicalSentenceParserGrammarParser.ScalarEntityTypesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLogicalConstant(MathematicalSentenceParserGrammarParser.LogicalConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1070,6 +1082,18 @@ public class MathematicalSentenceParserGrammarBaseListener implements Mathematic
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVectorOfExpressions(MathematicalSentenceParserGrammarParser.VectorOfExpressionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVectorOfExpressions(MathematicalSentenceParserGrammarParser.VectorOfExpressionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

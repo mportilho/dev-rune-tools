@@ -532,6 +532,16 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 */
 	void exitAllEntityTypes(MathematicalSentenceParserGrammarParser.AllEntityTypesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MathematicalSentenceParserGrammarParser#scalarEntityTypes}.
+	 * @param ctx the parse tree
+	 */
+	void enterScalarEntityTypes(MathematicalSentenceParserGrammarParser.ScalarEntityTypesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#scalarEntityTypes}.
+	 * @param ctx the parse tree
+	 */
+	void exitScalarEntityTypes(MathematicalSentenceParserGrammarParser.ScalarEntityTypesContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code logicalConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
 	 * @param ctx the parse tree
@@ -1047,6 +1057,18 @@ public interface MathematicalSentenceParserGrammarListener extends ParseTreeList
 	 * @param ctx the parse tree
 	 */
 	void exitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code vectorOfExpressions}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
+	 * @param ctx the parse tree
+	 */
+	void enterVectorOfExpressions(MathematicalSentenceParserGrammarParser.VectorOfExpressionsContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code vectorOfExpressions}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
+	 * @param ctx the parse tree
+	 */
+	void exitVectorOfExpressions(MathematicalSentenceParserGrammarParser.VectorOfExpressionsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code vectorVariable}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.

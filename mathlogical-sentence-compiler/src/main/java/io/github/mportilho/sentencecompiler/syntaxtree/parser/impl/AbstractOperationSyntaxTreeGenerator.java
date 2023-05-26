@@ -681,6 +681,15 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
         return new VectorValueOperation(ctx.getText(), operations).expectedType(String[].class);
     }
 
+    @Override
+    public AbstractOperation visitVectorOfExpressions(VectorOfExpressionsContext ctx) {
+        AbstractOperation[] operations = new AbstractOperation[ctx.scalarEntityTypes().size()];
+        for (int i = 0, size = ctx.scalarEntityTypes().size(); i < size; i++) {
+            operations[i] = ctx.scalarEntityTypes().get(i).accept(this);
+        }
+        return new VectorValueOperation(ctx.getText(), operations).expectedType(Object[].class);
+    }
+
     protected AbstractOperation createNewUserVariable(ParserRuleContext context) {
         return createNewUserVariable(context, VariableValueOperation::new, null);
     }

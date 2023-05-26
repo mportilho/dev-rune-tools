@@ -296,6 +296,15 @@ allEntityTypes
   | vectorEntity
   ;
 
+scalarEntityTypes
+  : mathExpression
+  | logicalExpression
+  | dateOperation
+  | timeOperation
+  | dateTimeOperation
+  | stringEntity
+  ;
+
 logicalEntity
   : (TRUE | FALSE) # logicalConstant
   | IF logicalExpression THEN logicalExpression (ELSEIF logicalExpression THEN logicalExpression)? ELSE logicalExpression ENDIF # logicalDecisionExpression
@@ -358,6 +367,7 @@ vectorEntity
   | LBLACKET dateEntity (COMMA dateEntity)* RBLACKET # vectorOfDates
   | LBLACKET timeEntity (COMMA timeEntity)* RBLACKET # vectorOfTimes
   | LBLACKET dateTimeEntity (COMMA dateTimeEntity)* RBLACKET # vectorOfDateTimes
+  | LBLACKET scalarEntityTypes (COMMA scalarEntityTypes)* RBLACKET # vectorOfExpressions
   | VECTOR_TYPE? IDENTIFIER # vectorVariable
   ;
 

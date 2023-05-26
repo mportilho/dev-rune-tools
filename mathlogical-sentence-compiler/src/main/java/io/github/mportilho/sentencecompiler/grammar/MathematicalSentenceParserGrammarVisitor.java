@@ -319,6 +319,12 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 */
 	T visitAllEntityTypes(MathematicalSentenceParserGrammarParser.AllEntityTypesContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MathematicalSentenceParserGrammarParser#scalarEntityTypes}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitScalarEntityTypes(MathematicalSentenceParserGrammarParser.ScalarEntityTypesContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code logicalConstant}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#logicalEntity}.
 	 * @param ctx the parse tree
@@ -619,6 +625,13 @@ public interface MathematicalSentenceParserGrammarVisitor<T> extends ParseTreeVi
 	 * @return the visitor result
 	 */
 	T visitVectorOfDateTimes(MathematicalSentenceParserGrammarParser.VectorOfDateTimesContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code vectorOfExpressions}
+	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVectorOfExpressions(MathematicalSentenceParserGrammarParser.VectorOfExpressionsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code vectorVariable}
 	 * labeled alternative in {@link MathematicalSentenceParserGrammarParser#vectorEntity}.

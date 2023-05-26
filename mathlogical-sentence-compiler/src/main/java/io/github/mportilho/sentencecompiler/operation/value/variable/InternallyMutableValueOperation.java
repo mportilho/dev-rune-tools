@@ -24,9 +24,9 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -51,7 +51,9 @@ public class InternallyMutableValueOperation extends AbstractVariableValueOperat
     @Override
     protected AbstractOperation createClone(
             CloningContext context) {
-        return new InternallyMutableValueOperation(getVariableName(), this.mutableOperationResolver);
+        InternallyMutableValueOperation operation = new InternallyMutableValueOperation(getVariableName(), this.mutableOperationResolver);
+        copyVariableStateTo(operation);
+        return operation;
     }
 
     @Override

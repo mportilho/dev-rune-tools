@@ -1,4 +1,4 @@
-package io.github.mportilho.sentencecompiler.operation.other;
+package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
@@ -12,8 +12,6 @@ public class AssignedVectorOperation extends AssignedVariableOperation {
     public AssignedVectorOperation(String variableName, AbstractOperation assignedOperation, int vectorPosition) {
         super(variableName, assignedOperation);
         this.vectorPosition = vectorPosition;
-        this.overrideValue(assignedOperation);
-        assignedOperation.addParent(this);
     }
 
     @Override
@@ -30,6 +28,7 @@ public class AssignedVectorOperation extends AssignedVariableOperation {
     protected AbstractOperation createClone(CloningContext context) {
         AssignedVectorOperation copyOperation = new AssignedVectorOperation(getVariableName(),
                 ((AbstractOperation) getValue()).copy(context), vectorPosition);
+        copyVariableStateTo(copyOperation);
         context.getAssignedVariables().put(getVariableName(), copyOperation);
         return copyOperation;
     }

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
 import io.github.mportilho.sentencecompiler.OperationContext;
-import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 
 public class TestAssignedVariableOperations {

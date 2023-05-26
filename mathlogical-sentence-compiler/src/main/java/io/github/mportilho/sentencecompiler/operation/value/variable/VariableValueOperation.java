@@ -84,6 +84,7 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
     protected AbstractOperation createClone(CloningContext context) {
         VariableValueOperation copiedOperation = new VariableValueOperation(this.getVariableName());
         copiedOperation.overrideValue(this.getValue());
+        copyVariableStateTo(copiedOperation);
         context.getUserVariables().put(this.getVariableName(), copiedOperation);
         return copiedOperation;
     }

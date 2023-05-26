@@ -25,9 +25,9 @@
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class VectorValueOperation extends AbstractVariableValueOperation {
 
@@ -50,6 +50,12 @@ public class VectorValueOperation extends AbstractVariableValueOperation {
 
     @Override
     protected AbstractOperation createClone(CloningContext context) {
-        return new VectorValueOperation(this.getVariableName(), vector);
+        AbstractOperation[] vector = new AbstractOperation[this.vector.length];
+        for (int i = 0, totalLength = this.vector.length; i < totalLength; i++) {
+            vector[i] = this.vector[i].copy(context);
+        }
+        VectorValueOperation vectorValueOperation = new VectorValueOperation(getVariableName(), vector);
+        copyVariableStateTo(vectorValueOperation);
+        return vectorValueOperation;
     }
 }

@@ -24,9 +24,9 @@
 
 package io.github.mportilho.sentencecompiler.operation.value.variable;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class SequenceVariableValueOperation extends AbstractVariableValueOperation {
 
@@ -38,6 +38,7 @@ public class SequenceVariableValueOperation extends AbstractVariableValueOperati
     protected AbstractOperation createClone(CloningContext context) {
         SequenceVariableValueOperation operation = new SequenceVariableValueOperation(getVariableName());
         operation.overrideValue(this.getValue());
+        copyVariableStateTo(operation);
         return operation;
     }
 

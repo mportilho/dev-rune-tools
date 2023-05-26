@@ -24,7 +24,7 @@
 
 package io.github.mportilho.sentencecompiler.operation;
 
-import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
 
 import java.util.HashMap;

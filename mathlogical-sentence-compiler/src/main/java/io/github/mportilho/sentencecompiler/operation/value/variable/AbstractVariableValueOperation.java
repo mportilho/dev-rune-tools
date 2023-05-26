@@ -46,10 +46,21 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         return "";
     }
 
+    /**
+     * Sets a new value for this variable overriding the current value without any checks or validations
+     *
+     * @param value the new value
+     */
     protected void overrideValue(Object value) {
         this.value = value;
     }
 
+    /**
+     * Sets a new value
+     *
+     * @param newValue the new value
+     * @throws SentenceConfigurationException if the variable is locked or the new value is null
+     */
     public void setValue(Object newValue) {
         if (locked) {
             throw new SentenceConfigurationException(String.format("Variable [%s] was set as a constant", variableName));
@@ -60,10 +71,24 @@ public abstract class AbstractVariableValueOperation extends AbstractOperation {
         this.value = newValue;
     }
 
+    /**
+     * Sets a new value and locks the variable for modifications
+     *
+     * @param newValue the new value
+     */
     public void setValueAndLock(Object newValue) {
         setValue(newValue);
         this.locked = true;
         this.configureCaching(true);
+    }
+
+    /**
+     * Copies the internal state of this operation to another one, except for its value
+     *
+     * @param operation the operation to copy the state to
+     */
+    protected void copyVariableStateTo(AbstractVariableValueOperation operation) {
+        operation.locked = this.locked;
     }
 
     @Override

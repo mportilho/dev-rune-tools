@@ -22,13 +22,11 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler.operation.other;
+package io.github.mportilho.sentencecompiler.operation.value.variable;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
-import io.github.mportilho.sentencecompiler.OperationContext;
-import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 
 public class AssignedVariableOperation extends AbstractVariableValueOperation {
 
@@ -47,6 +45,7 @@ public class AssignedVariableOperation extends AbstractVariableValueOperation {
     protected AbstractOperation createClone(CloningContext context) {
         AssignedVariableOperation copyOperation = new AssignedVariableOperation(getVariableName(),
                 ((AbstractOperation) getValue()).copy(context));
+        copyVariableStateTo(copyOperation);
         context.getAssignedVariables().put(getVariableName(), copyOperation);
         return copyOperation;
     }

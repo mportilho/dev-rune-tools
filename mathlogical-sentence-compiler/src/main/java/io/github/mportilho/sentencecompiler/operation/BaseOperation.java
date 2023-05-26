@@ -25,7 +25,7 @@
 package io.github.mportilho.sentencecompiler.operation;
 
 import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
-import io.github.mportilho.sentencecompiler.operation.other.AssignedVariableOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 

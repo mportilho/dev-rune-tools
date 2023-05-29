@@ -97,8 +97,7 @@ public class BaseOperation extends AbstractOperation {
         for (Entry<String, AssignedVariableOperation> entry : entrySet) {
             builder.append(entry.getValue().getVariableName()).append(' ').append(entry.getValue().getOperationToken()).append(' ');
             ((AbstractOperation) entry.getValue().getValue()).toString(builder);
-            builder.append(';');
-            builder.append("\n");
+            builder.append(";\n");
         }
         if (operation != null) {
             operation.toString(builder);

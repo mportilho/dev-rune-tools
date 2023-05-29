@@ -25,6 +25,7 @@
 package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.utils.AssertUtils;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 import io.github.mportilho.sentencecompiler.exceptions.MathSentenceLockingException;
 import io.github.mportilho.sentencecompiler.operation.value.variable.VariableProvider;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
@@ -64,8 +65,8 @@ public class MathSentence {
         this.locked = false;
     }
 
-    public MathSentence(String sentence, OperationSupportData operationSupportData) {
-        this(sentence, new MathSentenceOptions(operationSupportData));
+    public MathSentence(String sentence, DataStore dataStore) {
+        this(sentence, new MathSentenceOptions(dataStore));
     }
 
     private MathSentence(String originalSentence, MathContext mathContext, Integer scale, SyntaxExecutionSite syntaxExecutionSite) {
@@ -84,13 +85,9 @@ public class MathSentence {
                 new SyntaxExecutionData(mathSentenceOptions.getMathContext(), mathSentenceOptions.getScale(),
                         mathSentenceOptions.getZoneId(), mathSentenceOptions.isPreciseNumbers(),
                         mathSentenceOptions.isCachingVariableProvider()),
-                data.userVariables(), data.assignedVariables(), createDefaultOperationSupportData(mathSentenceOptions),
+                data.userVariables(), data.assignedVariables(),
+                mathSentenceOptions.getDataStore() != null ? mathSentenceOptions.getDataStore() : new DataStore(),
                 mathSentenceOptions.getFormattedConversionService());
-    }
-
-    private OperationSupportData createDefaultOperationSupportData(MathSentenceOptions mathSentenceOptions) {
-        return mathSentenceOptions.getOperationSupportData() != null ?
-                mathSentenceOptions.getOperationSupportData() : new OperationSupportData();
     }
 
     @SuppressWarnings("unchecked")
@@ -100,9 +97,9 @@ public class MathSentence {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T compute(OperationSupportData userOperationSupportData) {
+    public <T> T compute(DataStore userDataStore) {
         checkUpdateLock();
-        return (T) this.syntaxExecutionSite.compute(userOperationSupportData);
+        return (T) this.syntaxExecutionSite.compute(userDataStore);
     }
 
     public MathSentence warmUp() {
@@ -151,13 +148,13 @@ public class MathSentence {
     }
 
     public MathSentence setConstant(String variableName, Object value) {
-        this.syntaxExecutionSite.setUserVariableAndLock(variableName, value);
+        this.syntaxExecutionSite.setAndLockVariable(variableName, value);
         return this;
     }
 
     public MathSentence setVariable(String variableName, Object value) {
         checkUpdateLock();
-        syntaxExecutionSite.setUserVariable(variableName, value);
+        syntaxExecutionSite.setVariable(variableName, value);
         return this;
     }
 
@@ -191,7 +188,7 @@ public class MathSentence {
     }
 
     public Map<String, Object> listUserVariables() {
-        return syntaxExecutionSite.listUserVariables();
+        return syntaxExecutionSite.listVariables();
     }
 
     public final MathSentence copy() {

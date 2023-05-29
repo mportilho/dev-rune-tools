@@ -24,20 +24,20 @@
 
 package io.github.mportilho.sentencecompiler.operation;
 
-import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CloningContext {
 
-    private final Map<String, AbstractVariableValueOperation> userVariables;
+    private final Map<String, AbstractVariableValueOperation> variables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
     private final Map<AbstractOperation, AbstractOperation> clonedOperationsMap;
 
     public CloningContext() {
-        this.userVariables = new HashMap<>();
+        this.variables = new HashMap<>();
         this.assignedVariables = new HashMap<>();
         this.clonedOperationsMap = new HashMap<>();
     }
@@ -46,8 +46,8 @@ public class CloningContext {
         return clonedOperationsMap;
     }
 
-    public final Map<String, AbstractVariableValueOperation> getUserVariables() {
-        return userVariables;
+    public final Map<String, AbstractVariableValueOperation> getVariables() {
+        return variables;
     }
 
     public final Map<String, AssignedVariableOperation> getAssignedVariables() {

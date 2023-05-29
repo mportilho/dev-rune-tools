@@ -27,11 +27,12 @@ package io.github.mportilho.sentencecompiler;
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.commons.utils.AssertUtils;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceConfigurationException;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.operation.value.variable.AbstractVariableValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.OperationVisitor;
 import io.github.mportilho.sentencecompiler.syntaxtree.visitor.WarmUpOperationVisitor;
@@ -45,71 +46,68 @@ class SyntaxExecutionSite {
 
     private final AbstractOperation operation;
     private final SyntaxExecutionData syntaxExecutionData;
-    private final Map<String, AbstractVariableValueOperation> userVariables;
+    private final Map<String, AbstractVariableValueOperation> variables;
     private final Map<String, AssignedVariableOperation> assignedVariables;
-    private final OperationSupportData operationSupportData;
+    private final DataStore dataStore;
     private final FormattedConversionService conversionService;
 
     public SyntaxExecutionSite(
             AbstractOperation operation,
             SyntaxExecutionData syntaxExecutionData,
-            Map<String, AbstractVariableValueOperation> userVariables,
+            Map<String, AbstractVariableValueOperation> variables,
             Map<String, AssignedVariableOperation> assignedVariables,
-            OperationSupportData operationSupportData,
+            DataStore dataStore,
             FormattedConversionService conversionService) {
         this.operation = operation;
         this.syntaxExecutionData = syntaxExecutionData;
-        this.userVariables = Collections.unmodifiableMap(userVariables);
+        this.variables = Collections.unmodifiableMap(variables);
         this.assignedVariables = Collections.unmodifiableMap(assignedVariables);
-        this.operationSupportData = operationSupportData;
+        this.dataStore = dataStore;
         this.conversionService = conversionService;
     }
 
     public Object compute() {
-        return compute(OperationSupportData.EMPTY_DATA);
+        return compute(DataStore.EMPTY_DATA);
     }
 
-    public Object compute(OperationSupportData userOperationSupportData) {
-        Objects.requireNonNull(userOperationSupportData, "Parameter [userExecutionContext] must be provided");
+    public Object compute(DataStore userDataStore) {
+        Objects.requireNonNull(userDataStore, "Parameter [userExecutionContext] must be provided");
         OperationContext operationContext = new OperationContext(syntaxExecutionData.mathContext(),
                 syntaxExecutionData.scale(), false, syntaxExecutionData.cachingVariableProvider(),
                 new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())),
-                conversionService, operationSupportData,
-                userOperationSupportData, false, syntaxExecutionData.zoneId());
+                conversionService, dataStore,
+                userDataStore, false, syntaxExecutionData.zoneId());
         return operation.evaluate(operationContext);
     }
 
     public void warmUp() {
         OperationContext operationContext = new OperationContext(syntaxExecutionData.mathContext(),
                 syntaxExecutionData.scale(), true, syntaxExecutionData.cachingVariableProvider(),
-                new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())), conversionService, operationSupportData,
-                operationSupportData, syntaxExecutionData.preciseNumbers(), syntaxExecutionData.zoneId());
+                new MemoizedSupplier<>(() -> ZonedDateTime.now(syntaxExecutionData.zoneId())), conversionService, dataStore,
+                dataStore, syntaxExecutionData.preciseNumbers(), syntaxExecutionData.zoneId());
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
     public void addDictionaryEntry(String key, Object value) {
-        AssertUtils.notNullOrBlank(key, "Dictionary entry name required");
-        Objects.requireNonNull(value, "Dictionary entry value required");
-        operationSupportData.getDictionary().put(key, value);
+        dataStore.putDictionary(key, value);
     }
 
     public void addDictionary(Map<String, Object> dictionary) {
-        Objects.requireNonNull(dictionary, "Cannot add a null dictionary to execution context");
-        operationSupportData.getDictionary().putAll(dictionary);
+        dataStore.putAllDictionary(dictionary);
     }
 
     public void addFunction(LambdaCallSite function) {
-        Objects.requireNonNull(function, "Function implementation is required");
-        operationSupportData.putFunction(function.getKeyName(), function);
+        dataStore.putFunction(function.getKeyName(), function);
     }
 
     public void addFunctionFromObject(Object functionProvider) {
         try {
             Map<String, LambdaCallSite> callSiteMap = createLambdaCallSites(functionProvider);
-
-            List<String> overridingFunctions = callSiteMap.keySet().stream().filter(key ->
-                    operationSupportData.getFunction(key) != null).toList();
-            callSiteMap.forEach(operationSupportData::putFunction);
+            List<String> overridingFunctions = callSiteMap.keySet().stream().filter(key -> dataStore.findFunction(key) != null).toList();
+            if (!overridingFunctions.isEmpty()) {
+                throw new SentenceConfigurationException("Cannot add the following functions because they are already defined: " + overridingFunctions);
+            }
+            callSiteMap.forEach(dataStore::putFunction);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);
         }
@@ -118,26 +116,24 @@ class SyntaxExecutionSite {
     public SyntaxExecutionSite copy() {
         CloningContext cloningCtx = new CloningContext();
         AbstractOperation copy = operation.copy(cloningCtx);
-        return new SyntaxExecutionSite(
-                copy, syntaxExecutionData, cloningCtx.getUserVariables(), cloningCtx.getAssignedVariables(),
-                new OperationSupportData(new HashMap<>(operationSupportData.getDictionary()), operationSupportData.getFunctions()),
-                conversionService);
+        return new SyntaxExecutionSite(copy, syntaxExecutionData, cloningCtx.getVariables(),
+                cloningCtx.getAssignedVariables(), dataStore, conversionService);
     }
 
-    AbstractVariableValueOperation getUserVariableOperation(String name) {
+    AbstractVariableValueOperation getVariableOperation(String name) {
         AssertUtils.notNullOrBlank(name, "Parameter [name] must be provided");
-        return userVariables.get(name);
+        return variables.get(name);
     }
 
-    public void setUserVariable(String name, Object value) {
-        AbstractVariableValueOperation variableOperation = getUserVariableOperation(name);
+    public void setVariable(String name, Object value) {
+        AbstractVariableValueOperation variableOperation = getVariableOperation(name);
         if (variableOperation != null) {
             variableOperation.setValue(value);
         }
     }
 
-    public void setUserVariableAndLock(String name, Object value) {
-        AbstractVariableValueOperation variableOperation = getUserVariableOperation(name);
+    public void setAndLockVariable(String name, Object value) {
+        AbstractVariableValueOperation variableOperation = getVariableOperation(name);
         if (variableOperation != null) {
             variableOperation.setValueAndLock(value);
         }
@@ -151,9 +147,9 @@ class SyntaxExecutionSite {
         return map;
     }
 
-    public Map<String, Object> listUserVariables() {
+    public Map<String, Object> listVariables() {
         Map<String, Object> map = new HashMap<>();
-        for (Map.Entry<String, AbstractVariableValueOperation> entry : userVariables.entrySet()) {
+        for (Map.Entry<String, AbstractVariableValueOperation> entry : variables.entrySet()) {
             map.put(entry.getKey(), entry.getValue().getLastResult());
         }
         return map;

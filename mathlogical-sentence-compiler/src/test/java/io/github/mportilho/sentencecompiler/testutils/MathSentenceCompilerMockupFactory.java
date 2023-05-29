@@ -28,7 +28,7 @@ import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionSer
 import io.github.mportilho.commons.memoization.MemoizedSupplier;
 import io.github.mportilho.sentencecompiler.MathSentenceOptions;
 import io.github.mportilho.sentencecompiler.OperationContext;
-import io.github.mportilho.sentencecompiler.OperationSupportData;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaContext;
 
 import java.math.MathContext;
@@ -40,19 +40,19 @@ public class MathSentenceCompilerMockupFactory {
 
     public static OperationContext getPreciseOperationContext() {
         return new OperationContext(MathContext.DECIMAL64, 8, false, true, new MemoizedSupplier<>(ZonedDateTime::now),
-                new DefaultFormattedConversionService(), new OperationSupportData(),
-                new OperationSupportData(), true, ZoneId.systemDefault());
+                new DefaultFormattedConversionService(), new DataStore(),
+                new DataStore(), true, ZoneId.systemDefault());
     }
 
     public static OperationContext getPreciseOperationContext(boolean allowingNull) {
         return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, true, new MemoizedSupplier<>(ZonedDateTime::now),
-                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
+                new DefaultFormattedConversionService(), new DataStore(), new DataStore(),
                 true, ZoneId.systemDefault());
     }
 
     public static OperationContext getFastOperationContext() {
         return new OperationContext(MathContext.DECIMAL64, 8, false, true, new MemoizedSupplier<>(ZonedDateTime::now),
-                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
+                new DefaultFormattedConversionService(), new DataStore(), new DataStore(),
                 false, ZoneId.systemDefault());
     }
 
@@ -61,13 +61,13 @@ public class MathSentenceCompilerMockupFactory {
     }
 
     public static MathSentenceOptions getFastMathSentenceOptions() {
-        return new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService(), new OperationSupportData(),
+        return new MathSentenceOptions(MathContext.DECIMAL64, 8, new DefaultFormattedConversionService(), new DataStore(),
                 ZoneId.systemDefault(), false, true);
     }
 
     public static OperationContext getFastOperationContext(boolean allowingNull) {
         return new OperationContext(MathContext.DECIMAL64, 8, allowingNull, true, new MemoizedSupplier<>(ZonedDateTime::now),
-                new DefaultFormattedConversionService(), new OperationSupportData(), new OperationSupportData(),
+                new DefaultFormattedConversionService(), new DataStore(), new DataStore(),
                 false, ZoneId.systemDefault());
     }
 

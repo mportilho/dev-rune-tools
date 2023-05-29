@@ -428,7 +428,7 @@ public class TestGeneralMathSentenceCopy {
 
     @Test
     public void shouldCopyWithVectorAssignment() {
-        MathSentence original = new MathSentence("[a, b, c] = $.multiplyVector(2, [4, 5, 6]);");
+        MathSentence original = new MathSentence("[a, b, c] = multiplyVector(2, [4, 5, 6]);");
         MathSentence copiedSentence = original.copy();
         original.addFunction("multiplyVector", MethodType.methodType(BigDecimal[].class, BigDecimal.class, BigDecimal[].class), (args) -> {
             BigDecimal multiplier = (BigDecimal) args[0];

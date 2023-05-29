@@ -38,41 +38,23 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
 
     @Override
     protected Object resolve(OperationContext context) {
-        Object result;
-        if (getValue() instanceof VariableProvider variableProvider) {
-            result = resolveVariableProvider(context, variableProvider);
-        } else if (getValue() instanceof Supplier<?> supplier) {
-            result = supplier.get();
+        Object result = getValue();
+        if (result != null) {
+            return unwrapLambda(result, context);
         } else {
-            result = resolveVariable(context);
-        }
-        return result;
-    }
-
-    /**
-     * Variable provider disables configureCaching, but users can activate it through the 'value provider context' parameter.
-     * Note that by doing so, the provider won't be called again unless it gets cleaned by subtree operations.
-     */
-    private Object resolveVariableProvider(OperationContext context, VariableProvider variableProvider) {
-        VariableValueProviderContext valueProviderContext =
-                new VariableValueProviderContext(context.mathContext(), context.scale(), context.cachingVariableProvider());
-        return variableProvider.retrieveValue(valueProviderContext);
-    }
-
-    private Object resolveVariable(OperationContext context) {
-        Object currValue = context.userOperationSupportData().getDictionary().get(getVariableName());
-        if (currValue != null) {
+            Object currValue = context.userDataStore().findValue(getVariableName());
+            if (currValue == null) {
+                currValue = context.dataStore().findValue(getVariableName());
+            }
             return unwrapLambda(currValue, context);
         }
-        if (getValue() != null) {
-            return getValue();
-        }
-        return unwrapLambda(context.operationSupportData().getDictionary().get(getVariableName()), context);
     }
 
     private Object unwrapLambda(Object object, OperationContext context) {
         if (object instanceof VariableProvider variableProvider) {
-            return resolveVariableProvider(context, variableProvider);
+            VariableValueProviderContext valueProviderContext = new VariableValueProviderContext(
+                    context.mathContext(), context.scale(), context.cachingVariableProvider());
+            return variableProvider.retrieveValue(valueProviderContext);
         } else if (object instanceof Supplier<?> supplier) {
             return supplier.get();
         } else {
@@ -85,7 +67,7 @@ public class VariableValueOperation extends AbstractVariableValueOperation {
         VariableValueOperation copiedOperation = new VariableValueOperation(this.getVariableName());
         copiedOperation.overrideValue(this.getValue());
         copyVariableStateTo(copiedOperation);
-        context.getUserVariables().put(this.getVariableName(), copiedOperation);
+        context.getVariables().put(this.getVariableName(), copiedOperation);
         return copiedOperation;
     }
 

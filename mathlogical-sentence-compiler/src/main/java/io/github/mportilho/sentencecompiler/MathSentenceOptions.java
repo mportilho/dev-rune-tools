@@ -26,6 +26,7 @@ package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
 import io.github.mportilho.commons.converters.impl.DefaultFormattedConversionService;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 
 import java.math.MathContext;
 import java.time.ZoneId;
@@ -36,7 +37,7 @@ public class MathSentenceOptions {
     private final MathContext mathContext;
     private final Integer scale;
     private final FormattedConversionService formattedConversionService;
-    private final OperationSupportData operationSupportData;
+    private final DataStore dataStore;
     private final ZoneId zoneId;
     private final boolean preciseNumbers;
     private final boolean cachingVariableProvider;
@@ -53,18 +54,18 @@ public class MathSentenceOptions {
                 ZoneOffset.UTC, true, true);
     }
 
-    public MathSentenceOptions(OperationSupportData operationSupportData) {
-        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), operationSupportData,
+    public MathSentenceOptions(DataStore dataStore) {
+        this(MathContext.DECIMAL64, null, new DefaultFormattedConversionService(), dataStore,
                 ZoneOffset.UTC, true, true);
     }
 
     public MathSentenceOptions(
             MathContext mathContext, Integer scale, FormattedConversionService formattedConversionService,
-            OperationSupportData operationSupportData, ZoneId zoneId, boolean preciseNumbers, boolean cachingVariableProvider) {
+            DataStore dataStore, ZoneId zoneId, boolean preciseNumbers, boolean cachingVariableProvider) {
         this.mathContext = mathContext;
         this.scale = scale;
         this.formattedConversionService = formattedConversionService;
-        this.operationSupportData = operationSupportData;
+        this.dataStore = dataStore;
         this.zoneId = zoneId;
         this.preciseNumbers = preciseNumbers;
         this.cachingVariableProvider = cachingVariableProvider;
@@ -82,8 +83,8 @@ public class MathSentenceOptions {
         return formattedConversionService;
     }
 
-    public OperationSupportData getOperationSupportData() {
-        return operationSupportData;
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
     public ZoneId getZoneId() {

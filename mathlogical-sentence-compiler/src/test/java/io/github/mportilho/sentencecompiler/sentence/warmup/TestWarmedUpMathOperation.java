@@ -300,12 +300,12 @@ public class TestWarmedUpMathOperation {
 	public void testSineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.sin(90)");
+		mathSentence = new MathSentence("sin(90)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 
-		mathSentence = new MathSentence("$.sin(90 * pi / 180)");
+		mathSentence = new MathSentence("sin(90 * pi / 180)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
@@ -315,7 +315,7 @@ public class TestWarmedUpMathOperation {
 	public void testCosineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.cos(90)");
+		mathSentence = new MathSentence("cos(90)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -325,12 +325,12 @@ public class TestWarmedUpMathOperation {
 	public void testTangentOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.tan(10)");
+		mathSentence = new MathSentence("tan(10)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
 
-		mathSentence = new MathSentence("$.tan(10 * pi / 180)");
+		mathSentence = new MathSentence("tan(10 * pi / 180)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(7);
@@ -340,7 +340,7 @@ public class TestWarmedUpMathOperation {
 	public void testArcsineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.asin(0.7)");
+		mathSentence = new MathSentence("asin(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -350,7 +350,7 @@ public class TestWarmedUpMathOperation {
 	public void testArccosineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.acos(0.7)");
+		mathSentence = new MathSentence("acos(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -360,7 +360,7 @@ public class TestWarmedUpMathOperation {
 	public void testArctangentOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.atan(0.7)");
+		mathSentence = new MathSentence("atan(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -370,17 +370,17 @@ public class TestWarmedUpMathOperation {
 	public void testArctangent2Operation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.atan2(0.7, 3)");
+		mathSentence = new MathSentence("atan2(0.7, 3)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(4);
 	}
 
 	@Test
-	public void testHyperbolicSineOperation() {
+	public void testHyperbolicSineOperation_noCache() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("sinh(0.7)");
+		mathSentence = new MathSentence("$.sinh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(1);
@@ -390,7 +390,7 @@ public class TestWarmedUpMathOperation {
 	public void testHyperbolicCosineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.cosh(0.7)");
+		mathSentence = new MathSentence("cosh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -400,7 +400,7 @@ public class TestWarmedUpMathOperation {
 	public void testHyperbolicTangentOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.tanh(0.7)");
+		mathSentence = new MathSentence("tanh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -410,7 +410,7 @@ public class TestWarmedUpMathOperation {
 	public void testInverseHyperbolicSineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.asinh(0.7)");
+		mathSentence = new MathSentence("asinh(0.7)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -420,7 +420,7 @@ public class TestWarmedUpMathOperation {
 	public void testInverseHyperbolicCosineOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.acosh(50)");
+		mathSentence = new MathSentence("acosh(50)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);
@@ -430,7 +430,7 @@ public class TestWarmedUpMathOperation {
 	public void testInverseHyperbolicTangentOperation() {
 		MathSentence mathSentence;
 
-		mathSentence = new MathSentence("$.atanh(0.5)");
+		mathSentence = new MathSentence("atanh(0.5)");
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
 		mathSentence.warmUp();
 		assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(3);

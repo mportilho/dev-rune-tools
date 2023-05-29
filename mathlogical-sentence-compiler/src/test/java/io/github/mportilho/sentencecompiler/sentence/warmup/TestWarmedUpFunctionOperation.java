@@ -48,7 +48,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalNumberMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedNumber() + 2");
+        mathSentence = new MathSentence("extractedNumber() + 2");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
@@ -59,7 +59,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalStringMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedString() = 'food'");
+        mathSentence = new MathSentence("extractedString() = 'food'");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         MathSentence copyBefore = mathSentence.copy();
@@ -74,7 +74,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalDateMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedDate() = currDate");
+        mathSentence = new MathSentence("extractedDate() = currDate");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
@@ -85,7 +85,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalTimeMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedTime() = 02:03:00");
+        mathSentence = new MathSentence("extractedTime() = 02:03:00");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
@@ -96,7 +96,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalDateTimeMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
+        mathSentence = new MathSentence("extractedDateTime() = (currDateTime setHours 2 setMinutes 3 setSeconds 0)");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
@@ -107,7 +107,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithExternalBooleanMethods() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("<bool>$.extractedBoolean()");
+        mathSentence = new MathSentence("<bool>extractedBoolean()");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         mathSentence.warmUp();
@@ -118,7 +118,7 @@ public class TestWarmedUpFunctionOperation {
     public void testFunctionOperationsWithNumberExternalMethods_MultipleParameters() {
         MathSentence mathSentence;
 
-        mathSentence = new MathSentence("$.add(3, 4 + 2 - $.extractedNumber())");
+        mathSentence = new MathSentence("add(3, 4 + 2 - extractedNumber())");
         mathSentence.addFunctionFromObject(new FunctionProviderClass());
         assertThat(mathSentence.visitOperations(cacheVisitor.reset())).isEqualByComparingTo(0);
         MathSentence copyBefore = mathSentence.copy();

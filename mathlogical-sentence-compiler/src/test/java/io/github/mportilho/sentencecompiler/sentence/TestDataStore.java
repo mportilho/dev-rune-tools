@@ -25,14 +25,16 @@
 package io.github.mportilho.sentencecompiler.sentence;
 
 import io.github.mportilho.sentencecompiler.MathSentence;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
-import io.github.mportilho.sentencecompiler.OperationSupportData;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 
-public class TestOperationSupportData {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class TestDataStore {
 
     @Test
     public void test_overrideVariable_with_InternalDictionary_case_1() {
@@ -81,7 +83,7 @@ public class TestOperationSupportData {
     @Test
     public void test_overrideVariable_with_UserDictionary_case_1() {
         MathSentence compiler;
-        OperationSupportData data = new OperationSupportData();
+        DataStore data = new DataStore();
 
         compiler = new MathSentence("a + 5 * b");
         assertThatThrownBy(compiler::compute)
@@ -98,7 +100,7 @@ public class TestOperationSupportData {
     @Test
     public void test_overrideVariable_with_UserDictionary_case_2() {
         MathSentence compiler;
-        OperationSupportData data = new OperationSupportData();
+        DataStore data = new DataStore();
 
         compiler = new MathSentence("a + 5 * b");
         compiler.setVariable("a", 3);
@@ -110,31 +112,27 @@ public class TestOperationSupportData {
     @Test
     public void test_overrideVariable_with_UserDictionary_case_3() {
         MathSentence compiler;
-        OperationSupportData data = new OperationSupportData();
+        DataStore data = new DataStore();
 
         compiler = new MathSentence("a + 5 * b");
-        compiler.setVariable("a", 1);
         compiler.setVariable("b", 2);
-
-        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("11");
 
         data.putDictionary("a", 3);
         assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("13");
 
+        compiler.setVariable("a", 1);
+        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("11");
+
         data.putDictionary("b", 10);
-        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("53");
+        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("11");
     }
 
     @Test
     public void test_overrideVariable_with_UserDictionary_case_4() {
         MathSentence compiler;
-        OperationSupportData data = new OperationSupportData();
+        DataStore data = new DataStore();
 
         compiler = new MathSentence("a + 5 * b");
-        compiler.setVariable("a", 3);
-        compiler.setVariable("b", 5);
-        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");
-
         data.putDictionary("a", 1);
         data.putDictionary("b", 2);
         assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("11");
@@ -146,9 +144,9 @@ public class TestOperationSupportData {
         data.putDictionary("a", 6);
         assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("56");
 
-        data.getDictionary().remove("a");
-        data.getDictionary().remove("b");
-        assertThat(compiler.<BigDecimal>compute(data)).isEqualByComparingTo("28");
+        compiler.setVariable("a", 3);
+        compiler.setVariable("b", 5);
+        assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");
 
         // not passing user dictionary
         assertThat(compiler.<BigDecimal>compute()).isEqualByComparingTo("28");

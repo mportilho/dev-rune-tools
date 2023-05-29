@@ -252,7 +252,7 @@ public abstract class AbstractOperation {
         }
     }
 
-    public int findSemaphoreIndex(AbstractOperation semaphore, AbstractOperation operation) {
+    private int findSemaphoreIndex(AbstractOperation semaphore, AbstractOperation operation) {
         for (int i = 0, cacheLength = operation.cacheBlockingSemaphores.length; i < cacheLength; i++) {
             if (operation.cacheBlockingSemaphores[i] == semaphore) {
                 return i;

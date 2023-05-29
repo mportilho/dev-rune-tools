@@ -25,6 +25,7 @@
 package io.github.mportilho.sentencecompiler;
 
 import io.github.mportilho.commons.converters.FormattedConversionService;
+import io.github.mportilho.sentencecompiler.data.DataStore;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 
 import java.math.MathContext;
@@ -42,17 +43,17 @@ public record OperationContext(
         boolean cachingVariableProvider,
         Supplier<Temporal> currentDateTime,
         FormattedConversionService formattedConversionService,
-        OperationSupportData operationSupportData,
-        OperationSupportData userOperationSupportData,
+        DataStore dataStore,
+        DataStore userDataStore,
         boolean preciseNumbers,
         ZoneId zoneId
 ) {
 
     public LambdaCallSite getFunction(String name, int parameterCount) {
         String functionKey = keyName(name, parameterCount);
-        LambdaCallSite func = userOperationSupportData.getFunction(functionKey);
+        LambdaCallSite func = userDataStore.findFunction(functionKey);
         if (func == null) {
-            func = operationSupportData.getFunction(functionKey);
+            func = dataStore.findFunction(functionKey);
         }
         if (func == null && parameterCount > 1) {
             func = getFunction(name, 1);

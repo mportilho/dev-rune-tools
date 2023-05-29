@@ -22,53 +22,73 @@
  * SOFTWARE.
  ******************************************************************************/
 
-package io.github.mportilho.sentencecompiler;
+package io.github.mportilho.sentencecompiler.data;
 
+import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.util.Collections.emptyMap;
 
-public class OperationSupportData {
+public class DataStore {
 
-    public static final OperationSupportData EMPTY_DATA = new OperationSupportData(emptyMap(), emptyMap());
+    public static final DataStore EMPTY_DATA = new DataStore(null, emptyMap(), emptyMap());
 
+    private VariableStore variableStore;
     private final Map<String, Object> dictionary;
     private final Map<String, LambdaCallSite> functions;
 
-    public OperationSupportData() {
+    public DataStore() {
+        this.variableStore = null;
         this.dictionary = new HashMap<>();
         this.functions = new HashMap<>();
     }
 
-    public OperationSupportData(
-            Map<String, Object> dictionary,
-            Map<String, LambdaCallSite> functions) {
+    public DataStore(VariableStore variableStore, Map<String, Object> dictionary, Map<String, LambdaCallSite> functions) {
+        this.variableStore = variableStore;
         this.dictionary = dictionary;
         this.functions = functions;
     }
 
-    public Map<String, Object> getDictionary() {
-        return dictionary;
+    public Object findValue(String name) {
+        Object value;
+        if (variableStore != null && (value = variableStore.getValue(name)) != null) {
+            return value;
+        }
+        return dictionary.get(name);
     }
 
-    public LambdaCallSite getFunction(String key) {
+    public LambdaCallSite findFunction(String key) {
         return functions.getOrDefault(key, LambdaCallSiteFactory.DEFAULT_FUNCTIONS.get(key));
     }
 
+    public VariableStore getVariableStore() {
+        return variableStore;
+    }
+
+    public void setVariableStore(VariableStore variableStore) {
+        this.variableStore = variableStore;
+    }
+
     public void putDictionary(String key, Object value) {
+        AssertUtils.notNullOrBlank(key, "Dictionary entry name required");
+        Objects.requireNonNull(value, "Dictionary entry value required");
         dictionary.put(key, value);
     }
 
-    public void putFunction(String key, LambdaCallSite function) {
-        functions.put(key, function);
+    public void putAllDictionary(Map<String, Object> dictionary) {
+        Objects.requireNonNull(dictionary, "Cannot add a null dictionary to execution context");
+        this.dictionary.putAll(dictionary);
     }
 
-    public Map<String, LambdaCallSite> getFunctions() {
-        return functions;
+    public void putFunction(String key, LambdaCallSite function) {
+        AssertUtils.notNullOrBlank(key, "Function name is required");
+        Objects.requireNonNull(function, "Function implementation is required");
+        functions.put(key, function);
     }
 
 }

@@ -379,7 +379,7 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
             parameters[i] = entities.get(i).accept(this);
         }
 
-        return new FunctionOperation(ctx.IDENTIFIER().getText(), parameters, ctx.CACHE_FUNCTION_PREFIX() != null);
+        return new FunctionOperation(ctx.IDENTIFIER().getText(), parameters, ctx.CACHE_FUNCTION_PREFIX() == null);
     }
 
     @Override

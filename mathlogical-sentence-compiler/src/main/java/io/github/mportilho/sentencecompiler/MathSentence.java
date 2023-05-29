@@ -115,29 +115,25 @@ public class MathSentence {
 
     public MathSentence addDictionaryEntry(String key, Object value) {
         checkUpdateLock();
-        syntaxExecutionSite.addDictionaryEntry(key, value);
+        syntaxExecutionSite.getDataStore().putDictionary(key, value);
         return this;
     }
 
     public MathSentence addDictionary(Map<String, Object> dictionary) {
         checkUpdateLock();
-        syntaxExecutionSite.addDictionary(dictionary);
+        syntaxExecutionSite.getDataStore().putAllDictionary(dictionary);
         return this;
     }
 
     public MathSentence addFunction(LambdaCallSite function) {
         checkUpdateLock();
-        syntaxExecutionSite.addFunction(function);
+        syntaxExecutionSite.getDataStore().putFunction(function);
         return this;
     }
 
     public MathSentence addFunction(String functionName, MethodType methodType, Function<Object[], Object> function) {
         checkUpdateLock();
-        Objects.requireNonNull(functionName, "Function name must be provided");
-        Objects.requireNonNull(methodType, "Function method type must be provided");
-        Objects.requireNonNull(function, "Function must be provided");
-        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, function);
-        syntaxExecutionSite.addFunction(lambdaCallSite);
+        syntaxExecutionSite.getDataStore().putFunction(functionName, methodType, function);
         return this;
     }
 

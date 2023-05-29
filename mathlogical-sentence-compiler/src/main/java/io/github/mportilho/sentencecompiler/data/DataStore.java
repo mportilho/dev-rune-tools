@@ -28,9 +28,11 @@ import io.github.mportilho.commons.utils.AssertUtils;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSiteFactory;
 
+import java.lang.invoke.MethodType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 import static java.util.Collections.emptyMap;
 
@@ -85,10 +87,17 @@ public class DataStore {
         this.dictionary.putAll(dictionary);
     }
 
-    public void putFunction(String key, LambdaCallSite function) {
-        AssertUtils.notNullOrBlank(key, "Function name is required");
+    public void putFunction(LambdaCallSite function) {
         Objects.requireNonNull(function, "Function implementation is required");
-        functions.put(key, function);
+        functions.put(function.getKeyName(), function);
+    }
+
+    public void putFunction(String functionName, MethodType methodType, Function<Object[], Object> function) {
+        Objects.requireNonNull(functionName, "Function name must be provided");
+        Objects.requireNonNull(methodType, "Function method type must be provided");
+        Objects.requireNonNull(function, "Function must be provided");
+        LambdaCallSite lambdaCallSite = new LambdaCallSite(functionName, methodType, function);
+        functions.put(lambdaCallSite.getKeyName(), lambdaCallSite);
     }
 
 }

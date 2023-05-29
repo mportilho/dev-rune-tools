@@ -88,18 +88,6 @@ class SyntaxExecutionSite {
         visitOperation(new WarmUpOperationVisitor(operationContext));
     }
 
-    public void addDictionaryEntry(String key, Object value) {
-        dataStore.putDictionary(key, value);
-    }
-
-    public void addDictionary(Map<String, Object> dictionary) {
-        dataStore.putAllDictionary(dictionary);
-    }
-
-    public void addFunction(LambdaCallSite function) {
-        dataStore.putFunction(function.getKeyName(), function);
-    }
-
     public void addFunctionFromObject(Object functionProvider) {
         try {
             Map<String, LambdaCallSite> callSiteMap = createLambdaCallSites(functionProvider);
@@ -107,7 +95,7 @@ class SyntaxExecutionSite {
             if (!overridingFunctions.isEmpty()) {
                 throw new SentenceConfigurationException("Cannot add the following functions because they are already defined: " + overridingFunctions);
             }
-            callSiteMap.forEach(dataStore::putFunction);
+            callSiteMap.values().forEach(dataStore::putFunction);
         } catch (Throwable e) {
             throw new SentenceConfigurationException("Error while extracting functions from provider object", e);
         }
@@ -161,6 +149,10 @@ class SyntaxExecutionSite {
 
     public String toOperationStringRepresentation() {
         return operation.toString();
+    }
+
+    public DataStore getDataStore() {
+        return dataStore;
     }
 
     public FormattedConversionService getConversionService() {

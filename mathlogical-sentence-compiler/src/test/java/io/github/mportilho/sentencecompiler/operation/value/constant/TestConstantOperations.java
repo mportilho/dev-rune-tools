@@ -68,7 +68,7 @@ public class TestConstantOperations {
     }
 
     @Test
-    public void testDateTimeConstantValueOperation_FullZonedDateTimeText_ErrorOndifferentOffset() {
+    public void testDateTimeConstantValueOperation_FullZonedDateTimeText_ErrorOnDifferentOffset() {
         assertThat(new DateTimeConstantValueOperation("2000-03-04T23:33:44", "-02:00")
                 .<ZonedDateTime>evaluate(context))
                 .isNotEqualTo(ZonedDateTime.of(2000, 3, 4, 23, 33,

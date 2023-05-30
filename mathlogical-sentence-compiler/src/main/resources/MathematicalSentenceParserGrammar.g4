@@ -147,7 +147,8 @@ NUMBER: Decimal | OctalDigits | HexDigits;
 POSITIVE: PositiveNumber ;
 DATE: DateFragment ;
 TIME: HourFragment Colon MinuteSecondFragment (Colon MinuteSecondFragment)? ;
-DATETIME: DATE ('T' | MINUS) TIME TimeOffsetFragment? ;
+TIME_OFFSET: TimeOffsetFragment ;
+DATETIME: DATE ('T' | MINUS) TIME ;
 
 // TYPE CASTING
 BOOLEAN_TYPE: '<bool>';
@@ -354,7 +355,7 @@ timeEntity
 dateTimeEntity
   : IF logicalExpression THEN dateTimeOperation (ELSEIF logicalExpression THEN dateTimeOperation)? ELSE dateTimeOperation ENDIF # dateTimeDecisionExpression
   | IF LPAREN logicalExpression (COMMA | SEMI) dateTimeOperation ((COMMA | SEMI) logicalExpression (COMMA | SEMI) dateTimeOperation)* (COMMA | SEMI) dateTimeOperation RPAREN  # dateTimeFunctionDecisionExpression
-  | DATETIME # dateTimeConstant
+  | DATETIME TIME_OFFSET? # dateTimeConstant
   | NOW_DATETIME # dateTimeCurrentValue
   | DATETIME_TYPE? IDENTIFIER # dateTimeVariable
   | DATETIME_TYPE? function # dateTimeFunctionResult

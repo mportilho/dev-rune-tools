@@ -32,8 +32,6 @@ import io.github.mportilho.sentencecompiler.operation.BaseOperation;
 import io.github.mportilho.sentencecompiler.operation.datetime.*;
 import io.github.mportilho.sentencecompiler.operation.logic.*;
 import io.github.mportilho.sentencecompiler.operation.math.DeggreOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVariableOperation;
-import io.github.mportilho.sentencecompiler.operation.value.variable.AssignedVectorOperation;
 import io.github.mportilho.sentencecompiler.operation.other.DecisionOperation;
 import io.github.mportilho.sentencecompiler.operation.other.FunctionOperation;
 import io.github.mportilho.sentencecompiler.operation.value.constant.*;
@@ -612,7 +610,8 @@ public abstract class AbstractOperationSyntaxTreeGenerator extends MathematicalS
 
     @Override
     public AbstractOperation visitDateTimeConstant(DateTimeConstantContext ctx) {
-        return new DateTimeConstantValueOperation(ctx.getText(), null);
+        String offset = ctx.TIME_OFFSET() != null ? ctx.TIME_OFFSET().getText() : null;
+        return new DateTimeConstantValueOperation(ctx.getText(), offset);
     }
 
     @Override

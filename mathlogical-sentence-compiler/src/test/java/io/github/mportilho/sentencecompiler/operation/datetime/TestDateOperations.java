@@ -24,16 +24,17 @@
 
 package io.github.mportilho.sentencecompiler.operation.datetime;
 
-import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
-import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
+import io.github.mportilho.sentencecompiler.exceptions.SentenceExecutionException;
+import io.github.mportilho.sentencecompiler.operation.value.constant.DateConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
 
-import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestDateOperations {
 
@@ -43,15 +44,15 @@ public class TestDateOperations {
     public void testDateAdditionOperation() {
         DateAdditionOperation operation;
 
-        operation = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-03-04");
 
-        operation = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.MONTH);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-05-02");
 
-        operation = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.YEAR);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2002-03-02");
     }
@@ -60,15 +61,15 @@ public class TestDateOperations {
     public void testDateSetOperation() {
         DateSetOperation operation;
 
-        operation = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 25)), new GenericValueOperation(valueOf(2)),
+        operation = new DateSetOperation(new DateConstantValueOperation("2000-03-25"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-03-02");
 
-        operation = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateSetOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.MONTH);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-02-02");
 
-        operation = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2020)),
+        operation = new DateSetOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2020"),
                 DateElementEnum.YEAR);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2020-03-02");
     }
@@ -77,62 +78,62 @@ public class TestDateOperations {
     public void testDateSubtractionOperation() {
         DateSubtractionOperation operation;
 
-        operation = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.DAY);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-02-29");
 
-        operation = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.MONTH);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("2000-01-02");
 
-        operation = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        operation = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.YEAR);
         assertThat(operation.<LocalDate>evaluate(context)).isEqualTo("1998-03-02");
     }
 
     @Test
     public void testDateAdditionOperation_WithInvalidDateElement() {
-        DateAdditionOperation operation1 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
+        DateAdditionOperation operation1 = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.HOUR);
         assertThatThrownBy(() -> operation1.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateAdditionOperation operation2 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
+        DateAdditionOperation operation2 = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.MINUTE);
         assertThatThrownBy(() -> operation2.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateAdditionOperation operation3 = new DateAdditionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
+        DateAdditionOperation operation3 = new DateAdditionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.SECOND);
         assertThatThrownBy(() -> operation3.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
     }
 
     @Test
     public void testDateSetOperation_WithInvalidDateElement() {
-        DateSetOperation operation4 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 25)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
+        DateSetOperation operation4 = new DateSetOperation(new DateConstantValueOperation("2000-03-25"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.HOUR);
         assertThatThrownBy(() -> operation4.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateSetOperation operation5 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)), new GenericValueOperation(valueOf(2)),
+        DateSetOperation operation5 = new DateSetOperation(new DateConstantValueOperation("2000-03-02"), new PreciseNumberConstantValueOperation("2"),
                 DateElementEnum.MINUTE);
         assertThatThrownBy(() -> operation5.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateSetOperation operation6 = new DateSetOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2020)), DateElementEnum.SECOND);
+        DateSetOperation operation6 = new DateSetOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2020"), DateElementEnum.SECOND);
         assertThatThrownBy(() -> operation6.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 
     @Test
     public void testDateSubtractionOperation_WithInvalidDateElement() {
-        DateSubtractionOperation operation7 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.HOUR);
+        DateSubtractionOperation operation7 = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.HOUR);
         assertThatThrownBy(() -> operation7.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateSubtractionOperation operation8 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.MINUTE);
+        DateSubtractionOperation operation8 = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.MINUTE);
         assertThatThrownBy(() -> operation8.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
 
-        DateSubtractionOperation operation9 = new DateSubtractionOperation(new GenericValueOperation(LocalDate.of(2000, 3, 2)),
-                new GenericValueOperation(valueOf(2)), DateElementEnum.SECOND);
+        DateSubtractionOperation operation9 = new DateSubtractionOperation(new DateConstantValueOperation("2000-03-02"),
+                new PreciseNumberConstantValueOperation("2"), DateElementEnum.SECOND);
         assertThatThrownBy(() -> operation9.<LocalDate>evaluate(context)).isInstanceOf(SentenceExecutionException.class);
     }
 

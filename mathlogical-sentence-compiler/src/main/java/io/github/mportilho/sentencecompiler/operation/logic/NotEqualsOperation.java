@@ -24,35 +24,35 @@
 
 package io.github.mportilho.sentencecompiler.operation.logic;
 
+import io.github.mportilho.sentencecompiler.OperationContext;
 import io.github.mportilho.sentencecompiler.operation.AbstractBinaryOperation;
 import io.github.mportilho.sentencecompiler.operation.AbstractOperation;
 import io.github.mportilho.sentencecompiler.operation.CloningContext;
-import io.github.mportilho.sentencecompiler.OperationContext;
 
 public class NotEqualsOperation extends AbstractBinaryOperation {
 
-	public NotEqualsOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
-		super(leftOperand, rightOperand);
-		expectedType(Boolean.class);
-	}
+    public NotEqualsOperation(AbstractOperation leftOperand, AbstractOperation rightOperand) {
+        super(leftOperand, rightOperand);
+        expectedType(Boolean.class);
+    }
 
-	@Override
-	protected Object resolve(OperationContext context) {
-		Object leftOperand = getLeftOperand().evaluate(context);
-		if (leftOperand instanceof Comparable<?>) {
-			return ((Comparable<?>) leftOperand).compareTo(getRightOperand().evaluate(context)) != 0;
-		}
-		return !leftOperand.equals(getRightOperand().evaluate(context));
-	}
+    @Override
+    protected Object resolve(OperationContext context) {
+        Object leftOperand = getLeftOperand().evaluate(context);
+        if (leftOperand instanceof Comparable<?>) {
+            return ((Comparable<?>) leftOperand).compareTo(getRightOperand().evaluate(context)) != 0;
+        }
+        return !leftOperand.equals(getRightOperand().evaluate(context));
+    }
 
-	@Override
-	protected AbstractOperation createClone(CloningContext context) {
-		return new NotEqualsOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
-	}
+    @Override
+    protected AbstractOperation createClone(CloningContext context) {
+        return new NotEqualsOperation(getLeftOperand().copy(context), getRightOperand().copy(context));
+    }
 
-	@Override
-	protected String getOperationToken() {
-		return "<>";
-	}
+    @Override
+    protected String getOperationToken() {
+        return "<>";
+    }
 
 }

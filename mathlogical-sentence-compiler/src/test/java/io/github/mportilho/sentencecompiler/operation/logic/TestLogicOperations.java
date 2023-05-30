@@ -24,14 +24,18 @@
 
 package io.github.mportilho.sentencecompiler.operation.logic;
 
-import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
 import io.github.mportilho.sentencecompiler.OperationContext;
+import io.github.mportilho.sentencecompiler.operation.impl.GenericValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.BooleanConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.StringConstantValueOperation;
+import io.github.mportilho.sentencecompiler.operation.value.constant.precise.PreciseNumberConstantValueOperation;
 import io.github.mportilho.sentencecompiler.testutils.MathSentenceCompilerMockupFactory;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestLogicOperations {
 
@@ -41,16 +45,16 @@ public class TestLogicOperations {
     public void testAndOperation() {
         AndOperation operation;
 
-        operation = new AndOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new AndOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new AndOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new AndOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new AndOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new AndOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new AndOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new AndOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
@@ -58,16 +62,16 @@ public class TestLogicOperations {
     public void testOrOperation() {
         OrOperation operation;
 
-        operation = new OrOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new OrOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new OrOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new OrOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new OrOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new OrOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new OrOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new OrOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
@@ -75,16 +79,16 @@ public class TestLogicOperations {
     public void testNandOperation() {
         NandOperation operation;
 
-        operation = new NandOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new NandOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NandOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new NandOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new NandOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new NandOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new NandOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new NandOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
     }
 
@@ -92,16 +96,16 @@ public class TestLogicOperations {
     public void testNorOperation() {
         NorOperation operation;
 
-        operation = new NorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new NorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new NorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new NorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new NorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
     }
 
@@ -109,16 +113,16 @@ public class TestLogicOperations {
     public void testXnorOperation() {
         XnorOperation operation;
 
-        operation = new XnorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new XnorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new XnorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new XnorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new XnorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new XnorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new XnorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new XnorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
     }
 
@@ -126,39 +130,39 @@ public class TestLogicOperations {
     public void testXorOperation() {
         XorOperation operation;
 
-        operation = new XorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.TRUE));
+        operation = new XorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new XorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.TRUE));
+        operation = new XorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new XorOperation(new GenericValueOperation(Boolean.TRUE), new GenericValueOperation(Boolean.FALSE));
+        operation = new XorOperation(new BooleanConstantValueOperation("true"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new XorOperation(new GenericValueOperation(Boolean.FALSE), new GenericValueOperation(Boolean.FALSE));
+        operation = new XorOperation(new BooleanConstantValueOperation("false"), new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
     @Test
-    public void testEqualsOperationWithComparables() {
+    public void testEqualsOperationWithComparable() {
         EqualsOperation operation;
 
-        operation = new EqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new EqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new EqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new EqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new EqualsOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new EqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new EqualsOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new EqualsOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new EqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new EqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new EqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new EqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
     }
 
@@ -177,25 +181,25 @@ public class TestLogicOperations {
     }
 
     @Test
-    public void testNotEqualsOperationWithComparables() {
+    public void testNotEqualsOperationWithComparable() {
         NotEqualsOperation operation;
 
-        operation = new NotEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new NotEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NotEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new NotEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new NotEqualsOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new NotEqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NotEqualsOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new NotEqualsOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new NotEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new NotEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NotEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new NotEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
     }
 
@@ -217,31 +221,31 @@ public class TestLogicOperations {
     public void testGreaterOperation() {
         GreaterOperation operation;
 
-        operation = new GreaterOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new GreaterOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new GreaterOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation("AB"), new GenericValueOperation("A"));
+        operation = new GreaterOperation(new StringConstantValueOperation("AB"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation(3), new GenericValueOperation(2));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("3"), new PreciseNumberConstantValueOperation("2"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOperation(new GenericValueOperation(new BigDecimal(1)), new GenericValueOperation(BigDecimal.ZERO));
+        operation = new GreaterOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
         operation = new GreaterOperation(new GenericValueOperation(LocalDate.of(2000, 1, 5)), new GenericValueOperation(LocalDate.of(2000, 1, 5)));
@@ -258,31 +262,31 @@ public class TestLogicOperations {
     public void testGreaterOrEqualsOperation() {
         GreaterOrEqualsOperation operation;
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new GreaterOrEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new GreaterOrEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation("AB"), new GenericValueOperation("A"));
+        operation = new GreaterOrEqualsOperation(new StringConstantValueOperation("AB"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(3), new GenericValueOperation(2));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("3"), new PreciseNumberConstantValueOperation("2"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new GreaterOrEqualsOperation(new GenericValueOperation(new BigDecimal(1)), new GenericValueOperation(BigDecimal.ZERO));
+        operation = new GreaterOrEqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
         operation = new GreaterOrEqualsOperation(new GenericValueOperation(LocalDate.of(2000, 1, 5)),
@@ -302,31 +306,31 @@ public class TestLogicOperations {
     public void testLessOperation() {
         LessOperation operation;
 
-        operation = new LessOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new LessOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new LessOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOperation(new GenericValueOperation("AB"), new GenericValueOperation("A"));
+        operation = new LessOperation(new StringConstantValueOperation("AB"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOperation(new GenericValueOperation(3), new GenericValueOperation(2));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("3"), new PreciseNumberConstantValueOperation("2"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOperation(new GenericValueOperation(new BigDecimal(1)), new GenericValueOperation(BigDecimal.ZERO));
+        operation = new LessOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
         operation = new LessOperation(new GenericValueOperation(LocalDate.of(2000, 1, 5)), new GenericValueOperation(LocalDate.of(2000, 1, 5)));
@@ -343,31 +347,31 @@ public class TestLogicOperations {
     public void testLessOrEqualsOperation() {
         LessOrEqualsOperation operation;
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("A"));
+        operation = new LessOrEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation("A"), new GenericValueOperation("AB"));
+        operation = new LessOrEqualsOperation(new StringConstantValueOperation("A"), new StringConstantValueOperation("AB"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation("AB"), new GenericValueOperation("A"));
+        operation = new LessOrEqualsOperation(new StringConstantValueOperation("AB"), new StringConstantValueOperation("A"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(1), new GenericValueOperation(1));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(2), new GenericValueOperation(3));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("2"), new PreciseNumberConstantValueOperation("3"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(3), new GenericValueOperation(2));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("3"), new PreciseNumberConstantValueOperation("2"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(0)));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(BigDecimal.ZERO), new GenericValueOperation(new BigDecimal(1)));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("0"), new PreciseNumberConstantValueOperation("1"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
 
-        operation = new LessOrEqualsOperation(new GenericValueOperation(new BigDecimal(1)), new GenericValueOperation(BigDecimal.ZERO));
+        operation = new LessOrEqualsOperation(new PreciseNumberConstantValueOperation("1"), new PreciseNumberConstantValueOperation("0"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
         operation = new LessOrEqualsOperation(new GenericValueOperation(LocalDate.of(2000, 1, 5)),
@@ -387,10 +391,10 @@ public class TestLogicOperations {
     public void testNegationOperation() {
         NegationOperation operation;
 
-        operation = new NegationOperation(new GenericValueOperation(Boolean.TRUE));
+        operation = new NegationOperation(new BooleanConstantValueOperation("true"));
         assertThat(operation.<Boolean>evaluate(context)).isFalse();
 
-        operation = new NegationOperation(new GenericValueOperation(Boolean.FALSE));
+        operation = new NegationOperation(new BooleanConstantValueOperation("false"));
         assertThat(operation.<Boolean>evaluate(context)).isTrue();
     }
 

@@ -25,7 +25,7 @@
 //package io.github.mportilho.benchmark;
 //
 //import io.github.mportilho.sentencecompiler.MathSentence;
-//import io.github.mportilho.sentencecompiler.OperationSupportData;
+//import io.github.mportilho.sentencecompiler.data.DataStore;
 //import io.github.mportilho.sentencecompiler.support.lambdacallsite.LambdaCallSite;
 //import org.junit.jupiter.api.Test;
 //import org.openjdk.jmh.annotations.*;
@@ -40,7 +40,7 @@
 //public class TestOperationBenchmark {
 //
 //    private MathSentence compiler;
-//    OperationSupportData data = new OperationSupportData();
+//    DataStore data = new DataStore();
 //    private final Random random = new Random(System.nanoTime());
 //
 //    @Param({"10", "100", "1000"})
@@ -51,8 +51,8 @@
 //        // executed before each invocation of the iteration
 //        compiler = new MathSentence("sum(a, b)");
 //        compiler.addFunctionFromObject(new FunctionProviderForTests(BigDecimal.valueOf(5)));
-//        data.getDictionary().put("a", 5);
-//        data.getDictionary().put("b", 10);
+//        data.putDictionary("a", 5);
+//        data.putDictionary("b", 10);
 //
 //    }
 //
@@ -74,7 +74,7 @@
 //        compiler.setVariable("b", 2);
 //    }
 //
-////    @Test
+//    @Test
 //    public void benchmark() throws Exception {
 //        String[] argv = {};
 //        org.openjdk.jmh.Main.main(argv);

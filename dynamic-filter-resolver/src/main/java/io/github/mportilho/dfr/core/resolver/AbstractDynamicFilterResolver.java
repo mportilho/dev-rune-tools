@@ -85,7 +85,7 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      */
     @Override
     public <R extends T> R createFilter(FilterDefinition filterDefinition) {
-        if (filterDefinition == null || filterDefinition.statement().hasNoCondition()) {
+        if (filterDefinition == null || !filterDefinition.hasNoConditions()) {
             return decorateFilters(emptyPredicate(), filterDefinition, getFilterOperationService().getFormattedConversionService());
         }
         return decorateFilters(convertRecursively(filterDefinition.statement()), filterDefinition, getFilterOperationService().getFormattedConversionService());
@@ -102,7 +102,7 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      */
     private <R extends T> R convertRecursively(ConditionalStatement conditionalStatement) {
         if (conditionalStatement == null || conditionalStatement.hasNoCondition()) {
-            return null;
+            return emptyPredicate();
         }
         R predicate = createPredicateFromStatement(conditionalStatement);
 

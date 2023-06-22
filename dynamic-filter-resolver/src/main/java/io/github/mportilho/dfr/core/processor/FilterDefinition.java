@@ -16,8 +16,9 @@ public record FilterDefinition(
      * @param parameters Provided filter parameters
      */
     public FilterDefinition {
-        if (statement == null) {
-            throw new IllegalArgumentException("Conditional Statement is required");
-        }
+    }
+
+    public boolean hasNoConditions() {
+        return statement == null || statement.hasNoCondition();
     }
 }

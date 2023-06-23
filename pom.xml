@@ -19,7 +19,7 @@
     <modules>
         <module>dev-runes-commons</module>
         <module>dynamic-filter-resolver</module>
-        <module>mathlogical-sentence-compiler</module>
+        <module>math-sentence-compiler</module>
     </modules>
 
     <distributionManagement>

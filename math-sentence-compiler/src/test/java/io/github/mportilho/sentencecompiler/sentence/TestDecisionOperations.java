@@ -58,4 +58,12 @@ class TestDecisionOperations {
         assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo("7");
     }
 
+    @Test
+    public void testExcelGrammar() {
+        var mathSentence = new MathSentence("if(80% <= AIS and AIS <= 100%, 0, 60% <= AIS and AIS < 80%, 5%, 10%)");
+        mathSentence.setVariable("AIS", new BigDecimal("90"));
+        assertThat(mathSentence.<BigDecimal>compute()).isEqualByComparingTo("0.10");
+
+    }
+
 }

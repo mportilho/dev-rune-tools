@@ -6,9 +6,9 @@
         <artifactId>dev-runes</artifactId>
         <version>1.0.11</version>
     </parent>
-    <artifactId>mathlogical-sentence-compiler</artifactId>
+    <artifactId>math-sentence-compiler</artifactId>
     <packaging>jar</packaging>
-    <name>Mathlogical Sentence Compiler</name>
+    <name>Math Sentence Compiler</name>
 
     <properties>
         <jmh.version>1.34</jmh.version>

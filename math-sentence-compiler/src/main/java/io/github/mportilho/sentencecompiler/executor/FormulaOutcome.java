@@ -2,7 +2,7 @@ package io.github.mportilho.sentencecompiler.executor;
 
 import java.math.BigDecimal;
 
-public record FormulaResult(
+public record FormulaOutcome(
 
         MathFormula mathFormula,
         ComputationMemory computationMemory

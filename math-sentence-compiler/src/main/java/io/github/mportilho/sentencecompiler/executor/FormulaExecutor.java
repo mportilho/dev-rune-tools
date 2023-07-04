@@ -15,15 +15,15 @@ public class FormulaExecutor {
         this.factory = factory;
     }
 
-    public List<FormulaResult> execute(FormulaContainer formulaContainer) {
-        List<FormulaResult> results = new ArrayList<>();
+    public List<FormulaOutcome> execute(FormulaContainer formulaContainer) {
+        List<FormulaOutcome> outcomes = new ArrayList<>();
         Map<String, Object> computationVariables = new HashMap<>(formulaContainer.contextVariables());
         for (MathFormula formula : formulaContainer.formulas()) {
             ComputationMemory memory = executeFormula(formula, computationVariables);
             computationVariables.putAll(memory.assignedVariables());
-            results.add(new FormulaResult(formula, memory));
+            outcomes.add(new FormulaOutcome(formula, memory));
         }
-        return results;
+        return outcomes;
     }
 
     private ComputationMemory executeFormula(MathFormula mathFormula, Map<String, Object> contextVariables) {

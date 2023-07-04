@@ -21,8 +21,8 @@ public class TestFormulaExecutor {
         Map<String, Object> variables = Map.of("Qi", 1, "Qp", 2, "Qt", 3, "valorOS", 1000);
 
         FormulaContainer formulaContainer = new FormulaContainer(formulas, variables);
-        List<FormulaResult> results = executor.execute(formulaContainer);
-        System.out.println(results);
+        List<FormulaOutcome> outcomes = executor.execute(formulaContainer);
+        System.out.println(outcomes);
     }
 
 }

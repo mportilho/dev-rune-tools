@@ -4,15 +4,15 @@
     <parent>
         <groupId>io.github.mportilho</groupId>
         <artifactId>dev-runes</artifactId>
-        <version>1.0.12</version>
+        <version>1.0.15.0-SNAPSHOT</version>
     </parent>
     <artifactId>dynamic-filter-resolver</artifactId>
     <packaging>jar</packaging>
     <name>Dynamic Filter Resolver</name>
 
     <properties>
-        <spring.boot.version>3.0.0-RC2</spring.boot.version>
-        <springdocs.version>2.0.0-RC2</springdocs.version>
+        <spring.boot.version>3.1.3</spring.boot.version>
+        <springdocs.version>2.2.0</springdocs.version>
     </properties>
 
     <dependencyManagement>

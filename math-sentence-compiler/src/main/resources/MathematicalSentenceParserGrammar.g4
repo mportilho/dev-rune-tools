@@ -22,12 +22,10 @@ SOFTWARE.*/
 
 grammar MathematicalSentenceParserGrammar;
 
-@header {
-    package io.github.mportilho.sentencecompiler.grammar;
-}
+
 
 options {
-    language=Java;
+    language=TypeScript;
 }
 
 /* ########################################  Lexical rules  ######################################## */

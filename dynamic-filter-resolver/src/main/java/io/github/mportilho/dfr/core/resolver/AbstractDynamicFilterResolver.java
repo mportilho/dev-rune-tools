@@ -85,7 +85,7 @@ public abstract class AbstractDynamicFilterResolver<T> implements DynamicFilterR
      */
     @Override
     public <R extends T> R createFilter(FilterDefinition filterDefinition) {
-        if (filterDefinition == null || !filterDefinition.hasNoConditions()) {
+        if (filterDefinition == null || filterDefinition.hasNoConditions()) {
             return decorateFilters(emptyPredicate(), filterDefinition, getFilterOperationService().getFormattedConversionService());
         }
         return decorateFilters(convertRecursively(filterDefinition.statement()), filterDefinition, getFilterOperationService().getFormattedConversionService());

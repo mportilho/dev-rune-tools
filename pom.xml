@@ -4,7 +4,7 @@
     <groupId>io.github.mportilho</groupId>
     <artifactId>dev-runes</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.12</version>
+    <version>1.0.15.0-SNAPSHOT</version>
     <name>DevRunes Development Tool</name>
 
     <properties>
@@ -21,19 +21,6 @@
         <module>dynamic-filter-resolver</module>
         <module>math-sentence-compiler</module>
     </modules>
-
-    <distributionManagement>
-        <repository>
-            <id>central</id>
-            <name>SRV2180-releases</name>
-            <url>http://artifactory:8081/artifactory/libs-release-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>SRV2180-snapshots</name>
-            <url>http://artifactory:8081/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>

@@ -206,7 +206,9 @@ public class ConditionalAnnotationUtils {
         } else {
             annotations = new ArrayList<>(Arrays.asList(annotation.annotationType().getAnnotations()));
         }
-        annotations.removeIf(a -> a.annotationType().getPackageName().startsWith("java.lang.annotation"));
+        annotations.removeIf(a
+                -> a.annotationType().getPackageName().startsWith("java.lang.annotation")
+                || a.annotationType().getPackageName().startsWith("kotlin"));
 
         if (annotations.isEmpty()) {
             return annotation.annotationType() == Conjunction.class || annotation.annotationType() == Disjunction.class;

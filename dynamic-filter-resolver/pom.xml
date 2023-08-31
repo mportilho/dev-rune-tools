@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.github.mportilho</groupId>
         <artifactId>dev-runes</artifactId>
-        <version>1.0.15.0-SNAPSHOT</version>
+        <version>1.0.15</version>
     </parent>
     <artifactId>dynamic-filter-resolver</artifactId>
     <packaging>jar</packaging>
